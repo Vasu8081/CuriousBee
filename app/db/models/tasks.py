@@ -20,48 +20,48 @@ class Tasks(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def title(self, value: str = None) -> str:
         if value is None:
-            return self.title
-        self.title = value
+            return self._title
+        self._title = value
 
     def notes(self, value: str = None) -> str:
         if value is None:
-            return self.notes
-        self.notes = value
+            return self._notes
+        self._notes = value
 
     def deadline(self, value: datetime.datetime = None) -> datetime.datetime:
         if value is None:
-            return self.deadline
-        self.deadline = value
+            return self._deadline
+        self._deadline = value
 
     def interactionStyle(self, value: str = None) -> str:
         if value is None:
-            return self.interaction_style
-        self.interaction_style = value
+            return self._interaction_style
+        self._interaction_style = value
 
     def presencePreference(self, value: str = None) -> str:
         if value is None:
-            return self.presence_preference
-        self.presence_preference = value
+            return self._presence_preference
+        self._presence_preference = value
 
     def primaryDoerUserId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.primary_doer_user_id
-        self.primary_doer_user_id = value
+            return self._primary_doer_user_id
+        self._primary_doer_user_id = value
 
     def isCompleted(self, value: bool = None) -> bool:
         if value is None:
-            return self.is_completed
-        self.is_completed = value
+            return self._is_completed
+        self._is_completed = value
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.group_id
-        self.group_id = value
+            return self._group_id
+        self._group_id = value
 
     def to_schema(self):
         from app.db.schemas.tasks_schema import TasksSchema

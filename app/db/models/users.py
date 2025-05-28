@@ -17,33 +17,33 @@ class Users(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def name(self, value: str = None) -> str:
         if value is None:
-            return self.name
-        self.name = value
+            return self._name
+        self._name = value
 
     def email(self, value: str = None) -> str:
         if value is None:
-            return self.email
-        self.email = value
+            return self._email
+        self._email = value
 
     def appleDeviceToken(self, value: str = None) -> str:
         if value is None:
-            return self.apple_device_token
-        self.apple_device_token = value
+            return self._apple_device_token
+        self._apple_device_token = value
 
     def passwordHash(self, value: str = None) -> str:
         if value is None:
-            return self.password_hash
-        self.password_hash = value
+            return self._password_hash
+        self._password_hash = value
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.group_id
-        self.group_id = value
+            return self._group_id
+        self._group_id = value
 
     def to_schema(self):
         from app.db.schemas.users_schema import UsersSchema

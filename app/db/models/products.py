@@ -19,43 +19,43 @@ class Products(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def productInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.product_info_id
-        self.product_info_id = value
+            return self._product_info_id
+        self._product_info_id = value
 
     def quantity(self, value: float = None) -> float:
         if value is None:
-            return self.quantity
-        self.quantity = value
+            return self._quantity
+        self._quantity = value
 
     def startedUsingDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.started_using_date
-        self.started_using_date = value
+            return self._started_using_date
+        self._started_using_date = value
 
     def productCompletedDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.product_completed_date
-        self.product_completed_date = value
+            return self._product_completed_date
+        self._product_completed_date = value
 
     def price(self, value: float = None) -> float:
         if value is None:
-            return self.price
-        self.price = value
+            return self._price
+        self._price = value
 
     def statusId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.status_id
-        self.status_id = value
+            return self._status_id
+        self._status_id = value
 
     def orderId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.order_id
-        self.order_id = value
+            return self._order_id
+        self._order_id = value
 
     def to_schema(self):
         from app.db.schemas.products_schema import ProductsSchema

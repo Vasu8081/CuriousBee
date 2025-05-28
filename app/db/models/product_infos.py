@@ -17,33 +17,33 @@ class ProductInfos(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def name(self, value: str = None) -> str:
         if value is None:
-            return self.name
-        self.name = value
+            return self._name
+        self._name = value
 
     def categoryId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.category_id
-        self.category_id = value
+            return self._category_id
+        self._category_id = value
 
     def reminderEnabled(self, value: bool = None) -> bool:
         if value is None:
-            return self.reminder_enabled
-        self.reminder_enabled = value
+            return self._reminder_enabled
+        self._reminder_enabled = value
 
     def daysPerQuantity(self, value: float = None) -> float:
         if value is None:
-            return self.days_per_quantity
-        self.days_per_quantity = value
+            return self._days_per_quantity
+        self._days_per_quantity = value
 
     def quantityUnitSize(self, value: str = None) -> str:
         if value is None:
-            return self.quantity_unit_size
-        self.quantity_unit_size = value
+            return self._quantity_unit_size
+        self._quantity_unit_size = value
 
     def to_schema(self):
         from app.db.schemas.product_infos_schema import ProductInfosSchema

@@ -17,33 +17,33 @@ class PeriodEntries(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.group_id
-        self.group_id = value
+            return self._group_id
+        self._group_id = value
 
     def startDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.start_date
-        self.start_date = value
+            return self._start_date
+        self._start_date = value
 
     def endDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.end_date
-        self.end_date = value
+            return self._end_date
+        self._end_date = value
 
     def notes(self, value: str = None) -> str:
         if value is None:
-            return self.notes
-        self.notes = value
+            return self._notes
+        self._notes = value
 
     def isEnded(self, value: bool = None) -> bool:
         if value is None:
-            return self.is_ended
-        self.is_ended = value
+            return self._is_ended
+        self._is_ended = value
 
     def to_schema(self):
         from app.db.schemas.period_entries_schema import PeriodEntriesSchema

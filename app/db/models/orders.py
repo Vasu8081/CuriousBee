@@ -16,28 +16,28 @@ class Orders(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def productId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.product_id
-        self.product_id = value
+            return self._product_id
+        self._product_id = value
 
     def orderedDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.ordered_date
-        self.ordered_date = value
+            return self._ordered_date
+        self._ordered_date = value
 
     def expectedDeliveryDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.expected_delivery_date
-        self.expected_delivery_date = value
+            return self._expected_delivery_date
+        self._expected_delivery_date = value
 
     def receivedDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.received_date
-        self.received_date = value
+            return self._received_date
+        self._received_date = value
 
     def to_schema(self):
         from app.db.schemas.orders_schema import OrdersSchema

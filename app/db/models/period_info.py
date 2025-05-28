@@ -15,23 +15,23 @@ class PeriodInfo(Base):
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.group_id
-        self.group_id = value
+            return self._group_id
+        self._group_id = value
 
     def averageCycleLength(self, value: int = None) -> int:
         if value is None:
-            return self.average_cycle_length
-        self.average_cycle_length = value
+            return self._average_cycle_length
+        self._average_cycle_length = value
 
     def activePeriodStartDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.active_period_start_date
-        self.active_period_start_date = value
+            return self._active_period_start_date
+        self._active_period_start_date = value
 
     def predictedNextPeriodDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.predicted_next_period_date
-        self.predicted_next_period_date = value
+            return self._predicted_next_period_date
+        self._predicted_next_period_date = value
 
     def to_schema(self):
         from app.db.schemas.period_info_schema import PeriodInfoSchema

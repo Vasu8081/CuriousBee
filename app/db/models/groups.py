@@ -13,13 +13,13 @@ class Groups(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def name(self, value: str = None) -> str:
         if value is None:
-            return self.name
-        self.name = value
+            return self._name
+        self._name = value
 
     def to_schema(self):
         from app.db.schemas.groups_schema import GroupsSchema

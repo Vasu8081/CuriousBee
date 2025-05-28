@@ -19,43 +19,43 @@ class CalendarEntries(Base):
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.id
-        self.id = value
+            return self._id
+        self._id = value
 
     def userId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.user_id
-        self.user_id = value
+            return self._user_id
+        self._user_id = value
 
     def title(self, value: str = None) -> str:
         if value is None:
-            return self.title
-        self.title = value
+            return self._title
+        self._title = value
 
     def notes(self, value: str = None) -> str:
         if value is None:
-            return self.notes
-        self.notes = value
+            return self._notes
+        self._notes = value
 
     def date(self, value: datetime.date = None) -> datetime.date:
         if value is None:
-            return self.date
-        self.date = value
+            return self._date
+        self._date = value
 
     def startTime(self, value: datetime.time = None) -> datetime.time:
         if value is None:
-            return self.start_time
-        self.start_time = value
+            return self._start_time
+        self._start_time = value
 
     def endTime(self, value: datetime.time = None) -> datetime.time:
         if value is None:
-            return self.end_time
-        self.end_time = value
+            return self._end_time
+        self._end_time = value
 
     def taskId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.task_id
-        self.task_id = value
+            return self._task_id
+        self._task_id = value
 
     def to_schema(self):
         from app.db.schemas.calendar_entries_schema import CalendarEntriesSchema

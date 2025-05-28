@@ -2,7 +2,7 @@
 import uuid
 from fastapi import FastAPI
 from app.db.database import get_db
-from app.db.models import Users
+from app.db.models import Groups
 
 app = FastAPI()
 
@@ -13,13 +13,12 @@ def health():
 
 db = get_db()
 
-new_user = Users(
-    _id=uuid.uuid4(),
-    _name="Vasudhan Varma Kandula",
-    _email="vasudhanvarma@gmail.com",
-    _group_id=None
-)
-db.add(new_user)
+groups = db.query(Groups).all()
+
+for group in groups:
+    print(f"Group ID: {group.id()}, Name: {group.name()}")
+
+db.add(group)
 db.commit()
-db.refresh(new_user)
+db.refresh(group)
 db.close()

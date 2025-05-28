@@ -1,0 +1,57 @@
+import uuid
+import datetime
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
+from app.db.base import Base
+
+class Products(Base):
+    __tablename__ = 'products'
+
+    id = Column(UUID, primary_key=True)
+    product_info_id = Column(UUID, ForeignKey("product_infos.id"))
+    quantity = Column(Float)
+    started_using_date = Column(Date)
+    product_completed_date = Column(Date)
+    price = Column(Float)
+    status_id = Column(UUID, ForeignKey("product_status.id"))
+    order_id = Column(UUID, ForeignKey("orders.id"))
+
+    def productInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.product_info_id
+        self.product_info_id = value
+
+    def quantity(self, value: float = None) -> float:
+        if value is None:
+            return self.quantity
+        self.quantity = value
+
+    def startedUsingDate(self, value: datetime.date = None) -> datetime.date:
+        if value is None:
+            return self.started_using_date
+        self.started_using_date = value
+
+    def productCompletedDate(self, value: datetime.date = None) -> datetime.date:
+        if value is None:
+            return self.product_completed_date
+        self.product_completed_date = value
+
+    def price(self, value: float = None) -> float:
+        if value is None:
+            return self.price
+        self.price = value
+
+    def statusId(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.status_id
+        self.status_id = value
+
+    def orderId(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.order_id
+        self.order_id = value
+
+    def to_schema(self):
+        from app.api.schemas.products_schema import ProductsSchema
+        return ProductsSchema.from_orm(self)

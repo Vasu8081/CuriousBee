@@ -1,0 +1,103 @@
+Table groups {
+  id UUID [primary key]
+  name TEXT
+}
+
+Table users {
+  id UUID [primary key]
+  name TEXT
+  email TEXT
+  group_id UUID
+}
+
+Table tasks {
+  id UUID [primary key]
+  title TEXT
+  notes TEXT
+  deadline TIMESTAMP
+  interaction_style TEXT
+  presence_preference TEXT
+  primary_doer_user_id UUID
+  is_completed BOOLEAN
+  group_id UUID
+  calendar_entry_id UUID
+}
+
+Table calendar_entries {
+  id UUID [primary key]
+  user_id UUID
+  title TEXT
+  notes TEXT
+  date DATE
+  start_time TIME
+  end_time TIME
+  task_id UUID
+}
+
+Table period_info {
+  group_id UUID [primary key]
+  average_cycle_length INTEGER
+  active_period_start_date DATE
+  predicted_next_period_date DATE
+}
+
+Table period_entries {
+  id UUID [primary key]
+  group_id UUID
+  start_date DATE
+  end_date DATE
+  notes TEXT
+  is_ended BOOLEAN
+}
+
+Table product_infos {
+  id UUID [primary key]
+  name TEXT
+  category_id UUID
+  reminder_enabled BOOLEAN
+  days_per_quantity FLOAT
+  quantity_unit_size TEXT
+}
+
+Table product_categories {
+  id UUID [primary key]
+  name TEXT
+}
+
+Table product_status {
+  id UUID [primary key]
+  name TEXT
+}
+
+Table products {
+  id UUID [primary key]
+  product_info_id UUID
+  quantity FLOAT
+  started_using_date DATE
+  product_completed_date DATE
+  price FLOAT
+  status_id UUID
+  order_id UUID
+}
+
+Table orders {
+  id UUID [primary key]
+  product_info_id UUID
+  ordered_date DATE
+  expected_delivery_date DATE
+  received_date DATE
+}
+
+FK users.group_id -> groups.id
+FK tasks.group_id -> groups.id
+FK tasks.primary_doer_user_id -> users.id
+FK tasks.calendar_entry_id -> calendar_entries.id
+FK calendar_entries.user_id -> users.id
+FK calendar_entries.task_id -> tasks.id
+FK period_info.group_id -> groups.id
+FK period_entries.group_id -> groups.id
+FK product_infos.category_id -> product_categories.id
+FK products.product_info_id -> product_infos.id
+FK products.status_id -> product_status.id
+FK products.order_id -> orders.id
+FK orders.product_info_id -> product_infos.id

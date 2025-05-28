@@ -22,5 +22,5 @@ class ProductStatus(Base):
         self.name = value
 
     def to_schema(self):
-        from app.api.schemas.product_status_schema import ProductStatusSchema
+        from app.db.schemas.product_status_schema import ProductStatusSchema
         return ProductStatusSchema.from_orm(self)

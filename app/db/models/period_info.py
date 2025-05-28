@@ -34,5 +34,5 @@ class PeriodInfo(Base):
         self.predicted_next_period_date = value
 
     def to_schema(self):
-        from app.api.schemas.period_info_schema import PeriodInfoSchema
+        from app.db.schemas.period_info_schema import PeriodInfoSchema
         return PeriodInfoSchema.from_orm(self)

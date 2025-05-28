@@ -58,5 +58,5 @@ class Products(Base):
         self.order_id = value
 
     def to_schema(self):
-        from app.api.schemas.products_schema import ProductsSchema
+        from app.db.schemas.products_schema import ProductsSchema
         return ProductsSchema.from_orm(self)

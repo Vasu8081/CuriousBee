@@ -46,5 +46,5 @@ class PeriodEntries(Base):
         self.is_ended = value
 
     def to_schema(self):
-        from app.api.schemas.period_entries_schema import PeriodEntriesSchema
+        from app.db.schemas.period_entries_schema import PeriodEntriesSchema
         return PeriodEntriesSchema.from_orm(self)

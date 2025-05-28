@@ -40,5 +40,5 @@ class Orders(Base):
         self.received_date = value
 
     def to_schema(self):
-        from app.api.schemas.orders_schema import OrdersSchema
+        from app.db.schemas.orders_schema import OrdersSchema
         return OrdersSchema.from_orm(self)

@@ -138,7 +138,7 @@ for table, columns in tables.items():
             f.write(f"        self.{col_name} = value\n\n")
 
         f.write(f"    def to_schema(self):\n")
-        f.write(f"        from app.api.schemas.{table}_schema import {class_name}Schema\n")
+        f.write(f"        from app.db.schemas.{table}_schema import {class_name}Schema\n")
         f.write(f"        return {class_name}Schema.from_orm(self)\n")
 
     with open(pydantic_path, "w") as f:

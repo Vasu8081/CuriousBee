@@ -46,5 +46,5 @@ class ProductInfos(Base):
         self.quantity_unit_size = value
 
     def to_schema(self):
-        from app.api.schemas.product_infos_schema import ProductInfosSchema
+        from app.db.schemas.product_infos_schema import ProductInfosSchema
         return ProductInfosSchema.from_orm(self)

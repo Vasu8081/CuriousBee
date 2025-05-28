@@ -22,5 +22,5 @@ class ProductCategories(Base):
         self.name = value
 
     def to_schema(self):
-        from app.api.schemas.product_categories_schema import ProductCategoriesSchema
+        from app.db.schemas.product_categories_schema import ProductCategoriesSchema
         return ProductCategoriesSchema.from_orm(self)

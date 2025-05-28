@@ -22,5 +22,5 @@ class Groups(Base):
         self.name = value
 
     def to_schema(self):
-        from app.api.schemas.groups_schema import GroupsSchema
+        from app.db.schemas.groups_schema import GroupsSchema
         return GroupsSchema.from_orm(self)

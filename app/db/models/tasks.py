@@ -70,5 +70,5 @@ class Tasks(Base):
         self.calendar_entry_id = value
 
     def to_schema(self):
-        from app.api.schemas.tasks_schema import TasksSchema
+        from app.db.schemas.tasks_schema import TasksSchema
         return TasksSchema.from_orm(self)

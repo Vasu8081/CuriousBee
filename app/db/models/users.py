@@ -34,5 +34,5 @@ class Users(Base):
         self.group_id = value
 
     def to_schema(self):
-        from app.api.schemas.users_schema import UsersSchema
+        from app.db.schemas.users_schema import UsersSchema
         return UsersSchema.from_orm(self)

@@ -8,11 +8,16 @@ from app.db.base import Base
 class Orders(Base):
     __tablename__ = 'orders'
 
-    id = Column(UUID, primary_key=True)
-    product_info_id = Column(UUID, ForeignKey("product_infos.id"))
-    ordered_date = Column(Date)
-    expected_delivery_date = Column(Date)
-    received_date = Column(Date)
+    _id = Column(UUID, primary_key=True)
+    _product_info_id = Column(UUID, ForeignKey("product_infos._id"))
+    _ordered_date = Column(Date)
+    _expected_delivery_date = Column(Date)
+    _received_date = Column(Date)
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def productInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

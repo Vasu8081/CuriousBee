@@ -8,16 +8,21 @@ from app.db.base import Base
 class Tasks(Base):
     __tablename__ = 'tasks'
 
-    id = Column(UUID, primary_key=True)
-    title = Column(String)
-    notes = Column(String)
-    deadline = Column(DateTime)
-    interaction_style = Column(String)
-    presence_preference = Column(String)
-    primary_doer_user_id = Column(UUID, ForeignKey("users.id"))
-    is_completed = Column(Boolean)
-    group_id = Column(UUID, ForeignKey("groups.id"))
-    calendar_entry_id = Column(UUID, ForeignKey("calendar_entries.id", use_alter=True))
+    _id = Column(UUID, primary_key=True)
+    _title = Column(String)
+    _notes = Column(String)
+    _deadline = Column(DateTime)
+    _interaction_style = Column(String)
+    _presence_preference = Column(String)
+    _primary_doer_user_id = Column(UUID, ForeignKey("users._id"))
+    _is_completed = Column(Boolean)
+    _group_id = Column(UUID, ForeignKey("groups._id"))
+    _calendar_entry_id = Column(UUID, ForeignKey("calendar_entries._id", use_alter=True))
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def title(self, value: str = None) -> str:
         if value is None:

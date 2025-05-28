@@ -4,12 +4,12 @@ from pydantic import BaseModel
 from typing import Optional
 
 class PeriodEntriesSchema(BaseModel):
-    id: Optional[uuid.UUID]
-    group_id: Optional[uuid.UUID]
-    start_date: Optional[datetime.date]
-    end_date: Optional[datetime.date]
-    notes: Optional[str]
-    is_ended: Optional[bool]
+    _id: Optional[uuid.UUID]
+    _group_id: Optional[uuid.UUID]
+    _start_date: Optional[datetime.date]
+    _end_date: Optional[datetime.date]
+    _notes: Optional[str]
+    _is_ended: Optional[bool]
 
     class Config:
         orm_mode = True

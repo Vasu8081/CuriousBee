@@ -8,8 +8,13 @@ from app.db.base import Base
 class ProductStatus(Base):
     __tablename__ = 'product_status'
 
-    id = Column(UUID, primary_key=True)
-    name = Column(String)
+    _id = Column(UUID, primary_key=True)
+    _name = Column(String)
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def name(self, value: str = None) -> str:
         if value is None:

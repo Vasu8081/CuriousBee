@@ -8,12 +8,17 @@ from app.db.base import Base
 class PeriodEntries(Base):
     __tablename__ = 'period_entries'
 
-    id = Column(UUID, primary_key=True)
-    group_id = Column(UUID, ForeignKey("groups.id"))
-    start_date = Column(Date)
-    end_date = Column(Date)
-    notes = Column(String)
-    is_ended = Column(Boolean)
+    _id = Column(UUID, primary_key=True)
+    _group_id = Column(UUID, ForeignKey("groups._id"))
+    _start_date = Column(Date)
+    _end_date = Column(Date)
+    _notes = Column(String)
+    _is_ended = Column(Boolean)
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

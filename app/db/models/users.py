@@ -8,10 +8,15 @@ from app.db.base import Base
 class Users(Base):
     __tablename__ = 'users'
 
-    id = Column(UUID, primary_key=True)
-    name = Column(String)
-    email = Column(String)
-    group_id = Column(UUID, ForeignKey("groups.id"))
+    _id = Column(UUID, primary_key=True)
+    _name = Column(String)
+    _email = Column(String)
+    _group_id = Column(UUID, ForeignKey("groups._id"))
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def name(self, value: str = None) -> str:
         if value is None:

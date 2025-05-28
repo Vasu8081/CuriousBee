@@ -8,14 +8,19 @@ from app.db.base import Base
 class CalendarEntries(Base):
     __tablename__ = 'calendar_entries'
 
-    id = Column(UUID, primary_key=True)
-    user_id = Column(UUID, ForeignKey("users.id"))
-    title = Column(String)
-    notes = Column(String)
-    date = Column(Date)
-    start_time = Column(Time)
-    end_time = Column(Time)
-    task_id = Column(UUID, ForeignKey("tasks.id", use_alter=True))
+    _id = Column(UUID, primary_key=True)
+    _user_id = Column(UUID, ForeignKey("users._id"))
+    _title = Column(String)
+    _notes = Column(String)
+    _date = Column(Date)
+    _start_time = Column(Time)
+    _end_time = Column(Time)
+    _task_id = Column(UUID, ForeignKey("tasks._id", use_alter=True))
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def userId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

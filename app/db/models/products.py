@@ -8,14 +8,19 @@ from app.db.base import Base
 class Products(Base):
     __tablename__ = 'products'
 
-    id = Column(UUID, primary_key=True)
-    product_info_id = Column(UUID, ForeignKey("product_infos.id"))
-    quantity = Column(Float)
-    started_using_date = Column(Date)
-    product_completed_date = Column(Date)
-    price = Column(Float)
-    status_id = Column(UUID, ForeignKey("product_status.id"))
-    order_id = Column(UUID, ForeignKey("orders.id"))
+    _id = Column(UUID, primary_key=True)
+    _product_info_id = Column(UUID, ForeignKey("product_infos._id"))
+    _quantity = Column(Float)
+    _started_using_date = Column(Date)
+    _product_completed_date = Column(Date)
+    _price = Column(Float)
+    _status_id = Column(UUID, ForeignKey("product_status._id"))
+    _order_id = Column(UUID, ForeignKey("orders._id"))
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def productInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

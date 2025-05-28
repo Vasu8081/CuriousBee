@@ -8,12 +8,17 @@ from app.db.base import Base
 class ProductInfos(Base):
     __tablename__ = 'product_infos'
 
-    id = Column(UUID, primary_key=True)
-    name = Column(String)
-    category_id = Column(UUID, ForeignKey("product_categories.id"))
-    reminder_enabled = Column(Boolean)
-    days_per_quantity = Column(Float)
-    quantity_unit_size = Column(String)
+    _id = Column(UUID, primary_key=True)
+    _name = Column(String)
+    _category_id = Column(UUID, ForeignKey("product_categories._id"))
+    _reminder_enabled = Column(Boolean)
+    _days_per_quantity = Column(Float)
+    _quantity_unit_size = Column(String)
+
+    def id(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self.id
+        self.id = value
 
     def name(self, value: str = None) -> str:
         if value is None:

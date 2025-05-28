@@ -129,8 +129,7 @@ for table, columns in tables.items():
 
         f.write("\n")
         for col_name, col_type, _ in columns:
-            if col_name == "id":
-                continue
+            col_name = col_name[1:] if col_name.startswith("_") else col_name
             camel = to_camel_case(col_name)
             py_type = python_types.get(col_type.upper(), "str")
             f.write(f"    def {camel}(self, value: {py_type} = None) -> {py_type}:\n")

@@ -4,8 +4,8 @@ from pydantic import BaseModel
 from typing import Optional
 
 class ProductStatusSchema(BaseModel):
-    id: Optional[uuid.UUID]
-    name: Optional[str]
+    _id: Optional[uuid.UUID]
+    _name: Optional[str]
 
     class Config:
         orm_mode = True

@@ -4,10 +4,10 @@ from pydantic import BaseModel
 from typing import Optional
 
 class UsersSchema(BaseModel):
-    id: Optional[uuid.UUID]
-    name: Optional[str]
-    email: Optional[str]
-    group_id: Optional[uuid.UUID]
+    _id: Optional[uuid.UUID]
+    _name: Optional[str]
+    _email: Optional[str]
+    _group_id: Optional[uuid.UUID]
 
     class Config:
         orm_mode = True

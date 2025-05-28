@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from collections import defaultdict, deque
 
-SCHEMA_FILE = "app/app.schema"
+SCHEMA_FILE = "app.schema"
 OUTPUT_DIR = "app/db/models"
 PYDANTIC_OUTPUT_DIR = "app/db/schemas"
 

@@ -5,7 +5,7 @@ from typing import Optional
 
 class OrdersSchema(BaseModel):
     _id: Optional[uuid.UUID]
-    _product_info_id: Optional[uuid.UUID]
+    _product_id: Optional[uuid.UUID]
     _ordered_date: Optional[datetime.date]
     _expected_delivery_date: Optional[datetime.date]
     _received_date: Optional[datetime.date]

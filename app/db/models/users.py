@@ -11,6 +11,8 @@ class Users(Base):
     _id = Column(UUID, primary_key=True)
     _name = Column(String)
     _email = Column(String)
+    _apple_device_token = Column(String)
+    _password_hash = Column(String)
     _group_id = Column(UUID, ForeignKey("groups._id"))
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
@@ -27,6 +29,16 @@ class Users(Base):
         if value is None:
             return self.email
         self.email = value
+
+    def appleDeviceToken(self, value: str = None) -> str:
+        if value is None:
+            return self.apple_device_token
+        self.apple_device_token = value
+
+    def passwordHash(self, value: str = None) -> str:
+        if value is None:
+            return self.password_hash
+        self.password_hash = value
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

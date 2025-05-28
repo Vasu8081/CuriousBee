@@ -13,7 +13,6 @@ class TasksSchema(BaseModel):
     _primary_doer_user_id: Optional[uuid.UUID]
     _is_completed: Optional[bool]
     _group_id: Optional[uuid.UUID]
-    _calendar_entry_id: Optional[uuid.UUID]
 
     class Config:
         orm_mode = True

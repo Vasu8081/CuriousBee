@@ -15,7 +15,7 @@ class Products(Base):
     _product_completed_date = Column(Date)
     _price = Column(Float)
     _status_id = Column(UUID, ForeignKey("product_status._id"))
-    _order_id = Column(UUID, ForeignKey("orders._id"))
+    _order_id = Column(UUID, ForeignKey("orders._id", use_alter=True))
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

@@ -9,7 +9,7 @@ class Orders(Base):
     __tablename__ = 'orders'
 
     _id = Column(UUID, primary_key=True)
-    _product_info_id = Column(UUID, ForeignKey("product_infos._id"))
+    _product_id = Column(UUID, ForeignKey("products._id", use_alter=True))
     _ordered_date = Column(Date)
     _expected_delivery_date = Column(Date)
     _received_date = Column(Date)
@@ -19,10 +19,10 @@ class Orders(Base):
             return self.id
         self.id = value
 
-    def productInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
+    def productId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self.product_info_id
-        self.product_info_id = value
+            return self.product_id
+        self.product_id = value
 
     def orderedDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:

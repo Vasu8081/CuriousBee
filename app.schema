@@ -7,6 +7,8 @@ Table users {
   _id UUID [primary key]
   _name TEXT
   _email TEXT
+  _apple_device_token TEXT
+  _password_hash TEXT
   _group_id UUID
 }
 
@@ -20,7 +22,6 @@ Table tasks {
   _primary_doer_user_id UUID
   _is_completed BOOLEAN
   _group_id UUID
-  _calendar_entry_id UUID
 }
 
 Table calendar_entries {
@@ -82,7 +83,7 @@ Table products {
 
 Table orders {
   _id UUID [primary key]
-  _product_info_id UUID
+  _product_id UUID
   _ordered_date DATE
   _expected_delivery_date DATE
   _received_date DATE
@@ -100,4 +101,4 @@ FK product_infos._category_id -> product_categories._id
 FK products._product_info_id -> product_infos._id
 FK products._status_id -> product_status._id
 FK products._order_id -> orders._id
-FK orders._product_info_id -> product_infos._id
+FK orders._product_id -> products._id

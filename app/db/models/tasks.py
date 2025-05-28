@@ -17,7 +17,6 @@ class Tasks(Base):
     _primary_doer_user_id = Column(UUID, ForeignKey("users._id"))
     _is_completed = Column(Boolean)
     _group_id = Column(UUID, ForeignKey("groups._id"))
-    _calendar_entry_id = Column(UUID, ForeignKey("calendar_entries._id", use_alter=True))
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
@@ -63,11 +62,6 @@ class Tasks(Base):
         if value is None:
             return self.group_id
         self.group_id = value
-
-    def calendarEntryId(self, value: uuid.UUID = None) -> uuid.UUID:
-        if value is None:
-            return self.calendar_entry_id
-        self.calendar_entry_id = value
 
     def to_schema(self):
         from app.db.schemas.tasks_schema import TasksSchema

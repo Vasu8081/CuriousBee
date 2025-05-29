@@ -8,11 +8,10 @@ ProductInfosSchema = ForwardRef('ProductInfosSchema')
 class ProductCategoriesSchema(BaseModel):
     id: Optional[uuid.UUID] = Field(alias='_id')
     name: Optional[str] = Field(alias='_name')
-    product_infos: List[ProductInfosSchema] = []
+    product_infos: List['ProductInfosSchema'] = []
 
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name=True
     )
 
-ProductCategoriesSchema.model_rebuild()

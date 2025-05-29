@@ -12,11 +12,10 @@ class PeriodEntriesSchema(BaseModel):
     end_date: Optional[datetime.date] = Field(alias='_end_date')
     notes: Optional[str] = Field(alias='_notes')
     is_ended: Optional[bool] = Field(alias='_is_ended')
-    group: Optional[GroupsSchema] = None
+    group: Optional['GroupsSchema'] = None
 
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name=True
     )
 
-PeriodEntriesSchema.model_rebuild()

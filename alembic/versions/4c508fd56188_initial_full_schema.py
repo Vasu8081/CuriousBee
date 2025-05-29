@@ -1,8 +1,8 @@
 """Initial full schema
 
-Revision ID: 49819b8424e4
+Revision ID: 4c508fd56188
 Revises: 
-Create Date: 2025-05-29 00:32:06.870919
+Create Date: 2025-05-29 14:13:19.386736
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '49819b8424e4'
+revision: str = '4c508fd56188'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,6 +24,13 @@ def upgrade() -> None:
     op.create_table('groups',
     sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_name', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('_id')
+    )
+    op.create_table('orders',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_ordered_date', sa.Date(), nullable=True),
+    sa.Column('_expected_delivery_date', sa.Date(), nullable=True),
+    sa.Column('_received_date', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('_id')
     )
     op.create_table('product_categories',
@@ -46,7 +53,7 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
-    op.create_table('period_info',
+    op.create_table('period_infos',
     sa.Column('_group_id', sa.UUID(), nullable=False),
     sa.Column('_average_cycle_length', sa.Integer(), nullable=True),
     sa.Column('_active_period_start_date', sa.Date(), nullable=True),
@@ -68,46 +75,11 @@ def upgrade() -> None:
     sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_name', sa.String(), nullable=True),
     sa.Column('_email', sa.String(), nullable=True),
+    sa.Column('_apple_device_token', sa.String(), nullable=True),
+    sa.Column('_password_hash', sa.String(), nullable=True),
     sa.Column('_group_id', sa.UUID(), nullable=True),
+    sa.Column('_is_admin', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
-    sa.PrimaryKeyConstraint('_id')
-    )
-    op.create_table('calendar_entries',
-    sa.Column('_id', sa.UUID(), nullable=False),
-    sa.Column('_user_id', sa.UUID(), nullable=True),
-    sa.Column('_title', sa.String(), nullable=True),
-    sa.Column('_notes', sa.String(), nullable=True),
-    sa.Column('_date', sa.Date(), nullable=True),
-    sa.Column('_start_time', sa.Time(), nullable=True),
-    sa.Column('_end_time', sa.Time(), nullable=True),
-    sa.Column('_task_id', sa.UUID(), nullable=True),
-    sa.ForeignKeyConstraint(['_task_id'], ['tasks._id'], use_alter=True),
-    sa.ForeignKeyConstraint(['_user_id'], ['users._id'], ),
-    sa.PrimaryKeyConstraint('_id')
-    )
-    op.create_table('orders',
-    sa.Column('_id', sa.UUID(), nullable=False),
-    sa.Column('_product_info_id', sa.UUID(), nullable=True),
-    sa.Column('_ordered_date', sa.Date(), nullable=True),
-    sa.Column('_expected_delivery_date', sa.Date(), nullable=True),
-    sa.Column('_received_date', sa.Date(), nullable=True),
-    sa.ForeignKeyConstraint(['_product_info_id'], ['product_infos._id'], ),
-    sa.PrimaryKeyConstraint('_id')
-    )
-    op.create_table('tasks',
-    sa.Column('_id', sa.UUID(), nullable=False),
-    sa.Column('_title', sa.String(), nullable=True),
-    sa.Column('_notes', sa.String(), nullable=True),
-    sa.Column('_deadline', sa.DateTime(), nullable=True),
-    sa.Column('_interaction_style', sa.String(), nullable=True),
-    sa.Column('_presence_preference', sa.String(), nullable=True),
-    sa.Column('_primary_doer_user_id', sa.UUID(), nullable=True),
-    sa.Column('_is_completed', sa.Boolean(), nullable=True),
-    sa.Column('_group_id', sa.UUID(), nullable=True),
-    sa.Column('_calendar_entry_id', sa.UUID(), nullable=True),
-    sa.ForeignKeyConstraint(['_calendar_entry_id'], ['calendar_entries._id'], use_alter=True),
-    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
-    sa.ForeignKeyConstraint(['_primary_doer_user_id'], ['users._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
     op.create_table('products',
@@ -124,21 +96,48 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['_status_id'], ['product_status._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
+    op.create_table('tasks',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_title', sa.String(), nullable=True),
+    sa.Column('_notes', sa.String(), nullable=True),
+    sa.Column('_deadline', sa.DateTime(), nullable=True),
+    sa.Column('_interaction_style', sa.String(), nullable=True),
+    sa.Column('_presence_preference', sa.String(), nullable=True),
+    sa.Column('_primary_doer_user_id', sa.UUID(), nullable=True),
+    sa.Column('_is_completed', sa.Boolean(), nullable=True),
+    sa.Column('_group_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
+    sa.ForeignKeyConstraint(['_primary_doer_user_id'], ['users._id'], ),
+    sa.PrimaryKeyConstraint('_id')
+    )
+    op.create_table('calendar_entries',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_user_id', sa.UUID(), nullable=True),
+    sa.Column('_title', sa.String(), nullable=True),
+    sa.Column('_notes', sa.String(), nullable=True),
+    sa.Column('_date', sa.Date(), nullable=True),
+    sa.Column('_start_time', sa.Time(), nullable=True),
+    sa.Column('_end_time', sa.Time(), nullable=True),
+    sa.Column('_task_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['_task_id'], ['tasks._id'], ),
+    sa.ForeignKeyConstraint(['_user_id'], ['users._id'], ),
+    sa.PrimaryKeyConstraint('_id')
+    )
     # ### end Alembic commands ###
 
 
 def downgrade() -> None:
     """Downgrade schema."""
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('products')
-    op.drop_table('tasks')
-    op.drop_table('orders')
     op.drop_table('calendar_entries')
+    op.drop_table('tasks')
+    op.drop_table('products')
     op.drop_table('users')
     op.drop_table('product_infos')
-    op.drop_table('period_info')
+    op.drop_table('period_infos')
     op.drop_table('period_entries')
     op.drop_table('product_status')
     op.drop_table('product_categories')
+    op.drop_table('orders')
     op.drop_table('groups')
     # ### end Alembic commands ###

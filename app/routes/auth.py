@@ -5,6 +5,7 @@ from app.core.authenticate import Authenticate
 from app.db.database import get_db
 from app.db.models.users import Users  # Your SQLAlchemy Users model
 from app.core.password_utils import hash_password, verify_password
+from app.core.logging import logging
 import uuid
 
 router = APIRouter()
@@ -29,6 +30,7 @@ from app.core.password_utils import hash_password
 
 @router.post("/signup")
 def signup(req: SignupRequest, db: Session = Depends(get_db)):
+    logging.info(f"Attempting to sign up user: {req.email}")
     existing = db.query(Users).filter(Users._email == req.email).first()
     if existing:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User already exists")
@@ -43,7 +45,7 @@ def signup(req: SignupRequest, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-
+    logging.info(f"User {req.email} created successfully")
     tokens = auth.generate_tokens(req.email)
     return {
         "message": "User created successfully",
@@ -53,6 +55,7 @@ def signup(req: SignupRequest, db: Session = Depends(get_db)):
 
 @router.post("/login")
 def login(req: LoginRequest, db: Session = Depends(get_db)):
+    logging.info(f"User {req.email} attempting to log in")
     user = db.query(Users).filter(Users._email == req.email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")

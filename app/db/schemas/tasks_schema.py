@@ -17,13 +17,12 @@ class TasksSchema(BaseModel):
     primary_doer_user_id: Optional[uuid.UUID] = Field(alias='_primary_doer_user_id')
     is_completed: Optional[bool] = Field(alias='_is_completed')
     group_id: Optional[uuid.UUID] = Field(alias='_group_id')
-    group: Optional[GroupsSchema] = None
-    user: Optional[UsersSchema] = None
-    calendar_entrie: Optional[CalendarEntriesSchema] = None
+    group: Optional['GroupsSchema'] = None
+    user: Optional['UsersSchema'] = None
+    calendar_entrie: Optional['CalendarEntriesSchema'] = None
 
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name=True
     )
 
-TasksSchema.model_rebuild()

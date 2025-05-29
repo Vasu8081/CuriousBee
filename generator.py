@@ -206,23 +206,25 @@ for table, columns in tables.items():
         f.write(f"        from app.db.schemas.{table}_schema import {class_name}Schema\n")
         f.write(f"        return {class_name}Schema.from_orm(self)\n")
 
-    # --- Pydantic Schema ---
+        # --- Pydantic Schema ---
     with open(pydantic_path, "w") as f:
         f.write("import uuid\nimport datetime\n")
         f.write("from pydantic import BaseModel, Field, ConfigDict\n")
         f.write("from typing import Optional, List, ForwardRef\n\n")
 
-        # Write ForwardRefs
+        # Collect related schema class names
         related_classes = set()
         for fk in fks.get(table, []):
             related_classes.add(to_pascal_case(fk["tgt_table"]) + "Schema")
         for rfk in reverse_fks.get(table, []):
             related_classes.add(to_pascal_case(rfk["src_table"]) + "Schema")
+
+        # Declare ForwardRefs
         for rc in sorted(related_classes):
             f.write(f"{rc} = ForwardRef('{rc}')\n")
         f.write("\n")
 
-        # Write Schema Class
+        # Schema class definition
         f.write(f"class {class_name}Schema(BaseModel):\n")
         for col_name, col_type, modifiers in columns:
             if "HIDDEN" in [m.upper() for m in modifiers]:
@@ -232,33 +234,39 @@ for table, columns in tables.items():
             field_name = col_name.lstrip("_")
             f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
 
-        # Add relationships (FK)
+        # Foreign key relationships
         for fk in fks.get(table, []):
             tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
-            field_name = fk["tgt_table"].rstrip("s")  # basic singular
-            f.write(f"    {field_name}: Optional[{tgt_class}] = None\n")
+            field_name = fk["tgt_table"].rstrip("s")  # e.g., groups -> group
+            f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
 
-        # Add reverse relationships
+        # Reverse foreign key relationships
         for rfk in reverse_fks.get(table, []):
             src_class = to_pascal_case(rfk["src_table"]) + "Schema"
             rel_type = rfk["type"]
-            field_name = rfk["src_table"]  # plural by default
-            if rel_type == "many_to_one" or rel_type == "many_to_many":
-                f.write(f"    {field_name}: List[{src_class}] = []\n")
+            field_name = rfk["src_table"]  # plural for collections
+            if rel_type in {"many_to_one", "many_to_many"}:
+                f.write(f"    {field_name}: List['{src_class}'] = []\n")
             elif rel_type == "one_to_one":
-                f.write(f"    {field_name.rstrip('s')}: Optional[{src_class}] = None\n")
+                f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
 
+        # Config and model rebuild
         f.write("\n")
         f.write("    model_config = ConfigDict(\n")
         f.write("        from_attributes=True,\n")
         f.write("        populate_by_name=True\n")
         f.write("    )\n\n")
 
-        # Add model_rebuild
-        f.write(f"{class_name}Schema.model_rebuild()\n")
-
+        # f.write(f"{class_name}Schema.model_rebuild(_types_namespace=globals())\n")
 # Init file for models
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")
+init_path_pydantic = os.path.join(PYDANTIC_OUTPUT_DIR, "__init__.py")
+with open(init_path_pydantic, "w") as f:
+    for table in tables:
+        f.write(f"from .{table}_schema import {to_pascal_case(table)}Schema\n")
+    for table in tables:
+        f.write(f"{to_pascal_case(table)}Schema.model_rebuild(_types_namespace=globals())\n")
 with open(init_path, "w") as f:
     for table in tables:
         f.write(f"from .{table} import {to_pascal_case(table)}\n")
+        

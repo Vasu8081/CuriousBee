@@ -6,6 +6,10 @@ from collections import defaultdict
 SCHEMA_FILE = "generator/app.schema"
 SWIFT_OUTPUT_DIR = "BeeTracker/BeeTracker/Models"
 os.makedirs(SWIFT_OUTPUT_DIR, exist_ok=True)
+SWIFT_VIEW_MODEL_OUTPUT_DIR = "BeeTracker/BeeTracker/ViewModels/Sub"
+os.makedirs(SWIFT_VIEW_MODEL_OUTPUT_DIR, exist_ok=True)
+SWIFT_ENDPOINTS_DIR = "BeeTracker/BeeTracker/Endpoints"
+os.makedirs(SWIFT_ENDPOINTS_DIR, exist_ok=True)
 
 with open(SCHEMA_FILE, "r") as f:
     schema = f.read()
@@ -56,10 +60,22 @@ for line in schema.splitlines():
     elif line.startswith("}"):
         current_table = None
     elif current_table and line:
-        parts = line.split()
+        import shlex
+
+        parts = shlex.split(line)
         col_name = parts[0]
         col_type = parts[1]
-        modifiers = parts[2:] if len(parts) > 2 else []
+        raw_modifiers = parts[2:] if len(parts) > 2 else []
+
+        # Flatten and clean modifier tags like [primary key] or [hidden]
+        modifiers = []
+        for mod in raw_modifiers:
+            mod = mod.strip("[]").lower()
+            modifiers.extend(mod.split())
+        # parts = line.split()
+        # col_name = parts[0]
+        # col_type = parts[1]
+        # modifiers = parts[2:] if len(parts) > 2 else []
         tables[current_table].append((col_name, col_type, modifiers))
 
 # print_relationships_dict("Foreign Keys", fks, reverse=False)
@@ -163,4 +179,213 @@ for table, cols in tables.items():
                     f.write(f"    var {field_name.rstrip('s')}: {src_struct}?\n")
 
         f.write("}\n")
+
+    print(f"Generated Swift struct for {table} at {file_path}")
+    # --- ViewModel generation ---
+    vm_name = f"{struct_name}ViewModel"
+    vm_path = os.path.join(SWIFT_VIEW_MODEL_OUTPUT_DIR, f"{vm_name}.swift")
+    with open(vm_path, "w") as vf:
+        vf.write("import Foundation\n")
+        vf.write("import SwiftUI\n\n")
+        vf.write(f"class {vm_name}: ObservableObject {{\n")
+        
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            swift_type = swift_type_map.get(col_type.upper(), "String")
+            field_name = to_swift_field_name(col_name)
+            vf.write(f"    @Published var {field_name}: {swift_type}?\n")
+
+        # Foreign key relationships (refer_left)
+        for fk in fks.get(table, []):
+            if fk.get("pydantic_refer") == "refer_left":
+                tgt_struct = to_swift_struct_name(fk["tgt_table"])
+                rel_type = fk["type"]
+                field_name = fk["tgt_col"]
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    vf.write(f"    @Published var {field_name}: {tgt_struct}?\n")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    vf.write(f"    @Published var {field_name}: [{tgt_struct}] = []\n")
+
+        # Reverse foreign key relationships (refer_right)
+        for rfk in reverse_fks.get(table, []):
+            if rfk.get("pydantic_refer") == "refer_right":
+                src_struct = to_swift_struct_name(rfk["src_table"])
+                rel_type = rfk["type"]
+                field_name = rfk["src_table"]
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    vf.write(f"    @Published var {field_name}: [{src_struct}] = []\n")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    vf.write(f"    @Published var {field_name.rstrip('s')}: {src_struct}?\n")
+
+        # Initializer
+        vf.write(f"\n    init(model: {struct_name}) {{\n")
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = to_swift_field_name(col_name)
+            vf.write(f"        self.{field_name} = model.{field_name}\n")
+        vf.write("    }\n")
+
+        # Convert back to model
+        vf.write(f"\n    var toModel: {struct_name} {{\n")
+        vf.write(f"        return {struct_name}(\n")
+        model_fields = []
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = to_swift_field_name(col_name)
+            model_fields.append(f"{field_name}: {field_name}")
+        vf.write("            " + ",\n            ".join(model_fields) + "\n")
+        vf.write("        )\n")
+        vf.write("    }\n")
+        # Copy from another view model
+        vf.write(f"\n    func copy(from other: {vm_name}) {{\n")
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = to_swift_field_name(col_name)
+            vf.write(f"        self.{field_name} = other.{field_name}\n")
+        vf.write("    }\n")
+
+        # Merge from another view model (only non-nil)
+        vf.write(f"\n    func merge(from other: {vm_name}) {{\n")
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = to_swift_field_name(col_name)
+            vf.write(f"        if let value = other.{field_name} {{ self.{field_name} = value }}\n")
+        vf.write("    }\n")
+        vf.write("}\n")
+
+
+for table, cols in tables.items():
+    struct_name = to_swift_struct_name(table)
+    endpoint_file = os.path.join(SWIFT_ENDPOINTS_DIR, f"{struct_name}Endpoint.swift")
+
+    id_field = None
+    for col in cols:
+        if "primary" in [m.lower() for m in col[2]]:
+            id_field = to_swift_field_name(col[0])
+            break
+    if not id_field:
+        print(f"Skipping {struct_name}: No primary key found.")
+        continue
+
+    with open(endpoint_file, "w") as f:
+        f.write("import Foundation\n\n")
+        f.write(f"extension ServerEndPoints {{\n\n")
+
+        # GET by ID
+        f.write(f"    func get{struct_name}(id: UUID, completion: @escaping (Result<{struct_name}, Error>) -> Void) {{\n")
+        f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
+        f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/get/\\(id.uuidString)\") else {{\n")
+        f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
+        f.write(f"        var request = URLRequest(url: url)\n")
+        f.write(f"        request.httpMethod = \"GET\"\n")
+        f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
+        f.write(f"        send(request, expecting: {struct_name}.self, completion: completion)\n")
+        f.write(f"    }}\n\n")
+
+        #Create a new Calendar Entry
+        # f.write(f"    func create{struct_name}(_ obj: {struct_name}, completion: @escaping (Result<String, Error>) -> Void) {{\n")
+        # f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
+        # f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
+        # f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
+        # f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/create/\\(id)\") else {{\n")
+        # f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
+        # f.write(f"        guard let body = try? JSONEncoder().encode(obj) else {{\n")
+        # f.write(f"            completion(.failure(ServerError.noData))\n            return\n        }}\n")
+        # f.write(f"        var request = URLRequest(url: url)\n")
+        # f.write(f"        request.httpMethod = \"POST\"\n")
+        # f.write(f"        request.httpBody = body\n")
+        # f.write(f"        request.setValue(\"application/json\", forHTTPHeaderField: \"Content-Type\")\n")
+        # f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
+        # f.write(f"        send(request, expecting: String.self, completion: completion)\n")
+        # f.write(f"    }}\n\n")   
+
+        # POST data
+        f.write(f"    func addOrUpdate{struct_name}(_ obj: {struct_name}, completion: @escaping (Result<String, Error>) -> Void) {{\n")
+        f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
+        f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
+        f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/post/\\(id)\") else {{\n")
+        f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
+        f.write(f"        guard let body = try? JSONEncoder().encode(obj) else {{\n")
+        f.write(f"            completion(.failure(ServerError.noData))\n            return\n        }}\n")
+        f.write(f"        var request = URLRequest(url: url)\n")
+        f.write(f"        request.httpMethod = \"POST\"\n")
+        f.write(f"        request.httpBody = body\n")
+        f.write(f"        request.setValue(\"application/json\", forHTTPHeaderField: \"Content-Type\")\n")
+        f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
+        f.write(f"        send(request, expecting: String.self, completion: completion)\n")
+        f.write(f"    }}\n\n")
+
+        # GET all
+        f.write(f"    func getAll{struct_name}(completion: @escaping (Result<[{struct_name}], Error>) -> Void) {{\n")
+        f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
+        f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
+        f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/\\(id)\") else {{\n")
+        f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
+        f.write(f"        var request = URLRequest(url: url)\n")
+        f.write(f"        request.httpMethod = \"GET\"\n")
+        f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
+        f.write(f"        send(request, expecting: [{struct_name}].self, completion: completion)\n")
+        f.write(f"    }}\n\n")
+
+        # DELETE by ID
+        f.write(f"    func delete{struct_name}(id: UUID, completion: @escaping (Result<String, Error>) -> Void) {{\n")
+        f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
+        f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/\\(id.uuidString)\") else {{\n")
+        f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
+        f.write(f"        var request = URLRequest(url: url)\n")
+        f.write(f"        request.httpMethod = \"DELETE\"\n")
+        f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
+        f.write(f"        send(request, expecting: String.self, completion: completion)\n")
+        f.write(f"    }}\n")
+
+        f.write("}\n")
+
+    print(f"Generated endpoint for {table} -> {endpoint_file}")
+
+
+    print(f"Generated ViewModel for {table} at {vm_path}")
     print(f"Generated Swift struct for {table} at {file_path}")

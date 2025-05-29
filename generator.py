@@ -149,9 +149,13 @@ for table, columns in tables.items():
             tgt_class = to_pascal_case(tgt_table)
             if rel_type == "many_to_one":
                 fld_name = src_col[1:-3]  # Remove leading '_' and last '_id' for singular
-                # fld_name = tgt_table.lower()[:-1]  # Remove last 's' for singular
                 backpopulates = f"back_populates='{table.lower()}'"
                 uselist = f"uselist=False"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "one_to_many":
+                fld_name = src_table.lower()           
+                backpopulates = f"back_populates='{src_col[1:-3]}'"  # Remove last 's' for singular
+                uselist = f"uselist=True"
                 f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
             elif rel_type == "one_to_one":
                 fld_name = tgt_table.lower()[:-1]                 
@@ -177,6 +181,11 @@ for table, columns in tables.items():
                 fld_name = src_table.lower()           
                 backpopulates = f"back_populates='{src_col[1:-3]}'"  # Remove last 's' for singular
                 uselist = f"uselist=True"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "one_to_many":
+                fld_name = src_col[1:-3]  # Remove leading '_' and last '_id' for singular
+                backpopulates = f"back_populates='{table.lower()}'"
+                uselist = f"uselist=False"
                 f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
             elif rel_type == "one_to_one":
                 fld_name = src_table.lower()[:-1]  # Remove last 's' for singular
@@ -247,7 +256,7 @@ for table, columns in tables.items():
             field_name = rfk["src_table"]  # plural for collections
             if rel_type in {"many_to_one", "many_to_many"}:
                 f.write(f"    {field_name}: List['{src_class}'] = []\n")
-            elif rel_type == "one_to_one":
+            elif rel_type in {"one_to_one", "one_to_many"}:
                 f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
 
         # Config and model rebuild

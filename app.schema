@@ -39,17 +39,29 @@ Table calendar_entries {
 Table period_infos {
   _group_id UUID [primary key]
   _average_cycle_length INTEGER
+  _average_period_duration INTEGER
   _active_period_start_date DATE
   _predicted_next_period_date DATE
 }
 
 Table period_entries {
   _id UUID [primary key]
-  _group_id UUID
+  _period_info_id UUID
   _start_date DATE
   _end_date DATE
   _notes TEXT
   _is_ended BOOLEAN
+}
+
+Table period_symptoms {
+  _id UUID [primary key]
+  _period_entry_id UUID
+  _symptom_id UUID
+}
+
+Table symptoms {
+  _symptom_id UUID [primary key]
+  _name TEXT
 }
 
 Table product_infos {
@@ -96,9 +108,11 @@ FK tasks._primary_doer_user_id -> users._id [many_to_one]
 FK calendar_entries._user_id -> users._id [many_to_one]
 FK calendar_entries._task_id -> tasks._id [one_to_one]
 FK period_infos._group_id -> groups._id [one_to_one]
-FK period_entries._group_id -> groups._id [many_to_one]
+FK period_entries._period_info_id -> period_infos._group_id [many_to_one]
 FK product_infos._group_id -> groups._id [many_to_one]
 FK product_infos._category_id -> product_categories._id [many_to_one]
 FK products._product_info_id -> product_infos._id [many_to_one]
 FK products._status_id -> product_status._id [many_to_one]
 FK orders._product_id -> products._id [one_to_one]
+FK period_symptoms._period_entry_id -> period_entries._id [many_to_one]
+FK symptoms._symptom_id -> period_symptoms._symptom_id [one_to_many]

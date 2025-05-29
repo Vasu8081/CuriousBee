@@ -54,6 +54,7 @@ Table period_entries {
 
 Table product_infos {
   _id UUID [primary key]
+  _group_id UUID
   _name TEXT
   _category_id UUID
   _reminder_enabled BOOLEAN
@@ -79,7 +80,6 @@ Table products {
   _product_completed_date DATE
   _price FLOAT
   _status_id UUID
-  _order_id UUID
 }
 
 Table orders {
@@ -87,6 +87,7 @@ Table orders {
   _ordered_date DATE
   _expected_delivery_date DATE
   _received_date DATE
+  _product_id UUID
 }
 
 FK users._group_id -> groups._id [many_to_one]
@@ -96,7 +97,8 @@ FK calendar_entries._user_id -> users._id [many_to_one]
 FK calendar_entries._task_id -> tasks._id [one_to_one]
 FK period_infos._group_id -> groups._id [one_to_one]
 FK period_entries._group_id -> groups._id [many_to_one]
+FK product_infos._group_id -> groups._id [many_to_one]
 FK product_infos._category_id -> product_categories._id [many_to_one]
 FK products._product_info_id -> product_infos._id [many_to_one]
 FK products._status_id -> product_status._id [many_to_one]
-FK products._order_id -> orders._id [one_to_one]
+FK orders._product_id -> products._id [one_to_one]

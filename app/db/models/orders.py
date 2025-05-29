@@ -13,6 +13,7 @@ class Orders(Base):
     _ordered_date = Column(Date)
     _expected_delivery_date = Column(Date)
     _received_date = Column(Date)
+    _product_id = Column(UUID, ForeignKey("products._id"))
     product = relationship('Products', uselist=False, back_populates='order')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
@@ -34,6 +35,11 @@ class Orders(Base):
         if value is None:
             return self._received_date
         self._received_date = value
+
+    def productId(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self._product_id
+        self._product_id = value
 
     def to_schema(self):
         from app.db.schemas.orders_schema import OrdersSchema

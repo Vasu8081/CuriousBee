@@ -5,6 +5,7 @@ from typing import Optional, List, ForwardRef
 
 PeriodEntriesSchema = ForwardRef('PeriodEntriesSchema')
 PeriodInfosSchema = ForwardRef('PeriodInfosSchema')
+ProductInfosSchema = ForwardRef('ProductInfosSchema')
 TasksSchema = ForwardRef('TasksSchema')
 UsersSchema = ForwardRef('UsersSchema')
 
@@ -15,6 +16,7 @@ class GroupsSchema(BaseModel):
     tasks: List['TasksSchema'] = []
     period_info: Optional['PeriodInfosSchema'] = None
     period_entries: List['PeriodEntriesSchema'] = []
+    product_infos: List['ProductInfosSchema'] = []
 
     model_config = ConfigDict(
         from_attributes=True,

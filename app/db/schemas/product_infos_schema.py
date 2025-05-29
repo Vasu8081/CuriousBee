@@ -3,11 +3,13 @@ import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List, ForwardRef
 
+GroupsSchema = ForwardRef('GroupsSchema')
 ProductCategoriesSchema = ForwardRef('ProductCategoriesSchema')
 ProductsSchema = ForwardRef('ProductsSchema')
 
 class ProductInfosSchema(BaseModel):
     id: Optional[uuid.UUID] = Field(alias='_id')
+    group_id: Optional[uuid.UUID] = Field(alias='_group_id')
     name: Optional[str] = Field(alias='_name')
     category_id: Optional[uuid.UUID] = Field(alias='_category_id')
     reminder_enabled: Optional[bool] = Field(alias='_reminder_enabled')

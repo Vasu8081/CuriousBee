@@ -16,7 +16,6 @@ class Products(Base):
     _product_completed_date = Column(Date)
     _price = Column(Float)
     _status_id = Column(UUID, ForeignKey("product_status._id"))
-    _order_id = Column(UUID, ForeignKey("orders._id"))
     product_info = relationship('ProductInfos', uselist=False, back_populates='products')
     status = relationship('ProductStatus', uselist=False, back_populates='products')
     order = relationship('Orders', uselist=False, back_populates='product')
@@ -55,11 +54,6 @@ class Products(Base):
         if value is None:
             return self._status_id
         self._status_id = value
-
-    def orderId(self, value: uuid.UUID = None) -> uuid.UUID:
-        if value is None:
-            return self._order_id
-        self._order_id = value
 
     def to_schema(self):
         from app.db.schemas.products_schema import ProductsSchema

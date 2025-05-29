@@ -10,7 +10,7 @@ class OrdersSchema(BaseModel):
     ordered_date: Optional[datetime.date] = Field(alias='_ordered_date')
     expected_delivery_date: Optional[datetime.date] = Field(alias='_expected_delivery_date')
     received_date: Optional[datetime.date] = Field(alias='_received_date')
-    product: Optional['ProductsSchema'] = None
+    product_id: Optional[uuid.UUID] = Field(alias='_product_id')
 
     model_config = ConfigDict(
         from_attributes=True,

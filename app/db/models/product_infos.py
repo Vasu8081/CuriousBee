@@ -10,11 +10,13 @@ class ProductInfos(Base):
     __tablename__ = 'product_infos'
 
     _id = Column(UUID, primary_key=True)
+    _group_id = Column(UUID, ForeignKey("groups._id"))
     _name = Column(String)
     _category_id = Column(UUID, ForeignKey("product_categories._id"))
     _reminder_enabled = Column(Boolean)
     _days_per_quantity = Column(Float)
     _quantity_unit_size = Column(String)
+    group = relationship('Groups', uselist=False, back_populates='product_infos')
     category = relationship('ProductCategories', uselist=False, back_populates='product_infos')
     products = relationship('Products', uselist=True, back_populates='product_info')
 
@@ -22,6 +24,11 @@ class ProductInfos(Base):
         if value is None:
             return self._id
         self._id = value
+
+    def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
+        if value is None:
+            return self._group_id
+        self._group_id = value
 
     def name(self, value: str = None) -> str:
         if value is None:

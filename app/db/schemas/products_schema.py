@@ -16,9 +16,6 @@ class ProductsSchema(BaseModel):
     price: Optional[float] = Field(alias='_price')
     status_id: Optional[uuid.UUID] = Field(alias='_status_id')
     order_id: Optional[uuid.UUID] = Field(alias='_order_id')
-    product_info: Optional['ProductInfosSchema'] = None
-    product_statu: Optional['ProductStatusSchema'] = None
-    order: Optional['OrdersSchema'] = None
 
     model_config = ConfigDict(
         from_attributes=True,

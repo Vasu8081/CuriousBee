@@ -62,8 +62,8 @@ for line in schema.splitlines():
         modifiers = parts[2:] if len(parts) > 2 else []
         tables[current_table].append((col_name, col_type, modifiers))
 
-print_relationships_dict("Foreign Keys", fks, reverse=False)
-print_relationships_dict("Reverse Foreign Keys", reverse_fks, reverse=True)
+# print_relationships_dict("Foreign Keys", fks, reverse=False)
+# print_relationships_dict("Reverse Foreign Keys", reverse_fks, reverse=True)
 
 # Detect circular FKs
 dep_graph = defaultdict(set)
@@ -235,10 +235,10 @@ for table, columns in tables.items():
             f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
 
         # Foreign key relationships
-        for fk in fks.get(table, []):
-            tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
-            field_name = fk["tgt_table"].rstrip("s")  # e.g., groups -> group
-            f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
+        # for fk in fks.get(table, []):
+        #     tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
+        #     field_name = fk["tgt_table"].rstrip("s")  # e.g., groups -> group
+        #     f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
 
         # Reverse foreign key relationships
         for rfk in reverse_fks.get(table, []):

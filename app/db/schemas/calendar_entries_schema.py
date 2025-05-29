@@ -15,8 +15,6 @@ class CalendarEntriesSchema(BaseModel):
     start_time: Optional[datetime.time] = Field(alias='_start_time')
     end_time: Optional[datetime.time] = Field(alias='_end_time')
     task_id: Optional[uuid.UUID] = Field(alias='_task_id')
-    user: Optional['UsersSchema'] = None
-    task: Optional['TasksSchema'] = None
 
     model_config = ConfigDict(
         from_attributes=True,

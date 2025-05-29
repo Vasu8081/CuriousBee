@@ -14,7 +14,6 @@ class UsersSchema(BaseModel):
     apple_device_token: Optional[str] = Field(alias='_apple_device_token')
     group_id: Optional[uuid.UUID] = Field(alias='_group_id')
     is_admin: Optional[bool] = Field(alias='_is_admin')
-    group: Optional['GroupsSchema'] = None
     tasks: List['TasksSchema'] = []
     calendar_entries: List['CalendarEntriesSchema'] = []
 

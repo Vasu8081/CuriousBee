@@ -10,7 +10,6 @@ class PeriodInfosSchema(BaseModel):
     average_cycle_length: Optional[int] = Field(alias='_average_cycle_length')
     active_period_start_date: Optional[datetime.date] = Field(alias='_active_period_start_date')
     predicted_next_period_date: Optional[datetime.date] = Field(alias='_predicted_next_period_date')
-    group: Optional['GroupsSchema'] = None
 
     model_config = ConfigDict(
         from_attributes=True,

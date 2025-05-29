@@ -13,7 +13,6 @@ class ProductInfosSchema(BaseModel):
     reminder_enabled: Optional[bool] = Field(alias='_reminder_enabled')
     days_per_quantity: Optional[float] = Field(alias='_days_per_quantity')
     quantity_unit_size: Optional[str] = Field(alias='_quantity_unit_size')
-    product_categorie: Optional['ProductCategoriesSchema'] = None
     products: List['ProductsSchema'] = []
 
     model_config = ConfigDict(

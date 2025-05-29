@@ -1,11 +1,13 @@
 import uuid
 import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class ProductCategoriesSchema(BaseModel):
-    _id: Optional[uuid.UUID]
-    _name: Optional[str]
+    id: Optional[uuid.UUID] = Field(alias='_id')
+    name: Optional[str] = Field(alias='_name')
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )

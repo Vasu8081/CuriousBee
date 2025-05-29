@@ -10,6 +10,7 @@ Table users {
   _apple_device_token TEXT
   _password_hash TEXT
   _group_id UUID
+  _is_admin BOOLEAN
 }
 
 Table tasks {

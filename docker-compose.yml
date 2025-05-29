@@ -14,5 +14,26 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beetracker_backend
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=your-secret-key
+      - JWT_REFRESH_SECRET=your-refresh-key
+      - ACCESS_TOKEN_EXPIRY=15m
+      - REFRESH_TOKEN_EXPIRY=30d
+      - DATABASE_URL=postgresql://vkandula:vkandula@db/beetracker
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
 volumes:
   pgdata:

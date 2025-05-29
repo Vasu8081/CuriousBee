@@ -1,15 +1,17 @@
 import uuid
 import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class ProductInfosSchema(BaseModel):
-    _id: Optional[uuid.UUID]
-    _name: Optional[str]
-    _category_id: Optional[uuid.UUID]
-    _reminder_enabled: Optional[bool]
-    _days_per_quantity: Optional[float]
-    _quantity_unit_size: Optional[str]
+    id: Optional[uuid.UUID] = Field(alias='_id')
+    name: Optional[str] = Field(alias='_name')
+    category_id: Optional[uuid.UUID] = Field(alias='_category_id')
+    reminder_enabled: Optional[bool] = Field(alias='_reminder_enabled')
+    days_per_quantity: Optional[float] = Field(alias='_days_per_quantity')
+    quantity_unit_size: Optional[str] = Field(alias='_quantity_unit_size')
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )

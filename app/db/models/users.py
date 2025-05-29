@@ -14,6 +14,7 @@ class Users(Base):
     _apple_device_token = Column(String)
     _password_hash = Column(String)
     _group_id = Column(UUID, ForeignKey("groups._id"))
+    _is_admin = Column(Boolean)
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
@@ -44,6 +45,11 @@ class Users(Base):
         if value is None:
             return self._group_id
         self._group_id = value
+
+    def isAdmin(self, value: bool = None) -> bool:
+        if value is None:
+            return self._is_admin
+        self._is_admin = value
 
     def to_schema(self):
         from app.db.schemas.users_schema import UsersSchema

@@ -1,17 +1,19 @@
 import uuid
 import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class CalendarEntriesSchema(BaseModel):
-    _id: Optional[uuid.UUID]
-    _user_id: Optional[uuid.UUID]
-    _title: Optional[str]
-    _notes: Optional[str]
-    _date: Optional[datetime.date]
-    _start_time: Optional[datetime.time]
-    _end_time: Optional[datetime.time]
-    _task_id: Optional[uuid.UUID]
+    id: Optional[uuid.UUID] = Field(alias='_id')
+    user_id: Optional[uuid.UUID] = Field(alias='_user_id')
+    title: Optional[str] = Field(alias='_title')
+    notes: Optional[str] = Field(alias='_notes')
+    date: Optional[datetime.date] = Field(alias='_date')
+    start_time: Optional[datetime.time] = Field(alias='_start_time')
+    end_time: Optional[datetime.time] = Field(alias='_end_time')
+    task_id: Optional[uuid.UUID] = Field(alias='_task_id')
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )

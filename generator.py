@@ -144,14 +144,17 @@ for table, columns in tables.items():
     with open(pydantic_path, "w") as f:
         f.write("import uuid\n")
         f.write("import datetime\n")
-        f.write("from pydantic import BaseModel\n")
+        f.write("from pydantic import BaseModel, Field, ConfigDict\n")
         f.write("from typing import Optional\n\n")
         f.write(f"class {class_name}Schema(BaseModel):\n")
         for col_name, col_type, _ in columns:
             py_type = python_types.get(col_type.upper(), "str")
-            f.write(f"    {col_name}: Optional[{py_type}]\n")
-        f.write("\n    class Config:\n")
-        f.write("        orm_mode = True\n")
+            f.write(f"    {col_name[1:]}: Optional[{py_type}] = Field(alias='{col_name}')\n")
+        f.write("\n")
+        f.write("    model_config = ConfigDict(\n")
+        f.write("        from_attributes=True,\n")
+        f.write("        populate_by_name=True\n")
+        f.write("    )\n")
 
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")
 with open(init_path, "w") as f:

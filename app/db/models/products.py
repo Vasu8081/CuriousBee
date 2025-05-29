@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -15,7 +16,10 @@ class Products(Base):
     _product_completed_date = Column(Date)
     _price = Column(Float)
     _status_id = Column(UUID, ForeignKey("product_status._id"))
-    _order_id = Column(UUID, ForeignKey("orders._id", use_alter=True))
+    _order_id = Column(UUID, ForeignKey("orders._id"))
+    product_info = relationship('ProductInfos', uselist=False, back_populates='products')
+    status = relationship('ProductStatus', uselist=False, back_populates='products')
+    order = relationship('Orders', uselist=False, back_populates='product')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

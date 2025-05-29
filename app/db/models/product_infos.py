@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -14,6 +15,8 @@ class ProductInfos(Base):
     _reminder_enabled = Column(Boolean)
     _days_per_quantity = Column(Float)
     _quantity_unit_size = Column(String)
+    category = relationship('ProductCategories', uselist=False, back_populates='product_infos')
+    products = relationship('Products', uselist=True, back_populates='product_info')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

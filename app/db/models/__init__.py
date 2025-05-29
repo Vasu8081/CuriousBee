@@ -2,7 +2,7 @@ from .groups import Groups
 from .users import Users
 from .tasks import Tasks
 from .calendar_entries import CalendarEntries
-from .period_info import PeriodInfo
+from .period_infos import PeriodInfos
 from .period_entries import PeriodEntries
 from .product_infos import ProductInfos
 from .product_categories import ProductCategories

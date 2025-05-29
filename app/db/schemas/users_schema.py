@@ -1,7 +1,11 @@
 import uuid
 import datetime
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional
+from typing import Optional, List, ForwardRef
+
+CalendarEntriesSchema = ForwardRef('CalendarEntriesSchema')
+GroupsSchema = ForwardRef('GroupsSchema')
+TasksSchema = ForwardRef('TasksSchema')
 
 class UsersSchema(BaseModel):
     id: Optional[uuid.UUID] = Field(alias='_id')
@@ -10,8 +14,13 @@ class UsersSchema(BaseModel):
     apple_device_token: Optional[str] = Field(alias='_apple_device_token')
     group_id: Optional[uuid.UUID] = Field(alias='_group_id')
     is_admin: Optional[bool] = Field(alias='_is_admin')
+    group: Optional[GroupsSchema] = None
+    tasks: List[TasksSchema] = []
+    calendar_entries: List[CalendarEntriesSchema] = []
 
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name=True
     )
+
+UsersSchema.model_rebuild()

@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -15,6 +16,9 @@ class Users(Base):
     _password_hash = Column(String)
     _group_id = Column(UUID, ForeignKey("groups._id"))
     _is_admin = Column(Boolean)
+    group = relationship('Groups', uselist=False, back_populates='users')
+    tasks = relationship('Tasks', uselist=True, back_populates='primary_doer_user')
+    calendar_entries = relationship('CalendarEntries', uselist=True, back_populates='user')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -14,6 +15,7 @@ class PeriodEntries(Base):
     _end_date = Column(Date)
     _notes = Column(String)
     _is_ended = Column(Boolean)
+    group = relationship('Groups', uselist=False, back_populates='period_entries')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

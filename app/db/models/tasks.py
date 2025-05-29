@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -17,6 +18,9 @@ class Tasks(Base):
     _primary_doer_user_id = Column(UUID, ForeignKey("users._id"))
     _is_completed = Column(Boolean)
     _group_id = Column(UUID, ForeignKey("groups._id"))
+    group = relationship('Groups', uselist=False, back_populates='tasks')
+    primary_doer_user = relationship('Users', uselist=False, back_populates='tasks')
+    calendar_entrie = relationship('CalendarEntries', uselist=False, back_populates='task')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

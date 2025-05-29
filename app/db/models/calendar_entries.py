@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean
 from app.db.base import Base
@@ -15,7 +16,9 @@ class CalendarEntries(Base):
     _date = Column(Date)
     _start_time = Column(Time)
     _end_time = Column(Time)
-    _task_id = Column(UUID, ForeignKey("tasks._id", use_alter=True))
+    _task_id = Column(UUID, ForeignKey("tasks._id"))
+    user = relationship('Users', uselist=False, back_populates='calendar_entries')
+    task = relationship('Tasks', uselist=False, back_populates='calendar_entrie')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:

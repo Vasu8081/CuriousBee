@@ -13,6 +13,17 @@ os.makedirs(PYDANTIC_OUTPUT_DIR, exist_ok=True)
 with open(SCHEMA_FILE, "r") as f:
     schema = f.read()
 
+def print_relationships_dict(title, relationships, reverse=False):
+    print(f"\n{title}:")
+    for table, refs in relationships.items():
+        print(f"  {table}:")
+        for ref in refs:
+            if reverse:
+                # reverse_fks: from src_table.src_col -> table.tgt_col
+                print(f"    - {ref['src_table']}.{ref['src_col']} -> {table}.{ref['tgt_col']} [{ref['type']}]")
+            else:
+                # fks: from src_col -> tgt_table.tgt_col
+                print(f"    - {ref['src_col']} -> {ref['tgt_table']}.{ref['tgt_col']} [{ref['type']}]")
 tables = {}
 fks = defaultdict(list)
 reverse_fks = defaultdict(list)
@@ -24,11 +35,24 @@ for line in schema.splitlines():
         current_table = line.split()[1]
         tables[current_table] = []
     elif line.startswith("FK"):
-        fk_parts = re.match(r"FK (\w+)\.(\w+) -> (\w+)\.(\w+)", line)
+        fk_parts = re.match(r"FK (\w+)\.(\w+) -> (\w+)\.(\w+)(?: \[(\w+_\w+)\])?", line)
         if fk_parts:
-            src_table, src_col, tgt_table, tgt_col = fk_parts.groups()
-            fks[src_table].append((src_col, f"{tgt_table}.{tgt_col}"))
-            reverse_fks[tgt_table].append(src_table)
+            src_table, src_col, tgt_table, tgt_col, rel_type = fk_parts.groups()
+            relationship_type = rel_type or "many_to_one"  # Default fallback
+            fks[src_table].append({
+                "src_col": src_col,
+                "src_table": src_table,
+                "tgt_table": tgt_table,
+                "tgt_col": tgt_col,
+                "type": relationship_type
+            })
+            reverse_fks[tgt_table].append({
+                "src_table": src_table,
+                "src_col": src_col,
+                "tgt_table": tgt_table,
+                "tgt_col": tgt_col,
+                "type": relationship_type
+            })
     elif line.startswith("}"):
         current_table = None
     elif current_table and line:
@@ -38,12 +62,15 @@ for line in schema.splitlines():
         modifiers = parts[2:] if len(parts) > 2 else []
         tables[current_table].append((col_name, col_type, modifiers))
 
+print_relationships_dict("Foreign Keys", fks, reverse=False)
+print_relationships_dict("Reverse Foreign Keys", reverse_fks, reverse=True)
+
 # Detect circular FKs
 dep_graph = defaultdict(set)
-for src, refs in fks.items():
-    for _, target in refs:
-        tgt_table = target.split(".")[0]
-        dep_graph[src].add(tgt_table)
+for src_table, fk_list in fks.items():
+    for fk in fk_list:
+        tgt_table = fk["tgt_table"]
+        dep_graph[src_table].add(tgt_table)
 
 circular_deps = set()
 visited = set()
@@ -81,6 +108,7 @@ for table, columns in tables.items():
     with open(model_path, "w") as f:
         f.write("import uuid\nimport datetime\n")
         f.write("from sqlalchemy import Column, ForeignKey\n")
+        f.write("from sqlalchemy.orm import relationship\n")
         f.write("from sqlalchemy.dialects.postgresql import UUID\n")
         f.write("from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean\n")
         f.write("from app.db.base import Base\n\n")
@@ -91,7 +119,12 @@ for table, columns in tables.items():
             sqla_type = sqlalchemy_types.get(col_type.upper(), "String")
             is_pk = any("primary" in m.lower() for m in modifiers)
             fk_target = None
-            for src_col, target in fks.get(table, []):
+            for fk in fks.get(table, []):
+                src_col = fk["src_col"]
+                tgt_table = fk["tgt_table"]
+                tgt_col = fk["tgt_col"]
+                rel_type = fk["type"]
+                target = f"{tgt_table}.{tgt_col}"
                 if src_col == col_name:
                     fk_target = target
 
@@ -107,6 +140,58 @@ for table, columns in tables.items():
                 col_def += ", primary_key=True"
             col_def += ")"
             f.write(f"    {col_name} = {col_def}\n")
+
+        for fk in fks.get(table.lower(), []):
+            src_col = fk["src_col"]
+            tgt_table = fk["tgt_table"]
+            tgt_col = fk["tgt_col"]
+            rel_type = fk["type"]
+            tgt_class = to_pascal_case(tgt_table)
+            if rel_type == "many_to_one":
+                fld_name = src_col[1:-3]  # Remove leading '_' and last '_id' for singular
+                # fld_name = tgt_table.lower()[:-1]  # Remove last 's' for singular
+                backpopulates = f"back_populates='{table.lower()}'"
+                uselist = f"uselist=False"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "one_to_one":
+                fld_name = tgt_table.lower()[:-1]                 
+                backpopulates = f"back_populates='{table.lower()[:-1]}'"  # Remove last 's' for singular
+                uselist = f"uselist=False"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "many_to_many":
+                fld_name = tgt_table.lower()
+                backpopulates = f"back_populates='{table.lower()}'"
+                uselist = f"uselist=True"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            else:
+                raise ValueError(f"Unknown relationship type: {rel_type}")
+
+            
+        for reverse_fk in reverse_fks.get(table, []):
+            src_table = reverse_fk["src_table"]
+            src_col = reverse_fk["src_col"]
+            tgt_col = reverse_fk["tgt_col"]
+            rel_type = reverse_fk["type"]
+            tgt_class = to_pascal_case(src_table)
+            if rel_type == "many_to_one":
+                fld_name = src_table.lower()           
+                backpopulates = f"back_populates='{src_col[1:-3]}'"  # Remove last 's' for singular
+                uselist = f"uselist=True"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "one_to_one":
+                fld_name = src_table.lower()[:-1]  # Remove last 's' for singular
+                backpopulates = f"back_populates='{table.lower()[:-1]}'"  # Remove last 's' for singular
+                uselist = f"uselist=False"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            elif rel_type == "many_to_many":
+                fld_name = src_table.lower()
+                backpopulates = f"back_populates='{table.lower()}'"
+                uselist = f"uselist=True"
+                f.write(f"    {fld_name} = relationship('{tgt_class}', {uselist}, {backpopulates})\n")
+            else:
+                raise ValueError(f"Unknown relationship type: {rel_type}")
+            
+                
 
         f.write("\n")
         for col_name, col_type, _ in columns:
@@ -125,7 +210,19 @@ for table, columns in tables.items():
     with open(pydantic_path, "w") as f:
         f.write("import uuid\nimport datetime\n")
         f.write("from pydantic import BaseModel, Field, ConfigDict\n")
-        f.write("from typing import Optional\n\n")
+        f.write("from typing import Optional, List, ForwardRef\n\n")
+
+        # Write ForwardRefs
+        related_classes = set()
+        for fk in fks.get(table, []):
+            related_classes.add(to_pascal_case(fk["tgt_table"]) + "Schema")
+        for rfk in reverse_fks.get(table, []):
+            related_classes.add(to_pascal_case(rfk["src_table"]) + "Schema")
+        for rc in sorted(related_classes):
+            f.write(f"{rc} = ForwardRef('{rc}')\n")
+        f.write("\n")
+
+        # Write Schema Class
         f.write(f"class {class_name}Schema(BaseModel):\n")
         for col_name, col_type, modifiers in columns:
             if "HIDDEN" in [m.upper() for m in modifiers]:
@@ -134,11 +231,31 @@ for table, columns in tables.items():
             alias = col_name
             field_name = col_name.lstrip("_")
             f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
+
+        # Add relationships (FK)
+        for fk in fks.get(table, []):
+            tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
+            field_name = fk["tgt_table"].rstrip("s")  # basic singular
+            f.write(f"    {field_name}: Optional[{tgt_class}] = None\n")
+
+        # Add reverse relationships
+        for rfk in reverse_fks.get(table, []):
+            src_class = to_pascal_case(rfk["src_table"]) + "Schema"
+            rel_type = rfk["type"]
+            field_name = rfk["src_table"]  # plural by default
+            if rel_type == "many_to_one" or rel_type == "many_to_many":
+                f.write(f"    {field_name}: List[{src_class}] = []\n")
+            elif rel_type == "one_to_one":
+                f.write(f"    {field_name.rstrip('s')}: Optional[{src_class}] = None\n")
+
         f.write("\n")
         f.write("    model_config = ConfigDict(\n")
         f.write("        from_attributes=True,\n")
         f.write("        populate_by_name=True\n")
-        f.write("    )\n")
+        f.write("    )\n\n")
+
+        # Add model_rebuild
+        f.write(f"{class_name}Schema.model_rebuild()\n")
 
 # Init file for models
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")

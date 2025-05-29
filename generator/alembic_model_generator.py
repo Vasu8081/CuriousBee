@@ -3,12 +3,10 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-SCHEMA_FILE = "app.schema"
+SCHEMA_FILE = "generator/app.schema"
 OUTPUT_DIR = "app/db/models"
-PYDANTIC_OUTPUT_DIR = "app/db/schemas"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(PYDANTIC_OUTPUT_DIR, exist_ok=True)
 
 with open(SCHEMA_FILE, "r") as f:
     schema = f.read()
@@ -104,7 +102,6 @@ def to_camel_case(name): parts = name.split('_'); return parts[0] + ''.join(word
 
 for table, columns in tables.items():
     model_path = os.path.join(OUTPUT_DIR, f"{table}.py")
-    pydantic_path = os.path.join(PYDANTIC_OUTPUT_DIR, f"{table}_schema.py")
     class_name = to_pascal_case(table)
 
     # --- SQLAlchemy Model ---
@@ -218,114 +215,7 @@ for table, columns in tables.items():
         f.write(f"        from app.db.schemas.{table}_schema import {class_name}Schema\n")
         f.write(f"        return {class_name}Schema.from_orm(self)\n")
 
-        # --- Pydantic Schema ---
-    with open(pydantic_path, "w") as f:
-        f.write("import uuid\nimport datetime\n")
-        f.write("from pydantic import BaseModel, Field, ConfigDict\n")
-        f.write("from typing import Optional, List, ForwardRef\n\n")
-
-        # Collect related schema class names
-        related_classes = set()
-        for fk in fks.get(table, []):
-            related_classes.add(to_pascal_case(fk["tgt_table"]) + "Schema")
-        for rfk in reverse_fks.get(table, []):
-            related_classes.add(to_pascal_case(rfk["src_table"]) + "Schema")
-
-        # Declare ForwardRefs
-        for rc in sorted(related_classes):
-            f.write(f"{rc} = ForwardRef('{rc}')\n")
-        f.write("\n")
-
-        # Schema class definition
-        f.write(f"class {class_name}Schema(BaseModel):\n")
-        for col_name, col_type, modifiers in columns:
-            if "HIDDEN" in [m.upper() for m in modifiers]:
-                continue
-            py_type = python_types.get(col_type.upper(), "str")
-            alias = col_name
-            field_name = col_name.lstrip("_")
-            f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
-
-        # Foreign key relationships
-        for fk in fks.get(table, []):
-            tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
-            rel_type = fk["type"]
-            field_name = fk["tgt_col"]
-            pydantic_refer = fk["pydantic_refer"]
-            if pydantic_refer == "refer_left":
-                if rel_type in {"many_to_one", "one_to_one"}:
-                    f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
-                elif rel_type in {"one_to_many", "many_to_many"}:
-                    f.write(f"    {field_name}: List['{tgt_class}'] = []\n")
-                else:
-                    raise ValueError(f"Unknown relationship type: {rel_type}")
-
-        # Reverse foreign key relationships
-        for rfk in reverse_fks.get(table, []):
-            src_class = to_pascal_case(rfk["src_table"]) + "Schema"
-            rel_type = rfk["type"]
-            field_name = rfk["src_table"]  # plural for collections
-            if rfk["pydantic_refer"] == "refer_right":
-                if rel_type in {"many_to_one", "many_to_many"}:
-                    f.write(f"    {field_name}: List['{src_class}'] = []\n")
-                elif rel_type in {"one_to_one", "one_to_many"}:
-                    f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
-
-        # Config and model rebuild
-        f.write("\n")
-        f.write("    model_config = ConfigDict(\n")
-        f.write("        from_attributes=True,\n")
-        f.write("        populate_by_name=True\n")
-        f.write("    )\n\n")
-
-# Add to the end of your schema processing script
-
-SWIFT_OUTPUT_DIR = "app/swift_models"
-os.makedirs(SWIFT_OUTPUT_DIR, exist_ok=True)
-
-swift_type_map = {
-    "UUID": "UUID",
-    "TEXT": "String",
-    "DATE": "Date",
-    "TIME": "Date",
-    "TIMESTAMP": "Date",
-    "INTEGER": "Int",
-    "FLOAT": "Double",
-    "BOOLEAN": "Bool"
-}
-
-def to_swift_struct_name(table_name):
-    return ''.join(word.capitalize() for word in table_name.split('_'))
-
-def to_swift_field_name(col_name):
-    return col_name.lstrip("_")
-
-for table, columns in tables.items():
-    struct_name = to_swift_struct_name(table)
-    file_path = os.path.join(SWIFT_OUTPUT_DIR, f"{struct_name}.swift")
-
-    with open(file_path, "w") as f:
-        f.write("import Foundation\n\n")
-        f.write(f"struct {struct_name}: Codable {{\n")
-
-        for col_name, col_type, modifiers in columns:
-            if "HIDDEN" in [m.upper() for m in modifiers]:
-                continue
-            swift_type = swift_type_map.get(col_type.upper(), "String")
-            swift_field = to_swift_field_name(col_name)
-            f.write(f"    var {swift_field}: {swift_type}?\n")
-
-        f.write("}\n")
-        
-        # f.write(f"{class_name}Schema.model_rebuild(_types_namespace=globals())\n")
-# Init file for models
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")
-init_path_pydantic = os.path.join(PYDANTIC_OUTPUT_DIR, "__init__.py")
-with open(init_path_pydantic, "w") as f:
-    for table in tables:
-        f.write(f"from .{table}_schema import {to_pascal_case(table)}Schema\n")
-    for table in tables:
-        f.write(f"{to_pascal_case(table)}Schema.model_rebuild(_types_namespace=globals())\n")
 with open(init_path, "w") as f:
     for table in tables:
         f.write(f"from .{table} import {to_pascal_case(table)}\n")

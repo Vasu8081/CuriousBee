@@ -18,9 +18,9 @@ def dummy():
 
     # Users
     user1 = users.Users(_id=uuid4(), _name="Alice", _email="alice@example.com", _apple_device_token="token1",
-                        _password_hash="hash1", _group_id=group1._id, _is_admin=True)
+                        _password_hash=None, _group_id=group1._id, _is_admin=True)
     user2 = users.Users(_id=uuid4(), _name="Bob", _email="bob@example.com", _apple_device_token="token2",
-                        _password_hash="hash2", _group_id=group1._id, _is_admin=False)
+                        _password_hash=None, _group_id=group1._id, _is_admin=False)
     db.add_all([user1, user2])
     db.commit()
 

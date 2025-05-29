@@ -59,16 +59,17 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(Users).filter(Users._email == req.email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-
-    if not user._password_hash:
-        # First-time login, set password
+    logging.info(f"User {req.email} found, checking password")
+    logging.info(f"User {req.email} has password set: {user.passwordHash() is not None}")
+    if user.passwordHash() is None or user.passwordHash() == "":
+        logging.info(f"User {req.email} has no password set, prompting for password setup")
         user._password_hash = hash_password(req.password)
         db.commit()
         return {
             "message": "Password set successfully",
             "tokens": auth.generate_tokens(req.email)
         }
-
+    logging.info(f"User {req.email} found, verifying password")
     if not verify_password(req.password, user._password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
 

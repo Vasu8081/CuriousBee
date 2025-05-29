@@ -4,11 +4,11 @@ from pathlib import Path
 from collections import defaultdict
 
 SCHEMA_FILE = "generator/app.schema"
-SWIFT_OUTPUT_DIR = "BeeTracker/BeeTracker/Models"
+SWIFT_OUTPUT_DIR = "BeeTracker/BeeTracker/Autogen/Models"
 os.makedirs(SWIFT_OUTPUT_DIR, exist_ok=True)
-SWIFT_VIEW_MODEL_OUTPUT_DIR = "BeeTracker/BeeTracker/ViewModels/Sub"
+SWIFT_VIEW_MODEL_OUTPUT_DIR = "BeeTracker/BeeTracker/Autogen/ViewModels"
 os.makedirs(SWIFT_VIEW_MODEL_OUTPUT_DIR, exist_ok=True)
-SWIFT_ENDPOINTS_DIR = "BeeTracker/BeeTracker/Endpoints"
+SWIFT_ENDPOINTS_DIR = "BeeTracker/BeeTracker/Autogen/Endpoints"
 os.makedirs(SWIFT_ENDPOINTS_DIR, exist_ok=True)
 
 with open(SCHEMA_FILE, "r") as f:

@@ -4,7 +4,7 @@ from pathlib import Path
 from collections import defaultdict
 
 SCHEMA_FILE = "generator/app.schema"
-OUTPUT_DIR = "app/db/models"
+OUTPUT_DIR = "app/db/autogen/models"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

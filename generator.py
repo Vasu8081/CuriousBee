@@ -35,23 +35,26 @@ for line in schema.splitlines():
         current_table = line.split()[1]
         tables[current_table] = []
     elif line.startswith("FK"):
-        fk_parts = re.match(r"FK (\w+)\.(\w+) -> (\w+)\.(\w+)(?: \[(\w+_\w+)\])?", line)
+        fk_parts = re.match(r"FK (\w+)\.(\w+) -> (\w+)\.(\w+)(?: \[(\w+_\w+)\]? \[(\w+_\w+)\])?", line)
         if fk_parts:
-            src_table, src_col, tgt_table, tgt_col, rel_type = fk_parts.groups()
+            src_table, src_col, tgt_table, tgt_col, rel_type, pydantic_refer = fk_parts.groups()
             relationship_type = rel_type or "many_to_one"  # Default fallback
+            pydantic_refer = pydantic_refer or "refer_right"
             fks[src_table].append({
                 "src_col": src_col,
                 "src_table": src_table,
                 "tgt_table": tgt_table,
                 "tgt_col": tgt_col,
-                "type": relationship_type
+                "type": relationship_type,
+                "pydantic_refer": pydantic_refer
             })
             reverse_fks[tgt_table].append({
                 "src_table": src_table,
                 "src_col": src_col,
                 "tgt_table": tgt_table,
                 "tgt_col": tgt_col,
-                "type": relationship_type
+                "type": relationship_type,
+                "pydantic_refer": pydantic_refer
             })
     elif line.startswith("}"):
         current_table = None
@@ -244,20 +247,29 @@ for table, columns in tables.items():
             f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
 
         # Foreign key relationships
-        # for fk in fks.get(table, []):
-        #     tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
-        #     field_name = fk["tgt_table"].rstrip("s")  # e.g., groups -> group
-        #     f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
+        for fk in fks.get(table, []):
+            tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
+            rel_type = fk["type"]
+            field_name = fk["tgt_col"]
+            pydantic_refer = fk["pydantic_refer"]
+            if pydantic_refer == "refer_left":
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    f.write(f"    {field_name}: Optional['{tgt_class}'] = None\n")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    f.write(f"    {field_name}: List['{tgt_class}'] = []\n")
+                else:
+                    raise ValueError(f"Unknown relationship type: {rel_type}")
 
         # Reverse foreign key relationships
         for rfk in reverse_fks.get(table, []):
             src_class = to_pascal_case(rfk["src_table"]) + "Schema"
             rel_type = rfk["type"]
             field_name = rfk["src_table"]  # plural for collections
-            if rel_type in {"many_to_one", "many_to_many"}:
-                f.write(f"    {field_name}: List['{src_class}'] = []\n")
-            elif rel_type in {"one_to_one", "one_to_many"}:
-                f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
+            if rfk["pydantic_refer"] == "refer_right":
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    f.write(f"    {field_name}: List['{src_class}'] = []\n")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
 
         # Config and model rebuild
         f.write("\n")

@@ -3,7 +3,6 @@ import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List, ForwardRef
 
-PeriodEntriesSchema = ForwardRef('PeriodEntriesSchema')
 PeriodInfosSchema = ForwardRef('PeriodInfosSchema')
 ProductInfosSchema = ForwardRef('ProductInfosSchema')
 TasksSchema = ForwardRef('TasksSchema')
@@ -15,7 +14,6 @@ class GroupsSchema(BaseModel):
     users: List['UsersSchema'] = []
     tasks: List['TasksSchema'] = []
     period_info: Optional['PeriodInfosSchema'] = None
-    period_entries: List['PeriodEntriesSchema'] = []
     product_infos: List['ProductInfosSchema'] = []
 
     model_config = ConfigDict(

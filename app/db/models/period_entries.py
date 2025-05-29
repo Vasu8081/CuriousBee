@@ -10,22 +10,23 @@ class PeriodEntries(Base):
     __tablename__ = 'period_entries'
 
     _id = Column(UUID, primary_key=True)
-    _group_id = Column(UUID, ForeignKey("groups._id"))
+    _period_info_id = Column(UUID, ForeignKey("period_infos._group_id"))
     _start_date = Column(Date)
     _end_date = Column(Date)
     _notes = Column(String)
     _is_ended = Column(Boolean)
-    group = relationship('Groups', uselist=False, back_populates='period_entries')
+    period_info = relationship('PeriodInfos', uselist=False, back_populates='period_entries')
+    period_symptoms = relationship('PeriodSymptoms', uselist=True, back_populates='period_entry')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
             return self._id
         self._id = value
 
-    def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
+    def periodInfoId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
-            return self._group_id
-        self._group_id = value
+            return self._period_info_id
+        self._period_info_id = value
 
     def startDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:

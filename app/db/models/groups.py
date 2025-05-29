@@ -14,7 +14,6 @@ class Groups(Base):
     users = relationship('Users', uselist=True, back_populates='group')
     tasks = relationship('Tasks', uselist=True, back_populates='group')
     period_info = relationship('PeriodInfos', uselist=False, back_populates='group')
-    period_entries = relationship('PeriodEntries', uselist=True, back_populates='group')
     product_infos = relationship('ProductInfos', uselist=True, back_populates='group')
 
     def id(self, value: uuid.UUID = None) -> uuid.UUID:

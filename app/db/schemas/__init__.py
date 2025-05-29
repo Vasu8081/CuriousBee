@@ -4,6 +4,8 @@ from .tasks_schema import TasksSchema
 from .calendar_entries_schema import CalendarEntriesSchema
 from .period_infos_schema import PeriodInfosSchema
 from .period_entries_schema import PeriodEntriesSchema
+from .period_symptoms_schema import PeriodSymptomsSchema
+from .symptoms_schema import SymptomsSchema
 from .product_infos_schema import ProductInfosSchema
 from .product_categories_schema import ProductCategoriesSchema
 from .product_status_schema import ProductStatusSchema
@@ -15,6 +17,8 @@ TasksSchema.model_rebuild(_types_namespace=globals())
 CalendarEntriesSchema.model_rebuild(_types_namespace=globals())
 PeriodInfosSchema.model_rebuild(_types_namespace=globals())
 PeriodEntriesSchema.model_rebuild(_types_namespace=globals())
+PeriodSymptomsSchema.model_rebuild(_types_namespace=globals())
+SymptomsSchema.model_rebuild(_types_namespace=globals())
 ProductInfosSchema.model_rebuild(_types_namespace=globals())
 ProductCategoriesSchema.model_rebuild(_types_namespace=globals())
 ProductStatusSchema.model_rebuild(_types_namespace=globals())

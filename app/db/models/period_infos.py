@@ -11,9 +11,11 @@ class PeriodInfos(Base):
 
     _group_id = Column(UUID, ForeignKey("groups._id"), primary_key=True)
     _average_cycle_length = Column(Integer)
+    _average_period_duration = Column(Integer)
     _active_period_start_date = Column(Date)
     _predicted_next_period_date = Column(Date)
     group = relationship('Groups', uselist=False, back_populates='period_info')
+    period_entries = relationship('PeriodEntries', uselist=True, back_populates='period_info')
 
     def groupId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
@@ -24,6 +26,11 @@ class PeriodInfos(Base):
         if value is None:
             return self._average_cycle_length
         self._average_cycle_length = value
+
+    def averagePeriodDuration(self, value: int = None) -> int:
+        if value is None:
+            return self._average_period_duration
+        self._average_period_duration = value
 
     def activePeriodStartDate(self, value: datetime.date = None) -> datetime.date:
         if value is None:

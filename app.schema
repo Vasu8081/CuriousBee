@@ -90,16 +90,16 @@ Table orders {
   _received_date DATE
 }
 
-FK users._group_id -> groups._id
-FK tasks._group_id -> groups._id
-FK tasks._primary_doer_user_id -> users._id
-FK tasks._calendar_entry_id -> calendar_entries._id
-FK calendar_entries._user_id -> users._id
-FK calendar_entries._task_id -> tasks._id
-FK period_info._group_id -> groups._id
-FK period_entries._group_id -> groups._id
-FK product_infos._category_id -> product_categories._id
-FK products._product_info_id -> product_infos._id
-FK products._status_id -> product_status._id
-FK products._order_id -> orders._id
-FK orders._product_id -> products._id
+FK users._group_id -> groups._id [many_to_one]
+FK tasks._group_id -> groups._id [many_to_one]
+FK tasks._primary_doer_user_id -> users._id [many_to_one]
+FK tasks._calendar_entry_id -> calendar_entries._id [one_to_one]
+FK calendar_entries._user_id -> users._id [many_to_one]
+FK calendar_entries._task_id -> tasks._id [one_to_one]
+FK period_info._group_id -> groups._id [one_to_one]
+FK period_entries._group_id -> groups._id [many_to_one]
+FK product_infos._category_id -> product_categories._id [many_to_one]
+FK products._product_info_id -> product_infos._id [many_to_one]
+FK products._status_id -> product_status._id [many_to_one]
+FK products._order_id -> orders._id [one_to_one]
+FK orders._product_id -> products._id [one_to_one]

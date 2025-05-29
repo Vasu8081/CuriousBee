@@ -278,6 +278,45 @@ for table, columns in tables.items():
         f.write("        populate_by_name=True\n")
         f.write("    )\n\n")
 
+# Add to the end of your schema processing script
+
+SWIFT_OUTPUT_DIR = "app/swift_models"
+os.makedirs(SWIFT_OUTPUT_DIR, exist_ok=True)
+
+swift_type_map = {
+    "UUID": "UUID",
+    "TEXT": "String",
+    "DATE": "Date",
+    "TIME": "Date",
+    "TIMESTAMP": "Date",
+    "INTEGER": "Int",
+    "FLOAT": "Double",
+    "BOOLEAN": "Bool"
+}
+
+def to_swift_struct_name(table_name):
+    return ''.join(word.capitalize() for word in table_name.split('_'))
+
+def to_swift_field_name(col_name):
+    return col_name.lstrip("_")
+
+for table, columns in tables.items():
+    struct_name = to_swift_struct_name(table)
+    file_path = os.path.join(SWIFT_OUTPUT_DIR, f"{struct_name}.swift")
+
+    with open(file_path, "w") as f:
+        f.write("import Foundation\n\n")
+        f.write(f"struct {struct_name}: Codable {{\n")
+
+        for col_name, col_type, modifiers in columns:
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            swift_type = swift_type_map.get(col_type.upper(), "String")
+            swift_field = to_swift_field_name(col_name)
+            f.write(f"    var {swift_field}: {swift_type}?\n")
+
+        f.write("}\n")
+        
         # f.write(f"{class_name}Schema.model_rebuild(_types_namespace=globals())\n")
 # Init file for models
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")

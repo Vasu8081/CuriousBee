@@ -14,8 +14,8 @@ class Tasks(Base):
     _notes = Column(String)
     _deadline = Column(DateTime)
     _interaction_style = Column(String)
-    _presence_preference = Column(String)
     _primary_doer_user_id = Column(UUID, ForeignKey("users._id"))
+    _other_users_presence_necessary = Column(Boolean)
     _is_completed = Column(Boolean)
     _group_id = Column(UUID, ForeignKey("groups._id"))
     group = relationship('Groups', uselist=False, back_populates='tasks')
@@ -47,15 +47,15 @@ class Tasks(Base):
             return self._interaction_style
         self._interaction_style = value
 
-    def presencePreference(self, value: str = None) -> str:
-        if value is None:
-            return self._presence_preference
-        self._presence_preference = value
-
     def primaryDoerUserId(self, value: uuid.UUID = None) -> uuid.UUID:
         if value is None:
             return self._primary_doer_user_id
         self._primary_doer_user_id = value
+
+    def otherUsersPresenceNecessary(self, value: bool = None) -> bool:
+        if value is None:
+            return self._other_users_presence_necessary
+        self._other_users_presence_necessary = value
 
     def isCompleted(self, value: bool = None) -> bool:
         if value is None:

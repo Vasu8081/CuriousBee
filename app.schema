@@ -19,8 +19,8 @@ Table tasks {
   _notes TEXT
   _deadline TIMESTAMP
   _interaction_style TEXT
-  _presence_preference TEXT
   _primary_doer_user_id UUID
+  _other_users_presence_necessary BOOLEAN
   _is_completed BOOLEAN
   _group_id UUID
 }

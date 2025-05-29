@@ -8,7 +8,7 @@ Table users {
   _name TEXT
   _email TEXT
   _apple_device_token TEXT
-  _password_hash TEXT
+  _password_hash TEXT HIDDEN
   _group_id UUID
   _is_admin BOOLEAN
 }

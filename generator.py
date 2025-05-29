@@ -1,7 +1,7 @@
 import os
 import re
 from pathlib import Path
-from collections import defaultdict, deque
+from collections import defaultdict
 
 SCHEMA_FILE = "app.schema"
 OUTPUT_DIR = "app/db/models"
@@ -38,7 +38,7 @@ for line in schema.splitlines():
         modifiers = parts[2:] if len(parts) > 2 else []
         tables[current_table].append((col_name, col_type, modifiers))
 
-# Detect circular FKs using graph traversal
+# Detect circular FKs
 dep_graph = defaultdict(set)
 for src, refs in fks.items():
     for _, target in refs:
@@ -60,45 +60,26 @@ def visit(node, path):
 for t in list(dep_graph):
     visit(t, [])
 
-# Data type mapping
 sqlalchemy_types = {
-    "UUID": "UUID",
-    "TEXT": "String",
-    "DATE": "Date",
-    "TIME": "Time",
-    "TIMESTAMP": "DateTime",
-    "INTEGER": "Integer",
-    "FLOAT": "Float",
-    "BOOLEAN": "Boolean",
+    "UUID": "UUID", "TEXT": "String", "DATE": "Date", "TIME": "Time",
+    "TIMESTAMP": "DateTime", "INTEGER": "Integer", "FLOAT": "Float", "BOOLEAN": "Boolean"
 }
-
 python_types = {
-    "UUID": "uuid.UUID",
-    "TEXT": "str",
-    "DATE": "datetime.date",
-    "TIME": "datetime.time",
-    "TIMESTAMP": "datetime.datetime",
-    "INTEGER": "int",
-    "FLOAT": "float",
-    "BOOLEAN": "bool",
+    "UUID": "uuid.UUID", "TEXT": "str", "DATE": "datetime.date", "TIME": "datetime.time",
+    "TIMESTAMP": "datetime.datetime", "INTEGER": "int", "FLOAT": "float", "BOOLEAN": "bool"
 }
 
-def to_pascal_case(name):
-    return ''.join(word.capitalize() for word in name.split('_'))
-
-def to_camel_case(name):
-    parts = name.split('_')
-    return parts[0] + ''.join(word.capitalize() for word in parts[1:])
+def to_pascal_case(name): return ''.join(word.capitalize() for word in name.split('_'))
+def to_camel_case(name): parts = name.split('_'); return parts[0] + ''.join(word.capitalize() for word in parts[1:])
 
 for table, columns in tables.items():
     model_path = os.path.join(OUTPUT_DIR, f"{table}.py")
     pydantic_path = os.path.join(PYDANTIC_OUTPUT_DIR, f"{table}_schema.py")
-    
     class_name = to_pascal_case(table)
 
+    # --- SQLAlchemy Model ---
     with open(model_path, "w") as f:
-        f.write("import uuid\n")
-        f.write("import datetime\n")
+        f.write("import uuid\nimport datetime\n")
         f.write("from sqlalchemy import Column, ForeignKey\n")
         f.write("from sqlalchemy.dialects.postgresql import UUID\n")
         f.write("from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean\n")
@@ -129,10 +110,9 @@ for table, columns in tables.items():
 
         f.write("\n")
         for col_name, col_type, _ in columns:
-            new_col_name = col_name[1:] if col_name.startswith("_") else col_name
-            camel = to_camel_case(new_col_name)
+            method_name = to_camel_case(col_name.lstrip("_"))
             py_type = python_types.get(col_type.upper(), "str")
-            f.write(f"    def {camel}(self, value: {py_type} = None) -> {py_type}:\n")
+            f.write(f"    def {method_name}(self, value: {py_type} = None) -> {py_type}:\n")
             f.write(f"        if value is None:\n")
             f.write(f"            return self.{col_name}\n")
             f.write(f"        self.{col_name} = value\n\n")
@@ -141,21 +121,26 @@ for table, columns in tables.items():
         f.write(f"        from app.db.schemas.{table}_schema import {class_name}Schema\n")
         f.write(f"        return {class_name}Schema.from_orm(self)\n")
 
+    # --- Pydantic Schema ---
     with open(pydantic_path, "w") as f:
-        f.write("import uuid\n")
-        f.write("import datetime\n")
+        f.write("import uuid\nimport datetime\n")
         f.write("from pydantic import BaseModel, Field, ConfigDict\n")
         f.write("from typing import Optional\n\n")
         f.write(f"class {class_name}Schema(BaseModel):\n")
-        for col_name, col_type, _ in columns:
+        for col_name, col_type, modifiers in columns:
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
             py_type = python_types.get(col_type.upper(), "str")
-            f.write(f"    {col_name[1:]}: Optional[{py_type}] = Field(alias='{col_name}')\n")
+            alias = col_name
+            field_name = col_name.lstrip("_")
+            f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
         f.write("\n")
         f.write("    model_config = ConfigDict(\n")
         f.write("        from_attributes=True,\n")
         f.write("        populate_by_name=True\n")
         f.write("    )\n")
 
+# Init file for models
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")
 with open(init_path, "w") as f:
     for table in tables:

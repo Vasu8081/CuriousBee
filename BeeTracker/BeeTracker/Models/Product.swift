@@ -1,6 +1,6 @@
 import Foundation
 
-enum ProductStatus: String, Codable, CaseIterable {
+enum ProductStat: String, Codable, CaseIterable {
     case inUse = "In Use"
     case runningLow = "Running Low"
     case completed = "Completed"
@@ -24,7 +24,7 @@ struct Product: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
     var category: Category
-    var status: ProductStatus
+    var status: ProductStat
     var reminderEnabled: Bool
     var notes: String?
     var daysPerQuantity: Double

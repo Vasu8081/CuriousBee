@@ -69,11 +69,6 @@ struct LoginViewForm: View {
             isLoading = false
             if auth.isSignedIn {
                 dismiss()
-                let token = UserDefaults.standard.string(forKey: "deviceToken") ?? "1234"
-                ServerEndPoints.shared.sendDeviceToken(token, completion:{ response in
-                    print(response)
-                })
-                UserViewModel.shared.syncFromServer()
             }
         }
     }

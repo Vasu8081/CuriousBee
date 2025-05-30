@@ -130,7 +130,8 @@ def to_swift_struct_name(table_name):
     return ''.join(word.capitalize() for word in table_name.split('_'))
 
 def to_swift_field_name(col_name):
-    return col_name.lstrip("_")
+    return col_name
+    # return col_name.lstrip("_")
 
 for table, cols in tables.items():
     struct_name = to_swift_struct_name(table)
@@ -138,7 +139,7 @@ for table, cols in tables.items():
 
     with open(file_path, "w") as f:
         f.write("import Foundation\n\n")
-        f.write(f"struct {struct_name}: Codable {{\n")
+        f.write(f"struct {struct_name}: Codable, Identifiable, Hashable {{\n")
 
         # Regular fields
         for col in cols:
@@ -161,7 +162,7 @@ for table, cols in tables.items():
             if fk.get("pydantic_refer") == "refer_left":
                 tgt_struct = to_swift_struct_name(fk["tgt_table"])
                 rel_type = fk["type"]
-                field_name = fk["tgt_col"]
+                field_name = fk["src_col"][1:-3]
                 if rel_type in {"many_to_one", "one_to_one"}:
                     f.write(f"    var {field_name}: {tgt_struct}?\n")
                 elif rel_type in {"one_to_many", "many_to_many"}:
@@ -178,6 +179,10 @@ for table, cols in tables.items():
                 elif rel_type in {"one_to_one", "one_to_many"}:
                     f.write(f"    var {field_name.rstrip('s')}: {src_struct}?\n")
 
+        f.write("    var id: UUID {\n")
+        f.write("        return _id ?? UUID()\n")
+        f.write("    }\n\n")
+
         f.write("}\n")
 
     print(f"Generated Swift struct for {table} at {file_path}")
@@ -187,7 +192,7 @@ for table, cols in tables.items():
     with open(vm_path, "w") as vf:
         vf.write("import Foundation\n")
         vf.write("import SwiftUI\n\n")
-        vf.write(f"class {vm_name}: ObservableObject {{\n")
+        vf.write(f"class {vm_name}: ObservableObject, Identifiable {{\n")
         
         for col in cols:
             if len(col) == 3:
@@ -208,7 +213,7 @@ for table, cols in tables.items():
             if fk.get("pydantic_refer") == "refer_left":
                 tgt_struct = to_swift_struct_name(fk["tgt_table"])
                 rel_type = fk["type"]
-                field_name = fk["tgt_col"]
+                field_name = fk["src_col"][1:-3]
                 if rel_type in {"many_to_one", "one_to_one"}:
                     vf.write(f"    @Published var {field_name}: {tgt_struct}?\n")
                 elif rel_type in {"one_to_many", "many_to_many"}:
@@ -260,6 +265,11 @@ for table, cols in tables.items():
         vf.write("            " + ",\n            ".join(model_fields) + "\n")
         vf.write("        )\n")
         vf.write("    }\n")
+
+        vf.write("    var id: UUID {\n")
+        vf.write("        return _id ?? UUID()\n")
+        vf.write("    }\n\n")
+
         # Copy from another view model
         vf.write(f"\n    func copy(from other: {vm_name}) {{\n")
         for col in cols:
@@ -275,6 +285,46 @@ for table, cols in tables.items():
             field_name = to_swift_field_name(col_name)
             vf.write(f"        self.{field_name} = other.{field_name}\n")
         vf.write("    }\n")
+
+        vf.write(f"\n    func fetch(from other: {struct_name}) {{\n")
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = to_swift_field_name(col_name)
+            vf.write(f"        self.{field_name} = other.{field_name}\n")
+
+        # Foreign key relationships (refer_left)
+        for fk in fks.get(table, []):
+            if fk.get("pydantic_refer") == "refer_left":
+                tgt_struct = to_swift_struct_name(fk["tgt_table"])
+                rel_type = fk["type"]
+                field_name = fk["src_col"][1:-3]
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    vf.write(f"        self.{field_name} = other.{field_name}\n")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    vf.write(f"        self.{field_name} = other.{field_name}\n")
+
+        # Reverse foreign key relationships (refer_right)
+        for rfk in reverse_fks.get(table, []):
+            if rfk.get("pydantic_refer") == "refer_right":
+                src_struct = to_swift_struct_name(rfk["src_table"])
+                rel_type = rfk["type"]
+                field_name = rfk["src_table"]
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    vf.write(f"        self.{field_name} = other.{field_name}\n")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    vf.write(f"        self.{field_name.rstrip('s')} = other.{field_name.rstrip('s')}\n")
+
+        vf.write("    }\n")
+
+
 
         # Merge from another view model (only non-nil)
         vf.write(f"\n    func merge(from other: {vm_name}) {{\n")
@@ -312,10 +362,10 @@ for table, cols in tables.items():
         f.write(f"extension ServerEndPoints {{\n\n")
 
         # GET by ID
-        f.write(f"    func get{struct_name}(id: UUID, completion: @escaping (Result<{struct_name}, Error>) -> Void) {{\n")
+        f.write(f"    func get{struct_name}(id: String, completion: @escaping (Result<{struct_name}, Error>) -> Void) {{\n")
         f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
         f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
-        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/get/\\(id.uuidString)\") else {{\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/get/\\(id)\") else {{\n")
         f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
         f.write(f"        var request = URLRequest(url: url)\n")
         f.write(f"        request.httpMethod = \"GET\"\n")
@@ -345,7 +395,7 @@ for table, cols in tables.items():
         f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
         f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
         f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
-        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/post/\\(id)\") else {{\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/post/\\(id)\") else {{\n")
         f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
         f.write(f"        guard let body = try? JSONEncoder().encode(obj) else {{\n")
         f.write(f"            completion(.failure(ServerError.noData))\n            return\n        }}\n")
@@ -362,7 +412,7 @@ for table, cols in tables.items():
         f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
         f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
         f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
-        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/\\(id)\") else {{\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/\\(id)\") else {{\n")
         f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
         f.write(f"        var request = URLRequest(url: url)\n")
         f.write(f"        request.httpMethod = \"GET\"\n")
@@ -374,7 +424,7 @@ for table, cols in tables.items():
         f.write(f"    func delete{struct_name}(id: UUID, completion: @escaping (Result<String, Error>) -> Void) {{\n")
         f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
         f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
-        f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/\\(id.uuidString)\") else {{\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/\\(id.uuidString)\") else {{\n")
         f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
         f.write(f"        var request = URLRequest(url: url)\n")
         f.write(f"        request.httpMethod = \"DELETE\"\n")

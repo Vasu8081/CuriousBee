@@ -212,8 +212,12 @@ for table, columns in tables.items():
             f.write(f"        self.{col_name} = value\n\n")
 
         f.write(f"    def to_schema(self):\n")
-        f.write(f"        from app.db.schemas.{table}_schema import {class_name}Schema\n")
-        f.write(f"        return {class_name}Schema.from_orm(self)\n")
+        f.write(f"        from app.db.autogen.schemas.{table}_schema import {class_name}Schema\n")
+        f.write(f"        return {class_name}Schema.model_validate(self)\n")
+        f.write("\n")
+        
+        f.write(f"    def to_dict(self):\n")
+        f.write(f"        return self.to_schema().model_dump(by_alias=False)\n")
 
 init_path = os.path.join(OUTPUT_DIR, "__init__.py")
 with open(init_path, "w") as f:

@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial full schema
 
-Revision ID: fbc75fafeb26
+Revision ID: f63c6936d628
 Revises: 
-Create Date: 2025-05-29 09:31:47.771163
+Create Date: 2025-05-30 12:11:39.502902
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'fbc75fafeb26'
+revision: str = 'f63c6936d628'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,13 +26,6 @@ def upgrade() -> None:
     sa.Column('_name', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('_id')
     )
-    op.create_table('orders',
-    sa.Column('_id', sa.UUID(), nullable=False),
-    sa.Column('_ordered_date', sa.Date(), nullable=True),
-    sa.Column('_expected_delivery_date', sa.Date(), nullable=True),
-    sa.Column('_received_date', sa.Date(), nullable=True),
-    sa.PrimaryKeyConstraint('_id')
-    )
     op.create_table('product_categories',
     sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_name', sa.String(), nullable=True),
@@ -43,32 +36,30 @@ def upgrade() -> None:
     sa.Column('_name', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('_id')
     )
-    op.create_table('period_entries',
+    op.create_table('symptoms',
     sa.Column('_id', sa.UUID(), nullable=False),
-    sa.Column('_group_id', sa.UUID(), nullable=True),
-    sa.Column('_start_date', sa.Date(), nullable=True),
-    sa.Column('_end_date', sa.Date(), nullable=True),
-    sa.Column('_notes', sa.String(), nullable=True),
-    sa.Column('_is_ended', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
+    sa.Column('_name', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('_id')
     )
     op.create_table('period_infos',
-    sa.Column('_group_id', sa.UUID(), nullable=False),
+    sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_average_cycle_length', sa.Integer(), nullable=True),
+    sa.Column('_average_period_duration', sa.Integer(), nullable=True),
     sa.Column('_active_period_start_date', sa.Date(), nullable=True),
     sa.Column('_predicted_next_period_date', sa.Date(), nullable=True),
-    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
-    sa.PrimaryKeyConstraint('_group_id')
+    sa.ForeignKeyConstraint(['_id'], ['groups._id'], ),
+    sa.PrimaryKeyConstraint('_id')
     )
     op.create_table('product_infos',
     sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_group_id', sa.UUID(), nullable=True),
     sa.Column('_name', sa.String(), nullable=True),
     sa.Column('_category_id', sa.UUID(), nullable=True),
     sa.Column('_reminder_enabled', sa.Boolean(), nullable=True),
     sa.Column('_days_per_quantity', sa.Float(), nullable=True),
     sa.Column('_quantity_unit_size', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['_category_id'], ['product_categories._id'], ),
+    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
     op.create_table('users',
@@ -82,6 +73,16 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
+    op.create_table('period_entries',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_period_info_id', sa.UUID(), nullable=True),
+    sa.Column('_start_date', sa.Date(), nullable=True),
+    sa.Column('_end_date', sa.Date(), nullable=True),
+    sa.Column('_notes', sa.String(), nullable=True),
+    sa.Column('_is_ended', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['_period_info_id'], ['period_infos._id'], ),
+    sa.PrimaryKeyConstraint('_id')
+    )
     op.create_table('products',
     sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_product_info_id', sa.UUID(), nullable=True),
@@ -90,8 +91,6 @@ def upgrade() -> None:
     sa.Column('_product_completed_date', sa.Date(), nullable=True),
     sa.Column('_price', sa.Float(), nullable=True),
     sa.Column('_status_id', sa.UUID(), nullable=True),
-    sa.Column('_order_id', sa.UUID(), nullable=True),
-    sa.ForeignKeyConstraint(['_order_id'], ['orders._id'], ),
     sa.ForeignKeyConstraint(['_product_info_id'], ['product_infos._id'], ),
     sa.ForeignKeyConstraint(['_status_id'], ['product_status._id'], ),
     sa.PrimaryKeyConstraint('_id')
@@ -102,8 +101,8 @@ def upgrade() -> None:
     sa.Column('_notes', sa.String(), nullable=True),
     sa.Column('_deadline', sa.DateTime(), nullable=True),
     sa.Column('_interaction_style', sa.String(), nullable=True),
-    sa.Column('_presence_preference', sa.String(), nullable=True),
     sa.Column('_primary_doer_user_id', sa.UUID(), nullable=True),
+    sa.Column('_other_users_presence_necessary', sa.Boolean(), nullable=True),
     sa.Column('_is_completed', sa.Boolean(), nullable=True),
     sa.Column('_group_id', sa.UUID(), nullable=True),
     sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
@@ -113,14 +112,33 @@ def upgrade() -> None:
     op.create_table('calendar_entries',
     sa.Column('_id', sa.UUID(), nullable=False),
     sa.Column('_user_id', sa.UUID(), nullable=True),
+    sa.Column('_group_id', sa.UUID(), nullable=True),
     sa.Column('_title', sa.String(), nullable=True),
     sa.Column('_notes', sa.String(), nullable=True),
     sa.Column('_date', sa.Date(), nullable=True),
     sa.Column('_start_time', sa.Time(), nullable=True),
     sa.Column('_end_time', sa.Time(), nullable=True),
     sa.Column('_task_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['_group_id'], ['groups._id'], ),
     sa.ForeignKeyConstraint(['_task_id'], ['tasks._id'], ),
     sa.ForeignKeyConstraint(['_user_id'], ['users._id'], ),
+    sa.PrimaryKeyConstraint('_id')
+    )
+    op.create_table('orders',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_ordered_date', sa.Date(), nullable=True),
+    sa.Column('_expected_delivery_date', sa.Date(), nullable=True),
+    sa.Column('_received_date', sa.Date(), nullable=True),
+    sa.Column('_product_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['_product_id'], ['products._id'], ),
+    sa.PrimaryKeyConstraint('_id')
+    )
+    op.create_table('period_symptoms',
+    sa.Column('_id', sa.UUID(), nullable=False),
+    sa.Column('_period_entry_id', sa.UUID(), nullable=True),
+    sa.Column('_symptom_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['_period_entry_id'], ['period_entries._id'], ),
+    sa.ForeignKeyConstraint(['_symptom_id'], ['symptoms._id'], ),
     sa.PrimaryKeyConstraint('_id')
     )
     # ### end Alembic commands ###
@@ -129,15 +147,17 @@ def upgrade() -> None:
 def downgrade() -> None:
     """Downgrade schema."""
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('period_symptoms')
+    op.drop_table('orders')
     op.drop_table('calendar_entries')
     op.drop_table('tasks')
     op.drop_table('products')
+    op.drop_table('period_entries')
     op.drop_table('users')
     op.drop_table('product_infos')
     op.drop_table('period_infos')
-    op.drop_table('period_entries')
+    op.drop_table('symptoms')
     op.drop_table('product_status')
     op.drop_table('product_categories')
-    op.drop_table('orders')
     op.drop_table('groups')
     # ### end Alembic commands ###

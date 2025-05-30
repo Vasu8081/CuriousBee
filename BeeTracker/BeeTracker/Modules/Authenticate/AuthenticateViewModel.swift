@@ -38,7 +38,6 @@ class AuthenticateViewModel: ObservableObject {
         print("🟡 AuthenticateViewModel initialized")
         if let user = currentUser, user.refreshTokenExpirationDate > Date() {
             email = user.userEmail
-            isSignedIn = true
             print("✅ Auto-login as \(user.userEmail)")
             startRefreshTimer()
         } else {
@@ -138,6 +137,10 @@ class AuthenticateViewModel: ObservableObject {
         }
         print("🔑 getToken(): Returning access token.")
         return token
+    }
+    
+    func getGroupId() -> String {
+        return currentUser?.groupId ?? ""
     }
 
     func signOut() {

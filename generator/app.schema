@@ -28,6 +28,7 @@ Table tasks {
 Table calendar_entries {
   _id UUID [primary key]
   _user_id UUID
+  _group_id UUID
   _title TEXT
   _notes TEXT
   _date DATE
@@ -37,7 +38,7 @@ Table calendar_entries {
 }
 
 Table period_infos {
-  _group_id UUID [primary key]
+  _id UUID [primary key]
   _average_cycle_length INTEGER
   _average_period_duration INTEGER
   _active_period_start_date DATE
@@ -60,7 +61,7 @@ Table period_symptoms {
 }
 
 Table symptoms {
-  _symptom_id UUID [primary key]
+  _id UUID [primary key]
   _name TEXT
 }
 
@@ -106,13 +107,14 @@ FK users._group_id -> groups._id [many_to_one] [refer_right]
 FK tasks._group_id -> groups._id [many_to_one] [refer_right]
 FK tasks._primary_doer_user_id -> users._id [many_to_one] [refer_right]
 FK calendar_entries._user_id -> users._id [many_to_one] [refer_right]
+FK calendar_entries._group_id -> groups._id [many_to_one] [refer_right]
 FK calendar_entries._task_id -> tasks._id [one_to_one] [refer_right]
-FK period_infos._group_id -> groups._id [one_to_one] [refer_right]
-FK period_entries._period_info_id -> period_infos._group_id [many_to_one] [refer_right]
+FK period_infos._id -> groups._id [one_to_one] [refer_right]
+FK period_entries._period_info_id -> period_infos._id [many_to_one] [refer_right]
 FK product_infos._group_id -> groups._id [many_to_one] [refer_right]
 FK product_infos._category_id -> product_categories._id [many_to_one] [refer_right]
 FK products._product_info_id -> product_infos._id [many_to_one] [refer_right]
 FK products._status_id -> product_status._id [many_to_one] [refer_right]
 FK orders._product_id -> products._id [one_to_one] [refer_right]
 FK period_symptoms._period_entry_id -> period_entries._id [many_to_one] [refer_right]
-FK period_symptoms._symptom_id -> symptoms._symptom_id [many_to_one] [refer_left]
+FK period_symptoms._symptom_id -> symptoms._id [many_to_one] [refer_left]

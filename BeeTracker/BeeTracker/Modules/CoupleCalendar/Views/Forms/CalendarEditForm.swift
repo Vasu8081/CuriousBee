@@ -2,18 +2,15 @@ import SwiftUI
 
 struct CalendarEditForm: View {
     @Environment(\.dismiss) var dismiss
-
-    var entryToEdit: CalendarEntry
-    var onSave: (CalendarEntry) -> Void
-    var onDelete: (() -> Void)? = nil
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    var entryToEdit: CalendarEntriesViewModel
 
     @State private var title: String = ""
     @State private var notes: String = ""
     @State private var selectedDate: Date = Date()
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
-    @State private var entryType: CalendarEntryType = .event
-    @State private var assignedTo: TaskAssignment = .me
+    @State private var assignedTo: Users? = nil
 
     var body: some View {
         NavigationStack {
@@ -29,27 +26,21 @@ struct CalendarEditForm: View {
                     DatePicker("End", selection: $endTime, displayedComponents: .hourAndMinute)
                 }
 
-                Section(header: Text("Type")) {
-                    Picker("Entry Type", selection: $entryType) {
-                        ForEach(CalendarEntryType.allCases, id: \.self) {
-                            Text($0.rawValue.capitalized)
+                Section(header: Text("Assigned To")) {
+                    Picker("Assign To", selection: $assignedTo) {
+                        ForEach(calendarViewModel.users, id: \.self) { user in
+                            Text(user._name ?? "Unnamed").tag(Optional(user))
                         }
                     }
-                    Picker("Assigned To", selection: $assignedTo) {
-                        ForEach(TaskAssignment.allCases, id: \.self) {
-                            Text($0.rawValue.capitalized)
-                        }
-                    }
+                    .pickerStyle(MenuPickerStyle())
                 }
 
-                if onDelete != nil {
-                    Section {
-                        Button(role: .destructive) {
-                            onDelete?()
-                            dismiss()
-                        } label: {
-                            Label("Delete Entry", systemImage: "trash")
-                        }
+                Section {
+                    Button(role: .destructive) {
+                        calendarViewModel.deleteEntry(entryToEdit)
+                        dismiss()
+                    } label: {
+                        Label("Delete Entry", systemImage: "trash")
                     }
                 }
             }
@@ -69,19 +60,16 @@ struct CalendarEditForm: View {
                                                     second: 0,
                                                     of: selectedDate)
 
-                        let updatedEntry = CalendarEntry(
-                            id: entryToEdit.id,
-                            title: title,
-                            notes: notes.isEmpty ? nil : notes,
-                            date: selectedDate,
-                            startTime: fullStart,
-                            endTime: fullEnd,
-                            entryType: entryType,
-                            assignedTo: assignedTo,
-                            linkedTaskId: entryToEdit.linkedTaskId
-                        )
-
-                        onSave(updatedEntry)
+                        entryToEdit._title = title
+                        entryToEdit._notes = notes.isEmpty ? nil : notes
+                        entryToEdit._date = selectedDate
+                        entryToEdit._start_time = fullStart
+                        entryToEdit._end_time = fullEnd
+                        let oldUserId = entryToEdit._user_id
+                        entryToEdit._user_id = assignedTo?._id
+                        if oldUserId != entryToEdit._user_id {
+                            calendarViewModel.refreshGroupings(triggerFor: [oldUserId, entryToEdit._user_id])
+                        }
                         dismiss()
                     }
                 }
@@ -94,13 +82,12 @@ struct CalendarEditForm: View {
             }
         }
         .onAppear {
-            title = entryToEdit.title
-            notes = entryToEdit.notes ?? ""
-            selectedDate = entryToEdit.date
-            startTime = entryToEdit.startTime
-            endTime = entryToEdit.endTime ?? entryToEdit.startTime
-            entryType = entryToEdit.entryType
-            assignedTo = entryToEdit.assignedTo
+            title = entryToEdit._title ?? ""
+            notes = entryToEdit._notes ?? ""
+            selectedDate = entryToEdit._date ?? Date()
+            startTime = entryToEdit._start_time ?? Date()
+            endTime = entryToEdit._end_time ?? entryToEdit._start_time ?? Date()
+            assignedTo = calendarViewModel.users.first { $0._id == entryToEdit._user_id }
         }
     }
 }

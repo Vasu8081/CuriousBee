@@ -28,15 +28,25 @@ class ToastManager: ObservableObject {
     @Published var message: String? = nil
     @Published var isShowing = false
     @Published var type: ToastType = .info
+    @Published var isOfflineWarningActive = false
 
     private init() {}
 
-    func show(_ message: String, type: ToastType = .info, duration: Double = 1.5) {
+    func show(_ message: String, type: ToastType = .info, duration: Double = 1.5, persistent: Bool = false) {
         self.message = message
         self.type = type
-        self.isShowing = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            self.isShowing = false
+
+        if persistent {
+            self.isOfflineWarningActive = true
+        } else {
+            self.isShowing = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                self.isShowing = false
+            }
         }
+    }
+
+    func hidePersistentWarning() {
+        self.isOfflineWarningActive = false
     }
 }

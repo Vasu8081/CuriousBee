@@ -3,7 +3,7 @@ import Foundation
 extension ServerEndPoints {
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthUser, Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/login") else {
+        guard let url = URL(string: "\(baseURL)auth/login") else {
             completion(.failure(ServerError.invalidURL))
             return
         }
@@ -12,12 +12,24 @@ extension ServerEndPoints {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let body: [String: String] = [
-            "username": email,
-            "password": password
-        ]
+        struct LoginBody: Encodable {
+            let email: String
+            let password: String
+        }
 
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        struct LoginResponse: Decodable {
+            let message: String
+            let tokens: TokenPair
+            let groupId: UUID
+        }
+
+        struct TokenPair: Decodable {
+            let access_token: String
+            let refresh_token: String
+        }
+
+        let loginBody = LoginBody(email: email, password: password)
+        request.httpBody = try? JSONEncoder().encode(loginBody)
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -27,29 +39,39 @@ extension ServerEndPoints {
                 return
             }
 
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: String],
-                  let accessToken = json["access_token"],
-                  let refreshToken = json["refresh_token"] else {
+            guard let data = data else {
                 DispatchQueue.main.async {
-                    completion(.failure(ServerError.decodingFailed))
+                    completion(.failure(ServerError.noData))
                 }
                 return
             }
 
-            let accessExp = Date().addingTimeInterval(15 * 60)
-            let refreshExp = Date().addingTimeInterval(30 * 24 * 60 * 60)
+            do {
+                let decoded = try JSONDecoder().decode(LoginResponse.self, from: data)
 
-            let user = AuthUser(
-                userEmail: email,
-                refreshToken: refreshToken,
-                accessToken: accessToken,
-                refreshTokenExpirationDate: refreshExp,
-                accessTokenExpirationDate: accessExp
-            )
+                let accessExp = Date().addingTimeInterval(15 * 60)
+                let refreshExp = Date().addingTimeInterval(30 * 24 * 60 * 60)
 
-            DispatchQueue.main.async {
-                completion(.success(user))
+                let user = AuthUser(
+                    userEmail: email,
+                    refreshToken: decoded.tokens.refresh_token,
+                    accessToken: decoded.tokens.access_token,
+                    refreshTokenExpirationDate: refreshExp,
+                    accessTokenExpirationDate: accessExp,
+                    groupId: decoded.groupId.uuidString
+                )
+                
+
+                DispatchQueue.main.async {
+                    completion(.success(user))
+                }
+
+            } catch {
+                print("JSON Decode Error: \(error)")
+                print(String(data: data, encoding: .utf8) ?? "Invalid UTF-8 data")
+                DispatchQueue.main.async {
+                    completion(.failure(ServerError.decodingFailed))
+                }
             }
         }.resume()
     }
@@ -60,7 +82,7 @@ extension ServerEndPoints {
             return
         }
 
-        guard let url = URL(string: "\(baseURL)/refresh") else {
+        guard let url = URL(string: "\(baseURL)auth/refresh") else {
             completion(.failure(ServerError.invalidURL))
             return
         }
@@ -68,10 +90,25 @@ extension ServerEndPoints {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: [
-            "refresh_token": currentUser.refreshToken
-        ])
 
+        struct RefreshBody: Encodable {
+            let refresh_token: String
+        }
+
+        struct LoginResponse: Decodable {
+            let message: String
+            let tokens: TokenPair
+            let groupId: UUID
+        }
+
+        struct TokenPair: Decodable {
+            let access_token: String
+            let refresh_token: String
+        }
+        
+        let loginBody = RefreshBody(refresh_token: currentUser.refreshToken)
+        request.httpBody = try? JSONEncoder().encode(loginBody)
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -79,30 +116,39 @@ extension ServerEndPoints {
                 }
                 return
             }
-
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: String],
-                  let newAccessToken = json["access_token"],
-                  let newRefreshToken = json["refresh_token"] else {
+            
+            guard let data = data else {
                 DispatchQueue.main.async {
-                    completion(.failure(ServerError.decodingFailed))
+                    completion(.failure(ServerError.noData))
                 }
                 return
             }
-
-            let accessExp = Date().addingTimeInterval(15 * 60)
-            let refreshExp = Date().addingTimeInterval(30 * 24 * 60 * 60)
-
-            let updatedUser = AuthUser(
-                userEmail: currentUser.userEmail,
-                refreshToken: newRefreshToken,
-                accessToken: newAccessToken,
-                refreshTokenExpirationDate: refreshExp,
-                accessTokenExpirationDate: accessExp
-            )
-
-            DispatchQueue.main.async {
-                completion(.success(updatedUser))
+            
+            do {
+                let decoded = try JSONDecoder().decode(LoginResponse.self, from: data)
+                
+                let accessExp = Date().addingTimeInterval(15 * 60)
+                let refreshExp = Date().addingTimeInterval(30 * 24 * 60 * 60)
+                
+                let user = AuthUser(
+                    userEmail: currentUser.userEmail,
+                    refreshToken: decoded.tokens.refresh_token,
+                    accessToken: decoded.tokens.access_token,
+                    refreshTokenExpirationDate: refreshExp,
+                    accessTokenExpirationDate: accessExp,
+                    groupId: decoded.groupId.uuidString
+                )
+                
+                DispatchQueue.main.async {
+                    completion(.success(user))
+                }
+                
+            } catch {
+                print("JSON Decode Error: \(error)")
+                print(String(data: data, encoding: .utf8) ?? "Invalid UTF-8 data")
+                DispatchQueue.main.async {
+                    completion(.failure(ServerError.decodingFailed))
+                }
             }
         }.resume()
     }

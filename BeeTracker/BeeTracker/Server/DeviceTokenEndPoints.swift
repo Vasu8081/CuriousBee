@@ -1,8 +1,8 @@
 import Foundation
 
 extension ServerEndPoints {
-    func sendDeviceToken(_ token: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/device_token") else {
+    func sendDeviceToken(_ user: Users, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = URL(string: "\(baseURL)users/device_token") else {
             completion(.failure(ServerError.invalidURL))
             return
         }
@@ -11,10 +11,10 @@ extension ServerEndPoints {
             completion(.failure(ServerError.missingToken))
             return
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try? JSONSerialization.data(withJSONObject: ["device_token": token], options: [])
+        request.httpBody = try? JSONEncoder().encode(user)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(auth_token)", forHTTPHeaderField: "Authorization")
 

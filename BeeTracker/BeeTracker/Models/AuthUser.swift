@@ -6,4 +6,5 @@ struct AuthUser: Codable {
     let accessToken: String
     let refreshTokenExpirationDate: Date
     let accessTokenExpirationDate: Date
+    var groupId: String = ""
 }

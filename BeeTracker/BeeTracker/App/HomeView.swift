@@ -4,11 +4,12 @@ struct HomeView: View {
     @StateObject private var auth = AuthenticateViewModel.shared
     @StateObject private var notifications = NotificationTrackerViewModel()
     @StateObject private var userViewModel = UserViewModel.shared
+    @EnvironmentObject var groupsViewModel: GroupsViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
 
     @State private var selectedTab = 0
     @State private var showNotifications = false
     @State private var showLoginForm = false
-//    @State private var showURLPrompt = true
     @State private var enteredURL = ""
     @State private var isSyncing = false
     @State private var rotation = 0.0
@@ -73,6 +74,19 @@ struct HomeView: View {
         .sheet(isPresented: $showLoginForm) {
             LoginViewForm()
         }
+        .onChange(of: auth.isSignedIn, {
+            if auth.isSignedIn {
+                ToastManager.shared.hidePersistentWarning()
+                reload()
+            }
+            else {
+                ToastManager.shared.show(
+                    "Offline mode — changes won't be saved to the server.",
+                    type: .warning,
+                    persistent: true
+                )
+            }
+        })
     }
 
     private var notificationButton: some View {
@@ -102,42 +116,24 @@ struct HomeView: View {
                         .foregroundColor(.gray)
                 }
             } else{
-                if userViewModel.needSync {
-                    Button {
-                        performSync()
-                    } label: {
-                        Image(systemName: "arrow.triangle.2.circlepath")
-                            .rotationEffect(.degrees(rotation))
-                            .foregroundColor(.blue)
-                    }
-                    .disabled(isSyncing)
-                }
-                else {
-                    Button {
-                        auth.signOut()
-                    } label: {
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                            .foregroundColor(.red)
-                    }
-                    
+                Button {
+                    auth.signOut()
+                } label: {
+                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                        .foregroundColor(.red)
                 }
             }
         }
     }
-
-    private func performSync() {
-        guard !isSyncing else { return }
-
-        isSyncing = true
-        withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)) {
-            rotation += 360
-        }
-
-        userViewModel.pushToServer {
-            DispatchQueue.main.async {
-                isSyncing = false
-                rotation = 0
-            }
-        }
+    
+    private func reload() {
+        groupsViewModel.reload(id: AuthenticateViewModel.shared.getGroupId())
+        calendarViewModel.reload()
+        let token = UserDefaults.standard.string(forKey: "deviceToken") ?? "1234"
+        var user = Users()
+        user._apple_device_token = token
+        ServerEndPoints.shared.sendDeviceToken(user, completion:{ response in
+            print(response)
+        })
     }
 }

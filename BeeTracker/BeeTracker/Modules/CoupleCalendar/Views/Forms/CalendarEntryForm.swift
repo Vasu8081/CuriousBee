@@ -1,17 +1,16 @@
+// CalendarEntryForm.swift
 import SwiftUI
 
 struct CalendarEntryForm: View {
     @Environment(\.dismiss) var dismiss
-
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    
     var selectedDate: Date
-    var onSave: (CalendarEntry) -> Void
-
     @State private var title = ""
     @State private var notes = ""
     @State private var startTime = Date()
     @State private var endTime = Date()
-    @State private var entryType: CalendarEntryType = .event
-    @State private var assignedTo: TaskAssignment = .me
+    @State private var assignedTo: Users? = nil
 
     var body: some View {
         NavigationStack {
@@ -24,19 +23,15 @@ struct CalendarEntryForm: View {
                 Section(header: Text("Time")) {
                     DatePicker("Start", selection: $startTime, displayedComponents: .hourAndMinute)
                     DatePicker("End", selection: $endTime, displayedComponents: .hourAndMinute)
-                }
-
-                Section(header: Text("Type")) {
-                    Picker("Entry Type", selection: $entryType) {
-                        ForEach(CalendarEntryType.allCases, id: \.self) {
-                            Text($0.rawValue.capitalized)
+                    Picker("Assign To", selection: $assignedTo) {
+                        ForEach(calendarViewModel.users, id: \.self) { user in
+                            Text(user._name ?? "Unnamed").tag(Optional(user))
                         }
                     }
-                    Picker("Assigned To", selection: $assignedTo) {
-                        ForEach(TaskAssignment.allCases, id: \.self) {
-                            Text($0.rawValue.capitalized)
-                        }
-                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
                 }
             }
             .navigationTitle("New Entry")
@@ -44,26 +39,23 @@ struct CalendarEntryForm: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         let calendar = Calendar.current
-                        let fullStart = calendar.date(bySettingHour: calendar.component(.hour, from: startTime),
-                                                      minute: calendar.component(.minute, from: startTime),
-                                                      second: 0,
-                                                      of: selectedDate) ?? selectedDate
+                        let startHour = calendar.component(.hour, from: startTime)
+                        let startMinute = calendar.component(.minute, from: startTime)
+                        let endHour = calendar.component(.hour, from: endTime)
+                        let endMinute = calendar.component(.minute, from: endTime)
 
-                        let fullEnd = calendar.date(bySettingHour: calendar.component(.hour, from: endTime),
-                                                    minute: calendar.component(.minute, from: endTime),
-                                                    second: 0,
-                                                    of: selectedDate)
+                        let fullStart = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: selectedDate) ?? selectedDate
+                        let fullEnd = calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: selectedDate)
 
-                        let newEntry = CalendarEntry(
-                            title: title,
-                            notes: notes.isEmpty ? nil : notes,
-                            date: selectedDate,
-                            startTime: fullStart,
-                            endTime: fullEnd,
-                            entryType: entryType,
-                            assignedTo: assignedTo
+                        let newEntry = CalendarEntries(
+                            _user_id: assignedTo?._id,
+                            _title: title,
+                            _notes: notes.isEmpty ? nil : notes,
+                            _date: selectedDate,
+                            _start_time: fullStart,
+                            _end_time: fullEnd
                         )
-                        onSave(newEntry)
+                        calendarViewModel.addEntry(newEntry)
                         dismiss()
                     }
                 }

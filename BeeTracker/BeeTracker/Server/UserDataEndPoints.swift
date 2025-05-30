@@ -1,7 +1,7 @@
 import Foundation
 
 extension ServerEndPoints {
-    func getData(completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    func getData(completion: @escaping (Result<User, Error>) -> Void) {
         guard let token = AuthenticateViewModel.shared.getToken() else {
             completion(.failure(ServerError.missingToken))
             return
@@ -16,7 +16,7 @@ extension ServerEndPoints {
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        send(request, expecting: [String: Any].self, completion: completion)
+        send(request, expecting: User.self, completion: completion)
     }
 
     func postData(jsonData: [String: Any], completion: @escaping (Result<String, Error>) -> Void) {

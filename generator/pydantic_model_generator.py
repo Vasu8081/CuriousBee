@@ -128,7 +128,7 @@ for table, columns in tables.items():
             py_type = python_types.get(col_type.upper(), "str")
             alias = col_name
             field_name = col_name.lstrip("_")
-            f.write(f"    {field_name}: Optional[{py_type}] = Field(alias='{alias}')\n")
+            f.write(f"    {field_name}: Optional[{py_type}] = Field(default=None, alias='{alias}')\n")
 
         # Foreign key relationships
         for fk in fks.get(table, []):

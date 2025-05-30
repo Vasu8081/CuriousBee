@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct CalendarTabView: View {
-    @ObservedObject private var userViewModel = UserViewModel.shared
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @State private var selectedDate = Date()
     @State private var showAddEntry = false
-    @State private var selectedEntry: CalendarEntry? = nil
+    @State private var selectedEntry: CalendarEntriesViewModel? = nil
     @State private var showDatePicker = false
 
     let hourHeight: CGFloat = 60
@@ -14,12 +14,11 @@ struct CalendarTabView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Spacer().frame(width: 58)
-                Text("Mine")
-                    .font(.subheadline.bold())
-                    .frame(width: columnWidth, alignment: .center)
-                Text("Partner")
-                    .font(.subheadline.bold())
-                    .frame(width: columnWidth, alignment: .center)
+                ForEach(calendarViewModel.getUserIds(), id: \ .self) { id in
+                    Text(calendarViewModel.getUserName(for: id))
+                        .font(.subheadline.bold())
+                        .frame(width: columnWidth, alignment: .center)
+                }
             }
             .padding(.vertical, 6)
             .background(Color(.systemBackground))
@@ -31,8 +30,10 @@ struct CalendarTabView: View {
                         timeGutter
                         ZStack(alignment: .topLeading) {
                             timelineGrid
-                            entryColumn(for: .me, xOffset: 0)
-                            entryColumn(for: .partner, xOffset: columnWidth + 12)
+                            ForEach(calendarViewModel.getUserIds().indices, id: \ .self) { index in
+                                let id = calendarViewModel.getUserIds()[index]
+                                entryColumn(for: id, xOffset: CGFloat(index) * (columnWidth + 12))
+                            }
                             currentTimeLine
                         }
                         .frame(height: hourHeight * 24)
@@ -72,40 +73,20 @@ struct CalendarTabView: View {
             .padding()
         }
         .sheet(isPresented: $showAddEntry) {
-            CalendarEntryForm(
-                selectedDate: selectedDate
-            ) { newEntry in
-                UserViewModel.shared.addCalendarEntry(newEntry)
-            }
+            CalendarEntryForm(selectedDate: selectedDate)
         }
         .sheet(item: $selectedEntry) { entry in
-            CalendarEditForm(
-                entryToEdit: entry,
-                onSave: { updated in
-                    UserViewModel.shared.updateCalendarEntry(updated)
-                },
-                onDelete: {
-                    UserViewModel.shared.deleteCalendarEntry(id: entry.id)
-                }
-            )
+            CalendarEditForm(entryToEdit: entry)
         }
         .sheet(isPresented: $showDatePicker) {
             VStack(spacing: 16) {
                 DatePicker("Select a Date", selection: $selectedDate, displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .padding()
-                Button("Done") {
-                    showDatePicker = false
-                }
-                .padding()
+                Button("Done") { showDatePicker = false }
+                    .padding()
             }
         }
-    }
-
-    private var entries: [CalendarEntry] {
-        userViewModel.calendarEntries
-            .filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
-            .sorted(by: { $0.startTime < $1.startTime })
     }
 
     private var timeGutter: some View {
@@ -136,41 +117,35 @@ struct CalendarTabView: View {
                 .padding(.leading, 4)
         }
     }
-
-    private func entryColumn(for assignment: TaskAssignment, xOffset: CGFloat) -> some View {
+    
+    private func entryColumn(for userId: UUID, xOffset: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
-            ForEach(entries.filter { $0.assignedTo == assignment || $0.assignedTo == .both }) { entry in
-                let start = minutesSinceMidnight(entry.startTime)
-                let end = minutesSinceMidnight(entry.endTime ?? entry.startTime)
-                let height = CGFloat(end - start)
-                let yOffset = CGFloat(start)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("\(entry.startTime.formatted(date: .omitted, time: .shortened)) – \(entry.endTime?.formatted(date: .omitted, time: .shortened) ?? "")")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                    Text(entry.title)
-                        .font(.caption)
-                        .bold()
-                        .lineLimit(1)
-                    if let notes = entry.notes {
-                        Text(notes)
-                            .font(.caption2)
-                            .lineLimit(1)
-                            .foregroundColor(.gray)
+            // Show user-specific entries
+            ForEach(calendarViewModel.getEntries(for: userId, on: selectedDate)) { entry in
+                if entry._group_id == nil {
+                    CalendarEntryCardView(
+                        viewModel: entry,
+                        columnWidth: columnWidth,
+                        xOffset: xOffset
+                    )
+                    .onTapGesture {
+                        selectedEntry = entry
                     }
                 }
-                .padding(6)
-                .frame(width: columnWidth, height: height)
-                .background(cardColor(for: entry.entryType))
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.primary.opacity(0.05), lineWidth: 1)
-                )
-                .position(x: xOffset + columnWidth / 2, y: yOffset + height / 2)
-                .onTapGesture {
-                    selectedEntry = entry
+            }
+
+            // Show shared entries only once (on the first user column)
+            if calendarViewModel.getUserIds().first == userId {
+                let xOffset = CGFloat(0) * (columnWidth + 12)
+                ForEach(calendarViewModel.getSharedEntries(on: selectedDate)) { entry in
+                    GroupCalendarEntryCardView(
+                        viewModel: entry,
+                        totalWidth: 2 * (columnWidth), // Spans both columns
+                        xOffset: xOffset
+                    )
+                    .onTapGesture {
+                        selectedEntry = entry
+                    }
                 }
             }
         }
@@ -180,7 +155,7 @@ struct CalendarTabView: View {
         let now = Date()
         guard Calendar.current.isDate(now, inSameDayAs: selectedDate) else { return AnyView(EmptyView()) }
 
-        let y = CGFloat(minutesSinceMidnight(now))
+        let y = CGFloat(calendarViewModel.minutesSinceMidnight(now))
         return AnyView(
             Rectangle()
                 .fill(Color.red)
@@ -189,26 +164,9 @@ struct CalendarTabView: View {
         )
     }
 
-    private func minutesSinceMidnight(_ date: Date) -> Int {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-        return (components.hour ?? 0) * 60 + (components.minute ?? 0)
-    }
-
     private func scrollToHour(_ hour: Int, proxy: ScrollViewProxy) {
-        let yOffset = CGFloat(hour) * hourHeight - 20
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation {
-                proxy.scrollTo("timeline", anchor: .top)
-            }
-        }
-    }
-
-    private func cardColor(for type: CalendarEntryType) -> Color {
-        switch type {
-        case .task: return Color.blue.opacity(0.2)
-        case .event: return Color.green.opacity(0.2)
-        case .period: return Color.pink.opacity(0.2)
-        case .mood: return Color.orange.opacity(0.2)
+            withAnimation { proxy.scrollTo("timeline", anchor: .top) }
         }
     }
 }

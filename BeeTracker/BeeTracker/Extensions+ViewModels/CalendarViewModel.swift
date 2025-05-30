@@ -32,6 +32,8 @@ class CalendarViewModel: ObservableObject {
         }
     }
     
+    
+    
     func refreshGroupings(triggerFor ids: [UUID?]) {
         self.calendarEntriesViewModels = self.calendarEntriesViewModels.map { $0 }
     }
@@ -53,10 +55,26 @@ class CalendarViewModel: ObservableObject {
     }
 
     func getEntries(for userId: UUID?, on date: Date) -> [CalendarEntriesViewModel] {
-        calendarEntriesViewModels
-            .filter { $0._user_id == userId && Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date) }
-            .sorted { ($0._start_time ?? .distantPast) < ($1._start_time ?? .distantPast) }
+        calendarEntriesViewModels.filter {
+            let isPersonal = $0._user_id == userId
+            let isShared = $0._group_id != nil
+            let isSameDate = Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date)
+            return isSameDate && (isPersonal || isShared)
+        }
+        .sorted { ($0._start_time ?? .distantPast) < ($1._start_time ?? .distantPast) }
     }
+    
+    func getSharedEntries(on date: Date) -> [CalendarEntriesViewModel] {
+        calendarEntriesViewModels.filter {
+            $0._group_id != nil && Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date)
+        }
+    }
+    
+//    func getEntries(for userId: UUID?, on date: Date) -> [CalendarEntriesViewModel] {
+//        calendarEntriesViewModels
+//            .filter { $0._user_id == userId && Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date) }
+//            .sorted { ($0._start_time ?? .distantPast) < ($1._start_time ?? .distantPast) }
+//    }
 
     func minutesSinceMidnight(_ date: Date?) -> Int {
         let components = Calendar.current.dateComponents([.hour, .minute], from: date ?? Date())

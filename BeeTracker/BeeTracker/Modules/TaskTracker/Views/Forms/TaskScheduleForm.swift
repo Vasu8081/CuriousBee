@@ -54,6 +54,7 @@ struct TaskScheduleForm: View {
                         )
                         
                         var newEntry = CalendarEntries(
+                            _id: UUID(),
                             _user_id: assignedTo,
                             _title: viewModel._title,
                             _notes: viewModel._notes,
@@ -68,6 +69,7 @@ struct TaskScheduleForm: View {
                         
                         viewModel.calendar_entrie = CalendarEntriesViewModel(model: newEntry)
                         calendarViewModel.addCalendarEntry(viewModel.calendar_entrie)
+                        viewModel.save()
                         dismiss()
                     }
                     .disabled((viewModel._title ?? "").trimmingCharacters(in: .whitespaces).isEmpty)

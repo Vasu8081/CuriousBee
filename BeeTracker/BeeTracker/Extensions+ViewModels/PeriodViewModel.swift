@@ -51,7 +51,9 @@ class PeriodViewModel: ObservableObject {
     }
     
     func addPeriodEntry(entry: PeriodEntries){
-        self.periodInfosViewModel.period_entries.append(PeriodEntriesViewModel(model: entry))
+        let model = PeriodEntriesViewModel(model: entry)
+        model.save()
+        self.periodInfosViewModel.period_entries.append(model)
         self.periodInfosViewModel = self.periodInfosViewModel
     }
     
@@ -61,7 +63,18 @@ class PeriodViewModel: ObservableObject {
     }
     
     func deletePeriodEntry(entry: PeriodEntriesViewModel) {
-        self.periodInfosViewModel.period_entries.removeAll { $0._id == entry._id }
+        guard let id = entry._id else {
+            print("Cannot delete entry: id is nil")
+            return
+        }
+        ServerEndPoints.shared.deletePeriodEntries(id: id) { result in
+            switch result {
+            case .success:
+                self.periodInfosViewModel.period_entries.removeAll { $0._id == entry._id }
+            case .failure(let error):
+                print("Failed to delete task entry: \(error)")
+            }
+        }
         self.periodInfosViewModel = self.periodInfosViewModel
     }
     
@@ -110,13 +123,13 @@ class PeriodViewModel: ObservableObject {
             self.periodInfosViewModel.period_entries[index]._is_ended = true
             self.periodInfosViewModel.period_entries[index]._end_date = ongoingPeriodViewModel._end_date
         }
+        ongoingPeriodViewModel.save()
         self.periodInfosViewModel = self.periodInfosViewModel
     }
     
     func deleteOngoingPeriod() {
         guard let ongoingPeriodViewModel = self.getOngoingPeriodViewModel() else { return }
-        self.periodInfosViewModel.period_entries.removeAll { $0._id == ongoingPeriodViewModel._id }
-        self.periodInfosViewModel = self.periodInfosViewModel
+        self.deletePeriodEntry(entry: ongoingPeriodViewModel)
     }
     
     func historyEntriesSorted() -> [PeriodEntriesViewModel] {

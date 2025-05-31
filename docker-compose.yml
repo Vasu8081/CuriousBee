@@ -1,35 +1,23 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  db:
-    image: postgres:15
-    container_name: beetracker_db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: vkandula
-      POSTGRES_PASSWORD: vkandula
-      POSTGRES_DB: beetracker
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  backend:
+  beetracker:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: beetracker_backend
-    restart: unless-stopped
-    depends_on:
-      - db
+    container_name: curiousbytes-beetracker
+    volumes:
+      - .:/app  # ✅ Mount entire root, so run.sh is accessible
+    working_dir: /app
+    command: ["sh", "run.sh"]  # ✅ Will now find run.sh at /app/run.sh
     ports:
-      - "8000:8000"
+      - "8083:8000"
     environment:
       - PYTHONDONTWRITEBYTECODE=1
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: ["sh", "run.sh"]
+    networks:
+      - curiousnet
+    restart: unless-stopped
 
-volumes:
-  pgdata:
+networks:
+  curiousnet:
+    external: true

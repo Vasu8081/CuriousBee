@@ -3,9 +3,9 @@ import Foundation
 class ServerEndPoints {
     static let shared: ServerEndPoints = {
         #if DEBUG
-            return ServerEndPoints(baseURL: "http://localhost:8000/")
+            return ServerEndPoints(baseURL: "http://localhost:8083/")
         #else
-          return ServerEndPoints(baseURL: "https://app.curiousbytes.in")
+          return ServerEndPoints(baseURL: "https://beetracker.curiousbytes.in")
         #endif
     }()
     
@@ -54,8 +54,26 @@ class ServerEndPoints {
 
         return decoder
     }
+    
+    func decodeModel<T: Decodable>(_ data: Data, as type: T.Type, using typeMap: [String: String]) throws -> T {
+        let decoder = JSONDecoder()
 
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self)
+
+            if let d = ServerDateFormatter.datetimeFormatter.date(from: value) { return d }
+            if let d = ServerDateFormatter.dateFormatter.date(from: value) { return d }
+            if let d = ServerDateFormatter.timeFormatter.date(from: value) { return d }
+
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Unknown date format: \\(value)")
+        }
+
+        return try decoder.decode(T.self, from: data)
+    }
+    
     func send<T: Decodable>(_ request: URLRequest, expecting: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        print("Using decodable")
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async { completion(.failure(error)) }
@@ -78,6 +96,35 @@ class ServerEndPoints {
             } catch {
                 print("Decoding failed: \(error)")
                 print("Response Data: \(String(data: data, encoding: .utf8) ?? "")")
+                DispatchQueue.main.async { completion(.failure(ServerError.decodingFailed)) }
+            }
+        }.resume()
+    }
+    
+    func send<T: Decodable & BeeCodableModel>(_ request: URLRequest, expecting: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        print("Using Beedecodable")
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async { completion(.failure(error)) }
+                return
+            }
+
+            guard let data = data else {
+                DispatchQueue.main.async { completion(.failure(ServerError.noData)) }
+                return
+            }
+
+            if T.self == String.self, let result = String(data: data, encoding: .utf8) as? T {
+                DispatchQueue.main.async { completion(.success(result)) }
+                return
+            }
+
+            do {
+                let decoded = try self.decodeModel(data, as: T.self, using: T.serverTypeMap)
+                DispatchQueue.main.async { completion(.success(decoded)) }
+            } catch {
+                print("Decoding failed: \(error)")
+                print("Response Data: \(String(data: data, encoding: .utf8) ?? ",")")
                 DispatchQueue.main.async { completion(.failure(ServerError.decodingFailed)) }
             }
         }.resume()

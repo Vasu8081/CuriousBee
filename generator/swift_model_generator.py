@@ -139,7 +139,7 @@ for table, cols in tables.items():
 
     with open(file_path, "w") as f:
         f.write("import Foundation\n\n")
-        f.write(f"struct {struct_name}: Codable, Identifiable, Hashable {{\n")
+        f.write(f"struct {struct_name}: Codable, Identifiable, Hashable, BeeCodableModel {{\n")
 
         # Regular fields
         for col in cols:
@@ -177,7 +177,28 @@ for table, cols in tables.items():
                 if rel_type in {"many_to_one", "many_to_many"}:
                     f.write(f"    var {field_name}: [{src_struct}] = []\n")
                 elif rel_type in {"one_to_one", "one_to_many"}:
-                    f.write(f"    var {field_name.rstrip('s')}: {src_struct}?\n")
+                    f.write(f"    var {field_name.rstrip('s')}: {src_struct}?\n\n")
+
+
+       # Regular fields
+        f.write(f"    static var serverTypeMap: [String:String] {{\n")
+        f.write("        return [\n")
+        for col in cols:
+            if len(col) == 3:
+                col_name, col_type, modifiers = col
+            elif len(col) == 2:
+                col_name, col_type = col
+                modifiers = []
+            else:
+                continue  # Skip if format is unexpected
+
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            swift_type = swift_type_map.get(col_type.upper(), "String")
+            swift_field = to_swift_field_name(col_name)
+            f.write(f"            \"{swift_field}\": \"{col_type.upper()}\",\n")
+        f.write("        ]\n")
+        f.write("    }\n\n")
 
         f.write("    var id: UUID {\n")
         f.write("        return _id ?? UUID()\n")
@@ -319,9 +340,20 @@ for table, cols in tables.items():
         vf.write("    }\n")
         vf.write("    func hash(into hasher: inout Hasher) {\n")
         vf.write("        hasher.combine(id)\n")
-        vf.write("    }\n")
+        vf.write("    }\n\n")
 
-        vf.write("}\n")
+        vf.write(f"    func save() {{\n")
+        vf.write(f"        ServerEndPoints.shared.addOrUpdate{struct_name}(self.toModel) {{ result in\n")
+        vf.write(f"            switch result {{\n")
+        vf.write(f"            case .success(let entry):\n")
+        vf.write(f"                print(\"Successfully saved {struct_name}\")\n")
+        vf.write(f"                self.fromModel(entry)\n")
+        vf.write(f"            case .failure(let error):\n")
+        vf.write(f"                print(\"Failed to save {struct_name}: \\(error)\")\n")
+        vf.write(f"            }}\n")
+        vf.write(f"        }}\n")
+        vf.write(f"    }}\n\n")
+        vf.write(f"}}\n")
 for table, cols in tables.items():
     struct_name = to_swift_struct_name(table)
     endpoint_file = os.path.join(SWIFT_ENDPOINTS_DIR, f"{struct_name}Endpoint.swift")
@@ -351,38 +383,21 @@ for table, cols in tables.items():
         f.write(f"        send(request, expecting: {struct_name}.self, completion: completion)\n")
         f.write(f"    }}\n\n")
 
-        #Create a new Calendar Entry
-        # f.write(f"    func create{struct_name}(_ obj: {struct_name}, completion: @escaping (Result<String, Error>) -> Void) {{\n")
-        # f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
-        # f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
-        # f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
-        # f.write(f"        guard let url = URL(string: \"\\(baseURL)/{table}/create/\\(id)\") else {{\n")
-        # f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
-        # f.write(f"        guard let body = try? JSONEncoder().encode(obj) else {{\n")
-        # f.write(f"            completion(.failure(ServerError.noData))\n            return\n        }}\n")
-        # f.write(f"        var request = URLRequest(url: url)\n")
-        # f.write(f"        request.httpMethod = \"POST\"\n")
-        # f.write(f"        request.httpBody = body\n")
-        # f.write(f"        request.setValue(\"application/json\", forHTTPHeaderField: \"Content-Type\")\n")
-        # f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
-        # f.write(f"        send(request, expecting: String.self, completion: completion)\n")
-        # f.write(f"    }}\n\n")   
-
         # POST data
-        f.write(f"    func addOrUpdate{struct_name}(_ obj: {struct_name}, completion: @escaping (Result<String, Error>) -> Void) {{\n")
+        f.write(f"    func addOrUpdate{struct_name}(_ obj: {struct_name}, completion: @escaping (Result<{struct_name}, Error>) -> Void) {{\n")
         f.write(f"        guard let token = AuthenticateViewModel.shared.getToken() else {{\n")
         f.write(f"            completion(.failure(ServerError.missingToken))\n            return\n        }}\n")
         f.write(f"        let id = AuthenticateViewModel.shared.getGroupId()\n")
-        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/post/\\(id)\") else {{\n")
+        f.write(f"        guard let url = URL(string: \"\\(baseURL){table}/\\(id)\") else {{\n")
         f.write(f"            completion(.failure(ServerError.invalidURL))\n            return\n        }}\n")
-        f.write(f"        guard let body = try? JSONEncoder().encode(obj) else {{\n")
+        f.write(f"        guard let body = try? encodeModel(obj) else {{\n")
         f.write(f"            completion(.failure(ServerError.noData))\n            return\n        }}\n")
         f.write(f"        var request = URLRequest(url: url)\n")
         f.write(f"        request.httpMethod = \"POST\"\n")
         f.write(f"        request.httpBody = body\n")
         f.write(f"        request.setValue(\"application/json\", forHTTPHeaderField: \"Content-Type\")\n")
         f.write(f"        request.setValue(\"Bearer \\(token)\", forHTTPHeaderField: \"Authorization\")\n")
-        f.write(f"        send(request, expecting: String.self, completion: completion)\n")
+        f.write(f"        send(request, expecting: {struct_name}.self, completion: completion)\n")
         f.write(f"    }}\n\n")
 
         # GET all

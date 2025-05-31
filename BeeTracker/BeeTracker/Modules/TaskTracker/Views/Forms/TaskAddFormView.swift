@@ -72,7 +72,7 @@ struct TaskFormView: View {
                             taskViewModel.addTask(task)
                         }
 
-                        
+        
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)

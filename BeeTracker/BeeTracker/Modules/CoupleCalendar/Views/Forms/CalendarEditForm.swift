@@ -72,6 +72,7 @@ struct CalendarEditForm: View {
                         if oldUserId != assignedUserId {
                             calendarViewModel.refreshGroupings(triggerFor: [oldUserId, assignedUserId])
                         }
+                        entryToEdit.save()
                         dismiss()
                     }
                 }

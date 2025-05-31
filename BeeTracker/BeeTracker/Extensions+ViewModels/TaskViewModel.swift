@@ -23,15 +23,29 @@ class TaskViewModel : ObservableObject {
     }
     
     func addTask(_ task: Tasks ) {
-        self.taskViewModels.append(TasksViewModel(model: task))
+        let model = TasksViewModel(model: task)
+        model.save()
+        self.taskViewModels.append(model)
     }
     
     func deleteTask(_ task: TasksViewModel) {
-        self.taskViewModels.removeAll { $0._id == task._id }
+        guard let id = task._id else {
+            print("Cannot delete entry: id is nil")
+            return
+        }
+        ServerEndPoints.shared.deleteTasks(id: id) { result in
+            switch result {
+            case .success:
+                self.taskViewModels.removeAll { $0._id == task._id }
+            case .failure(let error):
+                print("Failed to delete task entry: \(error)")
+            }
+        }
     }
     
     func toggleComplete(_ task: TasksViewModel) {
         task._is_completed?.toggle()
+        task.save()
         self.taskViewModels = self.taskViewModels
     }
     

@@ -155,6 +155,8 @@ for table, columns in tables.items():
                 elif rel_type in {"one_to_one", "one_to_many"}:
                     f.write(f"    {field_name.rstrip('s')}: Optional['{src_class}'] = None\n")
 
+        ...
+
         # Config and model rebuild
         f.write("\n")
         f.write("    model_config = ConfigDict(\n")
@@ -164,11 +166,12 @@ for table, columns in tables.items():
 
         model_class_name = to_pascal_case(table)
         f.write("\n")
-        f.write(f"    @staticmethod\n")
-        f.write(f"    def to_model(schema: '{model_class_name}Schema') -> '{model_class_name}':\n")
+        # f.write(f"    @staticmethod\n")
+        # f.write(f"    def to_model(schema: '{model_class_name}Schema') -> '{model_class_name}':\n")
+        f.write(f"    def to_model(self) -> '{model_class_name}':\n")
         f.write(f"        from app.db.autogen.models.{table} import {model_class_name}\n")
-        f.write(f"        return {model_class_name}(\n")
-        
+        f.write(f"        model = {model_class_name}(\n")
+
         init_fields = []
 
         # Columns
@@ -176,11 +179,46 @@ for table, columns in tables.items():
             if "HIDDEN" in [m.upper() for m in modifiers]:
                 continue
             field_name = col_name
-            init_fields.append(f"{field_name}=schema.{col_name.lstrip('_')}")
+            init_fields.append(f"{field_name}=self.{col_name.lstrip('_')}")
 
-        # You may add handling for foreign keys here if needed
         f.write("            " + ",\n            ".join(init_fields) + "\n")
         f.write("        )\n")
+
+                # Foreign key relationships
+        for fk in fks.get(table, []):
+            tgt_class = to_pascal_case(fk["tgt_table"]) + "Schema"
+            rel_type = fk["type"]
+            field_name = fk["tgt_col"]
+            pydantic_refer = fk["pydantic_refer"]
+            if pydantic_refer == "refer_left":
+                f.write(f"        from app.db.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    f.write(f"        if self.{field_name} is not None:\n")
+                    f.write(f"            model.{field_name} = self.{field_name}.to_model()\n")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    f.write(f"        if self.{field_name} is not None:\n")
+                    f.write(f"            model.{field_name} = [obj.to_model() for obj in self.{field_name}]\n")
+                else:
+                    raise ValueError(f"Unknown relationship type: {rel_type}")
+
+        # Reverse foreign key relationships
+        for rfk in reverse_fks.get(table, []):
+            src_class = to_pascal_case(rfk["src_table"]) + "Schema"
+            rel_type = rfk["type"]
+            field_name = rfk["src_table"]  # plural for collections
+            if rfk["pydantic_refer"] == "refer_right":
+                f.write(f"        from app.db.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    f.write(f"        if self.{field_name} is not None:\n")
+                    f.write(f"            model.{field_name} = [obj.to_model() for obj in self.{field_name}]\n")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    f.write(f"        if self.{field_name.rstrip('s')} is not None:\n")
+                    f.write(f"            model.{field_name.rstrip('s')} = self.{field_name.rstrip('s')}.to_model()\n")
+
+        f.write("        return model\n")
+
+
+
 init_path_pydantic = os.path.join(PYDANTIC_OUTPUT_DIR, "__init__.py")
 with open(init_path_pydantic, "w") as f:
     for table in tables:

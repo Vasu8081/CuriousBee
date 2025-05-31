@@ -27,11 +27,24 @@ class CalendarViewModel: ObservableObject {
     }
 
     func deleteEntry(_ entry: CalendarEntriesViewModel) {
-        self.calendarEntriesViewModels.removeAll { $0._id == entry._id }
+        guard let id = entry._id else {
+            print("Cannot delete entry: id is nil")
+            return
+        }
+        ServerEndPoints.shared.deleteCalendarEntries(id: id) { result in
+            switch result {
+            case .success:
+                self.calendarEntriesViewModels.removeAll { $0._id == entry._id }
+            case .failure(let error):
+                print("Failed to delete calendar entry: \(error)")
+            }
+        }
     }
     
     func addEntry(_ entry: CalendarEntries) {
-        self.calendarEntriesViewModels.append(CalendarEntriesViewModel(model: entry))
+        let model = CalendarEntriesViewModel(model: entry)
+        model.save()
+        self.calendarEntriesViewModels.append(model)
     }
     
     func addCalendarEntry(_ entry: CalendarEntriesViewModel?) {

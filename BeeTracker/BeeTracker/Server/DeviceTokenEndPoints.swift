@@ -14,7 +14,8 @@ extension ServerEndPoints {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try? JSONEncoder().encode(user)
+//        request.httpBody = try? JSONEncoder().encode(user)
+        request.httpBody = try? encodeModel(user)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(auth_token)", forHTTPHeaderField: "Authorization")
 

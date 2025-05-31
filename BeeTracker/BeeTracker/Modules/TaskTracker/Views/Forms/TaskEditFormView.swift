@@ -79,6 +79,7 @@ struct TaskEditFormView: View {
                         entry._interaction_style = isConscience ? "Full Conscience" : "Partial Conscience"
                         entry._primary_doer_user_id = primaryDoer
                         entry._other_users_presence_necessary = isShared
+                        entry.save()
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)

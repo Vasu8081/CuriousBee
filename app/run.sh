@@ -33,14 +33,19 @@ echo "  - ACCESS_TOKEN_EXPIRY: ${ACCESS_TOKEN_EXPIRY:-not set}"
 echo "  - DATABASE_URL: ${DATABASE_URL:-not set}"
 echo "  - DATABASE_LOAD_DUMMY_DATA: ${DATABASE_LOAD_DUMMY_DATA:-not set}"
 
+echo "📦 Loading dummy data into the database..."
+python -m app.utils.wait_for_db
+echo "✅ Database is ready."
+echo "🔄 Running database migrations..."
+alembic revision --autogenerate -m "Initial migration"
+echo "✅ Migration script created."
+echo "🔄 Applying database migrations..."
+alembic upgrade head
+echo "✅ Database migration complete."
+
 if [ $DATABASE_LOAD_DUMMY_DATA = "true" ]; then
-    echo "📦 Loading dummy data into the database..."
-    python wait_for_db.py
-    alembic revision --autogenerate -m "Initial migration"
-    alembic upgrade head
-    echo "✅ Database migration complete."
     echo "📊 Loading dummy data..."
-    python app.schema.dummydata.py
+    python -m app.utils.load_dummy_data
     echo "✅ Dummy data loaded successfully."
 else
     echo "🚫 Skipping dummy data loading."

@@ -162,6 +162,25 @@ for table, columns in tables.items():
         f.write("        populate_by_name=True\n")
         f.write("    )\n\n")
 
+        model_class_name = to_pascal_case(table)
+        f.write("\n")
+        f.write(f"    @staticmethod\n")
+        f.write(f"    def to_model(schema: '{model_class_name}Schema') -> '{model_class_name}':\n")
+        f.write(f"        from app.db.autogen.models.{table} import {model_class_name}\n")
+        f.write(f"        return {model_class_name}(\n")
+        
+        init_fields = []
+
+        # Columns
+        for col_name, col_type, modifiers in columns:
+            if "HIDDEN" in [m.upper() for m in modifiers]:
+                continue
+            field_name = col_name
+            init_fields.append(f"{field_name}=schema.{col_name.lstrip('_')}")
+
+        # You may add handling for foreign keys here if needed
+        f.write("            " + ",\n            ".join(init_fields) + "\n")
+        f.write("        )\n")
 init_path_pydantic = os.path.join(PYDANTIC_OUTPUT_DIR, "__init__.py")
 with open(init_path_pydantic, "w") as f:
     for table in tables:

@@ -4,7 +4,6 @@ struct HomeView: View {
     @StateObject private var auth = AuthenticateViewModel.shared
     @StateObject private var notifications = NotificationTrackerViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var groupsViewModel: GroupsViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @EnvironmentObject var periodViewModel: PeriodViewModel
     @EnvironmentObject var taskViewModel: TaskViewModel
@@ -123,11 +122,10 @@ struct HomeView: View {
     }
     
     private func reload() {
-//        groupsViewModel.reload(id: AuthenticateViewModel.shared.getGroupId())
         userViewModel.reload()
+        periodViewModel.reload()
         productViewModel.reload()
         calendarViewModel.reload()
-        periodViewModel.reload()
         taskViewModel.reload()
         let token = UserDefaults.standard.string(forKey: "deviceToken") ?? "1234"
         var user = Users()

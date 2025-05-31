@@ -4,7 +4,6 @@ import SwiftUI
 struct BeeTrackerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var toast = ToastManager.shared
-    @StateObject private var groupsViewModel = GroupsViewModel(model: Groups())
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var productViewModel = ProductViewModel()
     @StateObject private var calendarViewModel = CalendarViewModel()
@@ -16,7 +15,6 @@ struct BeeTrackerApp: App {
             NavigationView {
                 HomeView()
             }
-            .environmentObject(groupsViewModel)
             .environmentObject(userViewModel)
             .environmentObject(calendarViewModel)
             .environmentObject(periodViewModel)

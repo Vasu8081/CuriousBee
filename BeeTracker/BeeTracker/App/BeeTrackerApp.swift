@@ -5,7 +5,11 @@ struct BeeTrackerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var toast = ToastManager.shared
     @StateObject private var groupsViewModel = GroupsViewModel(model: Groups())
+    @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var productViewModel = ProductViewModel()
     @StateObject private var calendarViewModel = CalendarViewModel()
+    @StateObject private var periodViewModel = PeriodViewModel()
+    @StateObject private var taskViewModel = TaskViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -13,7 +17,11 @@ struct BeeTrackerApp: App {
                 HomeView()
             }
             .environmentObject(groupsViewModel)
+            .environmentObject(userViewModel)
             .environmentObject(calendarViewModel)
+            .environmentObject(periodViewModel)
+            .environmentObject(taskViewModel)
+            .environmentObject(productViewModel)
             .overlay(alignment: .bottom) {
                 if toast.isShowing || toast.isOfflineWarningActive {
                     Text("\(toast.type.prefix) \(toast.message ?? "")")

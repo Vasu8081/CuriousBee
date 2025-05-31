@@ -1,14 +1,18 @@
 import SwiftUI
+import Foundation
 
 struct PeriodHistoryCardView: View {
-    let entry: PeriodEntry
+    @EnvironmentObject private var periodViewModel: PeriodViewModel
+    @ObservedObject var viewModel: PeriodEntriesViewModel
+    @State private var tags: [String] = []
+
     var onTap: () -> Void
     var onDelete: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("🥀 \(Helper.shared.formattedDate(entry.startDate)) → \(Helper.shared.formattedDate(entry.endDate))")
+                Text("🥀 \(Helper.shared.formattedDate(viewModel._start_date ?? Date())) → \(Helper.shared.formattedDate(viewModel._end_date ?? Date()))")
                     .font(.subheadline)
                     .fontWeight(.medium)
                 Spacer()
@@ -19,8 +23,8 @@ struct PeriodHistoryCardView: View {
                 .buttonStyle(.plain)
             }
 
-            if !entry.symptoms.isEmpty {
-                WrapView(tags: entry.symptoms.map { $0.displayName }) { tag in
+            if !tags.isEmpty {
+                WrapView(tags: tags) { tag in
                     Text(tag)
                         .font(.caption)
                         .padding(.horizontal, 8)
@@ -29,20 +33,20 @@ struct PeriodHistoryCardView: View {
                         .cornerRadius(8)
                 }
             } else {
-                Spacer().frame(height: 12) // Maintain space if no symptoms
+                Spacer().frame(height: 12)
             }
 
-            if !entry.notes.isEmpty {
-                Text("Note: \(entry.notes)")
+            if let notes = viewModel._notes, !notes.isEmpty {
+                Text("Note: \(notes)")
                     .font(.footnote)
                     .italic()
                     .foregroundColor(.gray)
             } else {
-                Spacer().frame(height: 12) // Maintain space if no notes
+                Spacer().frame(height: 12)
             }
         }
         .padding()
-        .frame(maxWidth: .infinity, minHeight: 120) // 🔧 Set minimum height
+        .frame(maxWidth: .infinity, minHeight: 120)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.white)
@@ -53,5 +57,16 @@ struct PeriodHistoryCardView: View {
                 )
         )
         .onTapGesture { onTap() }
+        .onAppear {
+            tags = updateTags()
+        }
+        .onChange(of: viewModel.period_symptoms) {
+            tags = updateTags()
+        }
+    }
+
+    private func updateTags() -> [String] {
+        return viewModel.period_symptoms
+            .compactMap { periodViewModel.getSymptomName(for: $0._symptom_id) }
     }
 }

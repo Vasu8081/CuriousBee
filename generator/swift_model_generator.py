@@ -192,8 +192,9 @@ for table, cols in tables.items():
     with open(vm_path, "w") as vf:
         vf.write("import Foundation\n")
         vf.write("import SwiftUI\n\n")
-        vf.write(f"class {vm_name}: ObservableObject, Identifiable {{\n")
+        vf.write(f"class {vm_name}: ObservableObject, Identifiable, Hashable {{\n")
         
+        # Base columns
         for col in cols:
             if len(col) == 3:
                 col_name, col_type, modifiers = col
@@ -208,30 +209,35 @@ for table, cols in tables.items():
             field_name = to_swift_field_name(col_name)
             vf.write(f"    @Published var {field_name}: {swift_type}?\n")
 
-        # Foreign key relationships (refer_left)
+        # Foreign keys (refer_left)
         for fk in fks.get(table, []):
             if fk.get("pydantic_refer") == "refer_left":
                 tgt_struct = to_swift_struct_name(fk["tgt_table"])
                 rel_type = fk["type"]
                 field_name = fk["src_col"][1:-3]
                 if rel_type in {"many_to_one", "one_to_one"}:
-                    vf.write(f"    @Published var {field_name}: {tgt_struct}?\n")
+                    vf.write(f"    @Published var {field_name}: {tgt_struct}ViewModel?\n")
                 elif rel_type in {"one_to_many", "many_to_many"}:
-                    vf.write(f"    @Published var {field_name}: [{tgt_struct}] = []\n")
+                    vf.write(f"    @Published var {field_name}: [{tgt_struct}ViewModel] = []\n")
 
-        # Reverse foreign key relationships (refer_right)
+        # Reverse FKs (refer_right)
         for rfk in reverse_fks.get(table, []):
             if rfk.get("pydantic_refer") == "refer_right":
                 src_struct = to_swift_struct_name(rfk["src_table"])
                 rel_type = rfk["type"]
                 field_name = rfk["src_table"]
                 if rel_type in {"many_to_one", "many_to_many"}:
-                    vf.write(f"    @Published var {field_name}: [{src_struct}] = []\n")
+                    vf.write(f"    @Published var {field_name}: [{src_struct}ViewModel] = []\n")
                 elif rel_type in {"one_to_one", "one_to_many"}:
-                    vf.write(f"    @Published var {field_name.rstrip('s')}: {src_struct}?\n")
+                    vf.write(f"    @Published var {field_name.rstrip('s')}: {src_struct}ViewModel?\n")
 
         # Initializer
         vf.write(f"\n    init(model: {struct_name}) {{\n")
+        vf.write(f"        fromModel(model)\n")
+        vf.write("    }\n")
+
+        # fromModel method
+        vf.write(f"\n    func fromModel(_ model: {struct_name}) {{\n")
         for col in cols:
             if len(col) == 3:
                 col_name, col_type, modifiers = col
@@ -244,9 +250,29 @@ for table, cols in tables.items():
                 continue
             field_name = to_swift_field_name(col_name)
             vf.write(f"        self.{field_name} = model.{field_name}\n")
+
+        for fk in fks.get(table, []):
+            if fk.get("pydantic_refer") == "refer_left":
+                tgt_struct = to_swift_struct_name(fk["tgt_table"])
+                rel_type = fk["type"]
+                field_name = fk["src_col"][1:-3]
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    vf.write(f"        if let value = model.{field_name} {{ self.{field_name} = {tgt_struct}ViewModel(model: value) }}\n")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    vf.write(f"        self.{field_name} = model.{field_name}.map {{ {tgt_struct}ViewModel(model: $0) }}\n")
+
+        for rfk in reverse_fks.get(table, []):
+            if rfk.get("pydantic_refer") == "refer_right":
+                src_struct = to_swift_struct_name(rfk["src_table"])
+                rel_type = rfk["type"]
+                field_name = rfk["src_table"]
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    vf.write(f"        self.{field_name} = model.{field_name}.map {{ {src_struct}ViewModel(model: $0) }}\n")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    vf.write(f"        if let value = model.{field_name.rstrip('s')} {{ self.{field_name.rstrip('s')} = {src_struct}ViewModel(model: value) }}\n")
         vf.write("    }\n")
 
-        # Convert back to model
+        # toModel
         vf.write(f"\n    var toModel: {struct_name} {{\n")
         vf.write(f"        return {struct_name}(\n")
         model_fields = []
@@ -262,88 +288,40 @@ for table, cols in tables.items():
                 continue
             field_name = to_swift_field_name(col_name)
             model_fields.append(f"{field_name}: {field_name}")
+        for fk in fks.get(table, []):
+            if fk.get("pydantic_refer") == "refer_left":
+                rel_type = fk["type"]
+                field_name = fk["src_col"][1:-3]
+                if rel_type in {"many_to_one", "one_to_one"}:
+                    model_fields.append(f"{field_name}: {field_name}?.toModel")
+                elif rel_type in {"one_to_many", "many_to_many"}:
+                    model_fields.append(f"{field_name}: {field_name}.map {{ $0.toModel }}")
+        for rfk in reverse_fks.get(table, []):
+            if rfk.get("pydantic_refer") == "refer_right":
+                rel_type = rfk["type"]
+                field_name = rfk["src_table"]
+                if rel_type in {"many_to_one", "many_to_many"}:
+                    model_fields.append(f"{field_name}: {field_name}.map {{ $0.toModel }}")
+                elif rel_type in {"one_to_one", "one_to_many"}:
+                    model_fields.append(f"{field_name.rstrip('s')}: {field_name.rstrip('s')}?.toModel")
         vf.write("            " + ",\n            ".join(model_fields) + "\n")
         vf.write("        )\n")
         vf.write("    }\n")
 
-        vf.write("    var id: UUID {\n")
+        # id
+        vf.write("\n    var id: UUID {\n")
         vf.write("        return _id ?? UUID()\n")
-        vf.write("    }\n\n")
-
-        # Copy from another view model
-        vf.write(f"\n    func copy(from other: {vm_name}) {{\n")
-        for col in cols:
-            if len(col) == 3:
-                col_name, col_type, modifiers = col
-            elif len(col) == 2:
-                col_name, col_type = col
-                modifiers = []
-            else:
-                continue
-            if "HIDDEN" in [m.upper() for m in modifiers]:
-                continue
-            field_name = to_swift_field_name(col_name)
-            vf.write(f"        self.{field_name} = other.{field_name}\n")
         vf.write("    }\n")
 
-        vf.write(f"\n    func fetch(from other: {struct_name}) {{\n")
-        for col in cols:
-            if len(col) == 3:
-                col_name, col_type, modifiers = col
-            elif len(col) == 2:
-                col_name, col_type = col
-                modifiers = []
-            else:
-                continue
-            if "HIDDEN" in [m.upper() for m in modifiers]:
-                continue
-            field_name = to_swift_field_name(col_name)
-            vf.write(f"        self.{field_name} = other.{field_name}\n")
-
-        # Foreign key relationships (refer_left)
-        for fk in fks.get(table, []):
-            if fk.get("pydantic_refer") == "refer_left":
-                tgt_struct = to_swift_struct_name(fk["tgt_table"])
-                rel_type = fk["type"]
-                field_name = fk["src_col"][1:-3]
-                if rel_type in {"many_to_one", "one_to_one"}:
-                    vf.write(f"        self.{field_name} = other.{field_name}\n")
-                elif rel_type in {"one_to_many", "many_to_many"}:
-                    vf.write(f"        self.{field_name} = other.{field_name}\n")
-
-        # Reverse foreign key relationships (refer_right)
-        for rfk in reverse_fks.get(table, []):
-            if rfk.get("pydantic_refer") == "refer_right":
-                src_struct = to_swift_struct_name(rfk["src_table"])
-                rel_type = rfk["type"]
-                field_name = rfk["src_table"]
-                if rel_type in {"many_to_one", "many_to_many"}:
-                    vf.write(f"        self.{field_name} = other.{field_name}\n")
-                elif rel_type in {"one_to_one", "one_to_many"}:
-                    vf.write(f"        self.{field_name.rstrip('s')} = other.{field_name.rstrip('s')}\n")
-
+        # Hashable
+        vf.write(f"\n    static func == (lhs: {vm_name}, rhs: {vm_name}) -> Bool {{\n")
+        vf.write("        return lhs.id == rhs.id\n")
+        vf.write("    }\n")
+        vf.write("    func hash(into hasher: inout Hasher) {\n")
+        vf.write("        hasher.combine(id)\n")
         vf.write("    }\n")
 
-
-
-        # Merge from another view model (only non-nil)
-        vf.write(f"\n    func merge(from other: {vm_name}) {{\n")
-        for col in cols:
-            if len(col) == 3:
-                col_name, col_type, modifiers = col
-            elif len(col) == 2:
-                col_name, col_type = col
-                modifiers = []
-            else:
-                continue
-            if "HIDDEN" in [m.upper() for m in modifiers]:
-                continue
-            field_name = to_swift_field_name(col_name)
-            vf.write(f"        if let value = other.{field_name} {{ self.{field_name} = value }}\n")
-        vf.write("    }\n")
         vf.write("}\n")
-
-
 for table, cols in tables.items():
     struct_name = to_swift_struct_name(table)
     endpoint_file = os.path.join(SWIFT_ENDPOINTS_DIR, f"{struct_name}Endpoint.swift")

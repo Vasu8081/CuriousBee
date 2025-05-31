@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CalendarTabView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var userViewModel: UserViewModel
     @State private var selectedDate = Date()
     @State private var showAddEntry = false
     @State private var selectedEntry: CalendarEntriesViewModel? = nil
@@ -14,8 +15,8 @@ struct CalendarTabView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Spacer().frame(width: 58)
-                ForEach(calendarViewModel.getUserIds(), id: \ .self) { id in
-                    Text(calendarViewModel.getUserName(for: id))
+                ForEach(userViewModel.getUserIds(), id: \ .self) { id in
+                    Text(userViewModel.getUserName(for: id))
                         .font(.subheadline.bold())
                         .frame(width: columnWidth, alignment: .center)
                 }
@@ -30,8 +31,8 @@ struct CalendarTabView: View {
                         timeGutter
                         ZStack(alignment: .topLeading) {
                             timelineGrid
-                            ForEach(calendarViewModel.getUserIds().indices, id: \ .self) { index in
-                                let id = calendarViewModel.getUserIds()[index]
+                            ForEach(userViewModel.getUserIds().indices, id: \ .self) { index in
+                                let id = userViewModel.getUserIds()[index]
                                 entryColumn(for: id, xOffset: CGFloat(index) * (columnWidth + 12))
                             }
                             currentTimeLine
@@ -135,7 +136,7 @@ struct CalendarTabView: View {
             }
 
             // Show shared entries only once (on the first user column)
-            if calendarViewModel.getUserIds().first == userId {
+            if userViewModel.getUserIds().first == userId {
                 let xOffset = CGFloat(0) * (columnWidth + 12)
                 ForEach(calendarViewModel.getSharedEntries(on: selectedDate)) { entry in
                     GroupCalendarEntryCardView(

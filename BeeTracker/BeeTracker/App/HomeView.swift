@@ -3,9 +3,12 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var auth = AuthenticateViewModel.shared
     @StateObject private var notifications = NotificationTrackerViewModel()
-    @StateObject private var userViewModel = UserViewModel.shared
+    @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var groupsViewModel: GroupsViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject var periodViewModel: PeriodViewModel
+    @EnvironmentObject var taskViewModel: TaskViewModel
+    @EnvironmentObject var productViewModel: ProductViewModel
 
     @State private var selectedTab = 0
     @State private var showNotifications = false
@@ -49,13 +52,6 @@ struct HomeView: View {
                 ) { notification in
                     if let message = notification.object as? String {
                         print(message)
-                        if message == "Perform Sync" {
-                            UserViewModel.shared.syncFromServer()
-                        }
-                        else{
-                            notifications.receive(message)
-                            showNotifications = true
-                        }
                     }
                 }
             }
@@ -127,8 +123,12 @@ struct HomeView: View {
     }
     
     private func reload() {
-        groupsViewModel.reload(id: AuthenticateViewModel.shared.getGroupId())
+//        groupsViewModel.reload(id: AuthenticateViewModel.shared.getGroupId())
+        userViewModel.reload()
+        productViewModel.reload()
         calendarViewModel.reload()
+        periodViewModel.reload()
+        taskViewModel.reload()
         let token = UserDefaults.standard.string(forKey: "deviceToken") ?? "1234"
         var user = Users()
         user._apple_device_token = token

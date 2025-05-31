@@ -1,16 +1,16 @@
-// CalendarEntryForm.swift
 import SwiftUI
 
 struct CalendarEntryForm: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
-    
+    @EnvironmentObject var userViewModel: UserViewModel
+
     var selectedDate: Date
     @State private var title = ""
     @State private var notes = ""
     @State private var startTime = Date()
     @State private var endTime = Date()
-    @State private var assignedTo: Users? = nil
+    @State private var assignedUserId: UUID? = nil
 
     var body: some View {
         NavigationStack {
@@ -23,15 +23,16 @@ struct CalendarEntryForm: View {
                 Section(header: Text("Time")) {
                     DatePicker("Start", selection: $startTime, displayedComponents: .hourAndMinute)
                     DatePicker("End", selection: $endTime, displayedComponents: .hourAndMinute)
-                    Picker("Assign To", selection: $assignedTo) {
-                        ForEach(calendarViewModel.users, id: \.self) { user in
-                            Text(user._name ?? "Unnamed").tag(Optional(user))
+
+                    Picker("Assign To", selection: $assignedUserId) {
+                        Text("Unassigned").tag(UUID?.none)
+                        ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
+                            if let id = user._id {
+                                Text(user._name ?? "Unnamed").tag(Optional(id))
+                            }
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
                 }
             }
             .navigationTitle("New Entry")
@@ -39,22 +40,30 @@ struct CalendarEntryForm: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         let calendar = Calendar.current
-                        let startHour = calendar.component(.hour, from: startTime)
-                        let startMinute = calendar.component(.minute, from: startTime)
-                        let endHour = calendar.component(.hour, from: endTime)
-                        let endMinute = calendar.component(.minute, from: endTime)
 
-                        let fullStart = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: selectedDate) ?? selectedDate
-                        let fullEnd = calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: selectedDate)
+                        let fullStart = calendar.date(
+                            bySettingHour: calendar.component(.hour, from: startTime),
+                            minute: calendar.component(.minute, from: startTime),
+                            second: 0,
+                            of: selectedDate
+                        ) ?? selectedDate
+
+                        let fullEnd = calendar.date(
+                            bySettingHour: calendar.component(.hour, from: endTime),
+                            minute: calendar.component(.minute, from: endTime),
+                            second: 0,
+                            of: selectedDate
+                        )
 
                         let newEntry = CalendarEntries(
-                            _user_id: assignedTo?._id,
+                            _user_id: assignedUserId,
                             _title: title,
                             _notes: notes.isEmpty ? nil : notes,
                             _date: selectedDate,
                             _start_time: fullStart,
                             _end_time: fullEnd
                         )
+
                         calendarViewModel.addEntry(newEntry)
                         dismiss()
                     }

@@ -1,26 +1,21 @@
 import SwiftUI
 
 struct ProductListView: View {
-    @StateObject private var viewModel = ProductViewModel()
+    @EnvironmentObject private var productViewModel: ProductViewModel
     @State private var showAddForm = false
-    @State private var selectedProduct: Product?
+    @State private var selectedProduct: ProductInfosViewModel?
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    // 🔍 Search
-                    TextField("Search products...", text: $viewModel.searchQuery)
+                    TextField("Search products...", text: $productViewModel.searchQuery)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
                         .padding(.top)
 
-                    ForEach(viewModel.filteredProducts) { product in
-                        ProductCardView(product: product) {
-                            selectedProduct = product
-                        } onDelete: {
-                            viewModel.deleteProduct(product)
-                        }
+                    ForEach(productViewModel.filteredProducts) { product in
+                        ProductInfoCardView(viewModel: product)
                     }
 
                     Spacer()
@@ -38,22 +33,15 @@ struct ProductListView: View {
                 }
             }
             .sheet(item: $selectedProduct) { product in
-                if let binding = binding(for: product) {
-                    NavigationView {
-                        ProductDetailView(product: binding, viewModel: viewModel)
-                    }
-                }
+//                if let binding = binding(for: product) {
+//                    NavigationView {
+//                        ProductDetailView(product: binding, viewModel: viewModel)
+//                    }
+//                }
             }
             .sheet(isPresented: $showAddForm) {
-                ProductFormView(viewModel: viewModel)
+//                ProductAddForm()
             }
         }
-    }
-
-    private func binding(for item: Product) -> Binding<Product>? {
-        guard let index = viewModel.products.firstIndex(where: { $0.id == item.id }) else {
-            return nil
-        }
-        return $viewModel.products[index]
     }
 }

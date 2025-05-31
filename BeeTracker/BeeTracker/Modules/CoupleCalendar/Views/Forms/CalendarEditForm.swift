@@ -3,6 +3,7 @@ import SwiftUI
 struct CalendarEditForm: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     var entryToEdit: CalendarEntriesViewModel
 
     @State private var title: String = ""
@@ -10,7 +11,7 @@ struct CalendarEditForm: View {
     @State private var selectedDate: Date = Date()
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
-    @State private var assignedTo: Users? = nil
+    @State private var assignedUserId: UUID? = nil
 
     var body: some View {
         NavigationStack {
@@ -27,9 +28,10 @@ struct CalendarEditForm: View {
                 }
 
                 Section(header: Text("Assigned To")) {
-                    Picker("Assign To", selection: $assignedTo) {
-                        ForEach(calendarViewModel.users, id: \.self) { user in
-                            Text(user._name ?? "Unnamed").tag(Optional(user))
+                    Picker("Assign To", selection: $assignedUserId) {
+                        Text("Unassigned").tag(UUID?.none)
+                        ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
+                            Text(user._name ?? "Unnamed").tag(user._id)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
@@ -66,9 +68,9 @@ struct CalendarEditForm: View {
                         entryToEdit._start_time = fullStart
                         entryToEdit._end_time = fullEnd
                         let oldUserId = entryToEdit._user_id
-                        entryToEdit._user_id = assignedTo?._id
-                        if oldUserId != entryToEdit._user_id {
-                            calendarViewModel.refreshGroupings(triggerFor: [oldUserId, entryToEdit._user_id])
+                        entryToEdit._user_id = assignedUserId
+                        if oldUserId != assignedUserId {
+                            calendarViewModel.refreshGroupings(triggerFor: [oldUserId, assignedUserId])
                         }
                         dismiss()
                     }
@@ -87,7 +89,7 @@ struct CalendarEditForm: View {
             selectedDate = entryToEdit._date ?? Date()
             startTime = entryToEdit._start_time ?? Date()
             endTime = entryToEdit._end_time ?? entryToEdit._start_time ?? Date()
-            assignedTo = calendarViewModel.users.first { $0._id == entryToEdit._user_id }
+            assignedUserId = entryToEdit._user_id
         }
     }
 }

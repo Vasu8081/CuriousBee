@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct PeriodSummaryView: View {
-    @ObservedObject var viewModel: PeriodTrackerViewModel
+    @EnvironmentObject private var periodViewModel: PeriodViewModel
     @State private var showingAddForm = false
-    @State private var selectedEntry: PeriodEntry? = nil
-    @State private var selectedMoodDate: IdentifiableDate? = nil
+    @State private var selectedEntry: PeriodEntriesViewModel? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -24,23 +23,17 @@ struct PeriodSummaryView: View {
             .padding(.horizontal)
             .padding(.top)
 
-            if let ongoing = viewModel.currentOngoingPeriod() {
+            if let ongoing = periodViewModel.getOngoingPeriodViewModel() {
                 OngoingPeriodCardView(
-                    entry: ongoing,
-                    currentDay: viewModel.currentDayIndex(in: ongoing),
-                    remainingDays: viewModel.daysRemaining(in: ongoing),
-                    onEndPeriod: {
-                        viewModel.endCurrentPeriod()
-                    },
-                    onDelete: {
-                        viewModel.deleteCurrentPeriod()
-                    },
-                    viewModel: viewModel
+                    viewModel: ongoing,
+                    currentDay: ongoing.currentDayIndex(),
+                    remainingDays: ongoing.daysRemaining()
                 )
-            } else if let next = viewModel.nextExpectedDate() {
-                NextExpectedCardView(nextDate: next) {
+            }
+            else if let nextDate = periodViewModel.getNextExpectedPeriodDate() {
+                NextExpectedCardView(nextDate: nextDate) {
                     let today = Calendar.current.startOfDay(for: Date())
-                    viewModel.addPeriod(start: today, duration: viewModel.tracker.averagePeriodDuration)
+                    periodViewModel.startNextExpectedPeriod(today)
                 }
             }
 
@@ -49,33 +42,27 @@ struct PeriodSummaryView: View {
                 .padding(.horizontal)
 
             ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(viewModel.tracker.history
-                        .filter { $0.isEnded || Calendar.current.startOfDay(for: $0.endDate) < Calendar.current.startOfDay(for: Date()) }
-                        .sorted(by: { $0.startDate > $1.startDate })) { entry in
-
+                LazyVStack(spacing: 12) {
+                    ForEach(periodViewModel.historyEntriesSorted(), id: \.id) { entry in
                         PeriodHistoryCardView(
-                            entry: entry,
+                            viewModel: entry,
                             onTap: {
                                 selectedEntry = entry
                             },
                             onDelete: {
-                                viewModel.deletePeriod(entry)
+                                periodViewModel.deletePeriodEntry(entry: entry)
                             }
                         )
                     }
                 }
-                .padding()
+                .padding(.horizontal)
             }
-
         }
         .sheet(isPresented: $showingAddForm) {
-            AddPeriodForm(tracker: $viewModel.tracker)
+            AddPeriodForm()
         }
         .sheet(item: $selectedEntry) { entry in
-            if let index = viewModel.tracker.history.firstIndex(where: { $0.id == entry.id }) {
-                EditPeriodForm(entry: $viewModel.tracker.history[index])
-            }
+            EditPeriodForm(entryViewModel: entry)
         }
     }
 }

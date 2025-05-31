@@ -1,0 +1,7 @@
+tunnel: curiousbytes-tunnel
+credentials-file: /etc/cloudflared/7a6b696e-562e-4ba8-a3b1-1884fd52c30a.json
+
+ingress:
+  - hostname: "*.curiousbytes.in"
+    service: http://nginx:80
+  - service: http_status:404

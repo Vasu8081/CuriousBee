@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: curiousbytes-postgres
+    environment:
+      POSTGRES_USER: vkandula
+      POSTGRES_PASSWORD: vkandula
+      POSTGRES_DB: beetracker
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "8082:5432"  # External 8082 maps to Postgres port 5432
+    networks:
+      - curiousnet
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
+networks:
+  curiousnet:
+    external: true

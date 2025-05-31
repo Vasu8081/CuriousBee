@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: curiousbytes-tunnel
+    command: tunnel --config /etc/cloudflared/config.yml --metrics 0.0.0.0:2000 run
+    volumes:
+      - ./config.yml:/etc/cloudflared/config.yml
+      - ./7a6b696e-562e-4ba8-a3b1-1884fd52c30a.json:/etc/cloudflared/7a6b696e-562e-4ba8-a3b1-1884fd52c30a.json
+    networks:
+      - curiousnet
+    ports:
+      - "2000:2000" # This exposes the metrics endpoint
+    restart: always
+
+networks:
+  curiousnet:
+    external: true

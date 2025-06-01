@@ -4,7 +4,7 @@ bcrypt<4.0.0
 passlib[bcrypt]
 sqlalchemy
 alembic
-psycopg2-binary
+psycopg2-binary>=2.9
 python-dotenv
 PyJWT
 pydantic[email]

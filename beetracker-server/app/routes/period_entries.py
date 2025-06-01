@@ -4,6 +4,7 @@ from pydantic import EmailStr
 from app.core.dependencies import get_current_user_email
 from app.db.database import get_db
 from app.db.autogen.models.period_entries import PeriodEntries
+from app.db.autogen.schemas.period_entries_schema import PeriodEntriesSchema
 import uuid
 
 router = APIRouter()
@@ -11,7 +12,7 @@ router = APIRouter()
 @router.post("/{group_id}")
 def add_or_update_period_entry(
     group_id: str,
-    period_entries: PeriodEntries,
+    period_entries: PeriodEntriesSchema,
     email: EmailStr = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
@@ -26,12 +27,14 @@ def add_or_update_period_entry(
     if not group:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Group not found")
     
+    print("Period Entries:", period_entries)
+
     existing_entry = db.query(PeriodEntries).filter(PeriodEntries._id == period_entries.id).first()
 
     if existing_entry:
         updated = period_entries.to_model()
         updated._id = existing_entry._id
-        updated = db.merge(updated)  # 🔁 assign the returned instance
+        updated = db.merge(updated)
     else:
         new_entry = period_entries.to_model()
         new_entry._id = period_entries.id or uuid.uuid4()
@@ -57,9 +60,9 @@ def delete_period_entry(
 
     entry = db.query(PeriodEntries).filter(PeriodEntries._id == period_entry_id).first()
     if not entry:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Calendar entry not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Period entry not found")
 
     db.delete(entry)
     db.commit()
 
-    return {"detail": "Calendar entry deleted successfully"}
+    return {"detail": "Period entry deleted successfully"}

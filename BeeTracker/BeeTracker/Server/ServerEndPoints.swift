@@ -1,17 +1,34 @@
 import Foundation
 
-class ServerEndPoints {
-    static let shared: ServerEndPoints = {
-        #if DEBUG
-            return ServerEndPoints(baseURL: "http://localhost:8083/")
-        #else
-          return ServerEndPoints(baseURL: "https://beetracker.curiousbytes.in")
-        #endif
-    }()
+class ServerEndPoints : ObservableObject {
+    static let shared = ServerEndPoints()
     
-    var baseURL: String
-    private init(baseURL: String) {
-        self.baseURL = baseURL
+    var baseURL: String {
+        isDev ? "https://beetracker-dev.curiousbytes.in/" : "https://beetracker.curiousbytes.in/"
+    }
+    
+    @Published var isDev: Bool {
+        didSet {
+            UserDefaults.standard.set(isDev, forKey: "isDevMode")
+        }
+    }
+    
+    func toggleMode() {
+        isDev.toggle()
+        if isDev {
+            ToastManager.shared.show(
+                "In Developer Mode",
+                type: .warning,
+                persistent: true
+            )
+        } else {
+            ToastManager.shared.hidePersistentWarning()
+        }
+        AuthenticateViewModel.shared.signOut()
+    }
+    
+    private init() {
+        self.isDev = UserDefaults.standard.bool(forKey: "isDevMode")
     }
     
     enum ServerError: Error {

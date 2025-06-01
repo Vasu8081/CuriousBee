@@ -9,12 +9,10 @@ import os
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
-
 db_url = os.getenv("DATABASE_URL", "postgresql://vkandula:vkandula@localhost/beetracker")
 if db_url:
     config.set_main_option("sqlalchemy.url", db_url)
@@ -23,7 +21,7 @@ if db_url:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.db.base import Base
+from app.db.base import Base  # Import your Base model
 from app.db.autogen import models
 target_metadata = Base.metadata
 

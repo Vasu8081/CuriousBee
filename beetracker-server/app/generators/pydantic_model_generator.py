@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-SCHEMA_FILE = "generator/app.schema"
+SCHEMA_FILE = "app/app.schema"
 PYDANTIC_OUTPUT_DIR = "app/db/autogen/schemas"
 
 os.makedirs(PYDANTIC_OUTPUT_DIR, exist_ok=True)

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var auth = AuthenticateViewModel.shared
+    @StateObject private var server = ServerEndPoints.shared
     @StateObject private var notifications = NotificationTrackerViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
@@ -55,11 +56,12 @@ struct HomeView: View {
                 }
             }
         }
-        .navigationTitle("🐝 Tracker")
+        .navigationTitle(server.isDev ? "🐝 Tracker Dev" : "🐝 Tracker")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 notificationButton
+                toggleModeButton
                 authOrSyncButton
             }
         }
@@ -82,6 +84,15 @@ struct HomeView: View {
                 )
             }
         })
+    }
+    
+    private var toggleModeButton: some View {
+        Button {
+            ServerEndPoints.shared.toggleMode()
+        } label: {
+            Image(systemName: "arrow.2.squarepath")
+                .foregroundColor(.blue)
+        }
     }
 
     private var notificationButton: some View {

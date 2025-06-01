@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-SCHEMA_FILE = "generator/app.schema"
+SCHEMA_FILE = "app/app.schema"
 OUTPUT_DIR = "app/db/autogen/models"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -137,7 +137,7 @@ for table, columns in tables.items():
                     fk_args += ", use_alter=True"
                 col_def += f", ForeignKey({fk_args})"
             if is_pk:
-                col_def += ", primary_key=True"
+                col_def += ", primary_key=True, default=uuid.uuid4"
             col_def += ")"
             f.write(f"    {col_name} = {col_def}\n")
 

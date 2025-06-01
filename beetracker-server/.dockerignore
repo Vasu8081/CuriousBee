@@ -1,0 +1,36 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environments
+venv/
+.env
+.env.*
+*.env
+
+# OS junk
+.DS_Store
+
+# IDE/config files
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git
+.gitignore
+
+# Byte-compiled and cache
+*.egg-info/
+.eggs/
+.cache/
+
+# Alembic migrations cache
+alembic/versions/__pycache__/
+
+# Docker junk
+Dockerfile
+docker-compose.yml

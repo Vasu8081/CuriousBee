@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-SCHEMA_FILE = "generator/app.schema"
+SCHEMA_FILE = "app/app.schema"
 SWIFT_OUTPUT_DIR = "BeeTracker/BeeTracker/Autogen/Models"
 os.makedirs(SWIFT_OUTPUT_DIR, exist_ok=True)
 SWIFT_VIEW_MODEL_OUTPUT_DIR = "BeeTracker/BeeTracker/Autogen/ViewModels"

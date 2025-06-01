@@ -7,9 +7,9 @@ from fastapi import Request, HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 # Load secrets from environment
-JWT_SECRET = os.environ.get("JWT_SECRET", "your-access-token-secret")
-JWT_REFRESH_SECRET = os.environ.get("JWT_REFRESH_SECRET", "your-refresh-token-secret")
-JWT_ALGORITHM = "HS256"
+JWT_ACCESS_TOKEN_SECRET_KEY = os.environ.get("JWT_ACCESS_TOKEN_SECRET_KEY", "your-access-token-secret")
+JWT_REFRESH_TOKEN_SECRET_KEY = os.environ.get("JWT_REFRESH_TOKEN_SECRET_KEY", "your-refresh-token-secret")
+JWT_ALGORITHM = os.environ.get("JWT_ALGORITHM", "HS256")
 
 # Parse durations like "30d", "1h"
 def parse_duration(value):
@@ -27,8 +27,8 @@ def parse_duration(value):
         return datetime.timedelta(seconds=num)
     return None
 
-ACCESS_TOKEN_EXPIRY = parse_duration(os.environ.get("ACCESS_TOKEN_EXPIRY", "15m")) or datetime.timedelta(minutes=15)
-REFRESH_TOKEN_EXPIRY = parse_duration(os.environ.get("REFRESH_TOKEN_EXPIRY", "30d")) or datetime.timedelta(days=30)
+JWT_ACCESS_TOKEN_EXPIRATION_TIME = parse_duration(os.environ.get("JWT_ACCESS_TOKEN_EXPIRATION_TIME", "15m")) or datetime.timedelta(minutes=15)
+JWT_REFRESH_TOKEN_EXPIRATION_TIME = parse_duration(os.environ.get("JWT_REFRESH_TOKEN_EXPIRATION_TIME", "30d")) or datetime.timedelta(days=30)
 
 security = HTTPBearer()  # FastAPI’s way to extract the Bearer token
 
@@ -42,16 +42,16 @@ class Authenticate:
         access_payload = {
             "sub": email,
             "type": "access",
-            "exp": now + ACCESS_TOKEN_EXPIRY
+            "exp": now + JWT_ACCESS_TOKEN_EXPIRATION_TIME
         }
-        access_token = jwt.encode(access_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+        access_token = jwt.encode(access_payload, JWT_ACCESS_TOKEN_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
         refresh_payload = {
             "sub": email,
             "type": "refresh",
-            "exp": now + REFRESH_TOKEN_EXPIRY
+            "exp": now + JWT_REFRESH_TOKEN_EXPIRATION_TIME
         }
-        refresh_token = jwt.encode(refresh_payload, JWT_REFRESH_SECRET, algorithm=JWT_ALGORITHM)
+        refresh_token = jwt.encode(refresh_payload, JWT_REFRESH_TOKEN_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
         return {
             "access_token": access_token if isinstance(access_token, str) else access_token.decode("utf-8"),
@@ -60,7 +60,7 @@ class Authenticate:
 
     def decode_refresh_token(self, token: str):
         try:
-            return jwt.decode(token, JWT_REFRESH_SECRET, algorithms=[JWT_ALGORITHM])
+            return jwt.decode(token, JWT_REFRESH_TOKEN_SECRET_KEY, algorithms=[JWT_ALGORITHM])
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
         except jwt.InvalidTokenError:
@@ -68,7 +68,7 @@ class Authenticate:
 
     def decode_access_token(self, token: str):
         try:
-            return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+            return jwt.decode(token, JWT_ACCESS_TOKEN_SECRET_KEY, algorithms=[JWT_ALGORITHM])
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
         except jwt.InvalidTokenError:

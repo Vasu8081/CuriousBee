@@ -1,0 +1,8 @@
+fastapi>=0.100
+uvicorn[standard]
+httpx
+python-dotenv
+sqlalchemy
+asyncpg
+psycopg2-binary
+alembic>=1.7

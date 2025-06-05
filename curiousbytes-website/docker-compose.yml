@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+  curiousbytes-frontend:
+    build:
+      context: ./client
+    container_name: curiousbytes-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app:cached
+      - /app/node_modules
+    working_dir: /app
+    networks:
+      - curiousbeenet
+
+  curiousbytes-backend:
+    build:
+      context: ./backend
+    container_name: curiousbytes-backend
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - YOUTUBE_PLAYLIST_ID=${YOUTUBE_PLAYLIST_ID}
+      - YOUTUBE_CHANNEL_ID=${YOUTUBE_CHANNEL_ID}
+      - YOUTUBE_CACHE_REFRESH_INTERVAL=${YOUTUBE_CACHE_REFRESH_INTERVAL}
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    networks:
+      - curiousbeenet
+      - internal
+
+  curiousbytes-postgres:
+    image: postgres:15
+    container_name: curiousbytes-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: curioususer
+      POSTGRES_PASSWORD: curiouspass
+      POSTGRES_DB: curiousbytes
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-curiousbytes:/var/lib/postgresql/data
+    networks:
+      - internal
+
+volumes:
+  pgdata-curiousbytes:
+    external: true
+    name: curiousbytes-database
+
+networks:
+  curiousbeenet:
+    external: true
+  internal:

@@ -1,1 +1,1 @@
-# BeeAPIServer
+# CuriousBee

@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  beetracker:
+    build:
+      context: ./server
+    container_name: beetracker
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://beeuser:beepass@beetracker-postgres:5432/beetracker
+      - PYTHONDONTWRITEBYTECODE=1
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+      - JWT_ACCESS_TOKEN_SECRET_KEY=${JWT_ACCESS_TOKEN_SECRET_KEY}
+      - JWT_REFRESH_TOKEN_SECRET_KEY=${JWT_REFRESH_TOKEN_SECRET_KEY}
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=${JWT_ACCESS_TOKEN_EXPIRATION_TIME:-15m}
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=${JWT_REFRESH_TOKEN_EXPIRATION_TIME:-30d}
+      - APPLE_TEAM_ID=${APPLE_TEAM_ID}
+      - APPLE_KEY_ID=${APPLE_KEY_ID}
+      - APPLE_BUNDLE_ID=${APPLE_BUNDLE_ID}
+      - APPLE_P8_CERTIFICATE=${APPLE_P8_CERTIFICATE}
+      - APPLE_USE_SANDBOX=${APPLE_USE_SANDBOX:-false}
+      - LOAD_TEST_DATA=${LOAD_TEST_DATA:-false}
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    networks:
+      - curiousbeenet
+      - internal
+
+  beetracker-postgres:
+    image: postgres:15
+    container_name: beetracker-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: beeuser
+      POSTGRES_PASSWORD: beepass
+      POSTGRES_DB: beetracker
+    volumes:
+      - pgdata-beetracker:/var/lib/postgresql/data
+    networks:
+      - internal
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata-beetracker:
+    name: beetracker-database
+
+networks:
+  curiousbeenet:
+    external: true
+  internal:

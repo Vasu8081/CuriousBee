@@ -1,7 +1,13 @@
-from sqlalchemy import Column, String, Text, DateTime, JSON, Boolean
+from enum import Enum
+from sqlalchemy import Column, String, Text, DateTime, JSON, Boolean, Enum as SQLEnum
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
+class VideoType(str, Enum):
+    GateGeneral = "GateGeneral"
+    GateStrategy = "GateStrategy"
+    GateToppersInterview = "GateToppersInterview"
 
 class YouTubeVideo(Base):
     __tablename__ = "youtube_videos"
@@ -14,6 +20,7 @@ class YouTubeVideo(Base):
     localized = Column(JSON)
     channel_id = Column(String)
     channel_title = Column(String)
-    resources = Column(JSON)  # List of extracted {label, url} dicts
-    raw_snippet = Column(JSON)  # Store full snippet for flexibility
-    is_video = Column(Boolean, default=True)  # True = video, False = short
+    resources = Column(JSON)
+    raw_snippet = Column(JSON)
+    is_video = Column(Boolean, default=True)
+    video_type = Column(SQLEnum(VideoType, name="videotype"), nullable=False, default=VideoType.GateGeneral)

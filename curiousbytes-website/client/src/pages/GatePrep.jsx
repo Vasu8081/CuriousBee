@@ -20,8 +20,6 @@ const GatePrep = () => {
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold text-blue-700 mb-4">GATE Preparation</h2>
-      <p className="mb-6 text-gray-600">Organize notes, PDFs, past year questions, calculators, etc.</p>
-      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {resources.map((resource, index) => (
           <a

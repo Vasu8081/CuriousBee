@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from sqlalchemy.orm import Session
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://curioususer:curiouspass@localhost:5434/curiousbytes")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://curioususer:curiouspass@localhost:5433/curiousbytes")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -6,6 +6,13 @@ class ResourceLink(BaseModel):
     label: str
     url: str
 
+from enum import Enum
+
+class VideoTypePydantic(str, Enum):
+    GateGeneral = "GateGeneral"
+    GateStrategy = "GateStrategy"
+    GateToppersInterview = "GateToppersInterview"
+
 class YouTubeVideoBase(BaseModel):
     video_id: str
     title: str
@@ -17,7 +24,8 @@ class YouTubeVideoBase(BaseModel):
     localized: Optional[Dict] = None
     resources: List[ResourceLink] = []
     raw_snippet: Optional[Dict] = None
-    is_video: bool = True  # <-- ADDED
+    is_video: bool = True
+    video_type: VideoTypePydantic
 
     model_config = {
         "from_attributes": True

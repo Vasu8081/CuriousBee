@@ -6,7 +6,10 @@ const VideoCard = ({ title, videoId, thumbnail }) => {
 
   return (
     <div className="rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800">
-      <div className="w-full aspect-video cursor-pointer" onClick={() => setIsPlaying(true)}>
+      <div
+        className="w-full aspect-video cursor-pointer"
+        onClick={() => setIsPlaying(true)}
+      >
         {isPlaying ? (
           <iframe
             src={embedUrl}
@@ -25,7 +28,9 @@ const VideoCard = ({ title, videoId, thumbnail }) => {
         )}
       </div>
       <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">{title}</h2>
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+          {title}
+        </h2>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy import func
-from app.models.youtube import YouTubeVideo
+from app.models.youtube import YouTubeVideo, VideoType
 from app.schemas.youtube import YouTubeVideoCreate
 
 # ---------- Upsert ----------
@@ -61,7 +61,23 @@ def get_latest_videos(db: Session, limit: int = 5):
     )
 
 def get_all_videos(db: Session):
-    return db.query(YouTubeVideo).filter(YouTubeVideo.is_video == True).order_by(YouTubeVideo.published_at.desc()).all()
+    res = db.query(YouTubeVideo).filter(YouTubeVideo.is_video == True).order_by(YouTubeVideo.published_at.desc()).all()
+    print(res)
+    return res
+
+from sqlalchemy import and_
+def get_videos_by_type(video_type: VideoType, db: Session):
+    return (
+        db.query(YouTubeVideo)
+        .filter(
+            and_(
+                YouTubeVideo.is_video == True,
+                YouTubeVideo.video_type == video_type  # <== uses Enum directly
+            )
+        )
+        .order_by(YouTubeVideo.published_at.desc())
+        .all()
+    )
 
 from sqlalchemy import or_
 

@@ -169,7 +169,7 @@ for table, columns in tables.items():
         # f.write(f"    @staticmethod\n")
         # f.write(f"    def to_model(schema: '{model_class_name}Schema') -> '{model_class_name}':\n")
         f.write(f"    def to_model(self) -> '{model_class_name}':\n")
-        f.write(f"        from app.db.autogen.models.{table} import {model_class_name}\n")
+        f.write(f"        from app.autogen.models.{table} import {model_class_name}\n")
         f.write(f"        model = {model_class_name}(\n")
 
         init_fields = []
@@ -191,7 +191,7 @@ for table, columns in tables.items():
             field_name = fk["tgt_col"]
             pydantic_refer = fk["pydantic_refer"]
             if pydantic_refer == "refer_left":
-                f.write(f"        from app.db.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
+                f.write(f"        from app.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
                 if rel_type in {"many_to_one", "one_to_one"}:
                     f.write(f"        if self.{field_name} is not None:\n")
                     f.write(f"            model.{field_name} = self.{field_name}.to_model()\n")
@@ -207,7 +207,7 @@ for table, columns in tables.items():
             rel_type = rfk["type"]
             field_name = rfk["src_table"]  # plural for collections
             if rfk["pydantic_refer"] == "refer_right":
-                f.write(f"        from app.db.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
+                f.write(f"        from app.autogen.models.{rfk['src_table']} import {to_pascal_case(rfk['src_table'])}\n")
                 if rel_type in {"many_to_one", "many_to_many"}:
                     f.write(f"        if self.{field_name} is not None:\n")
                     f.write(f"            model.{field_name} = [obj.to_model() for obj in self.{field_name}]\n")

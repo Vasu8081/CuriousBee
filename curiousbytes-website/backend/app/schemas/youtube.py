@@ -25,7 +25,7 @@ class YouTubeVideoBase(BaseModel):
     resources: List[ResourceLink] = []
     raw_snippet: Optional[Dict] = None
     is_video: bool = True
-    video_type: VideoTypePydantic
+    video_type: Optional[VideoTypePydantic] = None
 
     model_config = {
         "from_attributes": True

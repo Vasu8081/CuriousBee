@@ -4,9 +4,9 @@ from pydantic import EmailStr
 from app.core.dependencies import get_current_user_email
 from app.db.database import get_db
 from app.core.logging import logging
-from app.db.autogen.models.groups import Groups
-from app.db.autogen.models.users import Users
-from app.db.autogen.schemas.tasks_schema import TasksSchema
+from app.autogen.models.groups import Groups
+from app.autogen.models.users import Users
+from app.autogen.schemas.tasks_schema import TasksSchema
 import uuid
 
 router = APIRouter()
@@ -17,16 +17,16 @@ def get_group_tasks(
     email: str = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    from app.db.autogen.models.tasks import Tasks
+    from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    if user._group_id != group_id:
+    if user.GroupId != group_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to view this group's period entries")
     
-    tasks = db.query(Tasks).filter(Tasks._group_id == group_id).all()
+    tasks = db.query(Tasks).filter(Tasks.__table__.c._group_id == group_id).all()
 
     return [task.to_schema() for task in tasks]
 
@@ -37,17 +37,17 @@ def add_or_update_task(
     email: EmailStr = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    from app.db.autogen.models.tasks import Tasks
+    from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    existing_entry = db.query(Tasks).filter(Tasks._id == task.id).first()
+    existing_entry = db.query(Tasks).filter(Tasks.__table__.c._id == task.id).first()
 
     if existing_entry:
         updated = task.to_model()
-        updated._id = existing_entry._id
+        updated._id = existing_entry.Id
         updated = db.merge(updated)
     else:
         new_entry = task.to_model()
@@ -66,15 +66,15 @@ def delete_group_period_entry(
     email: EmailStr = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    from app.db.autogen.models.users import Users
-    from app.db.autogen.models.groups import Groups
-    from app.db.autogen.models.tasks import Tasks
+    from app.autogen.models.users import Users
+    from app.autogen.models.groups import Groups
+    from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    entry = db.query(Tasks).filter(Tasks._id == task_id).first()
+    entry = db.query(Tasks).filter(Tasks.__table__.c._id == task_id).first()
     if not entry:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
 

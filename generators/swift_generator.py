@@ -34,13 +34,13 @@ def generate_swift_models(build_dir: str, output_dir: str):
             for fk in fks.get(table, []):
                 if fk["pydantic_refer"] == "refer_left":
                     rel = to_pascal(fk["tgt_table"])
-                    name = fk["src_col"][1:-3]
+                    name = fk["left_field"]
                     f.write(f"    var {name}: {rel}?\n")
 
             for rfk in reverse_fks.get(table, []):
                 if rfk["pydantic_refer"] == "refer_right":
                     rel = to_pascal(rfk["src_table"])
-                    name = rfk["src_table"]
+                    name = rfk["right_field"]
                     f.write(f"    var {name}: [{rel}] = []\n")
 
             f.write("\n    static var serverTypeMap: [String:String] {\n")
@@ -56,3 +56,14 @@ def generate_swift_models(build_dir: str, output_dir: str):
             f.write("}\n")
 
         print(f"✅ Generated Swift model: {file_path}")
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate Swift models from database schema.")
+    parser.add_argument("--build-dir", type=str, required=True, help="Path to the build directory containing tables.json, foreign_keys.json, and reverse_fks.json.")
+    parser.add_argument("--output-dir", type=str, required=True, help="Path to the output directory for generated Swift models.")
+
+    args = parser.parse_args()
+    generate_swift_models(args.build_dir, args.output_dir)
+    print("✅ All Swift models generated successfully.")

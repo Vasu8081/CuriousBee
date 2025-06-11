@@ -1,0 +1,170 @@
+{
+  "users": [
+    {
+      "src_table": "users",
+      "src_col": "group_id",
+      "tgt_table": "groups",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "group",
+      "right_field": "users"
+    }
+  ],
+  "tasks": [
+    {
+      "src_table": "tasks",
+      "src_col": "group_id",
+      "tgt_table": "groups",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "group",
+      "right_field": "tasks"
+    },
+    {
+      "src_table": "tasks",
+      "src_col": "primary_doer_user_id",
+      "tgt_table": "users",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "primaryDoer",
+      "right_field": "tasks"
+    }
+  ],
+  "calendar_entries": [
+    {
+      "src_table": "calendar_entries",
+      "src_col": "user_id",
+      "tgt_table": "users",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "user",
+      "right_field": "calendarEntries"
+    },
+    {
+      "src_table": "calendar_entries",
+      "src_col": "group_id",
+      "tgt_table": "groups",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "group",
+      "right_field": "calendarEntries"
+    },
+    {
+      "src_table": "calendar_entries",
+      "src_col": "task_id",
+      "tgt_table": "tasks",
+      "tgt_col": "id",
+      "type": "one_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "task",
+      "right_field": "calendarEntry"
+    }
+  ],
+  "period_infos": [
+    {
+      "src_table": "period_infos",
+      "src_col": "id",
+      "tgt_table": "groups",
+      "tgt_col": "id",
+      "type": "one_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "group",
+      "right_field": "periodInfo"
+    }
+  ],
+  "period_entries": [
+    {
+      "src_table": "period_entries",
+      "src_col": "period_info_id",
+      "tgt_table": "period_infos",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "periodInfo",
+      "right_field": "periodEntries"
+    }
+  ],
+  "product_infos": [
+    {
+      "src_table": "product_infos",
+      "src_col": "group_id",
+      "tgt_table": "groups",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "group",
+      "right_field": "productInfos"
+    },
+    {
+      "src_table": "product_infos",
+      "src_col": "category_id",
+      "tgt_table": "product_categories",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "category",
+      "right_field": "productInfos"
+    }
+  ],
+  "products": [
+    {
+      "src_table": "products",
+      "src_col": "product_info_id",
+      "tgt_table": "product_infos",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "productInfo",
+      "right_field": "products"
+    },
+    {
+      "src_table": "products",
+      "src_col": "status_id",
+      "tgt_table": "product_status",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "status",
+      "right_field": "products"
+    }
+  ],
+  "orders": [
+    {
+      "src_table": "orders",
+      "src_col": "product_id",
+      "tgt_table": "products",
+      "tgt_col": "id",
+      "type": "one_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "product",
+      "right_field": "order"
+    }
+  ],
+  "period_symptoms": [
+    {
+      "src_table": "period_symptoms",
+      "src_col": "period_entry_id",
+      "tgt_table": "period_entries",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "periodEntry",
+      "right_field": "symptoms"
+    },
+    {
+      "src_table": "period_symptoms",
+      "src_col": "symptom_id",
+      "tgt_table": "symptoms",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_left",
+      "left_field": "symptom",
+      "right_field": "periodSymptoms"
+    }
+  ]
+}

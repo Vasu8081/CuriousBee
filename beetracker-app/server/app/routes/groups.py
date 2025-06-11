@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from pydantic import EmailStr
 from app.core.dependencies import get_current_user_email
 from app.db.database import get_db
-from app.db.autogen.models.groups import Groups
-from app.db.autogen.models.users import Users
-from app.db.autogen.schemas.period_entries_schema import PeriodEntriesSchema
-from app.db.autogen.schemas.groups_schema import GroupsSchema
+from app.autogen.models.groups import Groups
+from app.autogen.models.users import Users
+from app.autogen.schemas.period_entries_schema import PeriodEntriesSchema
+from app.autogen.schemas.groups_schema import GroupsSchema
 import uuid
 
 router = APIRouter()
@@ -19,7 +19,7 @@ async def get_periods(
     """
     Retrieve all periods for the current user.
     """
-    user = db.query(Users).filter(Users._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
@@ -36,7 +36,7 @@ async def get_group(
     """
     Retrieve the group of the current user.
     """
-    user = db.query(Users).filter(Users._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
@@ -54,7 +54,7 @@ async def get_group_by_id(
     """
     Retrieve a group by its ID.
     """
-    user = db.query(Users).filter(Users._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     

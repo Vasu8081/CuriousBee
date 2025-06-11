@@ -1,4 +1,3 @@
-# utilities/generate_swift_endpoints.py
 import json
 from pathlib import Path
 
@@ -79,3 +78,14 @@ def generate_swift_endpoints(build_dir: str, output_dir: str):
             f.write("}\n")
 
         print(f"✅ Endpoint written: {endpoint_file}")
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate Swift endpoints from database schema.")
+    parser.add_argument("--build-dir", type=str, required=True, help="Path to the build directory containing tables.json.")
+    parser.add_argument("--output-dir", type=str, required=True, help="Path to the output directory for generated Swift endpoints.")
+
+    args = parser.parse_args()
+    generate_swift_endpoints(args.build_dir, args.output_dir)
+    print("✅ All Swift endpoints generated successfully.")

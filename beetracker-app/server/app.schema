@@ -1,120 +1,120 @@
 Table groups {
-  _id UUID [primary key]
-  _name TEXT
+  id UUID [primary key]
+  name TEXT
 }
 
 Table users {
-  _id UUID [primary key]
-  _name TEXT
-  _email TEXT
-  _apple_device_token TEXT
-  _password_hash TEXT HIDDEN
-  _group_id UUID
-  _is_admin BOOLEAN
+  id UUID [primary key]
+  name TEXT
+  email TEXT
+  apple_device_token TEXT
+  password_hash TEXT HIDDEN
+  group_id UUID
+  is_admin BOOLEAN
 }
 
 Table tasks {
-  _id UUID [primary key]
-  _title TEXT
-  _notes TEXT
-  _deadline TIMESTAMP
-  _interaction_style TEXT
-  _primary_doer_user_id UUID
-  _other_users_presence_necessary BOOLEAN
-  _is_completed BOOLEAN
-  _group_id UUID
+  id UUID [primary key]
+  title TEXT
+  notes TEXT
+  deadline TIMESTAMP
+  interaction_style TEXT
+  primary_doer_user_id UUID
+  other_users_presence_necessary BOOLEAN
+  is_completed BOOLEAN
+  group_id UUID
 }
 
 Table calendar_entries {
-  _id UUID [primary key]
-  _user_id UUID
-  _group_id UUID
-  _title TEXT
-  _notes TEXT
-  _date DATE
-  _start_time TIME
-  _end_time TIME
-  _task_id UUID
+  id UUID [primary key]
+  user_id UUID
+  group_id UUID
+  title TEXT
+  notes TEXT
+  date DATE
+  start_time TIME
+  end_time TIME
+  task_id UUID
 }
 
 Table period_infos {
-  _id UUID [primary key]
-  _average_cycle_length INTEGER
-  _average_period_duration INTEGER
-  _active_period_start_date DATE
-  _predicted_next_period_date DATE
+  id UUID [primary key]
+  average_cycle_length INTEGER
+  average_period_duration INTEGER
+  active_period_start_date DATE
+  predicted_next_period_date DATE
 }
 
 Table period_entries {
-  _id UUID [primary key]
-  _period_info_id UUID
-  _start_date DATE
-  _end_date DATE
-  _notes TEXT
-  _is_ended BOOLEAN
+  id UUID [primary key]
+  period_info_id UUID
+  start_date DATE
+  end_date DATE
+  notes TEXT
+  is_ended BOOLEAN
 }
 
 Table period_symptoms {
-  _id UUID [primary key]
-  _period_entry_id UUID
-  _symptom_id UUID
+  id UUID [primary key]
+  period_entry_id UUID
+  symptom_id UUID
 }
 
 Table symptoms {
-  _id UUID [primary key]
-  _name TEXT
+  id UUID [primary key]
+  name TEXT
 }
 
 Table product_infos {
-  _id UUID [primary key]
-  _group_id UUID
-  _name TEXT
-  _category_id UUID
-  _reminder_enabled BOOLEAN
-  _days_per_quantity FLOAT
-  _quantity_unit_size TEXT
+  id UUID [primary key]
+  group_id UUID
+  name TEXT
+  category_id UUID
+  reminder_enabled BOOLEAN
+  days_per_quantity FLOAT
+  quantity_unit_size TEXT
 }
 
 Table product_categories {
-  _id UUID [primary key]
-  _name TEXT
+  id UUID [primary key]
+  name TEXT
 }
 
 Table product_status {
-  _id UUID [primary key]
-  _name TEXT
+  id UUID [primary key]
+  name TEXT
 }
 
 Table products {
-  _id UUID [primary key]
-  _product_info_id UUID
-  _quantity FLOAT
-  _started_using_date DATE
-  _product_completed_date DATE
-  _price FLOAT
-  _status_id UUID
+  id UUID [primary key]
+  product_info_id UUID
+  quantity FLOAT
+  started_using_date DATE
+  product_completed_date DATE
+  price FLOAT
+  status_id UUID
 }
 
 Table orders {
-  _id UUID [primary key]
-  _ordered_date DATE
-  _expected_delivery_date DATE
-  _received_date DATE
-  _product_id UUID
+  id UUID [primary key]
+  ordered_date DATE
+  expected_delivery_date DATE
+  received_date DATE
+  product_id UUID
 }
 
-FK users._group_id -> groups._id [many_to_one] [refer_right]
-FK tasks._group_id -> groups._id [many_to_one] [refer_right]
-FK tasks._primary_doer_user_id -> users._id [many_to_one] [refer_right]
-FK calendar_entries._user_id -> users._id [many_to_one] [refer_right]
-FK calendar_entries._group_id -> groups._id [many_to_one] [refer_right]
-FK calendar_entries._task_id -> tasks._id [one_to_one] [refer_right]
-FK period_infos._id -> groups._id [one_to_one] [refer_right]
-FK period_entries._period_info_id -> period_infos._id [many_to_one] [refer_right]
-FK product_infos._group_id -> groups._id [many_to_one] [refer_right]
-FK product_infos._category_id -> product_categories._id [many_to_one] [refer_right]
-FK products._product_info_id -> product_infos._id [many_to_one] [refer_right]
-FK products._status_id -> product_status._id [many_to_one] [refer_right]
-FK orders._product_id -> products._id [one_to_one] [refer_right]
-FK period_symptoms._period_entry_id -> period_entries._id [many_to_one] [refer_right]
-FK period_symptoms._symptom_id -> symptoms._id [many_to_one] [refer_left]
+FK users.group_id as group -> groups.id as users [many_to_one] [refer_right]
+FK tasks.group_id as group -> groups.id as tasks [many_to_one] [refer_right]
+FK tasks.primary_doer_user_id as primaryDoer -> users.id as tasks [many_to_one] [refer_right]
+FK calendar_entries.user_id as user -> users.id as calendarEntries [many_to_one] [refer_right]
+FK calendar_entries.group_id as group -> groups.id as calendarEntries [many_to_one] [refer_right]
+FK calendar_entries.task_id as task -> tasks.id as calendarEntry [one_to_one] [refer_right]
+FK period_infos.id as group -> groups.id as periodInfo [one_to_one] [refer_right]
+FK period_entries.period_info_id as periodInfo -> period_infos.id as periodEntries [many_to_one] [refer_right]
+FK product_infos.group_id as group -> groups.id as productInfos [many_to_one] [refer_right]
+FK product_infos.category_id as category -> product_categories.id as productInfos [many_to_one] [refer_right]
+FK products.product_info_id as productInfo -> product_infos.id as products [many_to_one] [refer_right]
+FK products.status_id as status -> product_status.id as products [many_to_one] [refer_right]
+FK orders.product_id as product -> products.id as order [one_to_one] [refer_right]
+FK period_symptoms.period_entry_id as periodEntry -> period_entries.id as symptoms [many_to_one] [refer_right]
+FK period_symptoms.symptom_id as symptom -> symptoms.id as periodSymptoms [many_to_one] [refer_left]

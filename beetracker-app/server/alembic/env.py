@@ -22,7 +22,7 @@ if db_url:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from app.db.base import Base  # Import your Base model
-from app.db.autogen import models
+from app.autogen import models
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

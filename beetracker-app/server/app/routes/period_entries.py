@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from pydantic import EmailStr
 from app.core.dependencies import get_current_user_email
 from app.db.database import get_db
-from app.db.autogen.models.period_entries import PeriodEntries
-from app.db.autogen.schemas.period_entries_schema import PeriodEntriesSchema
+from app.autogen.models.period_entries import PeriodEntries
+from app.autogen.schemas.period_entries_schema import PeriodEntriesSchema
 import uuid
 
 router = APIRouter()
@@ -16,24 +16,24 @@ def add_or_update_period_entry(
     email: EmailStr = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    from app.db.autogen.models.users import Users
-    from app.db.autogen.models.groups import Groups
+    from app.autogen.models.users import Users
+    from app.autogen.models.groups import Groups
 
-    user = db.query(Users).filter(Users._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    group = db.query(Groups).filter(Groups._id == group_id).first()
+    group = db.query(Groups).filter(Groups.__table__.c._id == group_id).first()
     if not group:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Group not found")
     
     print("Period Entries:", period_entries)
 
-    existing_entry = db.query(PeriodEntries).filter(PeriodEntries._id == period_entries.id).first()
+    existing_entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c._id == period_entries.id).first()
 
     if existing_entry:
         updated = period_entries.to_model()
-        updated._id = existing_entry._id
+        updated._id = existing_entry.Id
         updated = db.merge(updated)
     else:
         new_entry = period_entries.to_model()
@@ -52,13 +52,13 @@ def delete_period_entry(
     email: EmailStr = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    from app.db.autogen.models.users import Users
+    from app.autogen.models.users import Users
 
-    user = db.query(Users).filter(Users._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c._email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    entry = db.query(PeriodEntries).filter(PeriodEntries._id == period_entry_id).first()
+    entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c._id == period_entry_id).first()
     if not entry:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Period entry not found")
 

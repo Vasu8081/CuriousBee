@@ -24,24 +24,28 @@ def parse_schema(schema_text):
             continue
 
         if line.startswith("FK"):
-            m = re.match(
-                r"FK\s+(\w+)\.(\w+)\s+->\s+(\w+)\.(\w+)(?:\s+\[(\w+_\w+)\])?(?:\s+\[(\w+_\w+)\])?",
+            match = re.match(
+                r"FK\s+(\w+)\.(\w+)\s+as\s+(\w+)\s+->\s+(\w+)\.(\w+)\s+as\s+(\w+)(?:\s+\[(\w+_\w+)\])?(?:\s+\[(\w+_\w+)\])?",
                 line
             )
-            if m:
-                src_table, src_col, tgt_table, tgt_col, rel_type, pydantic_refer = m.groups()
+            if match:
+                src_table, src_col, left_field, tgt_table, tgt_col, right_field, rel_type, refer_dir = match.groups()
                 rel_type = rel_type or "many_to_one"
-                pydantic_refer = pydantic_refer or "refer_right"
-                obj = {
+                refer_dir = refer_dir or "refer_right"
+
+                fk_obj = {
                     "src_table": src_table,
                     "src_col": src_col,
                     "tgt_table": tgt_table,
                     "tgt_col": tgt_col,
                     "type": rel_type,
-                    "pydantic_refer": pydantic_refer
+                    "pydantic_refer": refer_dir,
+                    "left_field": left_field,
+                    "right_field": right_field
                 }
-                fks[src_table].append(obj)
-                reverse_fks[tgt_table].append(obj)
+
+                fks[src_table].append(fk_obj)
+                reverse_fks[tgt_table].append(fk_obj)
             continue
 
         if line.startswith("}"):
@@ -86,7 +90,7 @@ def save_json(obj, path: Path):
     with path.open("w") as f:
         json.dump(obj, f, indent=2)
 
-def generate_parsed_schema_files(schema_file: Path, build_dir: Path) -> Path:
+def generate_parsed_schema_files(schema_file: Path, build_dir: Path):
     if not schema_file.exists():
         raise FileNotFoundError(f"Schema file not found: {schema_file}")
 
@@ -101,4 +105,15 @@ def generate_parsed_schema_files(schema_file: Path, build_dir: Path) -> Path:
     save_json(list(circular_deps), build_dir / "circular_deps.json")
 
     print(f"✅  Parsed schema and wrote JSON to: {build_dir}")
-    return build_dir
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Parse schema and generate JSON files.")
+    parser.add_argument("--schema_file", type=Path, help="Path to the schema file")
+    parser.add_argument("--build_dir", type=Path, help="Directory to save the generated JSON files")
+
+    args = parser.parse_args()
+    generate_parsed_schema_files(args.schema_file, args.build_dir)
+    print(f"Parsing schema from {args.schema_file} and saving to {args.build_dir}")
+    print("Done.")

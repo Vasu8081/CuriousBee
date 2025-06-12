@@ -9,7 +9,7 @@ struct BeeFinancial: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                HomeView()
+                StartView(appName: "Financial")
             }
             .environmentObject(userViewModel)
         }

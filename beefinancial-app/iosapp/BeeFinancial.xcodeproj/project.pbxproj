@@ -58,6 +58,7 @@
 		5658A5B52DFB546200E887CC /* NotificationBellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5AF2DFB546200E887CC /* NotificationBellView.swift */; };
 		5658A5B62DFB546200E887CC /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5B02DFB546200E887CC /* NotificationListView.swift */; };
 		5658A5B92DFB54EC00E887CC /* DeviceTokenEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */; };
+		5658A5BB2DFB5D3100E887CC /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5BA2DFB5D2A00E887CC /* StartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,7 @@
 		5658A5B02DFB546200E887CC /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		5658A5B22DFB546200E887CC /* NotificationTrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTrackerViewModel.swift; sourceTree = "<group>"; };
 		5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenEndpoints.swift; sourceTree = "<group>"; };
+		5658A5BA2DFB5D2A00E887CC /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		56A558162DE55AD600307193 /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeeFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -231,6 +233,7 @@
 		5658A5972DFB4D5E00E887CC /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				5658A5BA2DFB5D2A00E887CC /* StartView.swift */,
 				5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */,
 				5658A5A12DFB52F900E887CC /* AuthUser.swift */,
 				5658A59F2DFB52DF00E887CC /* LoginEndPoints.swift */,
@@ -239,6 +242,8 @@
 				5658A5992DFB524100E887CC /* ServerEndPoints.swift */,
 				5658A5952DFB4CFD00E887CC /* BeeCodableModel.swift */,
 				5658A5AB2DFB53F500E887CC /* AppDelegate.swift */,
+				5658A5B32DFB546200E887CC /* Notifications */,
+				5658A5A62DFB534500E887CC /* Authenticate */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -263,8 +268,6 @@
 		5658A5A72DFB534500E887CC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				5658A5B32DFB546200E887CC /* Notifications */,
-				5658A5A62DFB534500E887CC /* Authenticate */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5658A5BB2DFB5D3100E887CC /* StartView.swift in Sources */,
 				5658A56A2DFB4A8000E887CC /* ChitAccount.swift in Sources */,
 				5658A56C2DFB4A8000E887CC /* SummaryView.swift in Sources */,
 				5658A56D2DFB4A8000E887CC /* UsersEndpoint.swift in Sources */,

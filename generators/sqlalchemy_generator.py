@@ -68,7 +68,14 @@ def generate_alembic_models(build_dir: str, output_dir: str):
                 rel_type = fk["type"]
                 tgt_class = to_pascal(fk["tgt_table"])
                 field_name = fk["left_field"]
-                uselist = "uselist=False" if rel_type in ["many_to_one", "one_to_one"] else "uselist=True"
+                if rel_type == "many_to_many":
+                    uselist = "uselist=True"
+                elif rel_type == "many_to_one":
+                    uselist = "uselist=False"
+                elif rel_type == "one_to_one":
+                    uselist = "uselist=False"
+                else:
+                    uselist = "uselist=True"
                 back_pop = f"back_populates='{fk['right_field']}'"
                 f.write(f"    {field_name} = relationship('{tgt_class}', {uselist}, {back_pop})\n")
 
@@ -76,7 +83,14 @@ def generate_alembic_models(build_dir: str, output_dir: str):
                 rel_type = rfk["type"]
                 src_class = to_pascal(rfk["src_table"])
                 field_name = rfk["right_field"]
-                uselist = "uselist=True" if rel_type in ["many_to_many", "one_to_many"] else "uselist=False"
+                if rel_type == "many_to_many":
+                    uselist = "uselist=True"
+                elif rel_type == "many_to_one":
+                    uselist = "uselist=True"
+                elif rel_type == "one_to_one":
+                    uselist = "uselist=False"
+                else:
+                    uselist = "uselist=True"
                 back_pop = f"back_populates='{rfk['left_field']}'"
                 f.write(f"    {field_name} = relationship('{src_class}', {uselist}, {back_pop})\n")
 

@@ -28,4 +28,4 @@ def get_group_period_entries(
     if user.GroupId != group_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to view this group's period entries")
 
-    return [user.group.period_info.to_schema()]
+    return [user.group.periodInfo.to_schema()]

@@ -54,21 +54,21 @@ struct TaskScheduleForm: View {
                         )
                         
                         var newEntry = CalendarEntries(
-                            _id: UUID(),
-                            _user_id: assignedTo,
-                            _title: viewModel.title,
-                            _notes: viewModel.notes,
-                            _date: date,
-                            _start_time: fullStart,
-                            _end_time: fullEnd
+                            id: UUID(),
+                            user_id: assignedTo,
+                            title: viewModel.title,
+                            notes: viewModel.notes,
+                            date: date,
+                            start_time: fullStart,
+                            end_time: fullEnd
                         )
                         
                         if viewModel.other_users_presence_necessary ?? false {
                             newEntry.group_id = UUID(uuidString: AuthenticateViewModel.shared.getGroupId())
                         }
                         
-                        viewModel.calendar_entrie = CalendarEntriesViewModel(model: newEntry)
-                        calendarViewModel.addCalendarEntry(viewModel.calendar_entrie)
+                        viewModel.calendarEntry = CalendarEntriesViewModel(model: newEntry)
+                        calendarViewModel.addCalendarEntry(viewModel.calendarEntry)
                         viewModel.save()
                         dismiss()
                     }

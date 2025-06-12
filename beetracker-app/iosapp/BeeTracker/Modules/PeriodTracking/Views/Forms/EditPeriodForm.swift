@@ -41,10 +41,10 @@ struct EditPeriodForm: View {
                         entryViewModel.is_ended = isEnded
                         entryViewModel.notes = notes.isEmpty ? nil : notes
 
-                        entryViewModel.period_symptoms = selectedSymptoms.map {
-                            PeriodSymptomsViewModel(model: PeriodSymptoms(_period_entry_id: entryViewModel.id, _symptom_id: $0.id))
+                        entryViewModel.symptoms = selectedSymptoms.map {
+                            PeriodSymptomsViewModel(model: PeriodSymptoms(period_entry_id: entryViewModel.id, symptom_id: $0.id))
                         }
-
+                        entryViewModel.save()
                         dismiss()
                     }
                 }
@@ -59,7 +59,7 @@ struct EditPeriodForm: View {
                 notes = entryViewModel.notes ?? ""
                 isEnded = entryViewModel.is_ended ?? false
                 duration = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day ?? 5
-                selectedSymptoms = Set(entryViewModel.period_symptoms.compactMap { symptom in
+                selectedSymptoms = Set(entryViewModel.symptoms.compactMap { symptom in
                     periodViewModel.getAllSymptoms().first(where: { $0.id == symptom.symptom_id })
                 })
             }

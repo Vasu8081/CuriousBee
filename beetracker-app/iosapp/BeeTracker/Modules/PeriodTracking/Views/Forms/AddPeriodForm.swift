@@ -39,16 +39,16 @@ struct AddPeriodForm: View {
                         let new_id = UUID()
                         var symptomsList: [PeriodSymptoms] = []
                         for symptom in selectedSymptoms {
-                            symptomsList.append(PeriodSymptoms(_period_entry_id: new_id, _symptom_id: symptom.id))
+                            symptomsList.append(PeriodSymptoms(period_entry_id: new_id, symptom_id: symptom.id))
                         }
                         let newEntry = PeriodEntries(
-                            _id: new_id,
-                            _period_info_id: periodViewModel.getPeriodInfoId(),
-                            _start_date: startDate,
-                            _end_date: finalEndDate,
-                            _notes: notes.isEmpty ? nil : notes,
-                            _is_ended: isEnded,
-                            period_symptoms: symptomsList
+                            id: new_id,
+                            period_info_id: periodViewModel.getPeriodInfoId(),
+                            start_date: startDate,
+                            end_date: finalEndDate,
+                            notes: notes.isEmpty ? nil : notes,
+                            is_ended: isEnded,
+                            symptoms: symptomsList
                         )
                         periodViewModel.addPeriodEntry(entry: newEntry)
                         dismiss()

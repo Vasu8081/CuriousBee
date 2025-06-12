@@ -7,9 +7,11 @@ from collections import defaultdict
 
 def parse_schema(schema_text):
     tables = {}
+    enums = {}
     fks = defaultdict(list)
     reverse_fks = defaultdict(list)
     current_table = None
+    current_enum = None
 
     for line in schema_text.splitlines():
         line = line.strip()
@@ -22,6 +24,14 @@ def parse_schema(schema_text):
                 current_table = parts[1]
                 tables[current_table] = []
             continue
+
+        if line.startswith("Enum"):
+            parts = line.split()
+            if len(parts) >= 2:
+                current_enum = parts[1]
+                enums[current_enum] = []
+            continue
+
 
         if line.startswith("FK"):
             match = re.match(
@@ -50,6 +60,7 @@ def parse_schema(schema_text):
 
         if line.startswith("}"):
             current_table = None
+            current_enum = None
             continue
 
         if current_table:
@@ -58,8 +69,16 @@ def parse_schema(schema_text):
             col_type = parts[1]
             modifiers = parts[2:] if len(parts) > 2 else []
             tables[current_table].append((col_name, col_type, modifiers))
+        elif current_enum:
+            parts = line.split()
+            if len(parts) >= 2:
+                enum_value = parts[0]
+                enum_alias = parts[1] if len(parts) > 1 else enum_value
+                enums[current_enum].append((enum_value, enum_alias))
+            else:
+                enums[current_enum].append([parts[0]])
 
-    return tables, fks, reverse_fks
+    return tables, fks, reverse_fks, enums
 
 def detect_circular_deps(fks_dict):
     dep_graph = defaultdict(set)
@@ -96,10 +115,11 @@ def generate_parsed_schema_files(schema_file: Path, build_dir: Path):
 
     build_dir.mkdir(parents=True, exist_ok=True)
     schema_text = schema_file.read_text()
-    tables, fks, reverse_fks = parse_schema(schema_text)
+    tables, fks, reverse_fks, enums = parse_schema(schema_text)
     circular_deps = detect_circular_deps(fks)
 
     save_json(tables, build_dir / "tables.json")
+    save_json(enums, build_dir / "enums.json")
     save_json({k: v for k, v in fks.items()}, build_dir / "foreign_keys.json")
     save_json({k: v for k, v in reverse_fks.items()}, build_dir / "reverse_fks.json")
     save_json(list(circular_deps), build_dir / "circular_deps.json")

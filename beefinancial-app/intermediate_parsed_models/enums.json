@@ -1,0 +1,20 @@
+{
+  "account_types": [
+    [
+      "BANK_ACCOUNT",
+      "DEFAULT"
+    ],
+    [
+      "CREDIT_CARD_ACCOUNT"
+    ],
+    [
+      "LOAN_ACCOUNT"
+    ],
+    [
+      "BORROW_ACCOUNT"
+    ],
+    [
+      "LEND_ACCOUNT"
+    ]
+  ]
+}

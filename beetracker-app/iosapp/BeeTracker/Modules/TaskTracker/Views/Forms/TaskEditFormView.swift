@@ -7,6 +7,7 @@ struct TaskEditFormView: View {
 
     var entry: TasksViewModel
 
+    @State private var showDeadlinePicker = false
     @State private var title: String
     @State private var notes: String
     @State private var deadline: Date?
@@ -31,30 +32,41 @@ struct TaskEditFormView: View {
                     TextField("What needs to be done?", text: $title)
                     TextField("Notes (optional)", text: $notes)
                 }
-
-                if entry.deadline != nil {
-                    Section(header: Text("Deadline")) {
-                        DatePicker("Select Deadline", selection: Binding(
-                            get: { deadline ?? Date() },
-                            set: { deadline = $0 }),
-                            displayedComponents: .date)
-                    }
-                }
-
+                
+                if entry.deadline == nil {
+                            Section {
+                                Toggle("Add Deadline", isOn: $showDeadlinePicker)
+                                if showDeadlinePicker {
+                                    DatePicker("Select Deadline", selection: Binding(
+                                        get: { deadline ?? Date() },
+                                        set: { deadline = $0 }),
+                                        displayedComponents: .date)
+                                }
+                            }
+                        } else {
+                            Section(header: Text("Deadline")) {
+                                DatePicker("Select Deadline", selection: Binding(
+                                    get: { deadline ?? Date() },
+                                    set: { deadline = $0 }),
+                                    displayedComponents: .date)
+                            }
+                        }
+                
+                
                 Section(header: Text("How will it be done?")) {
-                    Toggle(isOn: $isShared) {
-                        Text(isShared ? "Together" : "Alone")
-                            .fontWeight(.medium)
+                    Picker("How will it be done?", selection: $isShared) {
+                        Text("Alone").tag(false)
+                        Text("Together").tag(true)
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .pink))
+                    .pickerStyle(.segmented)
                 }
 
                 Section(header: Text("Interaction Style")) {
-                    Toggle(isOn: $isConscience) {
-                        Text(isConscience ? "Full Conscience" : "Partial Conscience")
-                            .fontWeight(.medium)
+                    Picker("Interaction Style", selection: $isConscience) {
+                        Text("Partial").tag(false)
+                        Text("Full").tag(true)
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .pink))
+                    .pickerStyle(.segmented)
                 }
 
                 Section(header: Text("Primary Doer (optional)")) {

@@ -53,7 +53,7 @@ class PeriodViewModel: ObservableObject {
     func addPeriodEntry(entry: PeriodEntries){
         let model = PeriodEntriesViewModel(model: entry)
         model.save()
-        self.periodInfosViewModel.period_entries.append(model)
+        self.periodInfosViewModel.periodEntries.append(model)
         self.periodInfosViewModel = self.periodInfosViewModel
     }
     
@@ -70,7 +70,7 @@ class PeriodViewModel: ObservableObject {
         ServerEndPoints.shared.deletePeriodEntries(id: id) { result in
             switch result {
             case .success:
-                self.periodInfosViewModel.period_entries.removeAll { $0.id == entry.id }
+                self.periodInfosViewModel.periodEntries.removeAll { $0.id == entry.id }
             case .failure(let error):
                 print("Failed to delete task entry: \(error)")
             }
@@ -83,7 +83,7 @@ class PeriodViewModel: ObservableObject {
     }
     
     func getOngoingPeriodViewModel() -> PeriodEntriesViewModel? {
-        return self.periodInfosViewModel.period_entries.first { entry in
+        return self.periodInfosViewModel.periodEntries.first { entry in
             guard let isEnded = entry.is_ended else { return false }
             return !isEnded
         }
@@ -99,13 +99,13 @@ class PeriodViewModel: ObservableObject {
         ) ?? startDate
 
         let newEntry = PeriodEntries(
-            _id: new_id,
-            _period_info_id: self.getPeriodInfoId(),
-            _start_date: startDate,
-            _end_date: finalEndDate,
-            _notes: nil,
-            _is_ended: false,
-            period_symptoms: []
+            id: new_id,
+            period_info_id: self.getPeriodInfoId(),
+            start_date: startDate,
+            end_date: finalEndDate,
+            notes: nil,
+            is_ended: false,
+            symptoms: []
         )
 
         self.addPeriodEntry(entry: newEntry)
@@ -119,9 +119,9 @@ class PeriodViewModel: ObservableObject {
         guard let ongoingPeriodViewModel = self.getOngoingPeriodViewModel() else { return }
         ongoingPeriodViewModel.is_ended = true
         ongoingPeriodViewModel.end_date = Date()
-        if let index = self.periodInfosViewModel.period_entries.firstIndex(where: { $0.id == ongoingPeriodViewModel.id }) {
-            self.periodInfosViewModel.period_entries[index].is_ended = true
-            self.periodInfosViewModel.period_entries[index].end_date = ongoingPeriodViewModel.end_date
+        if let index = self.periodInfosViewModel.periodEntries.firstIndex(where: { $0.id == ongoingPeriodViewModel.id }) {
+            self.periodInfosViewModel.periodEntries[index].is_ended = true
+            self.periodInfosViewModel.periodEntries[index].end_date = ongoingPeriodViewModel.end_date
         }
         ongoingPeriodViewModel.save()
         self.periodInfosViewModel = self.periodInfosViewModel
@@ -133,7 +133,7 @@ class PeriodViewModel: ObservableObject {
     }
     
     func historyEntriesSorted() -> [PeriodEntriesViewModel] {
-        self.periodInfosViewModel.period_entries
+        self.periodInfosViewModel.periodEntries
             .filter { $0.is_ended == true || Calendar.current.startOfDay(for: $0.end_date ?? .distantPast) < Calendar.current.startOfDay(for: Date()) }
             .sorted { ($0.start_date ?? .distantPast) > ($1.start_date ?? .distantPast) }
     }

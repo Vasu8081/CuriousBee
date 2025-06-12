@@ -112,21 +112,21 @@ struct ProductAddForm: View {
 
     private func saveProduct() {
         let order = Orders(
-            _id: UUID(),
-            _ordered_date: orderedDate,
-            _expected_delivery_date: expectedDeliveryDate,
-            _received_date: receivedDate,
-            _product_id: nil // Will be set in backend if needed
+            id: UUID(),
+            ordered_date: orderedDate,
+            expected_delivery_date: expectedDeliveryDate,
+            received_date: receivedDate,
+            product_id: nil // Will be set in backend if needed
         )
 
         let product = Products(
-            _id: UUID(),
-            _product_info_id: viewModel.id,
-            _quantity: Double(quantity),
-            _started_using_date: startedDate,
-            _product_completed_date: completedDate,
-            _price: Double(price),
-            _status_id: selectedStatusId,
+            id: UUID(),
+            product_info_id: viewModel.id,
+            quantity: Double(quantity),
+            started_using_date: startedDate,
+            product_completed_date: completedDate,
+            price: Double(price),
+            status_id: selectedStatusId,
             order: order
         )
 

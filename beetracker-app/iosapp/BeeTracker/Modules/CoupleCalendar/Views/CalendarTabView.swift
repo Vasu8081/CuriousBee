@@ -15,7 +15,7 @@ struct CalendarTabView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Spacer().frame(width: 58)
-                ForEach(userViewModel.getUserIds(), id: \ .self) { id in
+                ForEach(userViewModel.getUserIds(), id: \.self) { id in
                     Text(userViewModel.getUserName(for: id))
                         .font(.subheadline.bold())
                         .frame(width: columnWidth, alignment: .center)
@@ -30,11 +30,18 @@ struct CalendarTabView: View {
                     HStack(alignment: .top, spacing: 0) {
                         timeGutter
                         ZStack(alignment: .topLeading) {
+                            // Force layout even when no entries
+                            Rectangle()
+                                .fill(Color.clear)
+                                .frame(height: hourHeight * 24)
+
                             timelineGrid
-                            ForEach(userViewModel.getUserIds().indices, id: \ .self) { index in
+
+                            ForEach(userViewModel.getUserIds().indices, id: \.self) { index in
                                 let id = userViewModel.getUserIds()[index]
                                 entryColumn(for: id, xOffset: CGFloat(index) * (columnWidth + 12))
                             }
+
                             currentTimeLine
                         }
                         .frame(height: hourHeight * 24)
@@ -110,15 +117,16 @@ struct CalendarTabView: View {
     }
 
     private var timelineGrid: some View {
-        ForEach(0..<24) { hour in
-            Rectangle()
-                .fill(Color.gray.opacity(0.2))
-                .frame(height: 1)
-                .offset(y: CGFloat(hour) * hourHeight)
-                .padding(.leading, 4)
+        ZStack(alignment: .topLeading) {
+            ForEach(0..<24) { hour in
+                Rectangle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(height: 1)
+                    .offset(y: CGFloat(hour) * hourHeight)
+            }
         }
     }
-    
+
     private func entryColumn(for userId: UUID, xOffset: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             // Show user-specific entries
@@ -137,12 +145,12 @@ struct CalendarTabView: View {
 
             // Show shared entries only once (on the first user column)
             if userViewModel.getUserIds().first == userId {
-                let xOffset = CGFloat(0) * (columnWidth + 12)
+                let sharedXOffset = CGFloat(0) * (columnWidth + 12)
                 ForEach(calendarViewModel.getSharedEntries(on: selectedDate)) { entry in
                     GroupCalendarEntryCardView(
                         viewModel: entry,
-                        totalWidth: 2 * (columnWidth), // Spans both columns
-                        xOffset: xOffset
+                        totalWidth: 2 * (columnWidth), // Adjust as needed
+                        xOffset: sharedXOffset
                     )
                     .onTapGesture {
                         selectedEntry = entry
@@ -154,9 +162,13 @@ struct CalendarTabView: View {
 
     private var currentTimeLine: some View {
         let now = Date()
-        guard Calendar.current.isDate(now, inSameDayAs: selectedDate) else { return AnyView(EmptyView()) }
+        guard Calendar.current.isDate(now, inSameDayAs: selectedDate) else {
+            return AnyView(EmptyView())
+        }
 
-        let y = CGFloat(calendarViewModel.minutesSinceMidnight(now))
+        let minutes = calendarViewModel.minutesSinceMidnight(now)
+        let y = CGFloat(minutes) / 60 * hourHeight
+
         return AnyView(
             Rectangle()
                 .fill(Color.red)
@@ -167,7 +179,9 @@ struct CalendarTabView: View {
 
     private func scrollToHour(_ hour: Int, proxy: ScrollViewProxy) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation { proxy.scrollTo("timeline", anchor: .top) }
+            withAnimation {
+                proxy.scrollTo("timeline", anchor: .top)
+            }
         }
     }
 }

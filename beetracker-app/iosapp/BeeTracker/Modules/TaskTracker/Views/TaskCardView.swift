@@ -18,18 +18,15 @@ struct TaskCardView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text(task.interaction_style ?? "")
                         Text(task.title ?? "")
                             .fontWeight(.medium)
                             .strikethrough(task.is_completed ?? false, color: .gray)
+                        if let deadline = task.deadline {
+                            Text("Due: \(deadline.formatted(date: .abbreviated, time: .omitted))")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
                     }
-
-                    if let deadline = task.deadline {
-                        Text("Due: \(deadline.formatted(date: .abbreviated, time: .omitted))")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                    }
-
                     if let notes = task.notes {
                         Text(notes)
                             .font(.caption2)
@@ -46,7 +43,7 @@ struct TaskCardView: View {
                 Spacer()
 
                 if !(task.is_completed ?? false) {
-                    if task.calendar_entrie == nil {
+                    if task.calendarEntry == nil {
                         Button(action: onSchedule) {
                             Image(systemName: "calendar.badge.plus")
                                 .foregroundColor(.blue)

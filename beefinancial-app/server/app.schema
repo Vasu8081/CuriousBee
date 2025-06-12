@@ -1,0 +1,24 @@
+Table users {
+  id UUID [primary key]
+  name TEXT
+  email TEXT
+  apple_device_token TEXT
+  password_hash TEXT HIDDEN
+}
+
+Enum account_types {
+    BANK_ACCOUNT DEFAULT
+    CREDIT_CARD_ACCOUNT
+    LOAN_ACCOUNT
+    BORROW_ACCOUNT
+    LEND_ACCOUNT
+}
+
+Table accounts {
+    id UUID [primary key]
+    user_id UUID
+    type account_types
+    account_data BYTEA
+}
+
+FK accounts.user_id as user -> users.id as accounts [many_to_one] [refer_right]

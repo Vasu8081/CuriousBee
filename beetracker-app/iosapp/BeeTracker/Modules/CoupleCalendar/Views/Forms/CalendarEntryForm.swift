@@ -56,12 +56,12 @@ struct CalendarEntryForm: View {
                         )
 
                         let newEntry = CalendarEntries(
-                            _user_id: assignedUserId,
-                            _title: title,
-                            _notes: notes.isEmpty ? nil : notes,
-                            _date: selectedDate,
-                            _start_time: fullStart,
-                            _end_time: fullEnd
+                            user_id: assignedUserId,
+                            title: title,
+                            notes: notes.isEmpty ? nil : notes,
+                            date: selectedDate,
+                            start_time: fullStart,
+                            end_time: fullEnd
                         )
 
                         calendarViewModel.addEntry(newEntry)

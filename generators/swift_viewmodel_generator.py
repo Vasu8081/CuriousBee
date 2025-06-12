@@ -8,10 +8,12 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
 
     swift_type_map = {
         "UUID": "UUID", "TEXT": "String", "DATE": "Date", "TIME": "Date",
-        "TIMESTAMP": "Date", "INTEGER": "Int", "FLOAT": "Double", "BOOLEAN": "Bool"
+        "TIMESTAMP": "Date", "INTEGER": "Int", "FLOAT": "Double", "BOOLEAN": "Bool",
+        "BYTEA": "Data", "BYTEA[]": "[Data]", "JSON": "String", "JSONB": "String"
     }
 
     tables = json.loads((Path(build_dir) / "tables.json").read_text())
+    enums = json.loads((Path(build_dir) / "enums.json").read_text())
     fks = json.loads((Path(build_dir) / "foreign_keys.json").read_text())
     reverse_fks = json.loads((Path(build_dir) / "reverse_fks.json").read_text())
 
@@ -29,6 +31,8 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
                 mods = mods[0] if mods else []
                 if "HIDDEN" in [m.upper() for m in mods]: continue
                 swift_type = swift_type_map.get(typ.upper(), "String")
+                if swift_type == "String" and typ in enums.keys():
+                    swift_type = f"{to_pascal(typ)}"
                 vf.write(f"    @Published var {name}: {swift_type}?\n")
 
             # Foreign keys
@@ -46,6 +50,9 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
                 if rfk["pydantic_refer"] == "refer_right":
                     tgt = to_pascal(rfk["src_table"])
                     field = rfk["right_field"]
+                    if field == "id":
+                        vf.write(f"    @Published var {field}: UUID = UUID()\n")
+                        continue
                     if rfk["type"] in {"many_to_one", "many_to_many"}:
                         vf.write(f"    @Published var {field}: [{tgt}ViewModel] = []\n")
                     else:
@@ -81,11 +88,58 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
                         vf.write(f"        if let value = model.{field} {{ self.{field} = {tgt}ViewModel(model: value) }}\n")
             vf.write("    }\n")
 
-            # Required methods
-            vf.write(f"\n    var id: UUID {{ return _id ?? UUID() }}\n")
-            vf.write(f"\n    static func == (lhs: {vm_name}, rhs: {vm_name}) -> Bool {{ lhs.id == rhs.id }}\n")
-            vf.write("    func hash(into hasher: inout Hasher) { hasher.combine(id) }\n")
-            vf.write("}\n")
+
+                    # toModel
+            vf.write(f"\n    var toModel: {struct_name} {{\n")
+            vf.write(f"        return {struct_name}(\n")
+            model_fields = []
+            for col in cols:
+                if len(col) == 3:
+                    col_name, col_type, modifiers = col
+                elif len(col) == 2:
+                    col_name, col_type = col
+                    modifiers = []
+                else:
+                    continue
+                if "HIDDEN" in [m.upper() for m in modifiers]:
+                    continue
+                field_name = col_name
+                model_fields.append(f"{field_name}: {field_name}")
+            for fk in fks.get(table, []):
+                if fk.get("pydantic_refer") == "refer_left":
+                    rel_type = fk["type"]
+                    field_name = fk["left_field"]
+                    if rel_type in {"many_to_one", "one_to_one"}:
+                        model_fields.append(f"{field_name}: {field_name}?.toModel")
+                    elif rel_type in {"one_to_many", "many_to_many"}:
+                        model_fields.append(f"{field_name}: {field_name}.map {{ $0.toModel }}")
+            for rfk in reverse_fks.get(table, []):
+                if rfk.get("pydantic_refer") == "refer_right":
+                    rel_type = rfk["type"]
+                    field_name = rfk["right_field"]
+                    if rel_type in {"many_to_one", "many_to_many"}:
+                        model_fields.append(f"{field_name}: {field_name}.map {{ $0.toModel }}")
+                    elif rel_type in {"one_to_one", "one_to_many"}:
+                        model_fields.append(f"{field_name.rstrip('s')}: {field_name.rstrip('s')}?.toModel")
+            vf.write("            " + ",\n            ".join(model_fields) + "\n")
+            vf.write("        )\n")
+            vf.write("    }\n")
+
+            vf.write(f"\n    static func == (lhs: {vm_name}, rhs: {vm_name}) -> Bool {{ lhs.id == rhs.id }}\n\n")
+            vf.write("    func hash(into hasher: inout Hasher) { hasher.combine(id) }\n\n")
+
+            vf.write(f"    func save() {{\n")
+            vf.write(f"        ServerEndPoints.shared.addOrUpdate{struct_name}(self.toModel) {{ result in\n")
+            vf.write(f"            switch result {{\n")
+            vf.write(f"            case .success(let entry):\n")
+            vf.write(f"                print(\"Successfully saved {struct_name}\")\n")
+            vf.write(f"                self.fromModel(entry)\n")
+            vf.write(f"            case .failure(let error):\n")
+            vf.write(f"                print(\"Failed to save {struct_name}: \\(error)\")\n")
+            vf.write(f"            }}\n")
+            vf.write(f"        }}\n")
+            vf.write(f"    }}\n\n")
+            vf.write(f"}}\n")
 
         print(f"✅ ViewModel written: {file_path}")
 

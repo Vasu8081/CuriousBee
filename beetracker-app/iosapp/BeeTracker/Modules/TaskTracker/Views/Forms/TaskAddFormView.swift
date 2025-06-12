@@ -5,8 +5,7 @@ struct TaskFormView: View {
     @EnvironmentObject private var taskViewModel: TaskViewModel
     @EnvironmentObject private var userViewModel: UserViewModel
 
-    let isDeadlineMode: Bool
-
+    @State private var isDeadlineMode = false
     @State private var title: String = ""
     @State private var notes: String = ""
     @State private var deadline: Date? = nil
@@ -22,6 +21,10 @@ struct TaskFormView: View {
                     TextField("Notes (optional)", text: $notes)
                 }
 
+                Section {
+                    Toggle("Add Deadline", isOn: $isDeadlineMode)
+                }
+
                 if isDeadlineMode {
                     Section(header: Text("Deadline")) {
                         DatePicker("Select Deadline", selection: Binding(
@@ -32,19 +35,19 @@ struct TaskFormView: View {
                 }
 
                 Section(header: Text("How will it be done?")) {
-                    Toggle(isOn: $isShared) {
-                        Text(isShared ? "Together" : "Alone")
-                            .fontWeight(.medium)
+                    Picker("How will it be done?", selection: $isShared) {
+                        Text("Alone").tag(false)
+                        Text("Together").tag(true)
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .pink))
+                    .pickerStyle(.segmented)
                 }
-                
+
                 Section(header: Text("Interaction Style")) {
-                    Toggle(isOn: $isConscience) {
-                        Text(isConscience ? "Full Conscience" : "Partial Conscience")
-                            .fontWeight(.medium)
+                    Picker("Interaction Style", selection: $isConscience) {
+                        Text("Partial").tag(false)
+                        Text("Full").tag(true)
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .pink))
+                    .pickerStyle(.segmented)
                 }
 
                 Section(header: Text("Primary Doer (optional)")) {
@@ -64,11 +67,11 @@ struct TaskFormView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         if isConscience {
-                            let task = Tasks(_id: UUID(), _title: title, _notes: notes.isEmpty ? nil : notes, _deadline: isDeadlineMode ? deadline : nil, _interaction_style: "Full Conscience", _primary_doer_user_id: primaryDoer, _other_users_presence_necessary: isShared, _is_completed: false)
+                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Full Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false)
                             taskViewModel.addTask(task)
                         }
                         else{
-                            let task = Tasks(_id: UUID(), _title: title, _notes: notes.isEmpty ? nil : notes, _deadline: isDeadlineMode ? deadline : nil, _interaction_style: "Partial Conscience", _primary_doer_user_id: primaryDoer, _other_users_presence_necessary: isShared, _is_completed: false)
+                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Partial Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false)
                             taskViewModel.addTask(task)
                         }
 

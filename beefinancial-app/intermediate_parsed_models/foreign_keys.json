@@ -1,0 +1,14 @@
+{
+  "accounts": [
+    {
+      "src_table": "accounts",
+      "src_col": "user_id",
+      "tgt_table": "users",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "user",
+      "right_field": "accounts"
+    }
+  ]
+}

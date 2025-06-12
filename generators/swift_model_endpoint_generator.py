@@ -12,7 +12,14 @@ def generate_swift_endpoints(build_dir: str, output_dir: str):
         struct_name = to_pascal(table)
         endpoint_file = Path(output_dir) / f"{struct_name}Endpoint.swift"
 
-        id_field = next((col[0] for col in cols if len(col) == 3 and "primary" in [m.lower() for m in col[2]]), None)
+        id_field = next(
+                        (
+                            col[0]
+                            for col in cols
+                            if len(col) == 3 and any("primary" in m.lower().strip("[]") for m in col[2])
+                        ),
+                        None
+                    )
         if not id_field:
             print(f"Skipping {struct_name}: No primary key found.")
             continue

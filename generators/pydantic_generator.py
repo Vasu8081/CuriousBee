@@ -4,11 +4,17 @@ from pathlib import Path
 
 PYTHON_TYPES = {
     "UUID": "uuid.UUID", "TEXT": "str", "DATE": "datetime.date", "TIME": "datetime.time",
-    "TIMESTAMP": "datetime.datetime", "INTEGER": "int", "FLOAT": "float", "BOOLEAN": "bool"
+    "TIMESTAMP": "datetime.datetime", "INTEGER": "int", "FLOAT": "float", "BOOLEAN": "bool",
+    "BYTEA": "bytes", "JSONB": "dict", "JSON": "dict", "ARRAY": "list"
 }
 
 def to_pascal(name): return ''.join(w.capitalize() for w in name.split('_'))
 def to_camel(name): return name.split('_')[0] + ''.join(w.capitalize() for w in name.split('_')[1:])
+def to_enum_name(name):
+    name = name.split('_')
+    name = [part.lower().capitalize() for part in name]
+    return ''.join(name)
+
 
 def generate_pydantic_schemas(build_dir: str, output_dir: str):
     build_path = Path(build_dir)
@@ -16,6 +22,7 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
     output_path.mkdir(parents=True, exist_ok=True)
 
     tables = json.loads((build_path / "tables.json").read_text())
+    enums = json.loads((build_path / "enums.json").read_text())
     fks = json.loads((build_path / "foreign_keys.json").read_text())
     reverse_fks = json.loads((build_path / "reverse_fks.json").read_text())
 
@@ -26,6 +33,7 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
         with path.open("w") as f:
             f.write("import uuid\nimport datetime\n")
             f.write("from pydantic import BaseModel, Field, ConfigDict\n")
+            f.write("from app.autogen.models.enums import *\n")
             f.write("from typing import Optional, List, ForwardRef\n\n")
 
             related = set()
@@ -43,6 +51,9 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
                 if "HIDDEN" in [m.upper() for m in modifiers]:
                     continue
                 py_type = PYTHON_TYPES.get(col_type.upper(), "str")
+                if col_type in enums:
+                    enum_name = to_pascal(col_type)
+                    py_type = f"{enum_name}"
                 f.write(f"    {col_name.lstrip('_')}: Optional[{py_type}] = Field(default=None, alias='{col_name}')\n")
 
             # FK relationships
@@ -50,9 +61,13 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
                 if fk["pydantic_refer"] == "refer_left":
                     target_class = to_pascal(fk["tgt_table"]) + "Schema"
                     field = fk["right_field"]
-                    if fk["type"] in {"many_to_one", "one_to_one"}:
+                    if fk["type"]== "many_to_one":
                         f.write(f"    {field}: Optional['{target_class}'] = None\n")
-                    else:
+                    elif fk["type"] == "one_to_one":
+                        f.write(f"    {field}: Optional['{target_class}'] = None\n")
+                    elif fk["type"] == "many_to_many":
+                        f.write(f"    {field}: List['{target_class}'] = []\n")
+                    elif fk["type"] == "one_to_many":
                         f.write(f"    {field}: List['{target_class}'] = []\n")
 
             # Reverse FK relationships
@@ -60,10 +75,14 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
                 if rfk["pydantic_refer"] == "refer_right":
                     target_class = to_pascal(rfk["src_table"]) + "Schema"
                     field = rfk["right_field"]
-                    if rfk["type"] in {"many_to_one", "many_to_many"}:
-                        f.write(f"    {field}: List['{target_class}'] = []\n")
-                    else:
+                    if rfk["type"] == "one_to_many":
                         f.write(f"    {field}: Optional['{target_class}'] = None\n")
+                    elif rfk["type"] == "one_to_one":
+                        f.write(f"    {field}: Optional['{target_class}'] = None\n")
+                    elif rfk["type"] == "many_to_many":
+                        f.write(f"    {field}: List['{target_class}'] = []\n")
+                    elif rfk["type"] == "many_to_one":
+                        f.write(f"    {field}: List['{target_class}'] = []\n")
 
             # Config + to_model
             f.write("\n")
@@ -89,7 +108,8 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
                         f.write(f"        if self.{field} is not None:\n")
                         f.write(f"            model.{field} = self.{field}.to_model()\n")
                     else:
-                        f.write(f"        model.{field} = [obj.to_model() for obj in self.{field}]\n")
+                        f.write(f"        if self.{field} is not None:\n")
+                        f.write(f"            model.{field} = [obj.to_model() for obj in self.{field}]\n")
 
             for rfk in reverse_fks.get(table, []):
                 if rfk["pydantic_refer"] == "refer_right":
@@ -97,9 +117,11 @@ def generate_pydantic_schemas(build_dir: str, output_dir: str):
                     field = rfk["right_field"]
                     f.write(f"        from app.autogen.models.{rfk['src_table']} import {src_model}\n")
                     if rfk["type"] in {"many_to_one", "many_to_many"}:
-                        f.write(f"        model.{field} = [obj.to_model() for obj in self.{field}]\n")
+                        f.write(f"        if self.{field} is not None:\n")
+                        f.write(f"            model.{field} = [obj.to_model() for obj in self.{field}]\n")
                     else:
-                        f.write(f"        model.{field} = self.{field}.to_model()\n")
+                        f.write(f"        if self.{field} is not None:\n")
+                        f.write(f"            model.{field} = self.{field}.to_model()\n")
 
             f.write("        return model\n")
 

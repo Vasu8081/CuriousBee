@@ -1,25 +1,32 @@
 import SwiftUI
 
+enum TaskTab: String, CaseIterable {
+    case withDeadline = "With Deadline"
+    case withoutDeadline = "No Deadline"
+    case completed = "Completed"
+}
+
 struct TaskListView: View {
     @EnvironmentObject private var taskViewModel: TaskViewModel
     @State private var showForm = false
-    @State private var showCompleted = false
     @State private var formMode: Bool? = nil
     @State private var taskToEdit: TasksViewModel? = nil
     @State private var taskToSchedule: TasksViewModel? = nil
+    @State private var selectedTab: TaskTab = .withDeadline
 
     var body: some View {
         NavigationStack {
             VStack {
-                Picker("Filter", selection: $showCompleted) {
-                    Text("Pending").tag(false)
-                    Text("Completed").tag(true)
+                Picker("View", selection: $selectedTab) {
+                    ForEach(TaskTab.allCases, id: \.self) {
+                        Text($0.rawValue)
+                    }
                 }
                 .pickerStyle(.segmented)
-                .padding([.top, .horizontal])
+                .padding()
 
                 List {
-                    ForEach(sortedTasks(), id: \.id) { task in
+                    ForEach(filteredTasks(for: selectedTab), id: \.id) { task in
                         TaskCardView(
                             task: task,
                             onEdit: { taskToEdit = task },
@@ -33,41 +40,24 @@ struct TaskListView: View {
             }
             .navigationTitle("Tasks")
             .overlay(alignment: .bottom) {
-                HStack(spacing: 16) {
-                    Button(action: {
-                        formMode = true
-                        showForm = true
-                    }) {
-                        HStack(spacing: 6) {
-                            Image(systemName: "calendar.badge.clock")
-                            Text("Deadline")
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
+                Button(action: {
+                    formMode = false
+                    showForm = true
+                }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "text.badge.plus")
+                        Text("Add Task")
                     }
-
-                    Button(action: {
-                        formMode = false
-                        showForm = true
-                    }) {
-                        HStack(spacing: 6) {
-                            Image(systemName: "text.badge.plus")
-                            Text("Quick Note")
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(Color.secondary)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
-                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
                 }
                 .padding()
             }
             .sheet(isPresented: $showForm) {
-                TaskFormView(isDeadlineMode: formMode ?? true)
+                TaskFormView()
             }
             .sheet(item: $taskToEdit) { task in
                 TaskEditFormView(task: task)
@@ -78,15 +68,27 @@ struct TaskListView: View {
         }
     }
 
-    private func sortedTasks() -> [TasksViewModel] {
-        let tasks = showCompleted ? taskViewModel.getCompletedTasks() : taskViewModel.getUncompletedTasks()
-        return tasks.sorted { lhs, rhs in
-            switch (lhs.deadline, rhs.deadline) {
-            case let (l?, r?): return l < r
-            case (_?, nil): return true
-            case (nil, _?): return false
-            default: return true
-            }
+    private func filteredTasks(for tab: TaskTab) -> [TasksViewModel] {
+        switch tab {
+        case .withDeadline:
+            return taskViewModel.getUncompletedTasks()
+                .filter { $0.deadline != nil }
+                .sorted(by: deadlineSorter)
+        case .withoutDeadline:
+            return taskViewModel.getUncompletedTasks()
+                .filter { $0.deadline == nil }
+        case .completed:
+            return taskViewModel.getCompletedTasks()
+                .sorted(by: deadlineSorter)
+        }
+    }
+
+    private func deadlineSorter(lhs: TasksViewModel, rhs: TasksViewModel) -> Bool {
+        switch (lhs.deadline, rhs.deadline) {
+        case let (l?, r?): return l < r
+        case (_?, nil): return true
+        case (nil, _?): return false
+        default: return true
         }
     }
 }

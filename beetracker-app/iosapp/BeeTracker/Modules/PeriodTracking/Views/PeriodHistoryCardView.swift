@@ -60,13 +60,13 @@ struct PeriodHistoryCardView: View {
         .onAppear {
             tags = updateTags()
         }
-        .onChange(of: viewModel.period_symptoms) {
+        .onChange(of: viewModel.symptoms) {
             tags = updateTags()
         }
     }
 
     private func updateTags() -> [String] {
-        return viewModel.period_symptoms
+        return viewModel.symptoms
             .compactMap { periodViewModel.getSymptomName(for: $0.symptom_id) }
     }
 }

@@ -48,10 +48,12 @@ def add_or_update_task(
     if existing_entry:
         updated = task.to_model()
         updated.id = existing_entry.Id
+        updated.group_id = group_id
         updated = db.merge(updated)
     else:
         new_entry = task.to_model()
         new_entry.id = task.id or uuid.uuid4()
+        new_entry.group_id = group_id
         db.add(new_entry)
 
     db.commit()

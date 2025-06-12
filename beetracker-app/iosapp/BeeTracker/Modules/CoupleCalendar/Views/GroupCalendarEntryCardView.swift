@@ -7,22 +7,22 @@ struct GroupCalendarEntryCardView: View {
     let xOffset: CGFloat
 
     var body: some View {
-        let start = calendarViewModel.minutesSinceMidnight(viewModel._start_time)
-        let end = calendarViewModel.minutesSinceMidnight(viewModel._end_time ?? viewModel._start_time)
+        let start = calendarViewModel.minutesSinceMidnight(viewModel.start_time)
+        let end = calendarViewModel.minutesSinceMidnight(viewModel.end_time ?? viewModel.start_time)
         let height = CGFloat(end - start)
         let yOffset = CGFloat(start)
 
         VStack(alignment: .leading, spacing: 4) {
-            Text("\(viewModel._start_time?.formatted(date: .omitted, time: .shortened) ?? "") – \(viewModel._end_time?.formatted(date: .omitted, time: .shortened) ?? "")")
+            Text("\(viewModel.start_time?.formatted(date: .omitted, time: .shortened) ?? "") – \(viewModel.end_time?.formatted(date: .omitted, time: .shortened) ?? "")")
                 .font(.caption2)
                 .foregroundColor(.secondary)
 
-            Text(viewModel._title ?? "")
+            Text(viewModel.title ?? "")
                 .font(.caption)
                 .bold()
                 .lineLimit(1)
 
-            if let notes = viewModel._notes {
+            if let notes = viewModel.notes {
                 Text(notes)
                     .font(.caption2)
                     .lineLimit(1)

@@ -140,7 +140,7 @@ struct HomeView: View {
         taskViewModel.reload()
         let token = UserDefaults.standard.string(forKey: "deviceToken") ?? "1234"
         var user = Users()
-        user._apple_device_token = token
+        user.apple_device_token = token
         ServerEndPoints.shared.sendDeviceToken(user, completion:{ response in
             print(response)
         })

@@ -22,15 +22,15 @@ class UserViewModel: ObservableObject {
     }
     
     func getUserName(for id: UUID?) -> String {
-        self.usersViewModel.first(where: { $0._id == id })?._name ?? "Unknown"
+        self.usersViewModel.first(where: { $0.id == id })?.name ?? "Unknown"
     }
 
     func getUserIds() -> [UUID] {
-        self.usersViewModel.prefix(2).compactMap { $0._id }
+        self.usersViewModel.prefix(2).compactMap { $0.id }
     }
     
     func getUserViewModel(for id: UUID?) -> UsersViewModel? {
-        self.usersViewModel.first(where: { $0._id == id })
+        self.usersViewModel.first(where: { $0.id == id })
     }
     
     func getUserViewModels() -> [UsersViewModel] {

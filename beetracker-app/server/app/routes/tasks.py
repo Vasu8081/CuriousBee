@@ -19,14 +19,14 @@ def get_group_tasks(
 ):
     from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     if user.GroupId != group_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to view this group's period entries")
     
-    tasks = db.query(Tasks).filter(Tasks.__table__.c._group_id == group_id).all()
+    tasks = db.query(Tasks).filter(Tasks.__table__.c.group_id == group_id).all()
 
     return [task.to_schema() for task in tasks]
 
@@ -39,19 +39,19 @@ def add_or_update_task(
 ):
     from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    existing_entry = db.query(Tasks).filter(Tasks.__table__.c._id == task.id).first()
+    existing_entry = db.query(Tasks).filter(Tasks.__table__.c.id == task.id).first()
 
     if existing_entry:
         updated = task.to_model()
-        updated._id = existing_entry.Id
+        updated.id = existing_entry.Id
         updated = db.merge(updated)
     else:
         new_entry = task.to_model()
-        new_entry._id = task.id or uuid.uuid4()
+        new_entry.id = task.id or uuid.uuid4()
         db.add(new_entry)
 
     db.commit()
@@ -70,11 +70,11 @@ def delete_group_period_entry(
     from app.autogen.models.groups import Groups
     from app.autogen.models.tasks import Tasks
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    entry = db.query(Tasks).filter(Tasks.__table__.c._id == task_id).first()
+    entry = db.query(Tasks).filter(Tasks.__table__.c.id == task_id).first()
     if not entry:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
 

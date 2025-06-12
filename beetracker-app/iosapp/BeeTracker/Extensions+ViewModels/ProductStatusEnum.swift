@@ -16,7 +16,7 @@ class ProductStatusEnum {
                     for status in statuses {
                         let model = ProductStatusViewModel(model: status)
                         self.productStatusViewModel.append(model)
-                        self.productStatussesMap[status._id?.uuidString ?? ""] = model
+                        self.productStatussesMap[status.id?.uuidString ?? ""] = model
                     }
                 }
             case .failure(let error):
@@ -33,6 +33,6 @@ class ProductStatusEnum {
     }
     
     func getStatusName(for id: String?) -> String {
-        return self.getStatus(for: id)._name ?? ""
+        return self.getStatus(for: id).name ?? ""
     }
 }

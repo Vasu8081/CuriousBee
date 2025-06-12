@@ -36,13 +36,13 @@ struct EditPeriodForm: View {
                     Button("Save") {
                         let finalEndDate = isBackdated ? endDate : Calendar.current.date(byAdding: .day, value: duration - 1, to: startDate) ?? startDate
 
-                        entryViewModel._start_date = startDate
-                        entryViewModel._end_date = finalEndDate
-                        entryViewModel._is_ended = isEnded
-                        entryViewModel._notes = notes.isEmpty ? nil : notes
+                        entryViewModel.start_date = startDate
+                        entryViewModel.end_date = finalEndDate
+                        entryViewModel.is_ended = isEnded
+                        entryViewModel.notes = notes.isEmpty ? nil : notes
 
                         entryViewModel.period_symptoms = selectedSymptoms.map {
-                            PeriodSymptomsViewModel(model: PeriodSymptoms(_period_entry_id: entryViewModel._id, _symptom_id: $0._id))
+                            PeriodSymptomsViewModel(model: PeriodSymptoms(_period_entry_id: entryViewModel.id, _symptom_id: $0.id))
                         }
 
                         dismiss()
@@ -54,13 +54,13 @@ struct EditPeriodForm: View {
                 }
             }
             .onAppear {
-                startDate = entryViewModel._start_date ?? Date()
-                endDate = entryViewModel._end_date ?? startDate
-                notes = entryViewModel._notes ?? ""
-                isEnded = entryViewModel._is_ended ?? false
+                startDate = entryViewModel.start_date ?? Date()
+                endDate = entryViewModel.end_date ?? startDate
+                notes = entryViewModel.notes ?? ""
+                isEnded = entryViewModel.is_ended ?? false
                 duration = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day ?? 5
                 selectedSymptoms = Set(entryViewModel.period_symptoms.compactMap { symptom in
-                    periodViewModel.getAllSymptoms().first(where: { $0._id == symptom._symptom_id })
+                    periodViewModel.getAllSymptoms().first(where: { $0.id == symptom.symptom_id })
                 })
             }
         }
@@ -83,7 +83,7 @@ struct EditPeriodForm: View {
     private var symptomsSection: some View {
         Section(header: Text("Symptoms")) {
             ForEach(symptoms, id: \.id) { symptom in
-                Toggle(symptom._name ?? "Unnamed Symptom", isOn: Binding<Bool>(
+                Toggle(symptom.name ?? "Unnamed Symptom", isOn: Binding<Bool>(
                     get: { selectedSymptoms.contains(symptom) },
                     set: { isOn in
                         if isOn {

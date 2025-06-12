@@ -22,7 +22,7 @@ def get_group_period_entries(
     from app.autogen.models.groups import Groups
     from app.autogen.models.period_entries import PeriodEntries
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     if user.GroupId != group_id:

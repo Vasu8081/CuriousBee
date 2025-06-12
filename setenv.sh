@@ -42,5 +42,33 @@ generate_models() {
     return 0
 }
 
+run_alembic_migrations() {
+    project_name=$1
+    echo "Running Alembic migrations for $project_name..."
+    case $project_name in
+        curiousbytes)
+            project_dir="$CURIOUS_BYTES_WEBSITE_DIR"
+            ;;
+        beetracker)
+            project_dir="$BEETRACKER_APP_DIR"
+            ;;
+        beefinancial)
+            project_dir="$BEEFINANCIAL_APP_DIR"
+            ;;
+        *)
+            echo "Unknown project name: $project_name"
+            return 1
+            ;;
+    esac
+    bash "$SCRIPTS_DIR/run_alembic_migrations.sh" "$project_dir"
+    if [ $? -ne 0 ]; then
+        echo "Failed to run Alembic migrations for $project_name"
+        return 1
+    fi
+    echo "Alembic migrations completed successfully for $project_name"
+    return 0
+}
+
+
 
 # Curious Bytes

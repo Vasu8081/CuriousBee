@@ -12,7 +12,7 @@ struct PeriodHistoryCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("🥀 \(Helper.shared.formattedDate(viewModel._start_date ?? Date())) → \(Helper.shared.formattedDate(viewModel._end_date ?? Date()))")
+                Text("🥀 \(Helper.shared.formattedDate(viewModel.start_date ?? Date())) → \(Helper.shared.formattedDate(viewModel.end_date ?? Date()))")
                     .font(.subheadline)
                     .fontWeight(.medium)
                 Spacer()
@@ -36,7 +36,7 @@ struct PeriodHistoryCardView: View {
                 Spacer().frame(height: 12)
             }
 
-            if let notes = viewModel._notes, !notes.isEmpty {
+            if let notes = viewModel.notes, !notes.isEmpty {
                 Text("Note: \(notes)")
                     .font(.footnote)
                     .italic()
@@ -67,6 +67,6 @@ struct PeriodHistoryCardView: View {
 
     private func updateTags() -> [String] {
         return viewModel.period_symptoms
-            .compactMap { periodViewModel.getSymptomName(for: $0._symptom_id) }
+            .compactMap { periodViewModel.getSymptomName(for: $0.symptom_id) }
     }
 }

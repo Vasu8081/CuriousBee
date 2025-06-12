@@ -14,7 +14,7 @@ struct OngoingPeriodCardView: View {
                 Text("🌸 Ongoing Period")
                     .font(.headline)
                 Spacer()
-                Text(Helper.shared.formatDateRange(viewModel._start_date ?? Date(), viewModel._end_date ?? Date()))
+                Text(Helper.shared.formatDateRange(viewModel.start_date ?? Date(), viewModel.end_date ?? Date()))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }

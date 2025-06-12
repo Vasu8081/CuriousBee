@@ -27,14 +27,14 @@ class CalendarViewModel: ObservableObject {
     }
 
     func deleteEntry(_ entry: CalendarEntriesViewModel) {
-        guard let id = entry._id else {
+        guard let id = entry.id else {
             print("Cannot delete entry: id is nil")
             return
         }
         ServerEndPoints.shared.deleteCalendarEntries(id: id) { result in
             switch result {
             case .success:
-                self.calendarEntriesViewModels.removeAll { $0._id == entry._id }
+                self.calendarEntriesViewModels.removeAll { $0.id == entry.id }
             case .failure(let error):
                 print("Failed to delete calendar entry: \(error)")
             }
@@ -53,17 +53,17 @@ class CalendarViewModel: ObservableObject {
 
     func getEntries(for userId: UUID?, on date: Date) -> [CalendarEntriesViewModel] {
         calendarEntriesViewModels.filter {
-            let isPersonal = $0._user_id == userId
-            let isShared = $0._group_id != nil
-            let isSameDate = Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date)
+            let isPersonal = $0.user_id == userId
+            let isShared = $0.group_id != nil
+            let isSameDate = Calendar.current.isDate($0.date ?? Date(), inSameDayAs: date)
             return isSameDate && (isPersonal || isShared)
         }
-        .sorted { ($0._start_time ?? .distantPast) < ($1._start_time ?? .distantPast) }
+        .sorted { ($0.start_time ?? .distantPast) < ($1.start_time ?? .distantPast) }
     }
     
     func getSharedEntries(on date: Date) -> [CalendarEntriesViewModel] {
         calendarEntriesViewModels.filter {
-            $0._group_id != nil && Calendar.current.isDate($0._date ?? Date(), inSameDayAs: date)
+            $0.group_id != nil && Calendar.current.isDate($0.date ?? Date(), inSameDayAs: date)
         }
     }
 

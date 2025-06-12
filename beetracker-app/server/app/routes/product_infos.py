@@ -19,13 +19,13 @@ def get_product_infos(
 ):
     from app.autogen.models.product_infos import ProductInfos
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     if user.GroupId != group_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to view this group's period entries")
     
-    productInfos = db.query(ProductInfos).filter(ProductInfos.__table__.c._group_id == group_id).all()
+    productInfos = db.query(ProductInfos).filter(ProductInfos.__table__.c.group_id == group_id).all()
 
     return [productInfo.to_schema() for productInfo in productInfos]

@@ -29,7 +29,7 @@ class PeriodViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     for symptom in symptoms {
                         self.symptomsViewModel.append(SymptomsViewModel(model: symptom))
-                        self.symptomIdToNameMap[symptom._id?.uuidString ?? ""] = symptom._name
+                        self.symptomIdToNameMap[symptom.id?.uuidString ?? ""] = symptom.name
                     }
                 }
             case .failure(let error):
@@ -39,15 +39,15 @@ class PeriodViewModel: ObservableObject {
     }
     
     func getAverageCycleLength() -> Int {
-        return periodInfosViewModel._average_cycle_length ?? 25
+        return periodInfosViewModel.average_cycle_length ?? 25
     }
     
     func getAverageDurationOfPeriod() -> Int {
-        return periodInfosViewModel._average_period_duration ?? 5
+        return periodInfosViewModel.average_period_duration ?? 5
     }
     
     func getPeriodInfoId() -> UUID {
-        return periodInfosViewModel._id ?? UUID()
+        return periodInfosViewModel.id ?? UUID()
     }
     
     func addPeriodEntry(entry: PeriodEntries){
@@ -63,14 +63,14 @@ class PeriodViewModel: ObservableObject {
     }
     
     func deletePeriodEntry(entry: PeriodEntriesViewModel) {
-        guard let id = entry._id else {
+        guard let id = entry.id else {
             print("Cannot delete entry: id is nil")
             return
         }
         ServerEndPoints.shared.deletePeriodEntries(id: id) { result in
             switch result {
             case .success:
-                self.periodInfosViewModel.period_entries.removeAll { $0._id == entry._id }
+                self.periodInfosViewModel.period_entries.removeAll { $0.id == entry.id }
             case .failure(let error):
                 print("Failed to delete task entry: \(error)")
             }
@@ -84,7 +84,7 @@ class PeriodViewModel: ObservableObject {
     
     func getOngoingPeriodViewModel() -> PeriodEntriesViewModel? {
         return self.periodInfosViewModel.period_entries.first { entry in
-            guard let isEnded = entry._is_ended else { return false }
+            guard let isEnded = entry.is_ended else { return false }
             return !isEnded
         }
     }
@@ -112,16 +112,16 @@ class PeriodViewModel: ObservableObject {
     }
     
     func getNextExpectedPeriodDate() -> Date? {
-        return self.periodInfosViewModel._predicted_next_period_date
+        return self.periodInfosViewModel.predicted_next_period_date
     }
     
     func endOngoingPeriod() {
         guard let ongoingPeriodViewModel = self.getOngoingPeriodViewModel() else { return }
-        ongoingPeriodViewModel._is_ended = true
-        ongoingPeriodViewModel._end_date = Date()
-        if let index = self.periodInfosViewModel.period_entries.firstIndex(where: { $0._id == ongoingPeriodViewModel._id }) {
-            self.periodInfosViewModel.period_entries[index]._is_ended = true
-            self.periodInfosViewModel.period_entries[index]._end_date = ongoingPeriodViewModel._end_date
+        ongoingPeriodViewModel.is_ended = true
+        ongoingPeriodViewModel.end_date = Date()
+        if let index = self.periodInfosViewModel.period_entries.firstIndex(where: { $0.id == ongoingPeriodViewModel.id }) {
+            self.periodInfosViewModel.period_entries[index].is_ended = true
+            self.periodInfosViewModel.period_entries[index].end_date = ongoingPeriodViewModel.end_date
         }
         ongoingPeriodViewModel.save()
         self.periodInfosViewModel = self.periodInfosViewModel
@@ -134,7 +134,7 @@ class PeriodViewModel: ObservableObject {
     
     func historyEntriesSorted() -> [PeriodEntriesViewModel] {
         self.periodInfosViewModel.period_entries
-            .filter { $0._is_ended == true || Calendar.current.startOfDay(for: $0._end_date ?? .distantPast) < Calendar.current.startOfDay(for: Date()) }
-            .sorted { ($0._start_date ?? .distantPast) > ($1._start_date ?? .distantPast) }
+            .filter { $0.is_ended == true || Calendar.current.startOfDay(for: $0.end_date ?? .distantPast) < Calendar.current.startOfDay(for: Date()) }
+            .sorted { ($0.start_date ?? .distantPast) > ($1.start_date ?? .distantPast) }
     }
 }

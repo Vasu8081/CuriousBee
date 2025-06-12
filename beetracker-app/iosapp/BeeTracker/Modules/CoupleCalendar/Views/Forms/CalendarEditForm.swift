@@ -31,7 +31,7 @@ struct CalendarEditForm: View {
                     Picker("Assign To", selection: $assignedUserId) {
                         Text("Unassigned").tag(UUID?.none)
                         ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
-                            Text(user._name ?? "Unnamed").tag(user._id)
+                            Text(user.name ?? "Unnamed").tag(user.id)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
@@ -62,13 +62,13 @@ struct CalendarEditForm: View {
                                                     second: 0,
                                                     of: selectedDate)
 
-                        entryToEdit._title = title
-                        entryToEdit._notes = notes.isEmpty ? nil : notes
-                        entryToEdit._date = selectedDate
-                        entryToEdit._start_time = fullStart
-                        entryToEdit._end_time = fullEnd
-                        let oldUserId = entryToEdit._user_id
-                        entryToEdit._user_id = assignedUserId
+                        entryToEdit.title = title
+                        entryToEdit.notes = notes.isEmpty ? nil : notes
+                        entryToEdit.date = selectedDate
+                        entryToEdit.start_time = fullStart
+                        entryToEdit.end_time = fullEnd
+                        let oldUserId = entryToEdit.user_id
+                        entryToEdit.user_id = assignedUserId
                         if oldUserId != assignedUserId {
                             calendarViewModel.refreshGroupings(triggerFor: [oldUserId, assignedUserId])
                         }
@@ -85,12 +85,12 @@ struct CalendarEditForm: View {
             }
         }
         .onAppear {
-            title = entryToEdit._title ?? ""
-            notes = entryToEdit._notes ?? ""
-            selectedDate = entryToEdit._date ?? Date()
-            startTime = entryToEdit._start_time ?? Date()
-            endTime = entryToEdit._end_time ?? entryToEdit._start_time ?? Date()
-            assignedUserId = entryToEdit._user_id
+            title = entryToEdit.title ?? ""
+            notes = entryToEdit.notes ?? ""
+            selectedDate = entryToEdit.date ?? Date()
+            startTime = entryToEdit.start_time ?? Date()
+            endTime = entryToEdit.end_time ?? entryToEdit.start_time ?? Date()
+            assignedUserId = entryToEdit.user_id
         }
     }
 }

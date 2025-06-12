@@ -27,8 +27,8 @@ struct CalendarEntryForm: View {
                     Picker("Assign To", selection: $assignedUserId) {
                         Text("Unassigned").tag(UUID?.none)
                         ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
-                            if let id = user._id {
-                                Text(user._name ?? "Unnamed").tag(Optional(id))
+                            if let id = user.id {
+                                Text(user.name ?? "Unnamed").tag(Optional(id))
                             }
                         }
                     }

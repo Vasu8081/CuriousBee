@@ -26,14 +26,14 @@ struct ProductAddForm: View {
                         Spacer()
                         TextField("Days", text: Binding(
                             get: {
-                                if let val = viewModel._days_per_quantity {
+                                if let val = viewModel.days_per_quantity {
                                     return String(format: "%.2f", val)
                                 } else {
                                     return ""
                                 }
                             },
                             set: { newValue in
-                                viewModel._days_per_quantity = Double(newValue)
+                                viewModel.days_per_quantity = Double(newValue)
                             }
                         ))
                         .keyboardType(.decimalPad)
@@ -44,7 +44,7 @@ struct ProductAddForm: View {
                     HStack {
                         Text("Unit Size")
                         Spacer()
-                        Text(viewModel._quantity_unit_size ?? "N/A")
+                        Text(viewModel.quantity_unit_size ?? "N/A")
                             .foregroundColor(.secondary)
                     }
                 }
@@ -67,7 +67,7 @@ struct ProductAddForm: View {
                 Section(header: Text("Status")) {
                     Picker("Status", selection: $selectedStatusId) {
                         ForEach(productViewModel.getStatus(), id: \.id) { status in
-                            Text(status._name ?? "Unnamed").tag(status._id)
+                            Text(status.name ?? "Unnamed").tag(status.id)
                         }
                     }
                     .pickerStyle(.menu)
@@ -121,7 +121,7 @@ struct ProductAddForm: View {
 
         let product = Products(
             _id: UUID(),
-            _product_info_id: viewModel._id,
+            _product_info_id: viewModel.id,
             _quantity: Double(quantity),
             _started_using_date: startedDate,
             _product_completed_date: completedDate,

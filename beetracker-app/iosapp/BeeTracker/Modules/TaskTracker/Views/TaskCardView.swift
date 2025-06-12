@@ -11,32 +11,32 @@ struct TaskCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top) {
                 Button(action: onToggleComplete) {
-                    Image(systemName: task._is_completed ?? false ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(task._is_completed ?? false ? .green : .gray)
+                    Image(systemName: task.is_completed ?? false ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(task.is_completed ?? false ? .green : .gray)
                 }
                 .buttonStyle(.plain)
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text(task._interaction_style ?? "")
-                        Text(task._title ?? "")
+                        Text(task.interaction_style ?? "")
+                        Text(task.title ?? "")
                             .fontWeight(.medium)
-                            .strikethrough(task._is_completed ?? false, color: .gray)
+                            .strikethrough(task.is_completed ?? false, color: .gray)
                     }
 
-                    if let deadline = task._deadline {
+                    if let deadline = task.deadline {
                         Text("Due: \(deadline.formatted(date: .abbreviated, time: .omitted))")
                             .font(.caption2)
                             .foregroundColor(.secondary)
                     }
 
-                    if let notes = task._notes {
+                    if let notes = task.notes {
                         Text(notes)
                             .font(.caption2)
                             .foregroundColor(.gray)
                     }
 
-                    if let style = task._interaction_style {
+                    if let style = task.interaction_style {
                         Text(style)
                             .font(.caption2)
                             .foregroundColor(.accentColor)
@@ -45,7 +45,7 @@ struct TaskCardView: View {
 
                 Spacer()
 
-                if !(task._is_completed ?? false) {
+                if !(task.is_completed ?? false) {
                     if task.calendar_entrie == nil {
                         Button(action: onSchedule) {
                             Image(systemName: "calendar.badge.plus")
@@ -62,7 +62,7 @@ struct TaskCardView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                if !(task._is_completed ?? false) {
+                if !(task.is_completed ?? false) {
                     onEdit()
                 }
             }

@@ -29,14 +29,14 @@ class TaskViewModel : ObservableObject {
     }
     
     func deleteTask(_ task: TasksViewModel) {
-        guard let id = task._id else {
+        guard let id = task.id else {
             print("Cannot delete entry: id is nil")
             return
         }
         ServerEndPoints.shared.deleteTasks(id: id) { result in
             switch result {
             case .success:
-                self.taskViewModels.removeAll { $0._id == task._id }
+                self.taskViewModels.removeAll { $0.id == task.id }
             case .failure(let error):
                 print("Failed to delete task entry: \(error)")
             }
@@ -44,17 +44,17 @@ class TaskViewModel : ObservableObject {
     }
     
     func toggleComplete(_ task: TasksViewModel) {
-        task._is_completed?.toggle()
+        task.is_completed?.toggle()
         task.save()
         self.taskViewModels = self.taskViewModels
     }
     
     func getCompletedTasks() -> [TasksViewModel] {
-        return self.taskViewModels.filter { $0._is_completed ?? false }
+        return self.taskViewModels.filter { $0.is_completed ?? false }
     }
     
     func getUncompletedTasks() -> [TasksViewModel] {
-        return self.taskViewModels.filter { !($0._is_completed ?? true) }
+        return self.taskViewModels.filter { !($0.is_completed ?? true) }
     }
     
     func triggerRefresh() {

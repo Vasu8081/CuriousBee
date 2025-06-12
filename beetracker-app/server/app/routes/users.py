@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get("/me")
 def get_current_user(email: str = Depends(get_current_user_email), db: Session = Depends(get_db)):
     from app.autogen.models.users import Users
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user.to_schema()
@@ -20,7 +20,7 @@ def get_current_user(email: str = Depends(get_current_user_email), db: Session =
 @router.get("/all")
 def get_users(email: str = Depends(get_current_user_email), db: Session = Depends(get_db)):
     from app.autogen.models.users import Users
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Admin user not found")
     if not user.IsAdmin:
@@ -34,14 +34,14 @@ def get_users(email: str = Depends(get_current_user_email), db: Session = Depend
 @router.get("/group")
 def get_group(email: str = Depends(get_current_user_email), db: Session = Depends(get_db)):
     from app.autogen.models.users import Users
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
     if user.GroupId is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User does not belong to any group")
     
-    group = db.query(Groups).filter(Groups.__table__.c._id == user.GroupId).first()
+    group = db.query(Groups).filter(Groups.__table__.c.id == user.GroupId).first()
     if not group:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Group not found")
     
@@ -53,7 +53,7 @@ def set_device_token(
     email: str = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
@@ -72,9 +72,9 @@ def get_users_by_group(
     db: Session = Depends(get_db)
 ):
     from app.autogen.models.users import Users
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    users = db.query(Users).filter(Users.__table__.c._group_id == group_id).all()
+    users = db.query(Users).filter(Users.__table__.c.group_id == group_id).all()
     return [user.to_schema() for user in users]

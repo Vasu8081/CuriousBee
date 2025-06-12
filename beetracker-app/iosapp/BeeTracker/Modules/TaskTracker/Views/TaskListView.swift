@@ -81,7 +81,7 @@ struct TaskListView: View {
     private func sortedTasks() -> [TasksViewModel] {
         let tasks = showCompleted ? taskViewModel.getCompletedTasks() : taskViewModel.getUncompletedTasks()
         return tasks.sorted { lhs, rhs in
-            switch (lhs._deadline, rhs._deadline) {
+            switch (lhs.deadline, rhs.deadline) {
             case let (l?, r?): return l < r
             case (_?, nil): return true
             case (nil, _?): return false

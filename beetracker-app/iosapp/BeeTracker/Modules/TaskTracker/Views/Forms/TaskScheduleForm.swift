@@ -15,7 +15,7 @@ struct TaskScheduleForm: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Schedule for \(viewModel._title ?? "")")) {
+                Section(header: Text("Schedule for \(viewModel.title ?? "")")) {
                     DatePicker("Date", selection: $date, displayedComponents: .date)
                     DatePicker("Start Time", selection: $startTime, displayedComponents: .hourAndMinute)
                     DatePicker("End Time", selection: $endTime, displayedComponents: .hourAndMinute)
@@ -23,8 +23,8 @@ struct TaskScheduleForm: View {
                     Picker("Assign To", selection: $assignedTo) {
                         Text("Unassigned").tag(UUID?.none)
                         ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
-                            if let id = user._id {
-                                Text(user._name ?? "Unnamed").tag(id) // Use flat UUID
+                            if let id = user.id {
+                                Text(user.name ?? "Unnamed").tag(id) // Use flat UUID
                             }
                         }
                     }
@@ -56,15 +56,15 @@ struct TaskScheduleForm: View {
                         var newEntry = CalendarEntries(
                             _id: UUID(),
                             _user_id: assignedTo,
-                            _title: viewModel._title,
-                            _notes: viewModel._notes,
+                            _title: viewModel.title,
+                            _notes: viewModel.notes,
                             _date: date,
                             _start_time: fullStart,
                             _end_time: fullEnd
                         )
                         
-                        if viewModel._other_users_presence_necessary ?? false {
-                            newEntry._group_id = UUID(uuidString: AuthenticateViewModel.shared.getGroupId())
+                        if viewModel.other_users_presence_necessary ?? false {
+                            newEntry.group_id = UUID(uuidString: AuthenticateViewModel.shared.getGroupId())
                         }
                         
                         viewModel.calendar_entrie = CalendarEntriesViewModel(model: newEntry)
@@ -72,7 +72,7 @@ struct TaskScheduleForm: View {
                         viewModel.save()
                         dismiss()
                     }
-                    .disabled((viewModel._title ?? "").trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled((viewModel.title ?? "").trimmingCharacters(in: .whitespaces).isEmpty)
                 }
 
                 ToolbarItem(placement: .cancellationAction) {

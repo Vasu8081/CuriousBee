@@ -51,8 +51,8 @@ struct TaskFormView: View {
                     Picker("Assign To", selection: $primaryDoer) {
                         Text("Unassigned").tag(UUID?.none)
                         ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
-                            if let id = user._id {
-                                Text(user._name ?? "Unnamed").tag(id) // Use flat UUID
+                            if let id = user.id {
+                                Text(user.name ?? "Unnamed").tag(id) // Use flat UUID
                             }
                         }
                     }

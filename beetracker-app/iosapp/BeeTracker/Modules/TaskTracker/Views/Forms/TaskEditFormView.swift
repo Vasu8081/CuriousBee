@@ -16,12 +16,12 @@ struct TaskEditFormView: View {
 
     init(task: TasksViewModel) {
         self.entry = task
-        _title = State(initialValue: task._title ?? "")
-        _notes = State(initialValue: task._notes ?? "")
-        _deadline = State(initialValue: task._deadline)
-        _isShared = State(initialValue: task._other_users_presence_necessary ?? true)
-        _isConscience = State(initialValue: task._interaction_style == "Full Conscience")
-        _primaryDoer = State(initialValue: task._primary_doer_user_id)
+        _title = State(initialValue: task.title ?? "")
+        _notes = State(initialValue: task.notes ?? "")
+        _deadline = State(initialValue: task.deadline)
+        _isShared = State(initialValue: task.other_users_presence_necessary ?? true)
+        _isConscience = State(initialValue: task.interaction_style == "Full Conscience")
+        _primaryDoer = State(initialValue: task.primary_doer_user_id)
     }
 
     var body: some View {
@@ -32,7 +32,7 @@ struct TaskEditFormView: View {
                     TextField("Notes (optional)", text: $notes)
                 }
 
-                if entry._deadline != nil {
+                if entry.deadline != nil {
                     Section(header: Text("Deadline")) {
                         DatePicker("Select Deadline", selection: Binding(
                             get: { deadline ?? Date() },
@@ -61,8 +61,8 @@ struct TaskEditFormView: View {
                     Picker("Assign To", selection: $primaryDoer) {
                         Text("Unassigned").tag(UUID?.none)
                         ForEach(userViewModel.getUserViewModels(), id: \.id) { user in
-                            if let id = user._id {
-                                Text(user._name ?? "Unnamed").tag(id) // Use flat UUID
+                            if let id = user.id {
+                                Text(user.name ?? "Unnamed").tag(id) // Use flat UUID
                             }
                         }
                     }
@@ -73,12 +73,12 @@ struct TaskEditFormView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        entry._title = title
-                        entry._notes = notes.isEmpty ? nil : notes
-                        entry._deadline = deadline
-                        entry._interaction_style = isConscience ? "Full Conscience" : "Partial Conscience"
-                        entry._primary_doer_user_id = primaryDoer
-                        entry._other_users_presence_necessary = isShared
+                        entry.title = title
+                        entry.notes = notes.isEmpty ? nil : notes
+                        entry.deadline = deadline
+                        entry.interaction_style = isConscience ? "Full Conscience" : "Partial Conscience"
+                        entry.primary_doer_user_id = primaryDoer
+                        entry.other_users_presence_necessary = isShared
                         entry.save()
                         dismiss()
                     }

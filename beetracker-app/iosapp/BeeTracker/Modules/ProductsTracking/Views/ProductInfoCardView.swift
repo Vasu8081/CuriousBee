@@ -8,7 +8,7 @@ struct ProductInfoCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(viewModel._name ?? "Unnamed Product")
+                Text(viewModel.name ?? "Unnamed Product")
                     .font(.headline)
 
                 Spacer()

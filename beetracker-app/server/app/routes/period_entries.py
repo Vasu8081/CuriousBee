@@ -19,25 +19,25 @@ def add_or_update_period_entry(
     from app.autogen.models.users import Users
     from app.autogen.models.groups import Groups
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    group = db.query(Groups).filter(Groups.__table__.c._id == group_id).first()
+    group = db.query(Groups).filter(Groups.__table__.c.id == group_id).first()
     if not group:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Group not found")
     
     print("Period Entries:", period_entries)
 
-    existing_entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c._id == period_entries.id).first()
+    existing_entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c.id == period_entries.id).first()
 
     if existing_entry:
         updated = period_entries.to_model()
-        updated._id = existing_entry.Id
+        updated.id = existing_entry.Id
         updated = db.merge(updated)
     else:
         new_entry = period_entries.to_model()
-        new_entry._id = period_entries.id or uuid.uuid4()
+        new_entry.id = period_entries.id or uuid.uuid4()
         db.add(new_entry)
 
     db.commit()
@@ -54,11 +54,11 @@ def delete_period_entry(
 ):
     from app.autogen.models.users import Users
 
-    user = db.query(Users).filter(Users.__table__.c._email == email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c._id == period_entry_id).first()
+    entry = db.query(PeriodEntries).filter(PeriodEntries.__table__.c.id == period_entry_id).first()
     if not entry:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Period entry not found")
 

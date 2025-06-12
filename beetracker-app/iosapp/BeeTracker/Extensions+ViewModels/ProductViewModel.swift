@@ -31,7 +31,7 @@ class ProductViewModel: ObservableObject {
                     for status in statuses {
                         let model = ProductStatusViewModel(model: status)
                         self.productStatusViewModel.append(model)
-                        self.productStatussesMap[status._id?.uuidString ?? ""] = model
+                        self.productStatussesMap[status.id?.uuidString ?? ""] = model
                     }
                 }
             case .failure(let error):
@@ -52,7 +52,7 @@ class ProductViewModel: ObservableObject {
         let trimmed = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
 
         let matched = productInfosViewModel.filter { info in
-            trimmed.isEmpty || (info._name?.lowercased().contains(trimmed) ?? false)
+            trimmed.isEmpty || (info.name?.lowercased().contains(trimmed) ?? false)
         }
 
         return matched.sorted(by: urgencySort)

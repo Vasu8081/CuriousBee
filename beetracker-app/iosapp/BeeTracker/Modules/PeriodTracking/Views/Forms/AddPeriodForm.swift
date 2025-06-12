@@ -39,7 +39,7 @@ struct AddPeriodForm: View {
                         let new_id = UUID()
                         var symptomsList: [PeriodSymptoms] = []
                         for symptom in selectedSymptoms {
-                            symptomsList.append(PeriodSymptoms(_period_entry_id: new_id, _symptom_id: symptom._id))
+                            symptomsList.append(PeriodSymptoms(_period_entry_id: new_id, _symptom_id: symptom.id))
                         }
                         let newEntry = PeriodEntries(
                             _id: new_id,
@@ -75,7 +75,7 @@ struct AddPeriodForm: View {
     private var symptomsSection: some View {
         Section(header: Text("Symptoms")) {
             ForEach(symptoms, id: \.id) { symptom in
-                Toggle(symptom._name ?? "Unnamed Symptom", isOn: Binding<Bool>(
+                Toggle(symptom.name ?? "Unnamed Symptom", isOn: Binding<Bool>(
                     get: { selectedSymptoms.contains(symptom) },
                     set: { isOn in
                         if isOn {

@@ -19,7 +19,7 @@ async def get_periods(
     """
     Retrieve all periods for the current user.
     """
-    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
@@ -36,7 +36,7 @@ async def get_group(
     """
     Retrieve the group of the current user.
     """
-    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
@@ -54,13 +54,13 @@ async def get_group_by_id(
     """
     Retrieve a group by its ID.
     """
-    user = db.query(Users).filter(Users.__table__.c._email == current_user_email).first()
+    user = db.query(Users).filter(Users.__table__.c.email == current_user_email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
     if not user.group:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User group not found")
-    if user.group._id != group_id:
+    if user.group.id != group_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access to this group is forbidden")
 
     schema = GroupsSchema.model_validate(user.group)

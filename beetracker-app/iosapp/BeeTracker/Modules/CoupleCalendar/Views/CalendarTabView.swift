@@ -123,7 +123,7 @@ struct CalendarTabView: View {
         ZStack(alignment: .topLeading) {
             // Show user-specific entries
             ForEach(calendarViewModel.getEntries(for: userId, on: selectedDate)) { entry in
-                if entry._group_id == nil {
+                if entry.group_id == nil {
                     CalendarEntryCardView(
                         viewModel: entry,
                         columnWidth: columnWidth,

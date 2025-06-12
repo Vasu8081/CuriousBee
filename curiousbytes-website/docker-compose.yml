@@ -26,7 +26,7 @@ services:
       - YOUTUBE_CHANNEL_ID=${YOUTUBE_CHANNEL_ID}
       - YOUTUBE_CACHE_REFRESH_INTERVAL=${YOUTUBE_CACHE_REFRESH_INTERVAL}
     volumes:
-      - ./backend:/app
+      - ./server:/app
     working_dir: /app
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     networks:

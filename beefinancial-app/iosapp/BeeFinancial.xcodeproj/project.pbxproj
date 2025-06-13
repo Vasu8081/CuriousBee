@@ -44,21 +44,21 @@
 		5658A5912DFB4A8000E887CC /* LoanAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54D2DFB4A8000E887CC /* LoanAccount.swift */; };
 		5658A5922DFB4A8000E887CC /* CategoryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5602DFB4A8000E887CC /* CategoryTabView.swift */; };
 		5658A5932DFB4A8000E887CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5658A5672DFB4A8000E887CC /* Assets.xcassets */; };
-		5658A5962DFB4CFD00E887CC /* BeeCodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5952DFB4CFD00E887CC /* BeeCodableModel.swift */; };
-		5658A59A2DFB524100E887CC /* ServerEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5992DFB524100E887CC /* ServerEndPoints.swift */; };
-		5658A59C2DFB525C00E887CC /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A59B2DFB525C00E887CC /* Helper.swift */; };
-		5658A59E2DFB526900E887CC /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A59D2DFB526900E887CC /* ToastManager.swift */; };
-		5658A5A02DFB52DF00E887CC /* LoginEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A59F2DFB52DF00E887CC /* LoginEndPoints.swift */; };
-		5658A5A22DFB52F900E887CC /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5A12DFB52F900E887CC /* AuthUser.swift */; };
-		5658A5A82DFB534500E887CC /* LoginViewForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5A32DFB534500E887CC /* LoginViewForm.swift */; };
-		5658A5A92DFB534500E887CC /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5A52DFB534500E887CC /* AuthenticateViewModel.swift */; };
-		5658A5AC2DFB53F500E887CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5AB2DFB53F500E887CC /* AppDelegate.swift */; };
 		5658A5AE2DFB542700E887CC /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5AD2DFB542700E887CC /* HomeView.swift */; };
-		5658A5B42DFB546200E887CC /* NotificationTrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5B22DFB546200E887CC /* NotificationTrackerViewModel.swift */; };
-		5658A5B52DFB546200E887CC /* NotificationBellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5AF2DFB546200E887CC /* NotificationBellView.swift */; };
-		5658A5B62DFB546200E887CC /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5B02DFB546200E887CC /* NotificationListView.swift */; };
-		5658A5B92DFB54EC00E887CC /* DeviceTokenEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */; };
-		5658A5BB2DFB5D3100E887CC /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5BA2DFB5D2A00E887CC /* StartView.swift */; };
+		5658A5CF2DFBC81900E887CC /* LoginEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CA2DFBC81900E887CC /* LoginEndPoints.swift */; };
+		5658A5D02DFBC81900E887CC /* ServerEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */; };
+		5658A5D12DFBC81900E887CC /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CD2DFBC81900E887CC /* ToastManager.swift */; };
+		5658A5D22DFBC81900E887CC /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C92DFBC81900E887CC /* Helper.swift */; };
+		5658A5D32DFBC81900E887CC /* NotificationBellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C02DFBC81900E887CC /* NotificationBellView.swift */; };
+		5658A5D42DFBC81900E887CC /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C62DFBC81900E887CC /* AuthUser.swift */; };
+		5658A5D52DFBC81900E887CC /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CC2DFBC81900E887CC /* StartView.swift */; };
+		5658A5D62DFBC81900E887CC /* LoginViewForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */; };
+		5658A5D72DFBC81900E887CC /* NotificationTrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C32DFBC81900E887CC /* NotificationTrackerViewModel.swift */; };
+		5658A5D82DFBC81900E887CC /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */; };
+		5658A5D92DFBC81900E887CC /* DeviceTokenEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C82DFBC81900E887CC /* DeviceTokenEndpoints.swift */; };
+		5658A5DA2DFBC81900E887CC /* BeeCodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C72DFBC81900E887CC /* BeeCodableModel.swift */; };
+		5658A5DB2DFBC81900E887CC /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C12DFBC81900E887CC /* NotificationListView.swift */; };
+		5658A5DC2DFBC81900E887CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5C52DFBC81900E887CC /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,21 +99,21 @@
 		5658A5652DFB4A8000E887CC /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
 		5658A5672DFB4A8000E887CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5658A5682DFB4A8000E887CC /* BeeFinancial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeFinancial.swift; sourceTree = "<group>"; };
-		5658A5952DFB4CFD00E887CC /* BeeCodableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCodableModel.swift; sourceTree = "<group>"; };
-		5658A5992DFB524100E887CC /* ServerEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEndPoints.swift; sourceTree = "<group>"; };
-		5658A59B2DFB525C00E887CC /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		5658A59D2DFB526900E887CC /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
-		5658A59F2DFB52DF00E887CC /* LoginEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEndPoints.swift; sourceTree = "<group>"; };
-		5658A5A12DFB52F900E887CC /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
-		5658A5A32DFB534500E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
-		5658A5A52DFB534500E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
-		5658A5AB2DFB53F500E887CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5658A5AD2DFB542700E887CC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		5658A5AF2DFB546200E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
-		5658A5B02DFB546200E887CC /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
-		5658A5B22DFB546200E887CC /* NotificationTrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTrackerViewModel.swift; sourceTree = "<group>"; };
-		5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenEndpoints.swift; sourceTree = "<group>"; };
-		5658A5BA2DFB5D2A00E887CC /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
+		5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
+		5658A5C02DFBC81900E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
+		5658A5C12DFBC81900E887CC /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
+		5658A5C32DFBC81900E887CC /* NotificationTrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTrackerViewModel.swift; sourceTree = "<group>"; };
+		5658A5C52DFBC81900E887CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5658A5C62DFBC81900E887CC /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
+		5658A5C72DFBC81900E887CC /* BeeCodableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCodableModel.swift; sourceTree = "<group>"; };
+		5658A5C82DFBC81900E887CC /* DeviceTokenEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenEndpoints.swift; sourceTree = "<group>"; };
+		5658A5C92DFBC81900E887CC /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		5658A5CA2DFBC81900E887CC /* LoginEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEndPoints.swift; sourceTree = "<group>"; };
+		5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEndPoints.swift; sourceTree = "<group>"; };
+		5658A5CC2DFBC81900E887CC /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		5658A5CD2DFBC81900E887CC /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		56A558162DE55AD600307193 /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeeFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -219,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				5658A5AA2DFB53EC00E887CC /* App */,
-				5658A5972DFB4D5E00E887CC /* Utility */,
 				5658A5412DFB4A8000E887CC /* Autogen */,
 				5658A5532DFB4A8000E887CC /* Models */,
 				5658A5592DFB4A8000E887CC /* ViewModels */,
@@ -228,41 +227,6 @@
 				5658A5A72DFB534500E887CC /* Modules */,
 			);
 			path = BeeFinancial;
-			sourceTree = "<group>";
-		};
-		5658A5972DFB4D5E00E887CC /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5BA2DFB5D2A00E887CC /* StartView.swift */,
-				5658A5B82DFB54E500E887CC /* DeviceTokenEndpoints.swift */,
-				5658A5A12DFB52F900E887CC /* AuthUser.swift */,
-				5658A59F2DFB52DF00E887CC /* LoginEndPoints.swift */,
-				5658A59D2DFB526900E887CC /* ToastManager.swift */,
-				5658A59B2DFB525C00E887CC /* Helper.swift */,
-				5658A5992DFB524100E887CC /* ServerEndPoints.swift */,
-				5658A5952DFB4CFD00E887CC /* BeeCodableModel.swift */,
-				5658A5AB2DFB53F500E887CC /* AppDelegate.swift */,
-				5658A5B32DFB546200E887CC /* Notifications */,
-				5658A5A62DFB534500E887CC /* Authenticate */,
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
-		5658A5A42DFB534500E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5A32DFB534500E887CC /* LoginViewForm.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A5A62DFB534500E887CC /* Authenticate */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5A42DFB534500E887CC /* Views */,
-				5658A5A52DFB534500E887CC /* AuthenticateViewModel.swift */,
-			);
-			path = Authenticate;
 			sourceTree = "<group>";
 		};
 		5658A5A72DFB534500E887CC /* Modules */ = {
@@ -281,29 +245,66 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		5658A5B12DFB546200E887CC /* Views */ = {
+		5658A5BD2DFBC81900E887CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5658A5AF2DFB546200E887CC /* NotificationBellView.swift */,
-				5658A5B02DFB546200E887CC /* NotificationListView.swift */,
+				5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		5658A5B32DFB546200E887CC /* Notifications */ = {
+		5658A5BF2DFBC81900E887CC /* Authenticate */ = {
 			isa = PBXGroup;
 			children = (
-				5658A5B12DFB546200E887CC /* Views */,
-				5658A5B22DFB546200E887CC /* NotificationTrackerViewModel.swift */,
+				5658A5BD2DFBC81900E887CC /* Views */,
+				5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */,
+			);
+			path = Authenticate;
+			sourceTree = "<group>";
+		};
+		5658A5C22DFBC81900E887CC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5658A5C02DFBC81900E887CC /* NotificationBellView.swift */,
+				5658A5C12DFBC81900E887CC /* NotificationListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5658A5C42DFBC81900E887CC /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				5658A5C22DFBC81900E887CC /* Views */,
+				5658A5C32DFBC81900E887CC /* NotificationTrackerViewModel.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
+		};
+		5658A5CE2DFBC81900E887CC /* iosapp-commons */ = {
+			isa = PBXGroup;
+			children = (
+				5658A5BF2DFBC81900E887CC /* Authenticate */,
+				5658A5C42DFBC81900E887CC /* Notifications */,
+				5658A5C52DFBC81900E887CC /* AppDelegate.swift */,
+				5658A5C62DFBC81900E887CC /* AuthUser.swift */,
+				5658A5C72DFBC81900E887CC /* BeeCodableModel.swift */,
+				5658A5C82DFBC81900E887CC /* DeviceTokenEndpoints.swift */,
+				5658A5C92DFBC81900E887CC /* Helper.swift */,
+				5658A5CA2DFBC81900E887CC /* LoginEndPoints.swift */,
+				5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */,
+				5658A5CC2DFBC81900E887CC /* StartView.swift */,
+				5658A5CD2DFBC81900E887CC /* ToastManager.swift */,
+			);
+			name = "iosapp-commons";
+			path = "/Users/vasudhanvarma/Documents/CuriousBee/iosapp-commons";
+			sourceTree = "<absolute>";
 		};
 		56A5580D2DE55AD600307193 = {
 			isa = PBXGroup;
 			children = (
 				5658A5692DFB4A8000E887CC /* BeeFinancial */,
 				56A558172DE55AD600307193 /* Products */,
+				5658A5CE2DFBC81900E887CC /* iosapp-commons */,
 			);
 			sourceTree = "<group>";
 		};
@@ -387,7 +388,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5658A5BB2DFB5D3100E887CC /* StartView.swift in Sources */,
 				5658A56A2DFB4A8000E887CC /* ChitAccount.swift in Sources */,
 				5658A56C2DFB4A8000E887CC /* SummaryView.swift in Sources */,
 				5658A56D2DFB4A8000E887CC /* UsersEndpoint.swift in Sources */,
@@ -396,38 +396,39 @@
 				5658A5712DFB4A8000E887CC /* BorrowAccount.swift in Sources */,
 				5658A5722DFB4A8000E887CC /* AccountsViewModel.swift in Sources */,
 				5658A5732DFB4A8000E887CC /* ContentView.swift in Sources */,
-				5658A59C2DFB525C00E887CC /* Helper.swift in Sources */,
 				5658A5752DFB4A8000E887CC /* Transaction.swift in Sources */,
 				5658A5762DFB4A8000E887CC /* CategoryFilterRange.swift in Sources */,
 				5658A5772DFB4A8000E887CC /* Category.swift in Sources */,
 				5658A5782DFB4A8000E887CC /* Accounts.swift in Sources */,
 				5658A5792DFB4A8000E887CC /* AddCategoryFormView.swift in Sources */,
 				5658A57A2DFB4A8000E887CC /* PropertyAccount.swift in Sources */,
-				5658A5962DFB4CFD00E887CC /* BeeCodableModel.swift in Sources */,
 				5658A57B2DFB4A8000E887CC /* GiveAccount.swift in Sources */,
-				5658A5A22DFB52F900E887CC /* AuthUser.swift in Sources */,
 				5658A57C2DFB4A8000E887CC /* UsersViewModel.swift in Sources */,
 				5658A57D2DFB4A8000E887CC /* AnyAccount.swift in Sources */,
-				5658A5A82DFB534500E887CC /* LoginViewForm.swift in Sources */,
-				5658A5A92DFB534500E887CC /* AuthenticateViewModel.swift in Sources */,
 				5658A57E2DFB4A8000E887CC /* AccountsEndpoint.swift in Sources */,
 				5658A57F2DFB4A8000E887CC /* StockAccount.swift in Sources */,
 				5658A5812DFB4A8000E887CC /* UserData.swift in Sources */,
-				5658A59E2DFB526900E887CC /* ToastManager.swift in Sources */,
-				5658A5A02DFB52DF00E887CC /* LoginEndPoints.swift in Sources */,
 				5658A5832DFB4A8000E887CC /* UserViewModel.swift in Sources */,
-				5658A5B42DFB546200E887CC /* NotificationTrackerViewModel.swift in Sources */,
-				5658A5B52DFB546200E887CC /* NotificationBellView.swift in Sources */,
-				5658A5B62DFB546200E887CC /* NotificationListView.swift in Sources */,
-				5658A5B92DFB54EC00E887CC /* DeviceTokenEndpoints.swift in Sources */,
 				5658A5842DFB4A8000E887CC /* BeeFinancial.swift in Sources */,
-				5658A59A2DFB524100E887CC /* ServerEndPoints.swift in Sources */,
 				5658A5852DFB4A8000E887CC /* CreditCardAccount.swift in Sources */,
 				5658A5862DFB4A8000E887CC /* TransactionFormView.swift in Sources */,
 				5658A5872DFB4A8000E887CC /* Account.swift in Sources */,
-				5658A5AC2DFB53F500E887CC /* AppDelegate.swift in Sources */,
 				5658A5AE2DFB542700E887CC /* HomeView.swift in Sources */,
 				5658A5882DFB4A8000E887CC /* CategoryDetailView.swift in Sources */,
+				5658A5CF2DFBC81900E887CC /* LoginEndPoints.swift in Sources */,
+				5658A5D02DFBC81900E887CC /* ServerEndPoints.swift in Sources */,
+				5658A5D12DFBC81900E887CC /* ToastManager.swift in Sources */,
+				5658A5D22DFBC81900E887CC /* Helper.swift in Sources */,
+				5658A5D32DFBC81900E887CC /* NotificationBellView.swift in Sources */,
+				5658A5D42DFBC81900E887CC /* AuthUser.swift in Sources */,
+				5658A5D52DFBC81900E887CC /* StartView.swift in Sources */,
+				5658A5D62DFBC81900E887CC /* LoginViewForm.swift in Sources */,
+				5658A5D72DFBC81900E887CC /* NotificationTrackerViewModel.swift in Sources */,
+				5658A5D82DFBC81900E887CC /* AuthenticateViewModel.swift in Sources */,
+				5658A5D92DFBC81900E887CC /* DeviceTokenEndpoints.swift in Sources */,
+				5658A5DA2DFBC81900E887CC /* BeeCodableModel.swift in Sources */,
+				5658A5DB2DFBC81900E887CC /* NotificationListView.swift in Sources */,
+				5658A5DC2DFBC81900E887CC /* AppDelegate.swift in Sources */,
 				5658A5892DFB4A8000E887CC /* AddAccountFormView.swift in Sources */,
 				5658A58A2DFB4A8000E887CC /* Enums.swift in Sources */,
 				5658A58B2DFB4A8000E887CC /* AccountCategory.swift in Sources */,

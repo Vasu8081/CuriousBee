@@ -13,7 +13,7 @@ struct BeeTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                HomeView()
+                StartView(appName: "Tracker")
             }
             .environmentObject(userViewModel)
             .environmentObject(calendarViewModel)

@@ -10,33 +10,24 @@ protocol AnyOptional {
     var isNil: Bool { get }
 }
 
+extension Optional: AnyOptional {
+    var isNil: Bool { self == nil }
+}
+
+// MARK: - Shared date formatters
 enum ServerDateFormatter {
-    static let datetimeFormatter: DateFormatter = {
+    static func formatter(with format: String) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        formatter.dateFormat = format
         return formatter
-    }()
-    
-    static let dateFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        f.locale = Locale(identifier: "en_US_POSIX")
-        return f
-    }()
+    }
 
-    static let timeFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "HH:mm:ss"
-        f.locale = Locale(identifier: "en_US_POSIX")
-        return f
-    }()
-}
-
-extension Optional: AnyOptional {
-    var isNil: Bool { self == nil }
+    static let datetimeFormatter = formatter(with: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    static let dateFormatter = formatter(with: "yyyy-MM-dd")
+    static let timeFormatter = formatter(with: "HH:mm:ss")
 }
 
 // MARK: - Type-erased Encodable wrapper
@@ -54,43 +45,34 @@ struct AnyEncodable: Encodable {
     }
 }
 
+// MARK: - Recursive encoder
 func encodeNestedValue(_ value: Any) throws -> Any {
     if let optional = value as? AnyOptional, optional.isNil {
         return NSNull()
     }
 
-    // Handle primitives directly
-    if value is String || value is Int || value is Double || value is Bool || value is UUID {
+    switch value {
+    case let rawEnum as any RawRepresentable:
+        return rawEnum.rawValue
+    case is String, is Int, is Double, is Bool, is UUID:
+        return value
+    case let date as Date:
+        return ServerDateFormatter.datetimeFormatter.string(from: date)
+    case let array as [Any]:
+        return try array.map { try encodeNestedValue($0) }
+    case let nested as (Encodable & BeeCodableModel):
+        let data = try encodeModel(nested)
+        return try JSONSerialization.jsonObject(with: data, options: [])
+    case let encodable as Encodable:
+        let data = try JSONEncoder().encode(AnyEncodable(encodable))
+        return try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+    default:
+        print("⚠️ Unhandled value type: \(type(of: value))")
         return value
     }
-
-    if let date = value as? Date {
-        return ServerDateFormatter.datetimeFormatter.string(from: date)
-    }
-
-    // Handle array of any kind
-    if let array = value as? [Any] {
-        return try array.map { try encodeNestedValue($0) }
-    }
-
-    // Handle nested BeeCodableModel structs
-    if let nested = value as? (Encodable & BeeCodableModel) {
-        let data = try encodeModel(nested)
-        let json = try JSONSerialization.jsonObject(with: data, options: [])
-        return json
-    }
-
-    // Fallback: try generic encoding
-    if let encodable = value as? Encodable {
-        let data = try JSONEncoder().encode(AnyEncodable(encodable))
-        let json = try JSONSerialization.jsonObject(with: data, options: [])
-        return json
-    }
-
-    print("⚠️ Unhandled value type: \(type(of: value))")
-    return value
 }
 
+// MARK: - Encode a model
 func encodeModel<T: Encodable & BeeCodableModel>(_ model: T) throws -> Data {
     var dict = [String: Any]()
     let mirror = Mirror(reflecting: model)
@@ -100,18 +82,13 @@ func encodeModel<T: Encodable & BeeCodableModel>(_ model: T) throws -> Data {
         guard let key = child.label else { continue }
         let value = child.value
 
-        guard let type = typeMap[key] else {
-            do {
-                dict[key] = try encodeNestedValue(value)
-            } catch {
-                print("⚠️ Failed to encode field '\(key)': \(error)")
-                dict[key] = NSNull()
-            }
+        guard let type = typeMap[key]?.uppercased() else {
+            dict[key] = try? encodeNestedValue(value)
             continue
         }
 
         do {
-            switch type.uppercased() {
+            switch type {
             case "DATE":
                 if let date = value as? Date {
                     dict[key] = ServerDateFormatter.dateFormatter.string(from: date)
@@ -136,8 +113,8 @@ func encodeModel<T: Encodable & BeeCodableModel>(_ model: T) throws -> Data {
             dict[key] = NSNull()
         }
     }
-    if !JSONSerialization.isValidJSONObject(dict) {
-        print("❌ Dictionary is not a valid JSON object!")
+
+    guard JSONSerialization.isValidJSONObject(dict) else {
         throw EncodingError.invalidValue(
             dict,
             .init(codingPath: [], debugDescription: "Top-level dictionary is not valid JSON")
@@ -147,9 +124,53 @@ func encodeModel<T: Encodable & BeeCodableModel>(_ model: T) throws -> Data {
     return try JSONSerialization.data(withJSONObject: dict, options: [])
 }
 
-// MARK: - Optional extension for convenience
+// MARK: - Model extension
 extension BeeCodableModel where Self: Encodable {
     func encodedData() throws -> Data {
         return try encodeModel(self)
     }
+}
+
+// MARK: - Decoder Factory
+func makeFlexibleJSONDecoder() -> JSONDecoder {
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .custom { decoder in
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+
+        let formats = [
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS",
+            "yyyy-MM-dd'T'HH:mm:ss",       // ✅ Add this format (no microseconds)
+            "yyyy-MM-dd",                  // date only
+            "HH:mm:ss"                     // time only
+        ]
+
+        for format in formats {
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+            if let date = formatter.date(from: value) {
+                return date
+            }
+        }
+
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "Unknown date format: \(value)"
+        )
+    }
+    return decoder
+}
+
+// MARK: - Decoding for BeeCodableModel
+func decodeModel<T: Decodable>(_ data: Data, as type: T.Type) throws -> T {
+    let decoder = makeFlexibleJSONDecoder()
+    return try decoder.decode(T.self, from: data)
+}
+
+func decodeModel<T: Decodable & BeeCodableModel>(_ data: Data, as type: T.Type) throws -> T {
+    let decoder = makeFlexibleJSONDecoder()
+    return try decoder.decode(T.self, from: data)
 }

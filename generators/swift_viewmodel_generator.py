@@ -33,6 +33,9 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
                 swift_type = swift_type_map.get(typ.upper(), "String")
                 if swift_type == "String" and typ in enums.keys():
                     swift_type = f"{to_pascal(typ)}"
+                # if name == "id":
+                #     vf.write(f"    @Published var id: UUID = UUID()\n")
+                # else:
                 vf.write(f"    @Published var {name}: {swift_type}?\n")
 
             # Foreign keys
@@ -64,10 +67,16 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
 
             # fromModel
             vf.write(f"\n    func fromModel(_ model: {struct_name}) {{\n")
-            for name, _, *mods in cols:
+            for name, typ, *mods in cols:
                 mods = mods[0] if mods else []
+                swift_type = swift_type_map.get(typ.upper(), "String")
                 if "HIDDEN" in [m.upper() for m in mods]: continue
-                vf.write(f"        self.{name} = model.{name}\n")
+                if swift_type == "String" and typ in enums.keys():
+                    swift_type = f"{to_pascal(typ)}"
+                if swift_type == "Data":
+                    vf.write(f"        self.{name} = model.{name}?.decrypt()\n")
+                else:
+                    vf.write(f"        self.{name} = model.{name}\n")
 
             for fk in fks.get(table, []):
                 if fk["pydantic_refer"] == "refer_left":
@@ -104,7 +113,10 @@ def generate_swift_viewmodels(build_dir: str, output_dir: str):
                 if "HIDDEN" in [m.upper() for m in modifiers]:
                     continue
                 field_name = col_name
-                model_fields.append(f"{field_name}: {field_name}")
+                if col_type.upper() == "BYTEA":
+                    model_fields.append(f"{field_name}: {field_name}?.encrypt()")
+                else:
+                    model_fields.append(f"{field_name}: {field_name}")
             for fk in fks.get(table, []):
                 if fk.get("pydantic_refer") == "refer_left":
                     rel_type = fk["type"]

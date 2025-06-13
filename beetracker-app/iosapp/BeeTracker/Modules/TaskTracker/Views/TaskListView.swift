@@ -13,17 +13,40 @@ struct TaskListView: View {
     @State private var taskToEdit: TasksViewModel? = nil
     @State private var taskToSchedule: TasksViewModel? = nil
     @State private var selectedTab: TaskTab = .withDeadline
+    @State private var selectedTaskType: TaskType? = nil
 
     var body: some View {
         NavigationStack {
             VStack {
-                Picker("View", selection: $selectedTab) {
-                    ForEach(TaskTab.allCases, id: \.self) {
-                        Text($0.rawValue)
+                HStack {
+                    Picker("View", selection: $selectedTab) {
+                        ForEach(TaskTab.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Spacer()
+
+                    Menu {
+                        Button("All Types", action: { selectedTaskType = nil })
+                        Divider()
+                        ForEach(TaskType.allCases, id: \.self) { type in
+                            Button(type.rawValue.replacingOccurrences(of: "_", with: " ").capitalized) {
+                                selectedTaskType = type
+                            }
+                        }
+                    } label: {
+                        Label(
+                            selectedTaskType?.rawValue.replacingOccurrences(of: "_", with: " ").capitalized ?? "Filter",
+                            systemImage: "line.3.horizontal.decrease.circle"
+                        )
+                        .labelStyle(.iconOnly)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal)
                     }
                 }
-                .pickerStyle(.segmented)
-                .padding()
+                .padding(.horizontal)
 
                 List {
                     ForEach(filteredTasks(for: selectedTab), id: \.id) { task in
@@ -69,18 +92,22 @@ struct TaskListView: View {
     }
 
     private func filteredTasks(for tab: TaskTab) -> [TasksViewModel] {
-        switch tab {
-        case .withDeadline:
-            return taskViewModel.getUncompletedTasks()
-                .filter { $0.deadline != nil }
-                .sorted(by: deadlineSorter)
-        case .withoutDeadline:
-            return taskViewModel.getUncompletedTasks()
-                .filter { $0.deadline == nil }
-        case .completed:
-            return taskViewModel.getCompletedTasks()
-                .sorted(by: deadlineSorter)
-        }
+        let baseTasks: [TasksViewModel] = {
+            switch tab {
+            case .withDeadline:
+                return taskViewModel.getUncompletedTasks().filter { $0.deadline != nil }
+            case .withoutDeadline:
+                return taskViewModel.getUncompletedTasks().filter { $0.deadline == nil }
+            case .completed:
+                return taskViewModel.getCompletedTasks()
+            }
+        }()
+
+        let typeFiltered = selectedTaskType == nil
+            ? baseTasks
+            : baseTasks.filter { $0.type == selectedTaskType }
+
+        return typeFiltered.sorted(by: deadlineSorter)
     }
 
     private func deadlineSorter(lhs: TasksViewModel, rhs: TasksViewModel) -> Bool {

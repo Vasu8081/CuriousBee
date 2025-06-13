@@ -10,9 +10,13 @@ struct BeeTrackerApp: App {
     @StateObject private var periodViewModel = PeriodViewModel()
     @StateObject private var taskViewModel = TaskViewModel()
     
+    init() {
+        ServerEndPoints.shared.appName = "beetracker"
+    }
+    
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack{
                 StartView(appName: "Tracker")
             }
             .environmentObject(userViewModel)

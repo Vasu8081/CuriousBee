@@ -66,6 +66,7 @@ generate_sqlalchemy_models() {
 generate_swift_models() {
     project_dir=$1
     echo "Generating Swift models for $project_dir..."
+    generate_intermediate_parsed_models "$project_dir" "generators"
     ios_app_dir="$project_dir/iosapp"
     if [[ ! -d "$ios_app_dir" ]]; then
         echo "iOS app directory not found at $ios_app_dir"
@@ -83,6 +84,7 @@ generate_swift_models() {
 generate_swift_viewmodels() {
     project_dir=$1
     echo "Generating Swift view models for $project_dir..."
+    generate_intermediate_parsed_models "$project_dir" "generators"
     ios_app_dir="$project_dir/iosapp"
     if [[ ! -d "$ios_app_dir" ]]; then
         echo "iOS app directory not found at $ios_app_dir"
@@ -100,6 +102,7 @@ generate_swift_viewmodels() {
 generate_swift_model_endpoints() {
     project_dir=$1
     echo "Generating Swift model endpoints for $project_dir..."
+    generate_intermediate_parsed_models "$project_dir" "generators"
     ios_app_dir="$project_dir/iosapp"
     if [[ ! -d "$ios_app_dir" ]]; then
         echo "iOS app directory not found at $ios_app_dir"
@@ -112,6 +115,24 @@ generate_swift_model_endpoints() {
         --build-dir "$project_dir/intermediate_parsed_models" \
         --output-dir "$autogen_endpoints_dir"
     echo "Swift model endpoints generated at $autogen_endpoints_dir"
+}
+
+generate_swift_model_classes() {
+    project_dir=$1
+    echo "Generating Swift model classes for $project_dir..."
+    generate_intermediate_parsed_models "$project_dir" "generators"
+    ios_app_dir="$project_dir/iosapp"
+    if [[ ! -d "$ios_app_dir" ]]; then
+        echo "iOS app directory not found at $ios_app_dir"
+        return 1
+    fi
+    project_name=$2
+    autogen_classes_dir="$ios_app_dir/$project_name/Autogen/Classes"
+    mkdir -p "$autogen_classes_dir"
+    python3 -m generators.swift_model_classes_generator \
+        --build-dir "$project_dir/intermediate_parsed_models" \
+        --output-dir "$autogen_classes_dir"
+    echo "Swift model classes generated at $autogen_classes_dir"
 }
 
 main() {
@@ -139,6 +160,9 @@ main() {
             ;;
         swiftmodelendpoints)
             generate_swift_model_endpoints "$project_dir" "$project_name"
+            ;;
+        swiftmodelclasses)
+            generate_swift_model_classes "$project_dir" "$project_name"
             ;;
         *)
             echo "Unknown model type: $model_type"

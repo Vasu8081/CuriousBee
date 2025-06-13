@@ -8,10 +8,14 @@ from collections import defaultdict
 def parse_schema(schema_text):
     tables = {}
     enums = {}
+    models = {}
+    protocols = {}
     fks = defaultdict(list)
     reverse_fks = defaultdict(list)
     current_table = None
     current_enum = None
+    current_model = None
+    current_protocol = None
 
     for line in schema_text.splitlines():
         line = line.strip()
@@ -32,6 +36,19 @@ def parse_schema(schema_text):
                 enums[current_enum] = []
             continue
 
+        if line.startswith("Model"):
+            parts = line.split()
+            if len(parts) >= 2:
+                current_model = parts[1]
+                models[current_model] = {"parents": [parts[3]], "fields": []}
+            continue
+
+        if line.startswith("Protocol"):
+            parts = line.split()
+            if len(parts) >= 2:
+                current_protocol = parts[1]
+                protocols[current_protocol] = []
+            continue
 
         if line.startswith("FK"):
             match = re.match(
@@ -61,6 +78,8 @@ def parse_schema(schema_text):
         if line.startswith("}"):
             current_table = None
             current_enum = None
+            current_model = None
+            current_protocol = None
             continue
 
         if current_table:
@@ -77,8 +96,19 @@ def parse_schema(schema_text):
                 enums[current_enum].append((enum_value, enum_alias))
             else:
                 enums[current_enum].append([parts[0]])
+        elif current_model:
+            parts = line.split()
+            model_property = parts[0]
+            model_type = parts[1]
+            modifiers = parts[2:] if len(parts) > 2 else []
+            models[current_model]["fields"].append((model_property, model_type, modifiers))
+        elif current_protocol:
+            parts = line.split()
+            protocol_method = parts[0]
+            protocol_return_type = parts[1]
+            protocols[current_protocol].append((protocol_method, protocol_return_type))
 
-    return tables, fks, reverse_fks, enums
+    return tables, fks, reverse_fks, enums, models, protocols
 
 def detect_circular_deps(fks_dict):
     dep_graph = defaultdict(set)
@@ -115,11 +145,13 @@ def generate_parsed_schema_files(schema_file: Path, build_dir: Path):
 
     build_dir.mkdir(parents=True, exist_ok=True)
     schema_text = schema_file.read_text()
-    tables, fks, reverse_fks, enums = parse_schema(schema_text)
+    tables, fks, reverse_fks, enums, models, protocols = parse_schema(schema_text)
     circular_deps = detect_circular_deps(fks)
 
     save_json(tables, build_dir / "tables.json")
     save_json(enums, build_dir / "enums.json")
+    save_json(models, build_dir / "models.json")
+    save_json(protocols, build_dir / "protocols.json")
     save_json({k: v for k, v in fks.items()}, build_dir / "foreign_keys.json")
     save_json({k: v for k, v in reverse_fks.items()}, build_dir / "reverse_fks.json")
     save_json(list(circular_deps), build_dir / "circular_deps.json")

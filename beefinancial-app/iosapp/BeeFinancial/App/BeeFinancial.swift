@@ -6,9 +6,13 @@ struct BeeFinancial: App {
     @StateObject private var toast = ToastManager.shared
     @StateObject private var userViewModel = UserViewModel()
     
+    init() {
+        ServerEndPoints.shared.appName = "beefinancial"
+    }
+    
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack {
                 StartView(appName: "Financial")
             }
             .environmentObject(userViewModel)

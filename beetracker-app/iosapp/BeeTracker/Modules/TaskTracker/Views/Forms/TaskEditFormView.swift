@@ -14,6 +14,7 @@ struct TaskEditFormView: View {
     @State private var isShared: Bool
     @State private var isConscience: Bool
     @State private var primaryDoer: UUID?
+    @State private var taskType: TaskType?
 
     init(task: TasksViewModel) {
         self.entry = task
@@ -23,6 +24,7 @@ struct TaskEditFormView: View {
         _isShared = State(initialValue: task.other_users_presence_necessary ?? true)
         _isConscience = State(initialValue: task.interaction_style == "Full Conscience")
         _primaryDoer = State(initialValue: task.primary_doer_user_id)
+        _taskType = State(initialValue: task.type)
     }
 
     var body: some View {
@@ -68,6 +70,15 @@ struct TaskEditFormView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                
+                Section(header: Text("Task Type")) {
+                    Picker("Task Type", selection: $taskType) {
+                        ForEach(TaskType.allCases, id: \.self) { type in
+                            Text(type.rawValue.replacingOccurrences(of: "_", with: " ").capitalized).tag(type)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
 
                 Section(header: Text("Primary Doer (optional)")) {
                     Picker("Assign To", selection: $primaryDoer) {
@@ -91,6 +102,7 @@ struct TaskEditFormView: View {
                         entry.interaction_style = isConscience ? "Full Conscience" : "Partial Conscience"
                         entry.primary_doer_user_id = primaryDoer
                         entry.other_users_presence_necessary = isShared
+                        entry.type = taskType
                         entry.save()
                         dismiss()
                     }

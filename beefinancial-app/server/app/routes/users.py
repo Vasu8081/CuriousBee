@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.dependencies import get_current_user_email
 from app.db.database import get_db
+import uuid
 from app.autogen.models.users import Users
 from app.autogen.schemas.users_schema import UsersSchema
+from app.autogen.schemas.accounts_schema import AccountsSchema
 
 
 router = APIRouter()

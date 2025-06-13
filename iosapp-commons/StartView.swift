@@ -14,9 +14,7 @@ struct StartView: View {
     var appName: String
 
     var body: some View {
-        NavigationStack {
-            HomeView()
-        }
+        HomeView()
         .onAppear {
             NotificationCenter.default.addObserver(
                 forName: .notificationTapped,

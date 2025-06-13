@@ -13,6 +13,11 @@ Table users {
   is_admin BOOLEAN
 }
 
+Enum task_type {
+  YOUTUBE_TASK
+  UNKNOWN_TASK DEFAULT
+}
+
 Table tasks {
   id UUID [primary key]
   title TEXT
@@ -23,6 +28,7 @@ Table tasks {
   other_users_presence_necessary BOOLEAN
   is_completed BOOLEAN
   group_id UUID
+  type task_type
 }
 
 Table calendar_entries {

@@ -104,6 +104,11 @@
       "group_id",
       "UUID",
       []
+    ],
+    [
+      "type",
+      "task_type",
+      []
     ]
   ],
   "calendar_entries": [

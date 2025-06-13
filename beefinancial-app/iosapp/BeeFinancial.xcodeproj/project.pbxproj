@@ -7,44 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5658A56A2DFB4A8000E887CC /* ChitAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5492DFB4A8000E887CC /* ChitAccount.swift */; };
-		5658A56C2DFB4A8000E887CC /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5632DFB4A8000E887CC /* SummaryView.swift */; };
-		5658A56D2DFB4A8000E887CC /* UsersEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5382DFB4A8000E887CC /* UsersEndpoint.swift */; };
-		5658A56F2DFB4A8000E887CC /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A55B2DFB4A8000E887CC /* AccountListView.swift */; };
-		5658A5702DFB4A8000E887CC /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A53C2DFB4A8000E887CC /* Users.swift */; };
-		5658A5712DFB4A8000E887CC /* BorrowAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5462DFB4A8000E887CC /* BorrowAccount.swift */; };
-		5658A5722DFB4A8000E887CC /* AccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A53E2DFB4A8000E887CC /* AccountsViewModel.swift */; };
-		5658A5732DFB4A8000E887CC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5612DFB4A8000E887CC /* ContentView.swift */; };
-		5658A5752DFB4A8000E887CC /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5512DFB4A8000E887CC /* Transaction.swift */; };
-		5658A5762DFB4A8000E887CC /* CategoryFilterRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5482DFB4A8000E887CC /* CategoryFilterRange.swift */; };
-		5658A5772DFB4A8000E887CC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5472DFB4A8000E887CC /* Category.swift */; };
-		5658A5782DFB4A8000E887CC /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A53A2DFB4A8000E887CC /* Accounts.swift */; };
-		5658A5792DFB4A8000E887CC /* AddCategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A55D2DFB4A8000E887CC /* AddCategoryFormView.swift */; };
-		5658A57A2DFB4A8000E887CC /* PropertyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54E2DFB4A8000E887CC /* PropertyAccount.swift */; };
-		5658A57B2DFB4A8000E887CC /* GiveAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54C2DFB4A8000E887CC /* GiveAccount.swift */; };
-		5658A57C2DFB4A8000E887CC /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A53F2DFB4A8000E887CC /* UsersViewModel.swift */; };
-		5658A57D2DFB4A8000E887CC /* AnyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5442DFB4A8000E887CC /* AnyAccount.swift */; };
-		5658A57E2DFB4A8000E887CC /* AccountsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5372DFB4A8000E887CC /* AccountsEndpoint.swift */; };
-		5658A57F2DFB4A8000E887CC /* StockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5502DFB4A8000E887CC /* StockAccount.swift */; };
-		5658A5812DFB4A8000E887CC /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5522DFB4A8000E887CC /* UserData.swift */; };
-		5658A5832DFB4A8000E887CC /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5582DFB4A8000E887CC /* UserViewModel.swift */; };
-		5658A5842DFB4A8000E887CC /* BeeFinancial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5682DFB4A8000E887CC /* BeeFinancial.swift */; };
-		5658A5852DFB4A8000E887CC /* CreditCardAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54A2DFB4A8000E887CC /* CreditCardAccount.swift */; };
-		5658A5862DFB4A8000E887CC /* TransactionFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5642DFB4A8000E887CC /* TransactionFormView.swift */; };
-		5658A5872DFB4A8000E887CC /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5422DFB4A8000E887CC /* Account.swift */; };
-		5658A5882DFB4A8000E887CC /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A55F2DFB4A8000E887CC /* CategoryDetailView.swift */; };
-		5658A5892DFB4A8000E887CC /* AddAccountFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A55C2DFB4A8000E887CC /* AddAccountFormView.swift */; };
-		5658A58A2DFB4A8000E887CC /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A53B2DFB4A8000E887CC /* Enums.swift */; };
-		5658A58B2DFB4A8000E887CC /* AccountCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5432DFB4A8000E887CC /* AccountCategory.swift */; };
-		5658A58C2DFB4A8000E887CC /* RDAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54F2DFB4A8000E887CC /* RDAccount.swift */; };
-		5658A58D2DFB4A8000E887CC /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5452DFB4A8000E887CC /* BankAccount.swift */; };
-		5658A58E2DFB4A8000E887CC /* FDAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54B2DFB4A8000E887CC /* FDAccount.swift */; };
-		5658A58F2DFB4A8000E887CC /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A55A2DFB4A8000E887CC /* AccountDetailView.swift */; };
-		5658A5902DFB4A8000E887CC /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5652DFB4A8000E887CC /* TransactionListView.swift */; };
-		5658A5912DFB4A8000E887CC /* LoanAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A54D2DFB4A8000E887CC /* LoanAccount.swift */; };
-		5658A5922DFB4A8000E887CC /* CategoryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5602DFB4A8000E887CC /* CategoryTabView.swift */; };
-		5658A5932DFB4A8000E887CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5658A5672DFB4A8000E887CC /* Assets.xcassets */; };
-		5658A5AE2DFB542700E887CC /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5AD2DFB542700E887CC /* HomeView.swift */; };
 		5658A5CF2DFBC81900E887CC /* LoginEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CA2DFBC81900E887CC /* LoginEndPoints.swift */; };
 		5658A5D02DFBC81900E887CC /* ServerEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */; };
 		5658A5D12DFBC81900E887CC /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CD2DFBC81900E887CC /* ToastManager.swift */; };
@@ -62,44 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5658A5372DFB4A8000E887CC /* AccountsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsEndpoint.swift; sourceTree = "<group>"; };
-		5658A5382DFB4A8000E887CC /* UsersEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersEndpoint.swift; sourceTree = "<group>"; };
-		5658A53A2DFB4A8000E887CC /* Accounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
-		5658A53B2DFB4A8000E887CC /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
-		5658A53C2DFB4A8000E887CC /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
-		5658A53E2DFB4A8000E887CC /* AccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewModel.swift; sourceTree = "<group>"; };
-		5658A53F2DFB4A8000E887CC /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
-		5658A5422DFB4A8000E887CC /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		5658A5432DFB4A8000E887CC /* AccountCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCategory.swift; sourceTree = "<group>"; };
-		5658A5442DFB4A8000E887CC /* AnyAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyAccount.swift; sourceTree = "<group>"; };
-		5658A5452DFB4A8000E887CC /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
-		5658A5462DFB4A8000E887CC /* BorrowAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowAccount.swift; sourceTree = "<group>"; };
-		5658A5472DFB4A8000E887CC /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		5658A5482DFB4A8000E887CC /* CategoryFilterRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterRange.swift; sourceTree = "<group>"; };
-		5658A5492DFB4A8000E887CC /* ChitAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChitAccount.swift; sourceTree = "<group>"; };
-		5658A54A2DFB4A8000E887CC /* CreditCardAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardAccount.swift; sourceTree = "<group>"; };
-		5658A54B2DFB4A8000E887CC /* FDAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDAccount.swift; sourceTree = "<group>"; };
-		5658A54C2DFB4A8000E887CC /* GiveAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveAccount.swift; sourceTree = "<group>"; };
-		5658A54D2DFB4A8000E887CC /* LoanAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanAccount.swift; sourceTree = "<group>"; };
-		5658A54E2DFB4A8000E887CC /* PropertyAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyAccount.swift; sourceTree = "<group>"; };
-		5658A54F2DFB4A8000E887CC /* RDAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAccount.swift; sourceTree = "<group>"; };
-		5658A5502DFB4A8000E887CC /* StockAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockAccount.swift; sourceTree = "<group>"; };
-		5658A5512DFB4A8000E887CC /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		5658A5522DFB4A8000E887CC /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
-		5658A5582DFB4A8000E887CC /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		5658A55A2DFB4A8000E887CC /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
-		5658A55B2DFB4A8000E887CC /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
-		5658A55C2DFB4A8000E887CC /* AddAccountFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountFormView.swift; sourceTree = "<group>"; };
-		5658A55D2DFB4A8000E887CC /* AddCategoryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryFormView.swift; sourceTree = "<group>"; };
-		5658A55F2DFB4A8000E887CC /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
-		5658A5602DFB4A8000E887CC /* CategoryTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTabView.swift; sourceTree = "<group>"; };
-		5658A5612DFB4A8000E887CC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		5658A5632DFB4A8000E887CC /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
-		5658A5642DFB4A8000E887CC /* TransactionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFormView.swift; sourceTree = "<group>"; };
-		5658A5652DFB4A8000E887CC /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
-		5658A5672DFB4A8000E887CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5658A5682DFB4A8000E887CC /* BeeFinancial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeFinancial.swift; sourceTree = "<group>"; };
-		5658A5AD2DFB542700E887CC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
 		5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		5658A5C02DFBC81900E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
@@ -114,8 +38,16 @@
 		5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEndPoints.swift; sourceTree = "<group>"; };
 		5658A5CC2DFBC81900E887CC /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		5658A5CD2DFBC81900E887CC /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
-		56A558162DE55AD600307193 /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeeFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		56A558162DE55AD600307193 /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BeeFinance.app; path = "/Users/vasudhanvarma/Documents/CuriousBee/beefinancial-app/iosapp/build/Debug-iphoneos/BeeFinance.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5619DA712DFC01D30059D69D /* BeeFinancial */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BeeFinancial;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		56A558132DE55AD600307193 /* Frameworks */ = {
@@ -128,123 +60,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5658A5392DFB4A8000E887CC /* Endpoints */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5372DFB4A8000E887CC /* AccountsEndpoint.swift */,
-				5658A5382DFB4A8000E887CC /* UsersEndpoint.swift */,
-			);
-			path = Endpoints;
-			sourceTree = "<group>";
-		};
-		5658A53D2DFB4A8000E887CC /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				5658A53A2DFB4A8000E887CC /* Accounts.swift */,
-				5658A53B2DFB4A8000E887CC /* Enums.swift */,
-				5658A53C2DFB4A8000E887CC /* Users.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		5658A5402DFB4A8000E887CC /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				5658A53E2DFB4A8000E887CC /* AccountsViewModel.swift */,
-				5658A53F2DFB4A8000E887CC /* UsersViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		5658A5412DFB4A8000E887CC /* Autogen */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5392DFB4A8000E887CC /* Endpoints */,
-				5658A53D2DFB4A8000E887CC /* Models */,
-				5658A5402DFB4A8000E887CC /* ViewModels */,
-			);
-			path = Autogen;
-			sourceTree = "<group>";
-		};
-		5658A5532DFB4A8000E887CC /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5422DFB4A8000E887CC /* Account.swift */,
-				5658A5432DFB4A8000E887CC /* AccountCategory.swift */,
-				5658A5442DFB4A8000E887CC /* AnyAccount.swift */,
-				5658A5452DFB4A8000E887CC /* BankAccount.swift */,
-				5658A5462DFB4A8000E887CC /* BorrowAccount.swift */,
-				5658A5472DFB4A8000E887CC /* Category.swift */,
-				5658A5482DFB4A8000E887CC /* CategoryFilterRange.swift */,
-				5658A5492DFB4A8000E887CC /* ChitAccount.swift */,
-				5658A54A2DFB4A8000E887CC /* CreditCardAccount.swift */,
-				5658A54B2DFB4A8000E887CC /* FDAccount.swift */,
-				5658A54C2DFB4A8000E887CC /* GiveAccount.swift */,
-				5658A54D2DFB4A8000E887CC /* LoanAccount.swift */,
-				5658A54E2DFB4A8000E887CC /* PropertyAccount.swift */,
-				5658A54F2DFB4A8000E887CC /* RDAccount.swift */,
-				5658A5502DFB4A8000E887CC /* StockAccount.swift */,
-				5658A5512DFB4A8000E887CC /* Transaction.swift */,
-				5658A5522DFB4A8000E887CC /* UserData.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		5658A5592DFB4A8000E887CC /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5582DFB4A8000E887CC /* UserViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		5658A5662DFB4A8000E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A55A2DFB4A8000E887CC /* AccountDetailView.swift */,
-				5658A55B2DFB4A8000E887CC /* AccountListView.swift */,
-				5658A55C2DFB4A8000E887CC /* AddAccountFormView.swift */,
-				5658A55D2DFB4A8000E887CC /* AddCategoryFormView.swift */,
-				5658A55F2DFB4A8000E887CC /* CategoryDetailView.swift */,
-				5658A5602DFB4A8000E887CC /* CategoryTabView.swift */,
-				5658A5612DFB4A8000E887CC /* ContentView.swift */,
-				5658A5632DFB4A8000E887CC /* SummaryView.swift */,
-				5658A5642DFB4A8000E887CC /* TransactionFormView.swift */,
-				5658A5652DFB4A8000E887CC /* TransactionListView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A5692DFB4A8000E887CC /* BeeFinancial */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5AA2DFB53EC00E887CC /* App */,
-				5658A5412DFB4A8000E887CC /* Autogen */,
-				5658A5532DFB4A8000E887CC /* Models */,
-				5658A5592DFB4A8000E887CC /* ViewModels */,
-				5658A5662DFB4A8000E887CC /* Views */,
-				5658A5672DFB4A8000E887CC /* Assets.xcassets */,
-				5658A5A72DFB534500E887CC /* Modules */,
-			);
-			path = BeeFinancial;
-			sourceTree = "<group>";
-		};
-		5658A5A72DFB534500E887CC /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
-		5658A5AA2DFB53EC00E887CC /* App */ = {
-			isa = PBXGroup;
-			children = (
-				5658A5AD2DFB542700E887CC /* HomeView.swift */,
-				5658A5682DFB4A8000E887CC /* BeeFinancial.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
 		5658A5BD2DFBC81900E887CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,18 +117,9 @@
 		56A5580D2DE55AD600307193 = {
 			isa = PBXGroup;
 			children = (
-				5658A5692DFB4A8000E887CC /* BeeFinancial */,
-				56A558172DE55AD600307193 /* Products */,
+				5619DA712DFC01D30059D69D /* BeeFinancial */,
 				5658A5CE2DFBC81900E887CC /* iosapp-commons */,
 			);
-			sourceTree = "<group>";
-		};
-		56A558172DE55AD600307193 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				56A558162DE55AD600307193 /* BeeFinance.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +136,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5619DA712DFC01D30059D69D /* BeeFinancial */,
 			);
 			name = BeeFinance;
 			packageProductDependencies = (
@@ -363,7 +172,7 @@
 			mainGroup = 56A5580D2DE55AD600307193;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 56A558172DE55AD600307193 /* Products */;
+			productRefGroup = 56A5580D2DE55AD600307193;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -377,7 +186,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5658A5932DFB4A8000E887CC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,33 +196,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5658A56A2DFB4A8000E887CC /* ChitAccount.swift in Sources */,
-				5658A56C2DFB4A8000E887CC /* SummaryView.swift in Sources */,
-				5658A56D2DFB4A8000E887CC /* UsersEndpoint.swift in Sources */,
-				5658A56F2DFB4A8000E887CC /* AccountListView.swift in Sources */,
-				5658A5702DFB4A8000E887CC /* Users.swift in Sources */,
-				5658A5712DFB4A8000E887CC /* BorrowAccount.swift in Sources */,
-				5658A5722DFB4A8000E887CC /* AccountsViewModel.swift in Sources */,
-				5658A5732DFB4A8000E887CC /* ContentView.swift in Sources */,
-				5658A5752DFB4A8000E887CC /* Transaction.swift in Sources */,
-				5658A5762DFB4A8000E887CC /* CategoryFilterRange.swift in Sources */,
-				5658A5772DFB4A8000E887CC /* Category.swift in Sources */,
-				5658A5782DFB4A8000E887CC /* Accounts.swift in Sources */,
-				5658A5792DFB4A8000E887CC /* AddCategoryFormView.swift in Sources */,
-				5658A57A2DFB4A8000E887CC /* PropertyAccount.swift in Sources */,
-				5658A57B2DFB4A8000E887CC /* GiveAccount.swift in Sources */,
-				5658A57C2DFB4A8000E887CC /* UsersViewModel.swift in Sources */,
-				5658A57D2DFB4A8000E887CC /* AnyAccount.swift in Sources */,
-				5658A57E2DFB4A8000E887CC /* AccountsEndpoint.swift in Sources */,
-				5658A57F2DFB4A8000E887CC /* StockAccount.swift in Sources */,
-				5658A5812DFB4A8000E887CC /* UserData.swift in Sources */,
-				5658A5832DFB4A8000E887CC /* UserViewModel.swift in Sources */,
-				5658A5842DFB4A8000E887CC /* BeeFinancial.swift in Sources */,
-				5658A5852DFB4A8000E887CC /* CreditCardAccount.swift in Sources */,
-				5658A5862DFB4A8000E887CC /* TransactionFormView.swift in Sources */,
-				5658A5872DFB4A8000E887CC /* Account.swift in Sources */,
-				5658A5AE2DFB542700E887CC /* HomeView.swift in Sources */,
-				5658A5882DFB4A8000E887CC /* CategoryDetailView.swift in Sources */,
 				5658A5CF2DFBC81900E887CC /* LoginEndPoints.swift in Sources */,
 				5658A5D02DFBC81900E887CC /* ServerEndPoints.swift in Sources */,
 				5658A5D12DFBC81900E887CC /* ToastManager.swift in Sources */,
@@ -429,16 +210,6 @@
 				5658A5DA2DFBC81900E887CC /* BeeCodableModel.swift in Sources */,
 				5658A5DB2DFBC81900E887CC /* NotificationListView.swift in Sources */,
 				5658A5DC2DFBC81900E887CC /* AppDelegate.swift in Sources */,
-				5658A5892DFB4A8000E887CC /* AddAccountFormView.swift in Sources */,
-				5658A58A2DFB4A8000E887CC /* Enums.swift in Sources */,
-				5658A58B2DFB4A8000E887CC /* AccountCategory.swift in Sources */,
-				5658A58C2DFB4A8000E887CC /* RDAccount.swift in Sources */,
-				5658A58D2DFB4A8000E887CC /* BankAccount.swift in Sources */,
-				5658A58E2DFB4A8000E887CC /* FDAccount.swift in Sources */,
-				5658A58F2DFB4A8000E887CC /* AccountDetailView.swift in Sources */,
-				5658A5902DFB4A8000E887CC /* TransactionListView.swift in Sources */,
-				5658A5912DFB4A8000E887CC /* LoanAccount.swift in Sources */,
-				5658A5922DFB4A8000E887CC /* CategoryTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

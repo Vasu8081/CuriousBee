@@ -1,0 +1,46 @@
+{
+  "bank_account": {
+    "parents": [
+      "account"
+    ],
+    "fields": [
+      [
+        "id",
+        "UUID",
+        []
+      ],
+      [
+        "account_number",
+        "TEXT",
+        []
+      ],
+      [
+        "ifsc_code",
+        "TEXT",
+        []
+      ]
+    ]
+  },
+  "credit_card_account": {
+    "parents": [
+      "account"
+    ],
+    "fields": [
+      [
+        "id",
+        "UUID",
+        []
+      ],
+      [
+        "credit_card_number",
+        "TEXT",
+        []
+      ],
+      [
+        "cvv",
+        "TEXT",
+        []
+      ]
+    ]
+  }
+}

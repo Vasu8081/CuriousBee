@@ -12,6 +12,7 @@ struct TaskFormView: View {
     @State private var isShared: Bool = false
     @State private var isConscience: Bool = false
     @State private var primaryDoer: UUID? = nil
+    @State private var taskType: TaskType = .default!
 
     var body: some View {
         NavigationStack {
@@ -49,6 +50,15 @@ struct TaskFormView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                
+                Section(header: Text("Task Type")) {
+                    Picker("Task Type", selection: $taskType) {
+                        ForEach(TaskType.allCases, id: \.self) { type in
+                            Text(type.rawValue.replacingOccurrences(of: "_", with: " ").capitalized).tag(type)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
 
                 Section(header: Text("Primary Doer (optional)")) {
                     Picker("Assign To", selection: $primaryDoer) {
@@ -67,11 +77,11 @@ struct TaskFormView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         if isConscience {
-                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Full Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false)
+                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Full Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false, type: taskType)
                             taskViewModel.addTask(task)
                         }
                         else{
-                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Partial Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false)
+                            let task = Tasks(id: UUID(), title: title, notes: notes.isEmpty ? nil : notes, deadline: isDeadlineMode ? deadline : nil, interaction_style: "Partial Conscience", primary_doer_user_id: primaryDoer, other_users_presence_necessary: isShared, is_completed: false, type: taskType)
                             taskViewModel.addTask(task)
                         }
 

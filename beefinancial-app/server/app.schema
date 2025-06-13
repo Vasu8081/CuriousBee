@@ -10,9 +10,6 @@ Table users {
 Enum account_types {
     BANK_ACCOUNT DEFAULT
     CREDIT_CARD_ACCOUNT
-    LOAN_ACCOUNT
-    BORROW_ACCOUNT
-    LEND_ACCOUNT
 }
 
 Table accounts {
@@ -22,4 +19,39 @@ Table accounts {
     account_data BYTEA
 }
 
+Enum category_types {
+    SHOPPING
+    GROCERIES
+    FOOD_ORDERS
+    DINE_OUT
+    DAILY_TRAVEL
+    TRAVEL
+}
+
+Table transactions {
+    id UUID [primary key]
+    from_account_id UUID
+    to_account_id UUID
+    type category_types
+    transaction_details BYTEA
+}
+
 FK accounts.user_id as user -> users.id as accounts [many_to_one] [refer_right]
+FK transactions.from_account_id as from_account -> accounts.id as expenses [many_to_one] [refer_right]
+FK transactions.to_account_id as to_account -> accounts.id as incomes [many_to_one] [refer_right]
+
+Protocol account {
+    id UUID
+}
+
+Model bank_account : account {
+    id UUID
+    account_number TEXT
+    ifsc_code TEXT
+}
+
+Model credit_card_account : account {
+    id UUID
+    credit_card_number TEXT
+    cvv TEXT
+}

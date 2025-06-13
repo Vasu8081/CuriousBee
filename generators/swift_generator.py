@@ -50,6 +50,9 @@ def generate_swift_models(build_dir: str, output_dir: str):
                 swift_type = swift_type_map.get(typ.upper(), "String")
                 if swift_type == "String" and typ in enums.keys():
                     swift_type = f"{to_pascal(typ)}"
+                # if name == "id":
+                #     f.write(f"    var id: UUID = UUID()\n")
+                # else:
                 f.write(f"    var {name}: {swift_type}?\n")
 
             for fk in fks.get(table, []):

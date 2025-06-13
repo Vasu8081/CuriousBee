@@ -7,79 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5658A7102DFBC85F00E887CC /* BeeTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6AA2DFBC85F00E887CC /* BeeTrackerApp.swift */; };
-		5658A7112DFBC85F00E887CC /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6AB2DFBC85F00E887CC /* HomeView.swift */; };
-		5658A7122DFBC85F00E887CC /* CalendarEntriesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6AE2DFBC85F00E887CC /* CalendarEntriesEndpoint.swift */; };
-		5658A7132DFBC85F00E887CC /* GroupsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6AF2DFBC85F00E887CC /* GroupsEndpoint.swift */; };
-		5658A7142DFBC85F00E887CC /* OrdersEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B02DFBC85F00E887CC /* OrdersEndpoint.swift */; };
-		5658A7152DFBC85F00E887CC /* PeriodEntriesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B12DFBC85F00E887CC /* PeriodEntriesEndpoint.swift */; };
-		5658A7162DFBC85F00E887CC /* PeriodInfosEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B22DFBC85F00E887CC /* PeriodInfosEndpoint.swift */; };
-		5658A7172DFBC85F00E887CC /* PeriodSymptomsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B32DFBC85F00E887CC /* PeriodSymptomsEndpoint.swift */; };
-		5658A7182DFBC85F00E887CC /* ProductCategoriesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B42DFBC85F00E887CC /* ProductCategoriesEndpoint.swift */; };
-		5658A7192DFBC85F00E887CC /* ProductInfosEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B52DFBC85F00E887CC /* ProductInfosEndpoint.swift */; };
-		5658A71A2DFBC85F00E887CC /* ProductsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B62DFBC85F00E887CC /* ProductsEndpoint.swift */; };
-		5658A71B2DFBC85F00E887CC /* ProductStatusEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B72DFBC85F00E887CC /* ProductStatusEndpoint.swift */; };
-		5658A71C2DFBC85F00E887CC /* SymptomsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B82DFBC85F00E887CC /* SymptomsEndpoint.swift */; };
-		5658A71D2DFBC85F00E887CC /* TasksEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6B92DFBC85F00E887CC /* TasksEndpoint.swift */; };
-		5658A71E2DFBC85F00E887CC /* UsersEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6BA2DFBC85F00E887CC /* UsersEndpoint.swift */; };
-		5658A71F2DFBC85F00E887CC /* CalendarEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6BC2DFBC85F00E887CC /* CalendarEntries.swift */; };
-		5658A7202DFBC85F00E887CC /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6BD2DFBC85F00E887CC /* Groups.swift */; };
-		5658A7212DFBC85F00E887CC /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6BE2DFBC85F00E887CC /* Orders.swift */; };
-		5658A7222DFBC85F00E887CC /* PeriodEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6BF2DFBC85F00E887CC /* PeriodEntries.swift */; };
-		5658A7232DFBC85F00E887CC /* PeriodInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C02DFBC85F00E887CC /* PeriodInfos.swift */; };
-		5658A7242DFBC85F00E887CC /* PeriodSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C12DFBC85F00E887CC /* PeriodSymptoms.swift */; };
-		5658A7252DFBC85F00E887CC /* ProductCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C22DFBC85F00E887CC /* ProductCategories.swift */; };
-		5658A7262DFBC85F00E887CC /* ProductInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C32DFBC85F00E887CC /* ProductInfos.swift */; };
-		5658A7272DFBC85F00E887CC /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C42DFBC85F00E887CC /* Products.swift */; };
-		5658A7282DFBC85F00E887CC /* ProductStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C52DFBC85F00E887CC /* ProductStatus.swift */; };
-		5658A7292DFBC85F00E887CC /* Symptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C62DFBC85F00E887CC /* Symptoms.swift */; };
-		5658A72A2DFBC85F00E887CC /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C72DFBC85F00E887CC /* Tasks.swift */; };
-		5658A72B2DFBC85F00E887CC /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6C82DFBC85F00E887CC /* Users.swift */; };
-		5658A72C2DFBC85F00E887CC /* CalendarEntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CA2DFBC85F00E887CC /* CalendarEntriesViewModel.swift */; };
-		5658A72D2DFBC85F00E887CC /* GroupsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CB2DFBC85F00E887CC /* GroupsViewModel.swift */; };
-		5658A72E2DFBC85F00E887CC /* OrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CC2DFBC85F00E887CC /* OrdersViewModel.swift */; };
-		5658A72F2DFBC85F00E887CC /* PeriodEntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CD2DFBC85F00E887CC /* PeriodEntriesViewModel.swift */; };
-		5658A7302DFBC85F00E887CC /* PeriodInfosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CE2DFBC85F00E887CC /* PeriodInfosViewModel.swift */; };
-		5658A7312DFBC85F00E887CC /* PeriodSymptomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6CF2DFBC85F00E887CC /* PeriodSymptomsViewModel.swift */; };
-		5658A7322DFBC85F00E887CC /* ProductCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D02DFBC85F00E887CC /* ProductCategoriesViewModel.swift */; };
-		5658A7332DFBC85F00E887CC /* ProductInfosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D12DFBC85F00E887CC /* ProductInfosViewModel.swift */; };
-		5658A7342DFBC85F00E887CC /* ProductStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D22DFBC85F00E887CC /* ProductStatusViewModel.swift */; };
-		5658A7352DFBC85F00E887CC /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D32DFBC85F00E887CC /* ProductsViewModel.swift */; };
-		5658A7362DFBC85F00E887CC /* SymptomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D42DFBC85F00E887CC /* SymptomsViewModel.swift */; };
-		5658A7372DFBC85F00E887CC /* TasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D52DFBC85F00E887CC /* TasksViewModel.swift */; };
-		5658A7382DFBC85F00E887CC /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D62DFBC85F00E887CC /* UsersViewModel.swift */; };
-		5658A7392DFBC85F00E887CC /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6D92DFBC85F00E887CC /* CalendarViewModel.swift */; };
-		5658A73A2DFBC85F00E887CC /* PeriodEntriesViewModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DA2DFBC85F00E887CC /* PeriodEntriesViewModelExtension.swift */; };
-		5658A73B2DFBC85F00E887CC /* PeriodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DB2DFBC85F00E887CC /* PeriodViewModel.swift */; };
-		5658A73C2DFBC85F00E887CC /* ProductInfosViewModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DC2DFBC85F00E887CC /* ProductInfosViewModelExtension.swift */; };
-		5658A73D2DFBC85F00E887CC /* ProductStatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DD2DFBC85F00E887CC /* ProductStatusEnum.swift */; };
-		5658A73E2DFBC85F00E887CC /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DE2DFBC85F00E887CC /* ProductViewModel.swift */; };
-		5658A73F2DFBC85F00E887CC /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6DF2DFBC85F00E887CC /* TaskViewModel.swift */; };
-		5658A7402DFBC85F00E887CC /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E02DFBC85F00E887CC /* UserViewModel.swift */; };
-		5658A7412DFBC85F00E887CC /* CalendarEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E22DFBC85F00E887CC /* CalendarEditForm.swift */; };
-		5658A7422DFBC85F00E887CC /* CalendarEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E32DFBC85F00E887CC /* CalendarEntryForm.swift */; };
-		5658A7432DFBC85F00E887CC /* CalendarEntryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E52DFBC85F00E887CC /* CalendarEntryCardView.swift */; };
-		5658A7442DFBC85F00E887CC /* CalendarTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E62DFBC85F00E887CC /* CalendarTabView.swift */; };
-		5658A7452DFBC85F00E887CC /* GroupCalendarEntryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6E72DFBC85F00E887CC /* GroupCalendarEntryCardView.swift */; };
-		5658A7462DFBC85F00E887CC /* AddPeriodForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6EA2DFBC85F00E887CC /* AddPeriodForm.swift */; };
-		5658A7472DFBC85F00E887CC /* EditPeriodForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6EB2DFBC85F00E887CC /* EditPeriodForm.swift */; };
-		5658A7482DFBC85F00E887CC /* FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6ED2DFBC85F00E887CC /* FlexibleView.swift */; };
-		5658A7492DFBC85F00E887CC /* NextExpectedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6EE2DFBC85F00E887CC /* NextExpectedCardView.swift */; };
-		5658A74A2DFBC85F00E887CC /* OngoingPeriodCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6EF2DFBC85F00E887CC /* OngoingPeriodCardView.swift */; };
-		5658A74B2DFBC85F00E887CC /* PeriodHistoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F02DFBC85F00E887CC /* PeriodHistoryCardView.swift */; };
-		5658A74C2DFBC85F00E887CC /* PeriodSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F12DFBC85F00E887CC /* PeriodSummaryView.swift */; };
-		5658A74D2DFBC85F00E887CC /* PeriodTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F22DFBC85F00E887CC /* PeriodTabView.swift */; };
-		5658A74E2DFBC85F00E887CC /* WrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F32DFBC85F00E887CC /* WrapView.swift */; };
-		5658A74F2DFBC85F00E887CC /* ProductAddForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F62DFBC85F00E887CC /* ProductAddForm.swift */; };
-		5658A7502DFBC85F00E887CC /* ProductInfoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F82DFBC85F00E887CC /* ProductInfoCardView.swift */; };
-		5658A7512DFBC85F00E887CC /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6F92DFBC85F00E887CC /* ProductListView.swift */; };
-		5658A7522DFBC85F00E887CC /* ProductTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6FA2DFBC85F00E887CC /* ProductTabView.swift */; };
-		5658A7532DFBC85F00E887CC /* TaskAddFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6FD2DFBC85F00E887CC /* TaskAddFormView.swift */; };
-		5658A7542DFBC85F00E887CC /* TaskEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6FE2DFBC85F00E887CC /* TaskEditFormView.swift */; };
-		5658A7552DFBC85F00E887CC /* TaskScheduleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A6FF2DFBC85F00E887CC /* TaskScheduleForm.swift */; };
-		5658A7562DFBC85F00E887CC /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A7012DFBC85F00E887CC /* TaskCardView.swift */; };
-		5658A7572DFBC85F00E887CC /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A7022DFBC85F00E887CC /* TaskListView.swift */; };
-		5658A75E2DFBC85F00E887CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5658A6A82DFBC85F00E887CC /* Assets.xcassets */; };
 		5658A7732DFBC8A200E887CC /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A7652DFBC8A200E887CC /* NotificationListView.swift */; };
 		5658A7742DFBC8A200E887CC /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A76D2DFBC8A200E887CC /* Helper.swift */; };
 		5658A7752DFBC8A200E887CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A7692DFBC8A200E887CC /* AppDelegate.swift */; };
@@ -97,82 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3A68BEE62DDCD2AA007438B4 /* BeeTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeeTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5658A6A82DFBC85F00E887CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5658A6A92DFBC85F00E887CC /* BeeTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeeTracker.entitlements; sourceTree = "<group>"; };
-		5658A6AA2DFBC85F00E887CC /* BeeTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeTrackerApp.swift; sourceTree = "<group>"; };
-		5658A6AB2DFBC85F00E887CC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		5658A6AC2DFBC85F00E887CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5658A6AE2DFBC85F00E887CC /* CalendarEntriesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntriesEndpoint.swift; sourceTree = "<group>"; };
-		5658A6AF2DFBC85F00E887CC /* GroupsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B02DFBC85F00E887CC /* OrdersEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B12DFBC85F00E887CC /* PeriodEntriesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEntriesEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B22DFBC85F00E887CC /* PeriodInfosEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodInfosEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B32DFBC85F00E887CC /* PeriodSymptomsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSymptomsEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B42DFBC85F00E887CC /* ProductCategoriesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategoriesEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B52DFBC85F00E887CC /* ProductInfosEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfosEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B62DFBC85F00E887CC /* ProductsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B72DFBC85F00E887CC /* ProductStatusEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatusEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B82DFBC85F00E887CC /* SymptomsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsEndpoint.swift; sourceTree = "<group>"; };
-		5658A6B92DFBC85F00E887CC /* TasksEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksEndpoint.swift; sourceTree = "<group>"; };
-		5658A6BA2DFBC85F00E887CC /* UsersEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersEndpoint.swift; sourceTree = "<group>"; };
-		5658A6BC2DFBC85F00E887CC /* CalendarEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntries.swift; sourceTree = "<group>"; };
-		5658A6BD2DFBC85F00E887CC /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
-		5658A6BE2DFBC85F00E887CC /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
-		5658A6BF2DFBC85F00E887CC /* PeriodEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEntries.swift; sourceTree = "<group>"; };
-		5658A6C02DFBC85F00E887CC /* PeriodInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodInfos.swift; sourceTree = "<group>"; };
-		5658A6C12DFBC85F00E887CC /* PeriodSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSymptoms.swift; sourceTree = "<group>"; };
-		5658A6C22DFBC85F00E887CC /* ProductCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategories.swift; sourceTree = "<group>"; };
-		5658A6C32DFBC85F00E887CC /* ProductInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfos.swift; sourceTree = "<group>"; };
-		5658A6C42DFBC85F00E887CC /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
-		5658A6C52DFBC85F00E887CC /* ProductStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatus.swift; sourceTree = "<group>"; };
-		5658A6C62DFBC85F00E887CC /* Symptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symptoms.swift; sourceTree = "<group>"; };
-		5658A6C72DFBC85F00E887CC /* Tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
-		5658A6C82DFBC85F00E887CC /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
-		5658A6CA2DFBC85F00E887CC /* CalendarEntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntriesViewModel.swift; sourceTree = "<group>"; };
-		5658A6CB2DFBC85F00E887CC /* GroupsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsViewModel.swift; sourceTree = "<group>"; };
-		5658A6CC2DFBC85F00E887CC /* OrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewModel.swift; sourceTree = "<group>"; };
-		5658A6CD2DFBC85F00E887CC /* PeriodEntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEntriesViewModel.swift; sourceTree = "<group>"; };
-		5658A6CE2DFBC85F00E887CC /* PeriodInfosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodInfosViewModel.swift; sourceTree = "<group>"; };
-		5658A6CF2DFBC85F00E887CC /* PeriodSymptomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSymptomsViewModel.swift; sourceTree = "<group>"; };
-		5658A6D02DFBC85F00E887CC /* ProductCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategoriesViewModel.swift; sourceTree = "<group>"; };
-		5658A6D12DFBC85F00E887CC /* ProductInfosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfosViewModel.swift; sourceTree = "<group>"; };
-		5658A6D22DFBC85F00E887CC /* ProductStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatusViewModel.swift; sourceTree = "<group>"; };
-		5658A6D32DFBC85F00E887CC /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
-		5658A6D42DFBC85F00E887CC /* SymptomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsViewModel.swift; sourceTree = "<group>"; };
-		5658A6D52DFBC85F00E887CC /* TasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewModel.swift; sourceTree = "<group>"; };
-		5658A6D62DFBC85F00E887CC /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
-		5658A6D92DFBC85F00E887CC /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		5658A6DA2DFBC85F00E887CC /* PeriodEntriesViewModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEntriesViewModelExtension.swift; sourceTree = "<group>"; };
-		5658A6DB2DFBC85F00E887CC /* PeriodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodViewModel.swift; sourceTree = "<group>"; };
-		5658A6DC2DFBC85F00E887CC /* ProductInfosViewModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfosViewModelExtension.swift; sourceTree = "<group>"; };
-		5658A6DD2DFBC85F00E887CC /* ProductStatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatusEnum.swift; sourceTree = "<group>"; };
-		5658A6DE2DFBC85F00E887CC /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
-		5658A6DF2DFBC85F00E887CC /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
-		5658A6E02DFBC85F00E887CC /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		5658A6E22DFBC85F00E887CC /* CalendarEditForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEditForm.swift; sourceTree = "<group>"; };
-		5658A6E32DFBC85F00E887CC /* CalendarEntryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntryForm.swift; sourceTree = "<group>"; };
-		5658A6E52DFBC85F00E887CC /* CalendarEntryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntryCardView.swift; sourceTree = "<group>"; };
-		5658A6E62DFBC85F00E887CC /* CalendarTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTabView.swift; sourceTree = "<group>"; };
-		5658A6E72DFBC85F00E887CC /* GroupCalendarEntryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCalendarEntryCardView.swift; sourceTree = "<group>"; };
-		5658A6EA2DFBC85F00E887CC /* AddPeriodForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeriodForm.swift; sourceTree = "<group>"; };
-		5658A6EB2DFBC85F00E887CC /* EditPeriodForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPeriodForm.swift; sourceTree = "<group>"; };
-		5658A6ED2DFBC85F00E887CC /* FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleView.swift; sourceTree = "<group>"; };
-		5658A6EE2DFBC85F00E887CC /* NextExpectedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextExpectedCardView.swift; sourceTree = "<group>"; };
-		5658A6EF2DFBC85F00E887CC /* OngoingPeriodCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OngoingPeriodCardView.swift; sourceTree = "<group>"; };
-		5658A6F02DFBC85F00E887CC /* PeriodHistoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodHistoryCardView.swift; sourceTree = "<group>"; };
-		5658A6F12DFBC85F00E887CC /* PeriodSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSummaryView.swift; sourceTree = "<group>"; };
-		5658A6F22DFBC85F00E887CC /* PeriodTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTabView.swift; sourceTree = "<group>"; };
-		5658A6F32DFBC85F00E887CC /* WrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapView.swift; sourceTree = "<group>"; };
-		5658A6F62DFBC85F00E887CC /* ProductAddForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAddForm.swift; sourceTree = "<group>"; };
-		5658A6F82DFBC85F00E887CC /* ProductInfoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoCardView.swift; sourceTree = "<group>"; };
-		5658A6F92DFBC85F00E887CC /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
-		5658A6FA2DFBC85F00E887CC /* ProductTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTabView.swift; sourceTree = "<group>"; };
-		5658A6FD2DFBC85F00E887CC /* TaskAddFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddFormView.swift; sourceTree = "<group>"; };
-		5658A6FE2DFBC85F00E887CC /* TaskEditFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditFormView.swift; sourceTree = "<group>"; };
-		5658A6FF2DFBC85F00E887CC /* TaskScheduleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskScheduleForm.swift; sourceTree = "<group>"; };
-		5658A7012DFBC85F00E887CC /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
-		5658A7022DFBC85F00E887CC /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		3A68BEE62DDCD2AA007438B4 /* BeeTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BeeTracker.app; path = "/Users/vasudhanvarma/Documents/CuriousBee/beetracker-app/iosapp/build/Debug-iphoneos/BeeTracker.app"; sourceTree = "<absolute>"; };
 		5658A7602DFBC8A200E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
 		5658A7622DFBC8A200E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		5658A7642DFBC8A200E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
@@ -189,6 +41,27 @@
 		5658A7712DFBC8A200E887CC /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5619DB432DFC01D90059D69D /* Exceptions for "BeeTracker" folder in "BeeTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = 3A68BEE52DDCD2AA007438B4 /* BeeTracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5619DAF72DFC01D90059D69D /* BeeTracker */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5619DB432DFC01D90059D69D /* Exceptions for "BeeTracker" folder in "BeeTracker" target */,
+			);
+			path = BeeTracker;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		3A68BEE32DDCD2AA007438B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -203,252 +76,9 @@
 		3A68BEDD2DDCD2AA007438B4 = {
 			isa = PBXGroup;
 			children = (
-				5658A70E2DFBC85F00E887CC /* BeeTracker */,
-				3A68BEE72DDCD2AA007438B4 /* Products */,
+				5619DAF72DFC01D90059D69D /* BeeTracker */,
 				5658A7722DFBC8A200E887CC /* iosapp-commons */,
 			);
-			sourceTree = "<group>";
-		};
-		3A68BEE72DDCD2AA007438B4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3A68BEE62DDCD2AA007438B4 /* BeeTracker.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5658A6AD2DFBC85F00E887CC /* App */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6A82DFBC85F00E887CC /* Assets.xcassets */,
-				5658A6A92DFBC85F00E887CC /* BeeTracker.entitlements */,
-				5658A6AA2DFBC85F00E887CC /* BeeTrackerApp.swift */,
-				5658A6AB2DFBC85F00E887CC /* HomeView.swift */,
-				5658A6AC2DFBC85F00E887CC /* Info.plist */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		5658A6BB2DFBC85F00E887CC /* Endpoints */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6AE2DFBC85F00E887CC /* CalendarEntriesEndpoint.swift */,
-				5658A6AF2DFBC85F00E887CC /* GroupsEndpoint.swift */,
-				5658A6B02DFBC85F00E887CC /* OrdersEndpoint.swift */,
-				5658A6B12DFBC85F00E887CC /* PeriodEntriesEndpoint.swift */,
-				5658A6B22DFBC85F00E887CC /* PeriodInfosEndpoint.swift */,
-				5658A6B32DFBC85F00E887CC /* PeriodSymptomsEndpoint.swift */,
-				5658A6B42DFBC85F00E887CC /* ProductCategoriesEndpoint.swift */,
-				5658A6B52DFBC85F00E887CC /* ProductInfosEndpoint.swift */,
-				5658A6B62DFBC85F00E887CC /* ProductsEndpoint.swift */,
-				5658A6B72DFBC85F00E887CC /* ProductStatusEndpoint.swift */,
-				5658A6B82DFBC85F00E887CC /* SymptomsEndpoint.swift */,
-				5658A6B92DFBC85F00E887CC /* TasksEndpoint.swift */,
-				5658A6BA2DFBC85F00E887CC /* UsersEndpoint.swift */,
-			);
-			path = Endpoints;
-			sourceTree = "<group>";
-		};
-		5658A6C92DFBC85F00E887CC /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6BC2DFBC85F00E887CC /* CalendarEntries.swift */,
-				5658A6BD2DFBC85F00E887CC /* Groups.swift */,
-				5658A6BE2DFBC85F00E887CC /* Orders.swift */,
-				5658A6BF2DFBC85F00E887CC /* PeriodEntries.swift */,
-				5658A6C02DFBC85F00E887CC /* PeriodInfos.swift */,
-				5658A6C12DFBC85F00E887CC /* PeriodSymptoms.swift */,
-				5658A6C22DFBC85F00E887CC /* ProductCategories.swift */,
-				5658A6C32DFBC85F00E887CC /* ProductInfos.swift */,
-				5658A6C42DFBC85F00E887CC /* Products.swift */,
-				5658A6C52DFBC85F00E887CC /* ProductStatus.swift */,
-				5658A6C62DFBC85F00E887CC /* Symptoms.swift */,
-				5658A6C72DFBC85F00E887CC /* Tasks.swift */,
-				5658A6C82DFBC85F00E887CC /* Users.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		5658A6D72DFBC85F00E887CC /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6CA2DFBC85F00E887CC /* CalendarEntriesViewModel.swift */,
-				5658A6CB2DFBC85F00E887CC /* GroupsViewModel.swift */,
-				5658A6CC2DFBC85F00E887CC /* OrdersViewModel.swift */,
-				5658A6CD2DFBC85F00E887CC /* PeriodEntriesViewModel.swift */,
-				5658A6CE2DFBC85F00E887CC /* PeriodInfosViewModel.swift */,
-				5658A6CF2DFBC85F00E887CC /* PeriodSymptomsViewModel.swift */,
-				5658A6D02DFBC85F00E887CC /* ProductCategoriesViewModel.swift */,
-				5658A6D12DFBC85F00E887CC /* ProductInfosViewModel.swift */,
-				5658A6D22DFBC85F00E887CC /* ProductStatusViewModel.swift */,
-				5658A6D32DFBC85F00E887CC /* ProductsViewModel.swift */,
-				5658A6D42DFBC85F00E887CC /* SymptomsViewModel.swift */,
-				5658A6D52DFBC85F00E887CC /* TasksViewModel.swift */,
-				5658A6D62DFBC85F00E887CC /* UsersViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		5658A6D82DFBC85F00E887CC /* Autogen */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6BB2DFBC85F00E887CC /* Endpoints */,
-				5658A6C92DFBC85F00E887CC /* Models */,
-				5658A6D72DFBC85F00E887CC /* ViewModels */,
-			);
-			path = Autogen;
-			sourceTree = "<group>";
-		};
-		5658A6E12DFBC85F00E887CC /* Extensions+ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6D92DFBC85F00E887CC /* CalendarViewModel.swift */,
-				5658A6DA2DFBC85F00E887CC /* PeriodEntriesViewModelExtension.swift */,
-				5658A6DB2DFBC85F00E887CC /* PeriodViewModel.swift */,
-				5658A6DC2DFBC85F00E887CC /* ProductInfosViewModelExtension.swift */,
-				5658A6DD2DFBC85F00E887CC /* ProductStatusEnum.swift */,
-				5658A6DE2DFBC85F00E887CC /* ProductViewModel.swift */,
-				5658A6DF2DFBC85F00E887CC /* TaskViewModel.swift */,
-				5658A6E02DFBC85F00E887CC /* UserViewModel.swift */,
-			);
-			path = "Extensions+ViewModels";
-			sourceTree = "<group>";
-		};
-		5658A6E42DFBC85F00E887CC /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6E22DFBC85F00E887CC /* CalendarEditForm.swift */,
-				5658A6E32DFBC85F00E887CC /* CalendarEntryForm.swift */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
-		5658A6E82DFBC85F00E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6E42DFBC85F00E887CC /* Forms */,
-				5658A6E52DFBC85F00E887CC /* CalendarEntryCardView.swift */,
-				5658A6E62DFBC85F00E887CC /* CalendarTabView.swift */,
-				5658A6E72DFBC85F00E887CC /* GroupCalendarEntryCardView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A6E92DFBC85F00E887CC /* CoupleCalendar */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6E82DFBC85F00E887CC /* Views */,
-			);
-			path = CoupleCalendar;
-			sourceTree = "<group>";
-		};
-		5658A6EC2DFBC85F00E887CC /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6EA2DFBC85F00E887CC /* AddPeriodForm.swift */,
-				5658A6EB2DFBC85F00E887CC /* EditPeriodForm.swift */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
-		5658A6F42DFBC85F00E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6EC2DFBC85F00E887CC /* Forms */,
-				5658A6ED2DFBC85F00E887CC /* FlexibleView.swift */,
-				5658A6EE2DFBC85F00E887CC /* NextExpectedCardView.swift */,
-				5658A6EF2DFBC85F00E887CC /* OngoingPeriodCardView.swift */,
-				5658A6F02DFBC85F00E887CC /* PeriodHistoryCardView.swift */,
-				5658A6F12DFBC85F00E887CC /* PeriodSummaryView.swift */,
-				5658A6F22DFBC85F00E887CC /* PeriodTabView.swift */,
-				5658A6F32DFBC85F00E887CC /* WrapView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A6F52DFBC85F00E887CC /* PeriodTracking */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6F42DFBC85F00E887CC /* Views */,
-			);
-			path = PeriodTracking;
-			sourceTree = "<group>";
-		};
-		5658A6F72DFBC85F00E887CC /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6F62DFBC85F00E887CC /* ProductAddForm.swift */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
-		5658A6FB2DFBC85F00E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6F72DFBC85F00E887CC /* Forms */,
-				5658A6F82DFBC85F00E887CC /* ProductInfoCardView.swift */,
-				5658A6F92DFBC85F00E887CC /* ProductListView.swift */,
-				5658A6FA2DFBC85F00E887CC /* ProductTabView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A6FC2DFBC85F00E887CC /* ProductsTracking */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6FB2DFBC85F00E887CC /* Views */,
-			);
-			path = ProductsTracking;
-			sourceTree = "<group>";
-		};
-		5658A7002DFBC85F00E887CC /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6FD2DFBC85F00E887CC /* TaskAddFormView.swift */,
-				5658A6FE2DFBC85F00E887CC /* TaskEditFormView.swift */,
-				5658A6FF2DFBC85F00E887CC /* TaskScheduleForm.swift */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
-		5658A7032DFBC85F00E887CC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5658A7002DFBC85F00E887CC /* Forms */,
-				5658A7012DFBC85F00E887CC /* TaskCardView.swift */,
-				5658A7022DFBC85F00E887CC /* TaskListView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5658A7042DFBC85F00E887CC /* TaskTracker */ = {
-			isa = PBXGroup;
-			children = (
-				5658A7032DFBC85F00E887CC /* Views */,
-			);
-			path = TaskTracker;
-			sourceTree = "<group>";
-		};
-		5658A7052DFBC85F00E887CC /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6E92DFBC85F00E887CC /* CoupleCalendar */,
-				5658A6F52DFBC85F00E887CC /* PeriodTracking */,
-				5658A6FC2DFBC85F00E887CC /* ProductsTracking */,
-				5658A7042DFBC85F00E887CC /* TaskTracker */,
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
-		5658A70E2DFBC85F00E887CC /* BeeTracker */ = {
-			isa = PBXGroup;
-			children = (
-				5658A6AD2DFBC85F00E887CC /* App */,
-				5658A6D82DFBC85F00E887CC /* Autogen */,
-				5658A6E12DFBC85F00E887CC /* Extensions+ViewModels */,
-				5658A7052DFBC85F00E887CC /* Modules */,
-			);
-			path = BeeTracker;
 			sourceTree = "<group>";
 		};
 		5658A7612DFBC8A200E887CC /* Views */ = {
@@ -520,6 +150,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				5619DAF72DFC01D90059D69D /* BeeTracker */,
+			);
 			name = BeeTracker;
 			packageProductDependencies = (
 			);
@@ -554,7 +187,7 @@
 			packageReferences = (
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 3A68BEE72DDCD2AA007438B4 /* Products */;
+			productRefGroup = 3A68BEDD2DDCD2AA007438B4;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -568,7 +201,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5658A75E2DFBC85F00E887CC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,13 +211,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5658A7102DFBC85F00E887CC /* BeeTrackerApp.swift in Sources */,
-				5658A7112DFBC85F00E887CC /* HomeView.swift in Sources */,
-				5658A7122DFBC85F00E887CC /* CalendarEntriesEndpoint.swift in Sources */,
-				5658A7132DFBC85F00E887CC /* GroupsEndpoint.swift in Sources */,
-				5658A7142DFBC85F00E887CC /* OrdersEndpoint.swift in Sources */,
-				5658A7152DFBC85F00E887CC /* PeriodEntriesEndpoint.swift in Sources */,
-				5658A7162DFBC85F00E887CC /* PeriodInfosEndpoint.swift in Sources */,
 				5658A7732DFBC8A200E887CC /* NotificationListView.swift in Sources */,
 				5658A7742DFBC8A200E887CC /* Helper.swift in Sources */,
 				5658A7752DFBC8A200E887CC /* AppDelegate.swift in Sources */,
@@ -600,71 +225,6 @@
 				5658A77E2DFBC8A200E887CC /* StartView.swift in Sources */,
 				5658A77F2DFBC8A200E887CC /* AuthenticateViewModel.swift in Sources */,
 				5658A7802DFBC8A200E887CC /* DeviceTokenEndpoints.swift in Sources */,
-				5658A7172DFBC85F00E887CC /* PeriodSymptomsEndpoint.swift in Sources */,
-				5658A7182DFBC85F00E887CC /* ProductCategoriesEndpoint.swift in Sources */,
-				5658A7192DFBC85F00E887CC /* ProductInfosEndpoint.swift in Sources */,
-				5658A71A2DFBC85F00E887CC /* ProductsEndpoint.swift in Sources */,
-				5658A71B2DFBC85F00E887CC /* ProductStatusEndpoint.swift in Sources */,
-				5658A71C2DFBC85F00E887CC /* SymptomsEndpoint.swift in Sources */,
-				5658A71D2DFBC85F00E887CC /* TasksEndpoint.swift in Sources */,
-				5658A71E2DFBC85F00E887CC /* UsersEndpoint.swift in Sources */,
-				5658A71F2DFBC85F00E887CC /* CalendarEntries.swift in Sources */,
-				5658A7202DFBC85F00E887CC /* Groups.swift in Sources */,
-				5658A7212DFBC85F00E887CC /* Orders.swift in Sources */,
-				5658A7222DFBC85F00E887CC /* PeriodEntries.swift in Sources */,
-				5658A7232DFBC85F00E887CC /* PeriodInfos.swift in Sources */,
-				5658A7242DFBC85F00E887CC /* PeriodSymptoms.swift in Sources */,
-				5658A7252DFBC85F00E887CC /* ProductCategories.swift in Sources */,
-				5658A7262DFBC85F00E887CC /* ProductInfos.swift in Sources */,
-				5658A7272DFBC85F00E887CC /* Products.swift in Sources */,
-				5658A7282DFBC85F00E887CC /* ProductStatus.swift in Sources */,
-				5658A7292DFBC85F00E887CC /* Symptoms.swift in Sources */,
-				5658A72A2DFBC85F00E887CC /* Tasks.swift in Sources */,
-				5658A72B2DFBC85F00E887CC /* Users.swift in Sources */,
-				5658A72C2DFBC85F00E887CC /* CalendarEntriesViewModel.swift in Sources */,
-				5658A72D2DFBC85F00E887CC /* GroupsViewModel.swift in Sources */,
-				5658A72E2DFBC85F00E887CC /* OrdersViewModel.swift in Sources */,
-				5658A72F2DFBC85F00E887CC /* PeriodEntriesViewModel.swift in Sources */,
-				5658A7302DFBC85F00E887CC /* PeriodInfosViewModel.swift in Sources */,
-				5658A7312DFBC85F00E887CC /* PeriodSymptomsViewModel.swift in Sources */,
-				5658A7322DFBC85F00E887CC /* ProductCategoriesViewModel.swift in Sources */,
-				5658A7332DFBC85F00E887CC /* ProductInfosViewModel.swift in Sources */,
-				5658A7342DFBC85F00E887CC /* ProductStatusViewModel.swift in Sources */,
-				5658A7352DFBC85F00E887CC /* ProductsViewModel.swift in Sources */,
-				5658A7362DFBC85F00E887CC /* SymptomsViewModel.swift in Sources */,
-				5658A7372DFBC85F00E887CC /* TasksViewModel.swift in Sources */,
-				5658A7382DFBC85F00E887CC /* UsersViewModel.swift in Sources */,
-				5658A7392DFBC85F00E887CC /* CalendarViewModel.swift in Sources */,
-				5658A73A2DFBC85F00E887CC /* PeriodEntriesViewModelExtension.swift in Sources */,
-				5658A73B2DFBC85F00E887CC /* PeriodViewModel.swift in Sources */,
-				5658A73C2DFBC85F00E887CC /* ProductInfosViewModelExtension.swift in Sources */,
-				5658A73D2DFBC85F00E887CC /* ProductStatusEnum.swift in Sources */,
-				5658A73E2DFBC85F00E887CC /* ProductViewModel.swift in Sources */,
-				5658A73F2DFBC85F00E887CC /* TaskViewModel.swift in Sources */,
-				5658A7402DFBC85F00E887CC /* UserViewModel.swift in Sources */,
-				5658A7412DFBC85F00E887CC /* CalendarEditForm.swift in Sources */,
-				5658A7422DFBC85F00E887CC /* CalendarEntryForm.swift in Sources */,
-				5658A7432DFBC85F00E887CC /* CalendarEntryCardView.swift in Sources */,
-				5658A7442DFBC85F00E887CC /* CalendarTabView.swift in Sources */,
-				5658A7452DFBC85F00E887CC /* GroupCalendarEntryCardView.swift in Sources */,
-				5658A7462DFBC85F00E887CC /* AddPeriodForm.swift in Sources */,
-				5658A7472DFBC85F00E887CC /* EditPeriodForm.swift in Sources */,
-				5658A7482DFBC85F00E887CC /* FlexibleView.swift in Sources */,
-				5658A7492DFBC85F00E887CC /* NextExpectedCardView.swift in Sources */,
-				5658A74A2DFBC85F00E887CC /* OngoingPeriodCardView.swift in Sources */,
-				5658A74B2DFBC85F00E887CC /* PeriodHistoryCardView.swift in Sources */,
-				5658A74C2DFBC85F00E887CC /* PeriodSummaryView.swift in Sources */,
-				5658A74D2DFBC85F00E887CC /* PeriodTabView.swift in Sources */,
-				5658A74E2DFBC85F00E887CC /* WrapView.swift in Sources */,
-				5658A74F2DFBC85F00E887CC /* ProductAddForm.swift in Sources */,
-				5658A7502DFBC85F00E887CC /* ProductInfoCardView.swift in Sources */,
-				5658A7512DFBC85F00E887CC /* ProductListView.swift in Sources */,
-				5658A7522DFBC85F00E887CC /* ProductTabView.swift in Sources */,
-				5658A7532DFBC85F00E887CC /* TaskAddFormView.swift in Sources */,
-				5658A7542DFBC85F00E887CC /* TaskEditFormView.swift in Sources */,
-				5658A7552DFBC85F00E887CC /* TaskScheduleForm.swift in Sources */,
-				5658A7562DFBC85F00E887CC /* TaskCardView.swift in Sources */,
-				5658A7572DFBC85F00E887CC /* TaskListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

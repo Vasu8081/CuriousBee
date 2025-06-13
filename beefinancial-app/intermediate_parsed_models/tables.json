@@ -29,6 +29,11 @@
       [
         "HIDDEN"
       ]
+    ],
+    [
+      "is_admin",
+      "BOOLEAN",
+      []
     ]
   ],
   "accounts": [

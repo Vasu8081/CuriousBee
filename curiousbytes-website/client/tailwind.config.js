@@ -4,7 +4,13 @@ module.exports = {
   darkMode: 'class', // 'media' is automatic, 'class' is manual toggle
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        rubik: ['Rubik', 'sans-serif'],
+      },
+    },
   },
-  plugins: [],
+  plugins: [aspectRatio],
 };

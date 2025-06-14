@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 
 SQLA_TYPES = {
-    "UUID": "UUID", "TEXT": "String", "DATE": "Date", "TIME": "Time",
+    "UUID": "UUID", "TEXT": "String", "DATE": "Date", "TIME": "Time", "LARGE_TEXT": "TEXT",
     "TIMESTAMP": "DateTime", "INTEGER": "Integer", "FLOAT": "Float", "BOOLEAN": "Boolean",
-    "BYTEA": "LargeBinary", "JSONB": "String", "JSON": "String", "ARRAY": "String"
+    "BYTEA": "LargeBinary", "JSONB": "String", "JSON": "JSON", "ARRAY": "String"
 }
 PY_TYPES = {
     "UUID": "uuid.UUID", "TEXT": "str", "DATE": "datetime.date", "TIME": "datetime.time",
@@ -56,7 +56,7 @@ def generate_alembic_models(build_dir: str, output_dir: str):
             f.write("from sqlalchemy import Column, ForeignKey\n")
             f.write("from sqlalchemy.orm import relationship\n")
             f.write("from sqlalchemy.dialects.postgresql import UUID\n")
-            f.write("from sqlalchemy.types import String, Integer, Float, Date, Time, DateTime, Boolean, LargeBinary\n")
+            f.write("from sqlalchemy.types import String, Integer, TEXT, Float, Date, Time, DateTime, Boolean, LargeBinary, JSON\n")
             f.write("from app.db.base import Base\n")
             f.write("from typing import Optional, cast\n")
             f.write("from sqlalchemy import Enum as SQLEnum\n")

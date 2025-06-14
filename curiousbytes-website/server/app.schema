@@ -1,0 +1,24 @@
+Enum video_types {
+    GATE DEFAULT
+    TOPPERS_TALK
+    INTERVIEW
+}
+
+Table youtube {
+    video_id TEXT [primary key]
+    title TEXT
+    description LARGE_TEXT
+    published_at TIMESTAMP
+    thumbnails JSON
+    localized JSON
+    channel_id TEXT
+    channel_title TEXT
+    raw_snippet JSON
+    is_video BOOLEAN
+    video_type video_types
+}
+
+Table resources {
+    resource_id UUID [primary key]
+    url TEXT
+}

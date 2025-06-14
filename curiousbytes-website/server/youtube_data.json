@@ -1,0 +1,2199 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "DLifPDf8YImKGOuuRpIVNtas-LY",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "LZ3I6P_HU3oEV1dxsBeXiMCM4Yk",
+      "id": "8-IxVfG_MPk",
+      "snippet": {
+        "publishedAt": "2025-06-11T14:55:27Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Tier 3 College to Google | My Journey",
+        "description": "In this video, I\u2019m sharing a brief overview of my journey \u2014 starting from a *tier-3* college, preparing for GATE, pursuing M.Tech in CSE, and eventually landing a software engineering role at *Google* .\nIt\u2019s not a detailed guide, but a personal reflection for anyone trying to find their way through GATE prep, college placements, or career switches in tech. If you're on a similar path, I hope this gives you some perspective or motivation.\n\n*More from Curious Bytes*\nGATE Prep Journey \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o\nFree GATE Resources \u2192 https://www.youtube.com/watch?v=_y3ZDQbFym0&t=43s\nSubject Sequence \u2192 https://www.youtube.com/watch?v=5XGJTDz6MlY&t=4s\nMaking Short Notes / Revision Strategy\u2192 https://www.youtube.com/watch?v=ja4GQfE8kQk&t=1s\nHow to approach Test Series \u2192 https://www.youtube.com/watch?v=KRQMCNRz48M&t=2s\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n00:30 \u2013 Why I took a break\n01:00 \u2013 GATE, placements & future plans for the channel\n01:30 \u2013 My background: College & GATE\n02:30 \u2013 Transition to M.Tech and learning curve\n03:30 \u2013 How I approached placements\n03:38 \u2013 Takeaway\n\nHashtags\n#GoogleSde #Tech #SoftwareEngineering #Jobs #Career #ComputerScience #FAANGM #FAANG #engineering #college #DSA #Freshers #placements",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Tier 3 College to Google | My Journey",
+          "description": "In this video, I\u2019m sharing a brief overview of my journey \u2014 starting from a *tier-3* college, preparing for GATE, pursuing M.Tech in CSE, and eventually landing a software engineering role at *Google* .\nIt\u2019s not a detailed guide, but a personal reflection for anyone trying to find their way through GATE prep, college placements, or career switches in tech. If you're on a similar path, I hope this gives you some perspective or motivation.\n\n*More from Curious Bytes*\nGATE Prep Journey \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o\nFree GATE Resources \u2192 https://www.youtube.com/watch?v=_y3ZDQbFym0&t=43s\nSubject Sequence \u2192 https://www.youtube.com/watch?v=5XGJTDz6MlY&t=4s\nMaking Short Notes / Revision Strategy\u2192 https://www.youtube.com/watch?v=ja4GQfE8kQk&t=1s\nHow to approach Test Series \u2192 https://www.youtube.com/watch?v=KRQMCNRz48M&t=2s\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n00:30 \u2013 Why I took a break\n01:00 \u2013 GATE, placements & future plans for the channel\n01:30 \u2013 My background: College & GATE\n02:30 \u2013 Transition to M.Tech and learning curve\n03:30 \u2013 How I approached placements\n03:38 \u2013 Takeaway\n\nHashtags\n#GoogleSde #Tech #SoftwareEngineering #Jobs #Career #ComputerScience #FAANGM #FAANG #engineering #college #DSA #Freshers #placements"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT3M39S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "wV33Am6Pw7VtmAOApV-k4vNC-d0",
+      "id": "KRQMCNRz48M",
+      "snippet": {
+        "publishedAt": "2024-10-05T12:50:31Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Full-Length Tests: Which to buy? How to prepare and analyze? - GATE CS",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we dive deep into how you can effectively use test series to prepare for GATE 2025. With just a few months left, it's the perfect time to start taking full-length mock tests. I\u2019ll walk you through how to integrate topic tests, subject tests, and full-length tests into your prep strategy.\n\nLearn how to analyze your test results, avoid common mistakes, and fine-tune your time management skills. Plus, I share recommendations for which test series to buy and why free mock tests from various platforms can be game-changers for your preparation.\n\nStay focused, stay motivated, and let's ace GATE 2025 together!\n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction\n00:32 Types of test series\n02:02 Which test series to buy?\n03:02 How to analyze test series\n05:50 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Full-Length Tests: Which to buy? How to prepare and analyze? - GATE CS",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we dive deep into how you can effectively use test series to prepare for GATE 2025. With just a few months left, it's the perfect time to start taking full-length mock tests. I\u2019ll walk you through how to integrate topic tests, subject tests, and full-length tests into your prep strategy.\n\nLearn how to analyze your test results, avoid common mistakes, and fine-tune your time management skills. Plus, I share recommendations for which test series to buy and why free mock tests from various platforms can be game-changers for your preparation.\n\nStay focused, stay motivated, and let's ace GATE 2025 together!\n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction\n00:32 Types of test series\n02:02 Which test series to buy?\n03:02 How to analyze test series\n05:50 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT6M13S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "gKDySolg4UgxhLA4B3QCUbwP1yM",
+      "id": "VpgbDi2xoBM",
+      "snippet": {
+        "publishedAt": "2024-07-21T13:18:40Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Toppers\u2019 Talk: Cracked IIT CSE Despite Skipping 3 Subjects!",
+        "description": "#gatecs #gate2025  \n\nThis covers GATE CSE Topper Interview, GATE CSE Toppers Strategy, GATE CSE Toppers Notes.  \n\nFREE GATE Resources : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nShubhashish's LinkedIn: http://linkedin.com/in/shubhashish-shukla-31506b22b\n \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction \n00:50 Why GATE? \n02:30 When did you start gate prep. \n02:42 GATE Preparation Strategy \n04:30 Placement with GATE \n05:03 Good rank after skipping subjects \n06:18 How to get good rank if starting late \n07:20 How to manage college with GATE Prep \n08:20 Revision strategy  \n08:40 Future plans \n09:48 Final tips",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Toppers\u2019 Talk: Cracked IIT CSE Despite Skipping 3 Subjects!",
+          "description": "#gatecs #gate2025  \n\nThis covers GATE CSE Topper Interview, GATE CSE Toppers Strategy, GATE CSE Toppers Notes.  \n\nFREE GATE Resources : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nShubhashish's LinkedIn: http://linkedin.com/in/shubhashish-shukla-31506b22b\n \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction \n00:50 Why GATE? \n02:30 When did you start gate prep. \n02:42 GATE Preparation Strategy \n04:30 Placement with GATE \n05:03 Good rank after skipping subjects \n06:18 How to get good rank if starting late \n07:20 How to manage college with GATE Prep \n08:20 Revision strategy  \n08:40 Future plans \n09:48 Final tips"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT10M54S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "J42AA2hLixBqXWEn9PQyqyGUzik",
+      "id": "MXpfWYkh3Ys",
+      "snippet": {
+        "publishedAt": "2024-06-04T02:30:20Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Start GATE Prep WIth DSA #gate2025 #gateexam #gatecs #iitbombay #gateprepstrategy #gatepreparation",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/MXpfWYkh3Ys/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/MXpfWYkh3Ys/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/MXpfWYkh3Ys/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/MXpfWYkh3Ys/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/MXpfWYkh3Ys/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Start GATE Prep WIth DSA #gate2025 #gateexam #gatecs #iitbombay #gateprepstrategy #gatepreparation",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT32S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "J8I1dM2Mgj04A0FHMAD-wfOjtss",
+      "id": "h82ZYJ61qIA",
+      "snippet": {
+        "publishedAt": "2024-06-03T02:30:30Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Best Subject Sequence #gate2025 #gateexam #gateexampreparation #iitbombay #gatecs",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/h82ZYJ61qIA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/h82ZYJ61qIA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/h82ZYJ61qIA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/h82ZYJ61qIA/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/h82ZYJ61qIA/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Best Subject Sequence #gate2025 #gateexam #gateexampreparation #iitbombay #gatecs",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT1M",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "tfYa_U77Ms5EZcnlc_AA9CwVGrY",
+      "id": "W9lmV5NYH8w",
+      "snippet": {
+        "publishedAt": "2024-06-02T02:30:12Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Syllabus and Section Wise Weightage #gate2025 #gateexam #gateexampreparation #gatesyllabus",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/W9lmV5NYH8w/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/W9lmV5NYH8w/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/W9lmV5NYH8w/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/W9lmV5NYH8w/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/W9lmV5NYH8w/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Syllabus and Section Wise Weightage #gate2025 #gateexam #gateexampreparation #gatesyllabus",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT31S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "fAnQ35fOqIoR4u-XsuVz8JIMxOQ",
+      "id": "q3D7zDc84MY",
+      "snippet": {
+        "publishedAt": "2024-05-27T02:30:21Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE top mistake to avoid #gate2025 #gate2025preparation #mistakestoavoid #gateexam #commonmistakes",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/q3D7zDc84MY/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/q3D7zDc84MY/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/q3D7zDc84MY/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/q3D7zDc84MY/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/q3D7zDc84MY/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE top mistake to avoid #gate2025 #gate2025preparation #mistakestoavoid #gateexam #commonmistakes",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT37S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "2_S00qaz75dcH5A4CB3LI0y4LEY",
+      "id": "xW6-eXlJYrA",
+      "snippet": {
+        "publishedAt": "2024-05-26T02:30:32Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Do not do this | GATE 2025 Aspirants #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/xW6-eXlJYrA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/xW6-eXlJYrA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/xW6-eXlJYrA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/xW6-eXlJYrA/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/xW6-eXlJYrA/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Do not do this | GATE 2025 Aspirants #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT40S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "XryAZFUsLiIbdZcZ0iqPFgn-DEM",
+      "id": "ylK5wYjLwxg",
+      "snippet": {
+        "publishedAt": "2024-05-25T02:30:22Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Avoid this for GATE 2025 Aspirants #gate2025 #gate2025preparation #commonmistakes #gateexam",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/ylK5wYjLwxg/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/ylK5wYjLwxg/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/ylK5wYjLwxg/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/ylK5wYjLwxg/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/ylK5wYjLwxg/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Avoid this for GATE 2025 Aspirants #gate2025 #gate2025preparation #commonmistakes #gateexam",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT39S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "XrUhNZwVnapSc96BTFGdRwU2Ua4",
+      "id": "P7SDUxlanbQ",
+      "snippet": {
+        "publishedAt": "2024-05-24T02:30:10Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE MUST WATCH common mistake to avoid #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/P7SDUxlanbQ/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/P7SDUxlanbQ/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/P7SDUxlanbQ/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/P7SDUxlanbQ/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/P7SDUxlanbQ/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE MUST WATCH common mistake to avoid #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT30S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "uAFwiAnFNfdfXEFJhzbwxWJSwlY",
+      "id": "2EwAnD_J_4Q",
+      "snippet": {
+        "publishedAt": "2024-05-23T02:30:01Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "DO NOT do this mistake while preparing for GATE #gate2025 #gateexam #mistakestoavoid",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/2EwAnD_J_4Q/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/2EwAnD_J_4Q/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/2EwAnD_J_4Q/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/2EwAnD_J_4Q/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/2EwAnD_J_4Q/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "DO NOT do this mistake while preparing for GATE #gate2025 #gateexam #mistakestoavoid",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT50S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "y7WS0VMGlsaRZt55pppi1AuAPms",
+      "id": "sUY2Iy9nciQ",
+      "snippet": {
+        "publishedAt": "2024-05-22T02:30:25Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Top 5 mistakes by GATE 2025 Aspirants  #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/sUY2Iy9nciQ/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/sUY2Iy9nciQ/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/sUY2Iy9nciQ/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/sUY2Iy9nciQ/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/sUY2Iy9nciQ/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Top 5 mistakes by GATE 2025 Aspirants  #gate2025 #gate2025preparation #mistakestoavoid #gateexam",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT34S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "-uCu3L8mrWPbyrig4HOzzw_jJEI",
+      "id": "DQgMVernmsg",
+      "snippet": {
+        "publishedAt": "2024-05-21T02:30:08Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Don\u2019t prepare for GATE Exam!! AIR 2 GATE CS #gate2025 #gate2025preparation #gateexam #gatecs",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/DQgMVernmsg/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/DQgMVernmsg/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/DQgMVernmsg/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/DQgMVernmsg/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/DQgMVernmsg/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Don\u2019t prepare for GATE Exam!! AIR 2 GATE CS #gate2025 #gate2025preparation #gateexam #gatecs",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT27S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "Z7Z0bapKX_4Ezz96ag5T0lDuJ1Q",
+      "id": "jWpHLX8R0Jg",
+      "snippet": {
+        "publishedAt": "2024-05-20T02:30:30Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start GATE prep? Final Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/jWpHLX8R0Jg/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/jWpHLX8R0Jg/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/jWpHLX8R0Jg/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/jWpHLX8R0Jg/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/jWpHLX8R0Jg/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start GATE prep? Final Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT55S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "FwMK4pOljI-woeYWvrZhI-LVdK0",
+      "id": "81ARJeSapbQ",
+      "snippet": {
+        "publishedAt": "2024-05-19T02:30:03Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start GATE prep? Third Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/81ARJeSapbQ/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/81ARJeSapbQ/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/81ARJeSapbQ/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/81ARJeSapbQ/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/81ARJeSapbQ/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start GATE prep? Third Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT47S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "DSfvZKfRZqrWjuj8Y6ktSREK0Z4",
+      "id": "5xPesvlTCx0",
+      "snippet": {
+        "publishedAt": "2024-05-18T02:30:02Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start GATE prep? Second Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/5xPesvlTCx0/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/5xPesvlTCx0/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/5xPesvlTCx0/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/5xPesvlTCx0/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/5xPesvlTCx0/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start GATE prep? Second Year? #gate2025 #gate2025preparation #gateexam #gatecs",
+          "description": ""
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT41S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "-WFKC-AdeF4aY2KC82LUe33wUnE",
+      "id": "8R2QpTlQagA",
+      "snippet": {
+        "publishedAt": "2024-05-17T02:30:02Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start GATE prep? First Year?  #gate2025 #gate2025preparation #gateexam #gatecs",
+        "description": "Full Video: https://youtu.be/Dj4P7TWkmog?si=Jow4hOVS7E7y8u61",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/8R2QpTlQagA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/8R2QpTlQagA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/8R2QpTlQagA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/8R2QpTlQagA/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/8R2QpTlQagA/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start GATE prep? First Year?  #gate2025 #gate2025preparation #gateexam #gatecs",
+          "description": "Full Video: https://youtu.be/Dj4P7TWkmog?si=Jow4hOVS7E7y8u61"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT32S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "9yO72Y3z16WXvBRalTSleJ17AP4",
+      "id": "ja4GQfE8kQk",
+      "snippet": {
+        "publishedAt": "2024-05-15T12:30:31Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "How to Make Short Notes for GATE | Revise In Minutes | Bhawna Chelani | AIR 2",
+        "description": "#iitbombay #gatecs #curiousbytes #revisionstrategy #shortnotes #shortnotesmaking \n\nThis video covers how to make short notes for gate, gate cse, toppers notes for gate, gate revision strategy, gate note making, short notes kaise banaye\n\nSincere Aspirants, THREE STEPS to do RIGHT NOW:\n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/channel/UCIGz3jEqCl4eyM3eTgKCpVg\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!)  https://www.linkedin.com/in/bhawnachelani\nStep 3\ufe0f\u20e3: Give your full effort Until next time, stay curious and keep progressing! \n\nSubscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n1:06 1. What to include and exclude\n2:28 2. Pens to use\n2:55 3. How to write\n3:27 4. Write your interpretation\n4:19 5. When to make short notes\n5:18 6. Revise from short notes\n6:10 7. When to revise\n7:10 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/ja4GQfE8kQk/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/ja4GQfE8kQk/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/ja4GQfE8kQk/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/ja4GQfE8kQk/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/ja4GQfE8kQk/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "How to Make Short Notes for GATE | Revise In Minutes | Bhawna Chelani | AIR 2",
+          "description": "#iitbombay #gatecs #curiousbytes #revisionstrategy #shortnotes #shortnotesmaking \n\nThis video covers how to make short notes for gate, gate cse, toppers notes for gate, gate revision strategy, gate note making, short notes kaise banaye\n\nSincere Aspirants, THREE STEPS to do RIGHT NOW:\n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/channel/UCIGz3jEqCl4eyM3eTgKCpVg\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!)  https://www.linkedin.com/in/bhawnachelani\nStep 3\ufe0f\u20e3: Give your full effort Until next time, stay curious and keep progressing! \n\nSubscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n1:06 1. What to include and exclude\n2:28 2. Pens to use\n2:55 3. How to write\n3:27 4. Write your interpretation\n4:19 5. When to make short notes\n5:18 6. Revise from short notes\n6:10 7. When to revise\n7:10 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT7M52S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "voe1e_xeAqcerknl5vZbggrFj7o",
+      "id": "4-WIfyJxTsM",
+      "snippet": {
+        "publishedAt": "2024-05-04T15:56:06Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "CSE Batch of 2024 | Commencement Ceremony | IIT Bombay",
+        "description": "#iitbombay #iitbombayvlog #iitbombaycampus  #commencement #gatecs #cse \n\nIn this video show the commencement ceremony of cse 2024 batch of iit bombay.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/4-WIfyJxTsM/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/4-WIfyJxTsM/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/4-WIfyJxTsM/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/4-WIfyJxTsM/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/4-WIfyJxTsM/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "CSE Batch of 2024 | Commencement Ceremony | IIT Bombay",
+          "description": "#iitbombay #iitbombayvlog #iitbombaycampus  #commencement #gatecs #cse \n\nIn this video show the commencement ceremony of cse 2024 batch of iit bombay."
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT1M33S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "InBfjX-Y_pbVLbB2b0z96DmV3bU",
+      "id": "_y3ZDQbFym0",
+      "snippet": {
+        "publishedAt": "2024-04-23T15:13:29Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Best FREE RESOURCES for GATE CSE | GATE 2025 | AIR 2 | BHAWNA CHELANI",
+        "description": "#gatecs #gate2025 #gatererources #gatelectures #selfstudy\n\nThis covers GATE CS Free Resources GATE CS free study material GATE CS Free Lectures. How to prepare for GATE without coaching. Best YouTube channels for gate preparation CSE. \n\nOur GATE Sheet : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing!\n\n00:00 Introduction\n00:30 Important links\n00:48 Preparation timeline\n1:29 Subject sequence\n2:20 Free resources\n4:48 Important notes",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/_y3ZDQbFym0/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/_y3ZDQbFym0/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/_y3ZDQbFym0/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/_y3ZDQbFym0/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/_y3ZDQbFym0/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Best FREE RESOURCES for GATE CSE | GATE 2025 | AIR 2 | BHAWNA CHELANI",
+          "description": "#gatecs #gate2025 #gatererources #gatelectures #selfstudy\n\nThis covers GATE CS Free Resources GATE CS free study material GATE CS Free Lectures. How to prepare for GATE without coaching. Best YouTube channels for gate preparation CSE. \n\nOur GATE Sheet : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing!\n\n00:00 Introduction\n00:30 Important links\n00:48 Preparation timeline\n1:29 Subject sequence\n2:20 Free resources\n4:48 Important notes"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT6M2S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "9oRZEnl9W_0BuqlieGJFJuGjTgE",
+      "id": "RUG_p18ZaYQ",
+      "snippet": {
+        "publishedAt": "2024-04-21T08:18:23Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "What will you get with GATE CS? Is GATE good option for other departments? #gatecs #gate",
+        "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If you are in other departments and want to change stream, GATE is best option\n2. You can get Better job opportunities, PSU roles, Research opportunity and most importantly an IITian TAG.\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more.\n\nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/RUG_p18ZaYQ/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/RUG_p18ZaYQ/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/RUG_p18ZaYQ/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/RUG_p18ZaYQ/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/RUG_p18ZaYQ/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "What will you get with GATE CS? Is GATE good option for other departments? #gatecs #gate",
+          "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If you are in other departments and want to change stream, GATE is best option\n2. You can get Better job opportunities, PSU roles, Research opportunity and most importantly an IITian TAG.\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more.\n\nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT20S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "XEslFsOoXG0dXPUFX8HnVszVyZU",
+      "id": "rm7Aq52TO_w",
+      "snippet": {
+        "publishedAt": "2024-04-20T16:20:11Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Paid Internship opportunity at IIT Bombay #iitbombay #internship #paidinternship",
+        "description": "IMPORTANT LINKS:\nInternship Official News: https://trustlab.iitb.ac.in/event/trust-lab-internship-2024\nDetailed List of Project Topics: https://docs.google.com/spreadsheets/d/1683kD6HnxWDahDzpBzUzD-Bn8dH1La5e1XZjTLIK-PM/edit#gid=0\nApply Here: \nhttps://docs.google.com/forms/d/e/1FAIpQLSeWDn56IpwECCySdZFDwhYnFJfDsWX9yhTg_uFT3cyxHt4f4g/viewform\n\nDETAILS:\nStipend: 8K-12K per month\nAccommodation: Provided\nDuration: 3 Months\nMode: Onsite\nWill collaborate with IITB professors \nDeadline to Apply: 25th April\n\nCan reach out for info on projects:\nNadesh Seen (MS Student): https://in.linkedin.com/in/nadeshseen",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/rm7Aq52TO_w/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/rm7Aq52TO_w/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/rm7Aq52TO_w/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/rm7Aq52TO_w/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/rm7Aq52TO_w/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Paid Internship opportunity at IIT Bombay #iitbombay #internship #paidinternship",
+          "description": "IMPORTANT LINKS:\nInternship Official News: https://trustlab.iitb.ac.in/event/trust-lab-internship-2024\nDetailed List of Project Topics: https://docs.google.com/spreadsheets/d/1683kD6HnxWDahDzpBzUzD-Bn8dH1La5e1XZjTLIK-PM/edit#gid=0\nApply Here: \nhttps://docs.google.com/forms/d/e/1FAIpQLSeWDn56IpwECCySdZFDwhYnFJfDsWX9yhTg_uFT3cyxHt4f4g/viewform\n\nDETAILS:\nStipend: 8K-12K per month\nAccommodation: Provided\nDuration: 3 Months\nMode: Onsite\nWill collaborate with IITB professors \nDeadline to Apply: 25th April\n\nCan reach out for info on projects:\nNadesh Seen (MS Student): https://in.linkedin.com/in/nadeshseen"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT23S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "I-6W9tQy_s2r8k-JRo_5cGPguCc",
+      "id": "6AGOiFSlcXU",
+      "snippet": {
+        "publishedAt": "2024-04-20T08:33:59Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Are you working in company and confused to prepare gate or not? #gatecse2023  #exampreparation",
+        "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If doing job with 2 or less years work experience, and not satisfied, GATE is the BEST OPTION\n2. A lot of people in my class appeared for GATE in this category\n3. This is because at IITs, there are LOTS OF OPPORTUNITIES for BIG TECH companies\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more.\n\nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/6AGOiFSlcXU/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/6AGOiFSlcXU/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/6AGOiFSlcXU/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/6AGOiFSlcXU/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/6AGOiFSlcXU/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Are you working in company and confused to prepare gate or not? #gatecse2023  #exampreparation",
+          "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If doing job with 2 or less years work experience, and not satisfied, GATE is the BEST OPTION\n2. A lot of people in my class appeared for GATE in this category\n3. This is because at IITs, there are LOTS OF OPPORTUNITIES for BIG TECH companies\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more.\n\nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT27S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "IEoUNRoS76E4794QesFeRVVgO5s",
+      "id": "xZ9iBU3HKGo",
+      "snippet": {
+        "publishedAt": "2024-04-20T08:29:42Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Are you final year and confused to prepare gate? #gatecse2023  #exampreparation  #strategy",
+        "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If in final year, start preparing but take a job\n2. Will get Work Experience\n3. Will have less pressure on mind\n4. Very important to keep mind light while appearing for exam\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more. \n\nUntil next time, stay curious and keep progressing!",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/xZ9iBU3HKGo/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/xZ9iBU3HKGo/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/xZ9iBU3HKGo/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/xZ9iBU3HKGo/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/xZ9iBU3HKGo/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Are you final year and confused to prepare gate? #gatecse2023  #exampreparation  #strategy",
+          "description": "MUST WATCH before preparing for GATE Exam.\n\n1. If in final year, start preparing but take a job\n2. Will get Work Experience\n3. Will have less pressure on mind\n4. Very important to keep mind light while appearing for exam\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more. \n\nUntil next time, stay curious and keep progressing!"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT31S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "YhURWzTOQPvuYXFa9SRZsyNDybI",
+      "id": "Ij7CU2Y4pWo",
+      "snippet": {
+        "publishedAt": "2024-04-17T13:52:17Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "IIT Bombay Academics and Sports | GATE Motivation",
+        "description": "#gatecs #iitbombay #iitbombaycampus #iitbombayvlog #gatemotivation #gate2025 #sports \nThis is a GATE motivation video, we share IIT Bombay Campus Tour, IIT Bombay Academic, IIT Bombay Sports, IIT Bombay CSE Department, IIT Bombay Lake, IIT Bombay Lecture Hall. \n\nSincere Aspirants, \nTHREE STEPS to do RIGHT NOW: \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67 \nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani \nStep 3\ufe0f\u20e3: Give your full effort Until next time, stay curious and keep progressing! \n\n00:00 Welcome \n00:06 Convocation Hall \n00:08 Infinity Corridor \n00:09 Academics \n00:12 CSE Department \n00:20 Lecture Hall \n00:30 Library \n00:35 Lakeside \n00:42 Sports \n00:56 Courts \n1:15 Mess Snacks \n1:24 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/Ij7CU2Y4pWo/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/Ij7CU2Y4pWo/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/Ij7CU2Y4pWo/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/Ij7CU2Y4pWo/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/Ij7CU2Y4pWo/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "IIT Bombay Academics and Sports | GATE Motivation",
+          "description": "#gatecs #iitbombay #iitbombaycampus #iitbombayvlog #gatemotivation #gate2025 #sports \nThis is a GATE motivation video, we share IIT Bombay Campus Tour, IIT Bombay Academic, IIT Bombay Sports, IIT Bombay CSE Department, IIT Bombay Lake, IIT Bombay Lecture Hall. \n\nSincere Aspirants, \nTHREE STEPS to do RIGHT NOW: \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67 \nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani \nStep 3\ufe0f\u20e3: Give your full effort Until next time, stay curious and keep progressing! \n\n00:00 Welcome \n00:06 Convocation Hall \n00:08 Infinity Corridor \n00:09 Academics \n00:12 CSE Department \n00:20 Lecture Hall \n00:30 Library \n00:35 Lakeside \n00:42 Sports \n00:56 Courts \n1:15 Mess Snacks \n1:24 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT1M46S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "osmmaJihWx7-sl2hTyEkgO2nbmA",
+      "id": "5XGJTDz6MlY",
+      "snippet": {
+        "publishedAt": "2024-04-09T17:27:18Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Best Subject Sequence to cover syllabus - GATE CS",
+        "description": "#iitbombay   #gatecs  #gateexam  #exampreparation  #studytips  \n\nIn this video, we share the best sequence of subjects for GATE CS Exam. We cover GATE Exam subjects for computer science, GATE subject wise weightage, gate exam subject list, subject sequence for GATE.\n\nGATE 2024 Syllabus: https://gate2024.iisc.ac.in/papers-and-syllabus/\n______________\nSincere Aspirants,\nTHREE STEPS to do RIGHT NOW:\n\u00a0\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) http://www.linkedin.com/in/bhawnachelani\nStep 3\ufe0f\u20e3: Give your full effort\n\u00a0\nUntil next time, stay curious and keep progressing!\n\n00:00 Introduction\n00:39 Note for Self Study Aspirants\n1:07 GATE Syllabus Sections\n1:22 GATE Syllabus Weightage\n1:30 Best Order for sections\n1:45 Aptitude when?\n2:04 Mathematics when?\n2:28 Technical when?\n2:45 Technical Subjects Order\n2:58 Dependencies among subjects\n3:15 Our suggested order\n6:13 Syllabus Completion Deadline\n6:30 Revision when?\n6:50 Alternative Plan\n7:37 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/5XGJTDz6MlY/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/5XGJTDz6MlY/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/5XGJTDz6MlY/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/5XGJTDz6MlY/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/5XGJTDz6MlY/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Best Subject Sequence to cover syllabus - GATE CS",
+          "description": "#iitbombay   #gatecs  #gateexam  #exampreparation  #studytips  \n\nIn this video, we share the best sequence of subjects for GATE CS Exam. We cover GATE Exam subjects for computer science, GATE subject wise weightage, gate exam subject list, subject sequence for GATE.\n\nGATE 2024 Syllabus: https://gate2024.iisc.ac.in/papers-and-syllabus/\n______________\nSincere Aspirants,\nTHREE STEPS to do RIGHT NOW:\n\u00a0\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) http://www.linkedin.com/in/bhawnachelani\nStep 3\ufe0f\u20e3: Give your full effort\n\u00a0\nUntil next time, stay curious and keep progressing!\n\n00:00 Introduction\n00:39 Note for Self Study Aspirants\n1:07 GATE Syllabus Sections\n1:22 GATE Syllabus Weightage\n1:30 Best Order for sections\n1:45 Aptitude when?\n2:04 Mathematics when?\n2:28 Technical when?\n2:45 Technical Subjects Order\n2:58 Dependencies among subjects\n3:15 Our suggested order\n6:13 Syllabus Completion Deadline\n6:30 Revision when?\n6:50 Alternative Plan\n7:37 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT7M56S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "LQ1uDjCpKDC2o533JyPw3r8VQ4o",
+      "id": "aDvLAPUU0g0",
+      "snippet": {
+        "publishedAt": "2024-04-07T07:42:43Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Are you in 2nd or 3rd year and confused to prepare gate or not? #gatecse2023  #exampreparation",
+        "description": "MUST WATCH before preparing for GATE Exam. \n\n1. If in 4th / 6th sem, definitely prepare for GATE Exam\n2. There is NO LOSS\n3. Syllabus is aligned with college syllabus so will help in college exams and will push CGPA\n4. Will help in technical rounds of companies\n5. Can also put GATE exam rank in resume achievements section, gives an impression that you are well versed in the theory\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more. \nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/aDvLAPUU0g0/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/aDvLAPUU0g0/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/aDvLAPUU0g0/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/aDvLAPUU0g0/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/aDvLAPUU0g0/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Are you in 2nd or 3rd year and confused to prepare gate or not? #gatecse2023  #exampreparation",
+          "description": "MUST WATCH before preparing for GATE Exam. \n\n1. If in 4th / 6th sem, definitely prepare for GATE Exam\n2. There is NO LOSS\n3. Syllabus is aligned with college syllabus so will help in college exams and will push CGPA\n4. Will help in technical rounds of companies\n5. Can also put GATE exam rank in resume achievements section, gives an impression that you are well versed in the theory\n\nStay tuned for more tips and tricks on cracking the gate exam.\n\nFollow _bhawwna.tech for more and subscribe to the curious bytes for more. \nUntil next time, stay curious and keep progressing!\n#gatecse #exampreparation #strategy #coding #gateexam #gateexampreparation #gate2025"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT43S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "PYy-no9fi2T47vx1M3_YzCvcotc",
+      "id": "c4rC-X9g5Ow",
+      "snippet": {
+        "publishedAt": "2024-04-05T15:05:32Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "what after gate exam | opportunities through gate exam #gatecs #gate2024  #computerscience",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, Bhawna Chelani shares the possible opportunities after writing a gate exam and getting a good score. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/c4rC-X9g5Ow/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/c4rC-X9g5Ow/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/c4rC-X9g5Ow/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/c4rC-X9g5Ow/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/c4rC-X9g5Ow/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "what after gate exam | opportunities through gate exam #gatecs #gate2024  #computerscience",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, Bhawna Chelani shares the possible opportunities after writing a gate exam and getting a good score. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing."
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT23S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "2CSyx9b-lLxcTd7tyQJwvdsNrKA",
+      "id": "Yvv522r5LR8",
+      "snippet": {
+        "publishedAt": "2024-04-05T14:23:36Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "What is gate exam #gatecs #gate2024 #computerscience",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, Bhawna Chelani talks about what is GATE exam. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/Yvv522r5LR8/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/Yvv522r5LR8/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/Yvv522r5LR8/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/Yvv522r5LR8/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/Yvv522r5LR8/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "What is gate exam #gatecs #gate2024 #computerscience",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, Bhawna Chelani talks about what is GATE exam. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing."
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT39S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "xrVOiJeSq8tmLbfc0FPC5JNUanw",
+      "id": "hXxrPDjhhkk",
+      "snippet": {
+        "publishedAt": "2024-04-03T20:16:54Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "How to not start preparing for gate exam | Common mistakes to avoid",
+        "description": "#gatecs #gate2024 #gatetips #gateprepstrategy \n\nLooking to conquer the GATE exam and secure your future?\u00a0 Don't miss out on essential advice to streamline your preparation journey!\n\u00a0\nIn this video, we uncover the 5 common mistakes many aspirants stumble upon and how you can sidestep them for unparalleled success.\n\u00a0\nFrom balancing subject depth to the importance of consistent revision, we've got you covered. Join us as we dive into practical strategies, insightful tips, and expert guidance to elevate your GATE exam performance to new heights!\n\u00a0\nDon't just study harder, study smarter with our exclusive insights. Watch now and embark on your path to GATE success!\n\nSubscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/hXxrPDjhhkk/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/hXxrPDjhhkk/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/hXxrPDjhhkk/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/hXxrPDjhhkk/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/hXxrPDjhhkk/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "How to not start preparing for gate exam | Common mistakes to avoid",
+          "description": "#gatecs #gate2024 #gatetips #gateprepstrategy \n\nLooking to conquer the GATE exam and secure your future?\u00a0 Don't miss out on essential advice to streamline your preparation journey!\n\u00a0\nIn this video, we uncover the 5 common mistakes many aspirants stumble upon and how you can sidestep them for unparalleled success.\n\u00a0\nFrom balancing subject depth to the importance of consistent revision, we've got you covered. Join us as we dive into practical strategies, insightful tips, and expert guidance to elevate your GATE exam performance to new heights!\n\u00a0\nDon't just study harder, study smarter with our exclusive insights. Watch now and embark on your path to GATE success!\n\nSubscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing."
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT3M43S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "PuQrQtBCfnqTowq9eSg8meKfaOI",
+      "id": "Dj4P7TWkmog",
+      "snippet": {
+        "publishedAt": "2024-03-30T18:56:43Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start Gate | GATE CS | AIR 2 | Bhawna Chelani",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nMy timeline and preparation stategy for GATE : https://youtu.be/dsm3n23Cl5o?si=v8iNoBZVK5OugfmG\nIn this video, we share when to start gate preparation? Should you start preparing for GATE in 1st year? Should you prepare for GATE in second year? What is the best time to prepare for GATE?   Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n00:20 When did I prepare?\n00:36 When to start GATE prep?\n00:50 First year (1st, 2nd and 3rd sem)?\n01:16 Second year (4th sem)\n01:51 Third year (6th sem)\n02:06 Tip if GATE 2024 went bad?\n02:34 Final year student?\n03:23 Final Tip (MUST WATCH)\n03:44 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/Dj4P7TWkmog/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/Dj4P7TWkmog/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/Dj4P7TWkmog/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/Dj4P7TWkmog/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/Dj4P7TWkmog/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start Gate | GATE CS | AIR 2 | Bhawna Chelani",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nMy timeline and preparation stategy for GATE : https://youtu.be/dsm3n23Cl5o?si=v8iNoBZVK5OugfmG\nIn this video, we share when to start gate preparation? Should you start preparing for GATE in 1st year? Should you prepare for GATE in second year? What is the best time to prepare for GATE?   Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n00:20 When did I prepare?\n00:36 When to start GATE prep?\n00:50 First year (1st, 2nd and 3rd sem)?\n01:16 Second year (4th sem)\n01:51 Third year (6th sem)\n02:06 Tip if GATE 2024 went bad?\n02:34 Final year student?\n03:23 Final Tip (MUST WATCH)\n03:44 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT3M58S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "5zGCfExLMft9k1GoI23kQ2ffijI",
+      "id": "ZQ71_ytFKHo",
+      "snippet": {
+        "publishedAt": "2024-03-27T16:45:12Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "What is GATE exam | Is GATE Worth It? Exploring Options After the Exam | GATE CS | AIR 2",
+        "description": "In this video, we answer What is GATE Exam? What After GATE Exam? And Should You Give GATE? Is It Worth It for You? Whether you're pondering on pursuing higher studies, aiming for job opportunities, or contemplating a career change, we've got you covered.\nJoin us as we explore the potential benefits of GATE, from securing prestigious tags to unlocking exciting career prospects.\nRemember to like, comment, and subscribe for more insights on navigating the GATE exam and beyond. Stay curious and keep progressing with Curious Bytes!\n\n#gate #gateexam #gate2025 #gatecs #gate2025preparation #iitbombay #gatetopper \n\n00:00 Introduction\n00:50 What is GATE Exam?\n01:24 What after GATE Exam?\n01:47 Should you give GATE?\n01:59 4th / 6th sem Student\n02:40 Final year Student\n03:08 Job (less than 2 years work experience)\n03:31 Other Department (non CS)\n03:39 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/ZQ71_ytFKHo/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/ZQ71_ytFKHo/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/ZQ71_ytFKHo/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/ZQ71_ytFKHo/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/ZQ71_ytFKHo/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "What is GATE exam | Is GATE Worth It? Exploring Options After the Exam | GATE CS | AIR 2",
+          "description": "In this video, we answer What is GATE Exam? What After GATE Exam? And Should You Give GATE? Is It Worth It for You? Whether you're pondering on pursuing higher studies, aiming for job opportunities, or contemplating a career change, we've got you covered.\nJoin us as we explore the potential benefits of GATE, from securing prestigious tags to unlocking exciting career prospects.\nRemember to like, comment, and subscribe for more insights on navigating the GATE exam and beyond. Stay curious and keep progressing with Curious Bytes!\n\n#gate #gateexam #gate2025 #gatecs #gate2025preparation #iitbombay #gatetopper \n\n00:00 Introduction\n00:50 What is GATE Exam?\n01:24 What after GATE Exam?\n01:47 Should you give GATE?\n01:59 4th / 6th sem Student\n02:40 Final year Student\n03:08 Job (less than 2 years work experience)\n03:31 Other Department (non CS)\n03:39 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT4M21S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "HBhJczaBZjerpoooVfwP7OGRCpo",
+      "id": "rZmcWDhpDiw",
+      "snippet": {
+        "publishedAt": "2024-03-26T11:56:39Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "How to approach test series | GATE CS | AIR 2 | BHAWNA CHELANI",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how to approach subject/multisubject tests and full length tests. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/rZmcWDhpDiw/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/rZmcWDhpDiw/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/rZmcWDhpDiw/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/rZmcWDhpDiw/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/rZmcWDhpDiw/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "How to approach test series | GATE CS | AIR 2 | BHAWNA CHELANI",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how to approach subject/multisubject tests and full length tests. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT25S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "AWvGlVbvMemHJsFdxliN7xWwZrQ",
+      "id": "9Y2Gs0w62vc",
+      "snippet": {
+        "publishedAt": "2024-03-26T11:57:40Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "When to start full length tests | GATE CS | AIR 2 | BHAWNA CHELANI",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share what is the best time to start full length tests. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/9Y2Gs0w62vc/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/9Y2Gs0w62vc/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/9Y2Gs0w62vc/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/9Y2Gs0w62vc/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/9Y2Gs0w62vc/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "When to start full length tests | GATE CS | AIR 2 | BHAWNA CHELANI",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share what is the best time to start full length tests. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT35S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "W_9DrackNmTh6btCi3WSFRG_zdg",
+      "id": "61FD1SO-b3E",
+      "snippet": {
+        "publishedAt": "2024-03-26T11:15:55Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "How to study each subject for GATE exam | GATE CS | AIR 2 | BHAWNA CHELANI",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how to approach each subject. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/61FD1SO-b3E/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/61FD1SO-b3E/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/61FD1SO-b3E/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/61FD1SO-b3E/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/61FD1SO-b3E/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "How to study each subject for GATE exam | GATE CS | AIR 2 | BHAWNA CHELANI",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how to approach each subject. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\nFull Video: https://www.youtube.com/watch?v=dsm3n23Cl5o&t=5s"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT44S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "2NydoBAuOa3I2DuADbXwxAMiekk",
+      "id": "dsm3n23Cl5o",
+      "snippet": {
+        "publishedAt": "2024-03-23T17:56:50Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "How I got AIR 2 in GATE CS | My Gate Journey",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how Bhawna Chelani cracked the GATE CS exam and got AIR 2. We walk you through GATE exam preparation strategy and how to crack GATE exam in first attempt, study plan, and tips for managing your time effectively. Whether you're new to GATE or looking to improve your score, this video has got you covered. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n00:12 Future Videos\n00:36 My Journey\n00:55 Syllabus Completion\n01:43 Full Length Tests\n02:13 Revision Strategy\n02:38 Last Month Strategy\n02:54 Wrap up",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/dsm3n23Cl5o/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/dsm3n23Cl5o/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/dsm3n23Cl5o/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/dsm3n23Cl5o/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/dsm3n23Cl5o/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "categoryId": "22",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "title": "How I got AIR 2 in GATE CS | My Gate Journey",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we share how Bhawna Chelani cracked the GATE CS exam and got AIR 2. We walk you through GATE exam preparation strategy and how to crack GATE exam in first attempt, study plan, and tips for managing your time effectively. Whether you're new to GATE or looking to improve your score, this video has got you covered. Subscribe for more tips and tricks on cracking the GATE exam. Until next time, stay curious and keep progressing.\n\n00:00 Introduction\n00:12 Future Videos\n00:36 My Journey\n00:55 Syllabus Completion\n01:43 Full Length Tests\n02:13 Revision Strategy\n02:38 Last Month Strategy\n02:54 Wrap up"
+        }
+      },
+      "contentDetails": {
+        "duration": "PT3M20S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    }
+  ],
+  "pageInfo": {
+    "totalResults": 36,
+    "resultsPerPage": 36
+  }
+}

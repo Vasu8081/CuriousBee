@@ -16,7 +16,7 @@ services:
 
   curiousbytes-backend:
     build:
-      context: ./backend
+      context: ./server
     container_name: curiousbytes-backend
     restart: always
     environment:

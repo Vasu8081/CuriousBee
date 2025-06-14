@@ -1,28 +1,16 @@
 import os
 import json
 import argparse
-import re
-from typing import List, Dict
-
 import httpx
 from sqlalchemy.orm import Session
-
-from app.db.session import SessionLocal
-from app.db.crud import upsert_video, video_exists
-from app.schemas.youtube import YouTubeVideoCreate
+from app.db.session import SessionLocal, get_db
+from app.autogen.models.youtube import Youtube
 
 # --------- Constants ---------
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 CHANNEL_ID = os.getenv("YOUTUBE_CHANNEL_ID")
 DEFAULT_LIMIT = 10
 DEFAULT_SAVE_PATH = "youtube_data.json"
-
-
-# --------- Utility ---------
-def extract_named_links(description: str) -> List[Dict[str, str]]:
-    """Extract labeled URLs like 'Docs: https://example.com' from text."""
-    pattern = re.compile(r'^\s*(?P<label>[^:\n]+?)\s*:\s*(?P<url>https?://\S+)', re.MULTILINE)
-    return [{"label": label.strip(), "url": url.strip()} for label, url in pattern.findall(description or "")]
 
 import isodate
 
@@ -81,7 +69,7 @@ def fetch_youtube_data(limit: int = DEFAULT_LIMIT) -> dict:
 
 
 # --------- Populate DB from YouTube Data ---------
-def populate_from_json(data: dict, db: Session):
+def populate_db_from_json(data: dict, db: Session):
     items = data.get("items", [])
     print(f"Processing {len(items)} videos...")
 
@@ -99,23 +87,26 @@ def populate_from_json(data: dict, db: Session):
         is_video = not is_probably_short(duration_seconds)
         print(snippet.get("title", ""), duration_seconds, is_video)
         # Build the video schema
-        video_data = YouTubeVideoCreate(
-            video_id=video_id,
-            title=snippet.get("title", ""),
-            description=snippet.get("description", ""),
-            published_at=snippet.get("publishedAt", ""),
-            thumbnails=snippet.get("thumbnails", {}),
-            localized=snippet.get("localized"),
-            channel_id=snippet.get("channelId", ""),
-            channel_title=snippet.get("channelTitle", ""),
-            resources=extract_named_links(snippet.get("description", "")),
-            raw_snippet=snippet,
-            is_video = is_video
-        )
-
-        # Always upsert (insert or update)
-        upsert_video(db, video_data)
-        print(f"🔄 Upserted video: {video_id}")
+        if is_video:
+            video = Youtube(
+                video_id=video_id,
+                title=snippet.get("title", ""),
+                description=snippet.get("description", ""),
+                published_at=snippet.get("publishedAt", ""),
+                thumbnails=snippet.get("thumbnails", {}),
+                localized=snippet.get("localized"),
+                channel_id=snippet.get("channelId", ""),
+                channel_title=snippet.get("channelTitle", ""),
+                raw_snippet=snippet,
+                is_video=is_video
+            )
+            # Upsert the video into the database
+            video = db.merge(video)
+            db.commit()
+            db.refresh(video)
+            print(f"🔄 Upserted video: {video_id}")
+        else:
+            print(f"Skipping short video: {video_id} ({snippet.get('title', '')})")
 
 # --------- Main CLI ---------
 def main():
@@ -125,8 +116,7 @@ def main():
     parser.add_argument('--save', action='store_true', help='Save fetched YouTube data to a local file')
 
     args = parser.parse_args()
-    db = SessionLocal()
-
+    db = next(get_db())
     try:
         if args.json:
             print(f"Loading data from JSON: {args.json}")
@@ -139,7 +129,7 @@ def main():
                     json.dump(data, f, indent=2)
                 print(f"📁 Saved API data to {DEFAULT_SAVE_PATH}")
 
-        populate_from_json(data, db)
+        populate_db_from_json(data, db)
 
     finally:
         db.close()

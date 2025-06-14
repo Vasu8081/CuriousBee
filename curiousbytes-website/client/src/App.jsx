@@ -4,9 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Videos from "./pages/Videos";
-import GatePrep from "./pages/GatePrep";
-import Interviews from "./pages/Interviews";
-import KeyPoints from "./pages/KeyPoints";
+import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 
 if (!localStorage.getItem("theme")) {
@@ -22,9 +20,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/videos" element={<Videos />} />
-            <Route path="/gate" element={<GatePrep />} />
-            <Route path="/interviews" element={<Interviews />} />
-            <Route path="/keypoints" element={<KeyPoints />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/blog" element={<Blog />} />
           </Routes>
         </main>

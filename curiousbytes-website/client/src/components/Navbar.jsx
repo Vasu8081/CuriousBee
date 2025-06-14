@@ -6,9 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Videos", path: "/videos" },
-  { name: "Key Points", path: "/keypoints" },  // 🔥 Added this line
-  { name: "GATE Prep", path: "/gate" },
-  { name: "Interviews", path: "/interviews" },
+  { name: "Resources", path: "/resources" },
   { name: "Blog", path: "/blog" },
 ];
 
@@ -29,9 +27,6 @@ export default function Navbar() {
             alt="Curious Bytes"
             className="h-12 sm:h-14 w-auto hidden dark:block"
           />
-          <span className="text-2xl font-bold text-indigo-600 dark:text-white ml-2">
-            CuriousBytes
-          </span>
         </Link>
 
         <div className="md:hidden flex items-center space-x-2">

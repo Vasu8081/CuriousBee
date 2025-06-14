@@ -7,5 +7,26 @@
     [
       "CREDIT_CARD_ACCOUNT"
     ]
+  ],
+  "category_types": [
+    [
+      "SHOPPING"
+    ],
+    [
+      "GROCERIES",
+      "DEFAULT"
+    ],
+    [
+      "FOOD_ORDERS"
+    ],
+    [
+      "DINE_OUT"
+    ],
+    [
+      "DAILY_TRAVEL"
+    ],
+    [
+      "TRAVEL"
+    ]
   ]
 }

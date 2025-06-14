@@ -1,30 +1,20 @@
 import SwiftUI
 
 struct BankAccountFormView: View {
-    @EnvironmentObject var viewModel: UserViewModel
-
-    @State private var account = BankAccount()
+    @State private var bankAccount = BankAccount()
 
     var body: some View {
-        Form {
-            Section(header: Text("Bank Account Details")) {
-                TextField("Account Number", text: Binding(
-                    get: { account.account_number ?? "" },
-                    set: { account.account_number = $0 }
-                ))
-                .keyboardType(.numberPad)
+        VStack {
+            Text("Bank Account Form")
+                .font(.headline)
 
-                TextField("IFSC Code", text: Binding(
-                    get: { account.ifsc_code ?? "" },
-                    set: { account.ifsc_code = $0 }
-                ))
-                .autocapitalization(.allCharacters)
-            }
+            GenericFormBuilder(model: $bankAccount)
 
-            Button("Save Account") {
-                viewModel.createAccount(account: account, type: .BankAccount)
+            Button("Submit") {
+                print("Submitted model:", bankAccount)
             }
+            .padding()
         }
-        .navigationTitle("Add Bank Account")
+        .padding()
     }
 }

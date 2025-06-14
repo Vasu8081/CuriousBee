@@ -2,7 +2,9 @@ import Foundation
 
 class UserViewModel: ObservableObject {
     @Published var accountViewModels: [UUID: AccountsViewModel] = [:]
+    @Published var transactionsViewModels: [UUID: TransactionsViewModel] = [:]
     var accounts: [UUID: any Account] = [:]
+    var transactions: [UUID: TransactionDetails] = [:]
 
     init() {}
 
@@ -32,18 +34,40 @@ class UserViewModel: ObservableObject {
                 print("❌ Failed to fetch accounts entries: \(error)")
             }
         }
+        
+        ServerEndPoints.shared.getAllTransactions { result in
+            switch result {
+            case .success(let entries):
+                DispatchQueue.main.async {
+                    for entry in entries {
+                        guard let id = entry.id else { continue }
+
+                        let viewModel = TransactionsViewModel(model: entry)
+                        self.transactionsViewModels[id] = viewModel
+                        guard let decrypted = viewModel.transaction_details else {
+                            continue
+                        }
+
+                        if let transaction_details = try? JSONDecoder().decode(TransactionDetails.self, from: decrypted) {
+                            self.transactions[id] = transaction_details
+                        } else {
+                            print("❌ Failed to decode transactions for ID \(id)")
+                        }
+                    }
+                }
+            case .failure(let error):
+                print("❌ Failed to fetch transaction entries: \(error)")
+            }
+        }
     }
     
 
     func createAccount(account: any Account, type: AccountTypes) {
-        // 1. Encode and encrypt the account
         guard let encoded = try? JSONEncoder().encode(account),
               let encrypted = encoded.encrypt() else {
             print("❌ Failed to encode/encrypt account")
             return
         }
-
-        // 2. Create base model
         let newID = UUID()
         let model = Accounts(
             id: newID,
@@ -51,12 +75,28 @@ class UserViewModel: ObservableObject {
             type: type,
             account_data: encrypted
         )
-
-        // 3. Create and save ViewModel
         let viewModel = AccountsViewModel(model: model)
         self.accountViewModels[newID] = viewModel
         self.accounts[newID] = account
-
+        viewModel.save()
+    }
+    
+    func createTransaction(from_account: any Account, to_account: any Account, transaction_details: TransactionDetails, category: CategoryTypes) {
+        guard let encoded = try? JSONEncoder().encode(transaction_details),
+              let encrypted = encoded.encrypt() else {
+            print("❌ Failed to encode/encrypt account")
+            return
+        }
+        let newID = UUID()
+        let model = Transactions(
+            id: newID,
+            from_account_id: from_account.id,
+            to_account_id: to_account.id,
+            type: category, transaction_details: encrypted
+        )
+        let viewModel = TransactionsViewModel(model: model)
+        self.transactionsViewModels[newID] = viewModel
+        self.transactions[newID] = transaction_details
         viewModel.save()
     }
     
@@ -69,7 +109,6 @@ class UserViewModel: ObservableObject {
             print("❌ Missing or invalid data for id: \(id)")
             return
         }
-
         viewModel.account_data = encrypted
         viewModel.save()
     }

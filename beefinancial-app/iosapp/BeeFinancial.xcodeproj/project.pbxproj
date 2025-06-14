@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5619DB7F2DFCBA8A0059D69D /* DynamicFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5619DB7E2DFCBA8A0059D69D /* DynamicFieldView.swift */; };
 		5658A5CF2DFBC81900E887CC /* LoginEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CA2DFBC81900E887CC /* LoginEndPoints.swift */; };
 		5658A5D02DFBC81900E887CC /* ServerEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */; };
 		5658A5D12DFBC81900E887CC /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5658A5CD2DFBC81900E887CC /* ToastManager.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5619DB7E2DFCBA8A0059D69D /* DynamicFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFieldView.swift; sourceTree = "<group>"; };
 		5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
 		5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		5658A5C02DFBC81900E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		5658A5CE2DFBC81900E887CC /* iosapp-commons */ = {
 			isa = PBXGroup;
 			children = (
+				5619DB7E2DFCBA8A0059D69D /* DynamicFieldView.swift */,
 				5658A5BF2DFBC81900E887CC /* Authenticate */,
 				5658A5C42DFBC81900E887CC /* Notifications */,
 				5658A5C52DFBC81900E887CC /* AppDelegate.swift */,
@@ -205,6 +208,7 @@
 				5658A5D52DFBC81900E887CC /* StartView.swift in Sources */,
 				5658A5D62DFBC81900E887CC /* LoginViewForm.swift in Sources */,
 				5658A5D72DFBC81900E887CC /* NotificationTrackerViewModel.swift in Sources */,
+				5619DB7F2DFCBA8A0059D69D /* DynamicFieldView.swift in Sources */,
 				5658A5D82DFBC81900E887CC /* AuthenticateViewModel.swift in Sources */,
 				5658A5D92DFBC81900E887CC /* DeviceTokenEndpoints.swift in Sources */,
 				5658A5DA2DFBC81900E887CC /* BeeCodableModel.swift in Sources */,

@@ -1,4 +1,24 @@
 {
+  "transaction_details": {
+    "parents": [],
+    "fields": [
+      [
+        "id",
+        "UUID",
+        ""
+      ],
+      [
+        "transaction_date",
+        "DATE",
+        "Transaction Date"
+      ],
+      [
+        "amount",
+        "FLOAT",
+        "Amount"
+      ]
+    ]
+  },
   "bank_account": {
     "parents": [
       "account"
@@ -7,17 +27,17 @@
       [
         "id",
         "UUID",
-        []
+        ""
       ],
       [
         "account_number",
         "TEXT",
-        []
+        "Account Number"
       ],
       [
         "ifsc_code",
         "TEXT",
-        []
+        "IFSC Code"
       ]
     ]
   },
@@ -29,17 +49,17 @@
       [
         "id",
         "UUID",
-        []
+        ""
       ],
       [
         "credit_card_number",
         "TEXT",
-        []
+        "Credit Card Number"
       ],
       [
         "cvv",
         "TEXT",
-        []
+        "Security Code(CVV)"
       ]
     ]
   }

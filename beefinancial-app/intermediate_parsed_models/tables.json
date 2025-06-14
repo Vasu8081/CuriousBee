@@ -60,5 +60,35 @@
       "BYTEA",
       []
     ]
+  ],
+  "transactions": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "from_account_id",
+      "UUID",
+      []
+    ],
+    [
+      "to_account_id",
+      "UUID",
+      []
+    ],
+    [
+      "type",
+      "category_types",
+      []
+    ],
+    [
+      "transaction_details",
+      "BYTEA",
+      []
+    ]
   ]
 }

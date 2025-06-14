@@ -33,7 +33,7 @@ def generate_swift_models(build_dir: str, output_dir: str):
             ef.write(f"    static var `default`: {to_pascal(enum_name)}? {{\n")
             ef.write(f"        return {to_pascal(enum_name)}.{to_pascal(default_value)}\n")
             ef.write("    }\n")
-        ef.write("}\n")
+            ef.write("}\n\n")
         print(f"✅ Generated Swift enums: {enums_file}")
 
     for table, cols in tables.items():

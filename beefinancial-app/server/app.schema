@@ -20,8 +20,8 @@ Table accounts {
 }
 
 Enum category_types {
-    SHOPPING
-    GROCERIES
+    SHOPPING 
+    GROCERIES DEFAULT
     FOOD_ORDERS
     DINE_OUT
     DAILY_TRAVEL
@@ -44,14 +44,20 @@ Protocol account {
     id UUID
 }
 
+Model transaction_details {
+    id;UUID;NOFORM;
+    transaction_date;DATE;Transaction Date;
+    amount;FLOAT;Amount;
+}
+
 Model bank_account : account {
-    id UUID
-    account_number TEXT
-    ifsc_code TEXT
+    id;UUID;NOFORM;
+    account_number;TEXT;Account Number;
+    ifsc_code;TEXT;IFSC Code;
 }
 
 Model credit_card_account : account {
-    id UUID
-    credit_card_number TEXT
-    cvv TEXT
+    id;UUID;NOFORM;
+    credit_card_number;TEXT;Credit Card Number;
+    cvv;TEXT;Security Code(CVV);
 }

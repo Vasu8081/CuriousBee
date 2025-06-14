@@ -10,5 +10,27 @@
       "left_field": "user",
       "right_field": "accounts"
     }
+  ],
+  "accounts": [
+    {
+      "src_table": "transactions",
+      "src_col": "from_account_id",
+      "tgt_table": "accounts",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "from_account",
+      "right_field": "expenses"
+    },
+    {
+      "src_table": "transactions",
+      "src_col": "to_account_id",
+      "tgt_table": "accounts",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "to_account",
+      "right_field": "incomes"
+    }
   ]
 }

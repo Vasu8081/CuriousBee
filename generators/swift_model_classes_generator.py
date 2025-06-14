@@ -8,6 +8,21 @@ swift_type_map = {
     "BYTEA": "Data", "BYTEA[]": "[Data]", "JSON": "String", "JSONB": "String",
 }
 
+swift_default_values = {
+    "UUID": "UUID()",
+    "TEXT": '""',
+    "DATE": "Date()",
+    "TIME": "Date()",
+    "TIMESTAMP": "Date()",
+    "INTEGER": "0",
+    "FLOAT": "0.0",
+    "BOOLEAN": "false",
+    "BYTEA": "Data()",
+    "BYTEA[]": "[]",
+    "JSON": '""',
+    "JSONB": '""',
+}
+
 def to_pascal(name):
     return ''.join(w.capitalize() for w in name.split('_'))
 
@@ -36,7 +51,7 @@ def generate_models_and_collect_factory_data(models: dict, output_path: Path):
         parents = content.get("parents", [])
         fields = content.get("fields", [])
 
-        conformance = ", ".join([to_pascal(p) for p in parents] + ["Codable", "Hashable"])
+        conformance = ", ".join([to_pascal(p) for p in parents] + ["Codable", "Hashable", "DisplayableModel"])
 
         # Collect model for factory generation per protocol
         for p in parents:
@@ -48,12 +63,24 @@ def generate_models_and_collect_factory_data(models: dict, output_path: Path):
             f.write(f"struct {struct_name}: {conformance} {{\n")
 
             for field in fields:
-                name, typ, mods = field if len(field) == 3 else (*field, [])
+                name, typ, mods = field
                 if name == "id":
                     f.write("    var id: UUID = UUID()\n")
                     continue
                 swift_type = swift_type_map.get(typ.upper(), "String")
-                f.write(f"    var {name}: {swift_type}?\n")
+                f.write(f"    var {name}: {swift_type} = {swift_default_values.get(typ.upper(), '')}\n\n")
+
+            f.write(f"    func getDisplayNames() -> [String: DisplayFieldInfo] {{\n")
+            f.write(f"        return [\n")
+            for field in fields:
+                name, typ, mods = field
+                swift_type = swift_type_map.get(typ.upper(), "String")
+                if mods != "":
+                    display_name = mods
+                    f.write(f"            \"{name}\" : DisplayFieldInfo(label: \"{display_name}\", type: \"{swift_type}\"),\n")
+            f.write("        ]\n")
+            f.write("    }\n\n")
+                    
 
             f.write("}\n")
 

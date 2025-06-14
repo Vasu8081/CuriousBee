@@ -40,7 +40,10 @@ def parse_schema(schema_text):
             parts = line.split()
             if len(parts) >= 2:
                 current_model = parts[1]
-                models[current_model] = {"parents": [parts[3]], "fields": []}
+                if len(parts) > 3:
+                    models[current_model] = {"parents": [parts[3]], "fields": []}
+                else:
+                    models[current_model] = {"parents": [], "fields": []}
             continue
 
         if line.startswith("Protocol"):
@@ -97,11 +100,14 @@ def parse_schema(schema_text):
             else:
                 enums[current_enum].append([parts[0]])
         elif current_model:
-            parts = line.split()
+            parts = line.split(";")
             model_property = parts[0]
             model_type = parts[1]
-            modifiers = parts[2:] if len(parts) > 2 else []
-            models[current_model]["fields"].append((model_property, model_type, modifiers))
+            if parts[2] == "NOFORM":
+                display_name = ""
+            else:
+                display_name = parts[2]
+            models[current_model]["fields"].append((model_property, model_type, display_name))
         elif current_protocol:
             parts = line.split()
             protocol_method = parts[0]

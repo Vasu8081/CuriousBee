@@ -30,6 +30,11 @@
         ""
       ],
       [
+        "name",
+        "TEXT",
+        "Account Name"
+      ],
+      [
         "account_number",
         "TEXT",
         "Account Number"
@@ -38,6 +43,11 @@
         "ifsc_code",
         "TEXT",
         "IFSC Code"
+      ],
+      [
+        "portfolio_value",
+        "FLOAT",
+        ""
       ]
     ]
   },
@@ -52,6 +62,11 @@
         ""
       ],
       [
+        "name",
+        "TEXT",
+        "Card Name"
+      ],
+      [
         "credit_card_number",
         "TEXT",
         "Credit Card Number"
@@ -60,6 +75,11 @@
         "cvv",
         "TEXT",
         "Security Code(CVV)"
+      ],
+      [
+        "portfolio_value",
+        "FLOAT",
+        ""
       ]
     ]
   }

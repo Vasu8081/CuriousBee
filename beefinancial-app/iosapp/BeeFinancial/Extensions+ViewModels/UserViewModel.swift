@@ -22,8 +22,8 @@ class UserViewModel: ObservableObject {
                               let decrypted = viewModel.account_data else {
                             continue
                         }
-
-                        if let account = AccountFactory.create(from: decrypted, type: accountType) {
+                        
+                        if let account = AccountFactory.create(from: decrypted, type: accountType, id: id) {
                             self.accounts[id] = account
                         } else {
                             print("❌ Failed to decode account for ID \(id)")
@@ -102,7 +102,6 @@ class UserViewModel: ObservableObject {
     
     func saveAccount(id: UUID) {
         guard let viewModel = accountViewModels[id],
-              let type = viewModel.type,
               let account = accounts[id],
               let encoded = try? JSONEncoder().encode(account),
               let encrypted = encoded.encrypt() else {

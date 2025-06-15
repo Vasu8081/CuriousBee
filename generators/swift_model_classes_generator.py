@@ -51,36 +51,53 @@ def generate_models_and_collect_factory_data(models: dict, output_path: Path):
         parents = content.get("parents", [])
         fields = content.get("fields", [])
 
-        conformance = ", ".join([to_pascal(p) for p in parents] + ["Codable", "Hashable", "DisplayableModel"])
-
-        # Collect model for factory generation per protocol
-        for p in parents:
-            protocol_to_models[p].append((struct_name, model_key))  # (SwiftName, raw key)
-
+        conformances = ", ".join([to_pascal(p) for p in parents] + ["Codable", "Hashable", "DisplayableModel"])
         file_path = output_path / f"{struct_name}.swift"
+
+        # Track models for each protocol
+        for parent in parents:
+            protocol_to_models[parent].append((struct_name, model_key))
+
         with open(file_path, 'w') as f:
             f.write("import Foundation\n\n")
-            f.write(f"struct {struct_name}: {conformance} {{\n")
+            f.write(f"struct {struct_name}: {conformances} {{\n")
 
-            for field in fields:
-                name, typ, mods = field
+            for name, typ, mods in fields:
                 if name == "id":
                     f.write("    var id: UUID = UUID()\n")
                     continue
                 swift_type = swift_type_map.get(typ.upper(), "String")
-                f.write(f"    var {name}: {swift_type} = {swift_default_values.get(typ.upper(), '')}\n\n")
+                default_value = swift_default_values.get(typ.upper(), "")
+                f.write(f"    var {name}: {swift_type} = {default_value}\n")
 
-            f.write(f"    func getDisplayNames() -> [String: DisplayFieldInfo] {{\n")
-            f.write(f"        return [\n")
-            for field in fields:
-                name, typ, mods = field
-                swift_type = swift_type_map.get(typ.upper(), "String")
-                if mods != "":
-                    display_name = mods
-                    f.write(f"            \"{name}\" : DisplayFieldInfo(label: \"{display_name}\", type: \"{swift_type}\"),\n")
-            f.write("        ]\n")
+            f.write("\n")
+            f.write("    enum CodingKeys: String, CodingKey {\n")
+            for name, _, _ in fields:
+                f.write(f"        case {name}\n")
             f.write("    }\n\n")
-                    
+
+            f.write("    init(from decoder: Decoder) throws {\n")
+            f.write("        let container = try decoder.container(keyedBy: CodingKeys.self)\n")
+            for name, typ, _ in fields:
+                if name == "id":
+                    f.write(f"        self.{name} = try container.decodeIfPresent(UUID.self, forKey: .{name}) ?? UUID()\n")
+                    continue
+                swift_type = swift_type_map.get(typ.upper(), "String")
+                default_value = swift_default_values.get(typ.upper(), "")
+                f.write(f"        self.{name} = try container.decodeIfPresent({swift_type}.self, forKey: .{name}) ?? {default_value}\n")
+            f.write("    }\n\n")
+
+            f.write("    init() {\n")
+            f.write("    }\n\n")
+
+            f.write("    func getDisplayNames() -> [String: DisplayFieldInfo] {\n")
+            f.write("        return [\n")
+            for name, typ, mods in fields:
+                if mods.strip():
+                    swift_type = swift_type_map.get(typ.upper(), "String")
+                    f.write(f"            \"{name}\": DisplayFieldInfo(label: \"{mods}\", type: \"{swift_type}\"),\n")
+            f.write("        ]\n")
+            f.write("    }\n")
 
             f.write("}\n")
 
@@ -96,12 +113,20 @@ def generate_protocol_factory(protocol_name, models, output_path: Path):
     with open(file_path, 'w') as f:
         f.write("import Foundation\n\n")
         f.write(f"enum {factory_name} {{\n")
-        f.write(f"    static func create(from data: Data, type: {enum_name}) -> (any {to_pascal(protocol_name)})? {{\n")
+        f.write(f"    static func create(from data: Data, type: {enum_name}, id: UUID) -> (any {to_pascal(protocol_name)})? {{\n")
         f.write("        switch type {\n")
 
         for struct_name, case_name in models:
-            f.write(f"        case .{to_enum_name(case_name)}:\n")
-            f.write(f"            return try? JSONDecoder().decode({struct_name}.self, from: data)\n")
+            enum_case = to_enum_name(case_name)
+            f.write(f"        case .{enum_case}:\n")
+            f.write(f"            do {{\n")
+            f.write(f"                var account = try JSONDecoder().decode({struct_name}.self, from: data)\n")
+            f.write(f"                account.id = id\n")
+            f.write(f"                return account\n")
+            f.write(f"            }} catch {{\n")
+            f.write(f"                print(\"❌ Failed to decode {struct_name}:\", error)\n")
+            f.write(f"            }}\n")
+            f.write(f"            return nil\n")
 
         f.write("        }\n")
         f.write("    }\n")

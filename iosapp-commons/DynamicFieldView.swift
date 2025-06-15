@@ -12,24 +12,21 @@ protocol DisplayableModel: Identifiable, Codable, Hashable {
 
 struct GenericFormBuilder<T: DisplayableModel>: View {
     @Binding var model: T
-    @State private var dynamicStorage: [String: Any] = [:]
+    @Binding var storage: [String: Any]
     private var displayNames: [String: DisplayFieldInfo] = [:]
 
-    init(model: Binding<T>) {
+    init(model: Binding<T>, storage: Binding<[String: Any]>) {
         self._model = model
+        self._storage = storage
         self.displayNames = model.wrappedValue.getDisplayNames()
     }
 
     var body: some View {
         Form {
             ForEach(Array(displayNames.keys), id: \.self) { key in
-                if let field = displayNames[key], let value = dynamicStorage[key] {
-                    DynamicFieldView(label: field.label, value: value, storage: $dynamicStorage, key: key)
+                if let field = displayNames[key], let value = storage[key] {
+                    DynamicFieldView(label: field.label, value: value, storage: $storage, key: key)
                 }
-            }
-
-            Button("Submit") {
-                applyChanges()
             }
         }
         .onAppear {
@@ -40,19 +37,10 @@ struct GenericFormBuilder<T: DisplayableModel>: View {
     private func initializeStorage() {
         guard let data = try? JSONEncoder().encode(model),
               let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            print("\u{274C} Failed to encode model")
+            print("❌ Failed to encode model")
             return
         }
-        dynamicStorage = dict
-    }
-
-    private func applyChanges() {
-        guard let data = try? JSONSerialization.data(withJSONObject: dynamicStorage),
-              let updatedModel = try? JSONDecoder().decode(T.self, from: data) else {
-            print("\u{274C} Failed to decode model from form data")
-            return
-        }
-        model = updatedModel
+        storage = dict
     }
 }
 

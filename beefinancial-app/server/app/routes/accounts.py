@@ -33,12 +33,12 @@ def create_account(
     email: str = Depends(get_current_user_email),
     db: Session = Depends(get_db)
 ):
-    print(f"Creating account with ID: {user_id}")
+    print(f"Creating account with ID: {user_id}, accountsSchema: {accountsSchema}")
     user = db.query(Users).filter(Users.__table__.c.email == email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    existing_account = db.query(Users).filter(Users.__table__.c.id == user_id).first()
+    existing_account = db.query(Accounts).filter(Accounts.__table__.c.id == accountsSchema.id).first()
     if existing_account:
         updated = accountsSchema.to_model()
         updated.id = existing_account.Id
@@ -53,3 +53,23 @@ def create_account(
     db.refresh(new_account if not existing_account else updated)
     
     return (new_account if not existing_account else updated).to_schema()
+
+@router.delete("/{account_id}")
+def delete_account(
+    account_id: uuid.UUID,
+    email: str = Depends(get_current_user_email),
+    db: Session = Depends(get_db)
+):
+    print(f"Deleting account with ID: {account_id}")
+    user = db.query(Users).filter(Users.__table__.c.email == email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    account = db.query(Accounts).filter(Accounts.__table__.c.id == account_id, Accounts.__table__.c.user_id == user.id).first()
+    if not account:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Account not found")
+
+    db.delete(account)
+    db.commit()
+    
+    return {"detail": "Account deleted successfully"}

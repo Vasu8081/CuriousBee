@@ -3,6 +3,14 @@
     [
       "id",
       "UUID"
+    ],
+    [
+      "name",
+      "TEXT"
+    ],
+    [
+      "portfolio_value",
+      "FLOAT"
     ]
   ]
 }

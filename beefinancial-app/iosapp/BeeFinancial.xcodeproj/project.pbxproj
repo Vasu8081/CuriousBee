@@ -26,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		5619DB7E2DFCBA8A0059D69D /* DynamicFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFieldView.swift; sourceTree = "<group>"; };
+		5619DB802DFE193A0059D69D /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeeFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5658A5BC2DFBC81900E887CC /* LoginViewForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewForm.swift; sourceTree = "<group>"; };
 		5658A5BE2DFBC81900E887CC /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		5658A5C02DFBC81900E887CC /* NotificationBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellView.swift; sourceTree = "<group>"; };
@@ -40,7 +41,6 @@
 		5658A5CB2DFBC81900E887CC /* ServerEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEndPoints.swift; sourceTree = "<group>"; };
 		5658A5CC2DFBC81900E887CC /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		5658A5CD2DFBC81900E887CC /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
-		56A558162DE55AD600307193 /* BeeFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BeeFinance.app; path = "/Users/vasudhanvarma/Documents/CuriousBee/beefinancial-app/iosapp/build/Debug-iphoneos/BeeFinance.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -122,6 +122,7 @@
 			children = (
 				5619DA712DFC01D30059D69D /* BeeFinancial */,
 				5658A5CE2DFBC81900E887CC /* iosapp-commons */,
+				5619DB802DFE193A0059D69D /* BeeFinance.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,7 +148,7 @@
 			packageProductDependencies = (
 			);
 			productName = FinanceManager;
-			productReference = 56A558162DE55AD600307193 /* BeeFinance.app */;
+			productReference = 5619DB802DFE193A0059D69D /* BeeFinance.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

@@ -30,6 +30,7 @@ Enum category_types {
 
 Table transactions {
     id UUID [primary key]
+    user_id UUID
     from_account_id UUID
     to_account_id UUID
     type category_types
@@ -37,11 +38,14 @@ Table transactions {
 }
 
 FK accounts.user_id as user -> users.id as accounts [many_to_one] [refer_right]
+FK transactions.user_id as user -> users.id as transactions [many_to_one] [refer_right]
 FK transactions.from_account_id as from_account -> accounts.id as expenses [many_to_one] [refer_right]
 FK transactions.to_account_id as to_account -> accounts.id as incomes [many_to_one] [refer_right]
 
 Protocol account {
     id UUID
+    name TEXT
+    portfolio_value FLOAT
 }
 
 Model transaction_details {
@@ -52,12 +56,16 @@ Model transaction_details {
 
 Model bank_account : account {
     id;UUID;NOFORM;
+    name;TEXT;Account Name;
     account_number;TEXT;Account Number;
     ifsc_code;TEXT;IFSC Code;
+    portfolio_value;FLOAT;NOFORM
 }
 
 Model credit_card_account : account {
     id;UUID;NOFORM;
+    name;TEXT;Card Name;
     credit_card_number;TEXT;Credit Card Number;
     cvv;TEXT;Security Code(CVV);
+    portfolio_value;FLOAT;NOFORM
 }

@@ -71,6 +71,11 @@
       ]
     ],
     [
+      "user_id",
+      "UUID",
+      []
+    ],
+    [
       "from_account_id",
       "UUID",
       []

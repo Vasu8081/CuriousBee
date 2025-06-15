@@ -111,7 +111,8 @@ def generate_alembic_models(build_dir: str, output_dir: str):
                 else:
                     uselist = "uselist=True"
                 back_pop = f"back_populates='{fk['right_field']}'"
-                f.write(f"    {field_name} = relationship('{tgt_class}', {uselist}, {back_pop})\n")
+                foreign_keys = f"foreign_keys=[{fk['src_col']}]"
+                f.write(f"    {field_name} = relationship('{tgt_class}', {uselist}, {back_pop}, {foreign_keys})\n")
 
             for rfk in reverse_fks.get(table, []):
                 rel_type = rfk["type"]
@@ -126,7 +127,8 @@ def generate_alembic_models(build_dir: str, output_dir: str):
                 else:
                     uselist = "uselist=True"
                 back_pop = f"back_populates='{rfk['left_field']}'"
-                f.write(f"    {field_name} = relationship('{src_class}', {uselist}, {back_pop})\n")
+                foreign_keys = f"foreign_keys='{to_pascal(rfk['src_table'])}.{rfk['src_col']}'"
+                f.write(f"    {field_name} = relationship('{src_class}', {uselist}, {back_pop}, {foreign_keys})\n")
 
             f.write("\n")
             for col_name, col_type, _ in columns:

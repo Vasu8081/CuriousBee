@@ -14,6 +14,16 @@
   "transactions": [
     {
       "src_table": "transactions",
+      "src_col": "user_id",
+      "tgt_table": "users",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "user",
+      "right_field": "transactions"
+    },
+    {
+      "src_table": "transactions",
       "src_col": "from_account_id",
       "tgt_table": "accounts",
       "tgt_col": "id",

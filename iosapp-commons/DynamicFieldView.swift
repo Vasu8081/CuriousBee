@@ -35,6 +35,7 @@ struct GenericFormBuilder<T: DisplayableModel>: View {
     }
 
     private func initializeStorage() {
+        guard storage.isEmpty else { return }  // prevent overwriting existing storage
         guard let data = try? JSONEncoder().encode(model),
               let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
             print("❌ Failed to encode model")

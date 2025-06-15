@@ -1,9 +1,14 @@
 import SwiftUI
+struct AccountIDWrapper: Identifiable, Equatable {
+    var id: UUID
+}
 
 struct AccountListView: View {
     @EnvironmentObject var viewModel: UserViewModel
     @State private var searchText = ""
     @State private var selectedFilter: AccountTypes? = nil
+
+    @State private var editingAccountID: AccountIDWrapper?
 
     var filteredAccounts: [(UUID, any Account)] {
         viewModel.accounts
@@ -17,10 +22,11 @@ struct AccountListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Search + Filter
+                // Search and filter
                 HStack {
                     TextField("Search by name...", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+
                     Menu {
                         Button("All", action: { selectedFilter = nil })
                         ForEach(AccountTypes.allCases, id: \.self) { type in
@@ -30,19 +36,38 @@ struct AccountListView: View {
                         Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
                     }
                 }
-                .padding()
+                .padding(.horizontal)
 
-                // Account Cards
+                // Account cards
                 ScrollView {
-                    LazyVStack(spacing: 12) {
+                    LazyVStack(alignment: .leading, spacing: 16) {
                         ForEach(filteredAccounts, id: \.0) { id, account in
-                            AccountCardView(account: account, type: viewModel.accountViewModels[id]?.type)
+                            AccountCardView(
+                                account: account,
+                                type: viewModel.accountViewModels[id]?.type,
+                                onEdit: {
+                                    editingAccountID = AccountIDWrapper(id: id)
+                                },
+                                onDelete: {
+                                    
+                                }
+                            )
+                            .padding(.horizontal)
                         }
                     }
-                    .padding()
+                    .padding(.vertical)
                 }
             }
             .navigationTitle("Accounts")
+            .sheet(item: $editingAccountID) { wrapper in
+                let id = wrapper.id
+                if let type = viewModel.accountViewModels[id]?.type,
+                   let account = viewModel.accounts[id] {
+                    AccountFormHelperView(type: type, model: account)
+                        .environmentObject(viewModel)
+                        .id(id)
+                }
+            }
         }
     }
 }

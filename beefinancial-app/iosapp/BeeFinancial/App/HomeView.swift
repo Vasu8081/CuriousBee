@@ -7,12 +7,11 @@ struct HomeView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            TabView {
-                AccountListView()
-                    .tabItem {
-                        Label("Accounts", systemImage: "banknote.fill")
-                    }
-            }
+            AccountListView()
+                .tabItem {
+                    Label("Accounts", systemImage: "banknote.fill")
+                }
+                .tag(0)
         }
         .onChange(of: auth.isSignedIn) { oldValue, newValue in
             if newValue {

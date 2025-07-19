@@ -1,0 +1,315 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "7rTSxPpnOOceuYQaXUx6d5IccXg",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "1O1-H2rkb83GEk1Uhq1UCoiMa7Y",
+      "id": "yZ_Zq2_SVBo",
+      "snippet": {
+        "publishedAt": "2025-07-06T11:30:50Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE 2025 Topper Shares CS + DA Strategy & What You Need to Know About GATE DA",
+        "description": "In this video, I\u2019m talking to Anurag Tripathi, who secured AIR 85 in GATE CS 2025, AIR 154 in GATE DA 2025, and also AIR 67 in GATE CS 2024!\n\nAnurag Tripathi: https://in.linkedin.com/in/anurag-g-tripathi-1665092bb\n\nWe discuss his complete GATE journey, how he managed to crack both GATE CS and GATE DA together.\nThis conversation also includes a helpful breakdown of GATE DA basics \u2014 what GATE DA paper is about, how GATE DA differs from GATE CS, and who should attempt GATE DA.\n\nWhether you're preparing for GATE CS, DA, or both \u2014 this interview covers real, practical strategies and mindset tips that can help you stay consistent, avoid common mistakes, and build towards a top rank.\n\n\u2705 Full GATE CS & DA Preparation Strategy\n\u2705 How to manage GATE with college and coding practice\n\u2705 PYQs, test series, and short notes approach\n\u2705 GATE DA: syllabus overview, overlap with CS, and resource suggestions\n\u2705 Interview preparation tips and post-GATE plans\n\n*More from Curious Bytes:*\nMy Gate Preparation Timeline \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o&t=11s\nFree GATE Resources \u2192 https://youtu.be/_y3ZDQbFym0?si=nHCmL8j_eQfFwHei\nSubject Sequence \u2192 https://youtu.be/5XGJTDz6MlY?si=01UaI5gxNLoHqmPQ\nShort Notes & Revision Strategy \u2192 https://youtu.be/ja4GQfE8kQk?si=GS3Eq9D4-fN2uA41\nHow to Approach Test Series \u2192 https://youtu.be/KRQMCNRz48M?si=v0XyHBO4VAfFD38x\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\n\u23f1\ufe0f Timeline:\n00:00 - Intro  \n00:35 - Anurag\u2019s GATE background and timeline  \n04:31 - GATE CS vs DA \u2013 differences, overlaps, and strategy \n06:33 - Who should consider GATE DA  \n08:02 - Strategy for students preparing in 3rd year\n08:41 - Rapid Fire \n11:24 - Conclusion\n\nHashtags:\n#GATE2026 #iit #iitbombay #GATE2027 #GATECS #GATEDA #GATEPrep #GATEToppers #GATEInterview #GATEWithCollege #GATEDataScience #GATEAI #Engineering #GATERevision #GATETestSeries #CrackGATE #GATEPYQs #GATEMotivation #IITMTech #GATESuccessStory",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/yZ_Zq2_SVBo/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/yZ_Zq2_SVBo/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/yZ_Zq2_SVBo/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/yZ_Zq2_SVBo/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/yZ_Zq2_SVBo/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE 2025 Topper Shares CS + DA Strategy & What You Need to Know About GATE DA",
+          "description": "In this video, I\u2019m talking to Anurag Tripathi, who secured AIR 85 in GATE CS 2025, AIR 154 in GATE DA 2025, and also AIR 67 in GATE CS 2024!\n\nAnurag Tripathi: https://in.linkedin.com/in/anurag-g-tripathi-1665092bb\n\nWe discuss his complete GATE journey, how he managed to crack both GATE CS and GATE DA together.\nThis conversation also includes a helpful breakdown of GATE DA basics \u2014 what GATE DA paper is about, how GATE DA differs from GATE CS, and who should attempt GATE DA.\n\nWhether you're preparing for GATE CS, DA, or both \u2014 this interview covers real, practical strategies and mindset tips that can help you stay consistent, avoid common mistakes, and build towards a top rank.\n\n\u2705 Full GATE CS & DA Preparation Strategy\n\u2705 How to manage GATE with college and coding practice\n\u2705 PYQs, test series, and short notes approach\n\u2705 GATE DA: syllabus overview, overlap with CS, and resource suggestions\n\u2705 Interview preparation tips and post-GATE plans\n\n*More from Curious Bytes:*\nMy Gate Preparation Timeline \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o&t=11s\nFree GATE Resources \u2192 https://youtu.be/_y3ZDQbFym0?si=nHCmL8j_eQfFwHei\nSubject Sequence \u2192 https://youtu.be/5XGJTDz6MlY?si=01UaI5gxNLoHqmPQ\nShort Notes & Revision Strategy \u2192 https://youtu.be/ja4GQfE8kQk?si=GS3Eq9D4-fN2uA41\nHow to Approach Test Series \u2192 https://youtu.be/KRQMCNRz48M?si=v0XyHBO4VAfFD38x\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\n\u23f1\ufe0f Timeline:\n00:00 - Intro  \n00:35 - Anurag\u2019s GATE background and timeline  \n04:31 - GATE CS vs DA \u2013 differences, overlaps, and strategy \n06:33 - Who should consider GATE DA  \n08:02 - Strategy for students preparing in 3rd year\n08:41 - Rapid Fire \n11:24 - Conclusion\n\nHashtags:\n#GATE2026 #iit #iitbombay #GATE2027 #GATECS #GATEDA #GATEPrep #GATEToppers #GATEInterview #GATEWithCollege #GATEDataScience #GATEAI #Engineering #GATERevision #GATETestSeries #CrackGATE #GATEPYQs #GATEMotivation #IITMTech #GATESuccessStory"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT12M",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "yYDEZjxZ-io41xxFM9-HzcuYZFg",
+      "id": "7SWKQzS85-E",
+      "snippet": {
+        "publishedAt": "2025-06-18T15:40:50Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE CS 2026 Roadmap | How to Get Under AIR 100 Starting in July | Month-by-Month Prep Strategy",
+        "description": "In this video, I\u2019m sharing a complete 7-month preparation roadmap for GATE CS 2026 \u2014 designed for those starting in July and aiming to secure a top rank to get into top IITS.\n\nWhether you're starting late, juggling college/job, or have attempted GATE before \u2014 this guide will help you prepare smartly, avoid common mistakes, and stay consistent till the very end.\n\nThis plan is refined from my own experience of cracking GATE and interacting with several top rankers who achieved amazing results even with limited time.\nIf you're ready to commit fully, this roadmap will give you the clarity and direction you need.\n\n\u2705 Subject-wise & phase-wise strategy\n\u2705 How to balance revision, PYQs, and test series\n\u2705 How many hours to study and how to track progress\n\u2705 The mindset to stay consistent & not quit halfway\n\u2705 Full breakdown from July to January\n\u2705 Final month strategy and mock test routine\n\nIf you're serious about GATE CS 2026 \u2014 this is for you.\n\nMore from Curious Bytes:\nMy Gate Preparation Timeline \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o&t=11s\nFree GATE Resources \u2192 https://youtu.be/_y3ZDQbFym0?si=nHCmL8j_eQfFwHei\nSubject Sequence \u2192 https://youtu.be/5XGJTDz6MlY?si=01UaI5gxNLoHqmPQ\nShort Notes & Revision Strategy \u2192 https://youtu.be/ja4GQfE8kQk?si=GS3Eq9D4-fN2uA41\nHow to Approach Test Series \u2192 https://youtu.be/KRQMCNRz48M?si=v0XyHBO4VAfFD38x\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n02:02 \u2013 Jul-Aug Strategy\n03:51 \u2013 Sep-Oct Strategy\n05:27 \u2013 When and how to give mock tests\n06:17 \u2013 Nov-Dev Strategy\n07:15 - Jan-Feb Strategy\n08:10 - Conclusion\n\n\nHashtags:\n#GATE2026 #GATEPreparation #GATERoadmap #GATECS #GATEStudyPlan #GATETips #GATEPYQs #GATETestSeries #GATERevision #GATEWithCollege #GATEWithJob #GATEDA #GATEMonthlyPlan #GATETopperStrategy #CrackGATE #Engineering",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/7SWKQzS85-E/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/7SWKQzS85-E/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/7SWKQzS85-E/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/7SWKQzS85-E/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/7SWKQzS85-E/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE CS 2026 Roadmap | How to Get Under AIR 100 Starting in July | Month-by-Month Prep Strategy",
+          "description": "In this video, I\u2019m sharing a complete 7-month preparation roadmap for GATE CS 2026 \u2014 designed for those starting in July and aiming to secure a top rank to get into top IITS.\n\nWhether you're starting late, juggling college/job, or have attempted GATE before \u2014 this guide will help you prepare smartly, avoid common mistakes, and stay consistent till the very end.\n\nThis plan is refined from my own experience of cracking GATE and interacting with several top rankers who achieved amazing results even with limited time.\nIf you're ready to commit fully, this roadmap will give you the clarity and direction you need.\n\n\u2705 Subject-wise & phase-wise strategy\n\u2705 How to balance revision, PYQs, and test series\n\u2705 How many hours to study and how to track progress\n\u2705 The mindset to stay consistent & not quit halfway\n\u2705 Full breakdown from July to January\n\u2705 Final month strategy and mock test routine\n\nIf you're serious about GATE CS 2026 \u2014 this is for you.\n\nMore from Curious Bytes:\nMy Gate Preparation Timeline \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o&t=11s\nFree GATE Resources \u2192 https://youtu.be/_y3ZDQbFym0?si=nHCmL8j_eQfFwHei\nSubject Sequence \u2192 https://youtu.be/5XGJTDz6MlY?si=01UaI5gxNLoHqmPQ\nShort Notes & Revision Strategy \u2192 https://youtu.be/ja4GQfE8kQk?si=GS3Eq9D4-fN2uA41\nHow to Approach Test Series \u2192 https://youtu.be/KRQMCNRz48M?si=v0XyHBO4VAfFD38x\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n02:02 \u2013 Jul-Aug Strategy\n03:51 \u2013 Sep-Oct Strategy\n05:27 \u2013 When and how to give mock tests\n06:17 \u2013 Nov-Dev Strategy\n07:15 - Jan-Feb Strategy\n08:10 - Conclusion\n\n\nHashtags:\n#GATE2026 #GATEPreparation #GATERoadmap #GATECS #GATEStudyPlan #GATETips #GATEPYQs #GATETestSeries #GATERevision #GATEWithCollege #GATEWithJob #GATEDA #GATEMonthlyPlan #GATETopperStrategy #CrackGATE #Engineering"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT8M47S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "pYYeNgNHrVuewOP7dCClQyxX9fc",
+      "id": "8-IxVfG_MPk",
+      "snippet": {
+        "publishedAt": "2025-06-11T14:55:27Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "Tier 3 College to Google | My Journey | Bhawna Chelani | AIR 2",
+        "description": "In this video, I\u2019m sharing a brief overview of my journey \u2014 starting from a *tier-3* college, preparing for GATE, pursuing M.Tech in CSE, and eventually landing a software engineering role at *Google* .\nIt\u2019s not a detailed guide, but a personal reflection for anyone trying to find their way through GATE prep, college placements, or career switches in tech. If you're on a similar path, I hope this gives you some perspective or motivation.\n\n*More from Curious Bytes*\nGATE Prep Journey \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o\nFree GATE Resources \u2192 https://www.youtube.com/watch?v=_y3ZDQbFym0&t=43s\nSubject Sequence \u2192 https://www.youtube.com/watch?v=5XGJTDz6MlY&t=4s\nMaking Short Notes / Revision Strategy\u2192 https://www.youtube.com/watch?v=ja4GQfE8kQk&t=1s\nHow to approach Test Series \u2192 https://www.youtube.com/watch?v=KRQMCNRz48M&t=2s\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n00:30 \u2013 Why I took a break\n01:00 \u2013 GATE, placements & future plans for the channel\n01:30 \u2013 My background: College & GATE\n02:30 \u2013 Transition to M.Tech and learning curve\n03:30 \u2013 How I approached placements\n03:38 \u2013 Takeaway\n\nHashtags\n#GoogleSde #Tech #SoftwareEngineering #Jobs #Career #ComputerScience #FAANGM #FAANG #engineering #college #DSA #Freshers #placements",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/8-IxVfG_MPk/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "Tier 3 College to Google | My Journey | Bhawna Chelani | AIR 2",
+          "description": "In this video, I\u2019m sharing a brief overview of my journey \u2014 starting from a *tier-3* college, preparing for GATE, pursuing M.Tech in CSE, and eventually landing a software engineering role at *Google* .\nIt\u2019s not a detailed guide, but a personal reflection for anyone trying to find their way through GATE prep, college placements, or career switches in tech. If you're on a similar path, I hope this gives you some perspective or motivation.\n\n*More from Curious Bytes*\nGATE Prep Journey \u2192 https://www.youtube.com/watch?v=dsm3n23Cl5o\nFree GATE Resources \u2192 https://www.youtube.com/watch?v=_y3ZDQbFym0&t=43s\nSubject Sequence \u2192 https://www.youtube.com/watch?v=5XGJTDz6MlY&t=4s\nMaking Short Notes / Revision Strategy\u2192 https://www.youtube.com/watch?v=ja4GQfE8kQk&t=1s\nHow to approach Test Series \u2192 https://www.youtube.com/watch?v=KRQMCNRz48M&t=2s\n\n*Stay connected*\nInstagram: https://www.instagram.com/_bhawwna\nLinkedIn: https://in.linkedin.com/in/bhawnachelani\n\nTimeline\n00:00 \u2013 Intro\n00:30 \u2013 Why I took a break\n01:00 \u2013 GATE, placements & future plans for the channel\n01:30 \u2013 My background: College & GATE\n02:30 \u2013 Transition to M.Tech and learning curve\n03:30 \u2013 How I approached placements\n03:38 \u2013 Takeaway\n\nHashtags\n#GoogleSde #Tech #SoftwareEngineering #Jobs #Career #ComputerScience #FAANGM #FAANG #engineering #college #DSA #Freshers #placements"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT3M39S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "wV33Am6Pw7VtmAOApV-k4vNC-d0",
+      "id": "KRQMCNRz48M",
+      "snippet": {
+        "publishedAt": "2024-10-05T12:50:31Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Full-Length Tests: Which to buy? How to prepare and analyze? - GATE CS",
+        "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we dive deep into how you can effectively use test series to prepare for GATE 2025. With just a few months left, it's the perfect time to start taking full-length mock tests. I\u2019ll walk you through how to integrate topic tests, subject tests, and full-length tests into your prep strategy.\n\nLearn how to analyze your test results, avoid common mistakes, and fine-tune your time management skills. Plus, I share recommendations for which test series to buy and why free mock tests from various platforms can be game-changers for your preparation.\n\nStay focused, stay motivated, and let's ace GATE 2025 together!\n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction\n00:32 Types of test series\n02:02 Which test series to buy?\n03:02 How to analyze test series\n05:50 Conclusion",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/KRQMCNRz48M/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Full-Length Tests: Which to buy? How to prepare and analyze? - GATE CS",
+          "description": "#iitbombay #gatecs #curiousbytes\n\nIn this video, we dive deep into how you can effectively use test series to prepare for GATE 2025. With just a few months left, it's the perfect time to start taking full-length mock tests. I\u2019ll walk you through how to integrate topic tests, subject tests, and full-length tests into your prep strategy.\n\nLearn how to analyze your test results, avoid common mistakes, and fine-tune your time management skills. Plus, I share recommendations for which test series to buy and why free mock tests from various platforms can be game-changers for your preparation.\n\nStay focused, stay motivated, and let's ace GATE 2025 together!\n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction\n00:32 Types of test series\n02:02 Which test series to buy?\n03:02 How to analyze test series\n05:50 Conclusion"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT6M13S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "true",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "PtPpNEBMdc42iXIL_ViVgXvucJo",
+      "id": "VpgbDi2xoBM",
+      "snippet": {
+        "publishedAt": "2024-07-21T13:18:40Z",
+        "channelId": "UCIGz3jEqCl4eyM3eTgKCpVg",
+        "title": "GATE Toppers\u2019 Talk: Cracked IIT CSE Despite Skipping 3 Subjects!",
+        "description": "#gatecs #gate2025  \n\nThis covers GATE CSE Topper Interview, GATE CSE Toppers Strategy, GATE CSE Toppers Notes.  \n\nFREE GATE Resources : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nShubhashish's LinkedIn: http://linkedin.com/in/shubhashish-shukla-31506b22b\n \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction \n00:50 Why GATE? \n02:30 When did you start gate prep. \n02:42 GATE Preparation Strategy \n04:30 Placement with GATE \n05:03 Good rank after skipping subjects \n06:18 How to get good rank if starting late \n07:20 How to manage college with GATE Prep \n08:20 Revision strategy  \n08:40 Future plans \n09:48 Final tips",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/VpgbDi2xoBM/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Curious Bytes",
+        "tags": [
+          "GATE CS",
+          "CODING",
+          "IIT Bombay"
+        ],
+        "categoryId": "27",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en-IN",
+        "localized": {
+          "title": "GATE Toppers\u2019 Talk: Cracked IIT CSE Despite Skipping 3 Subjects!",
+          "description": "#gatecs #gate2025  \n\nThis covers GATE CSE Topper Interview, GATE CSE Toppers Strategy, GATE CSE Toppers Notes.  \n\nFREE GATE Resources : https://1drv.ms/x/s!AhWGxp8Sv83SzxVcm9-_r2uEfhMT?e=vmklFD\n\nGATE AIR 2 Preparation Strategy : https://youtu.be/dsm3n23Cl5o?si=1ZkhVynwhYyA3QgE \n\nGATE BEST Subject Sequence : https://youtu.be/5XGJTDz6MlY?si=gDykf_iELJcfiOoC \n\nShubhashish's LinkedIn: http://linkedin.com/in/shubhashish-shukla-31506b22b\n \n\nSincere Aspirants,  \n\nTHREE STEPS to do RIGHT NOW:  \n\nStep 1\ufe0f\u20e3: Subscribe to the channel to stay motivated and on track https://www.youtube.com/@CuriousBytes67  \n\nStep 2\ufe0f\u20e3: Follow / Connect on LinkedIn and drop any queries at any point (we reply to all of them!) https://www.linkedin.com/in/bhawnachelani  \n\nStep 3\ufe0f\u20e3: Give your full effort  \n\nUntil next time, stay curious and keep progressing! \n\n \n\n00:00 Introduction \n00:50 Why GATE? \n02:30 When did you start gate prep. \n02:42 GATE Preparation Strategy \n04:30 Placement with GATE \n05:03 Good rank after skipping subjects \n06:18 How to get good rank if starting late \n07:20 How to manage college with GATE Prep \n08:20 Revision strategy  \n08:40 Future plans \n09:48 Final tips"
+        },
+        "defaultAudioLanguage": "en-IN"
+      },
+      "contentDetails": {
+        "duration": "PT10M54S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      }
+    }
+  ],
+  "pageInfo": {
+    "totalResults": 5,
+    "resultsPerPage": 5
+  }
+}

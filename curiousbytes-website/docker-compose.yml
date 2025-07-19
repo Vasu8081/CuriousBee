@@ -22,7 +22,6 @@ services:
     environment:
       - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
       - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
-      - YOUTUBE_PLAYLIST_ID=${YOUTUBE_PLAYLIST_ID}
       - YOUTUBE_CHANNEL_ID=${YOUTUBE_CHANNEL_ID}
       - YOUTUBE_CACHE_REFRESH_INTERVAL=${YOUTUBE_CACHE_REFRESH_INTERVAL}
     volumes:

@@ -16,6 +16,12 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
- 
-# Start the FastAPI app using Uvicorn
-CMD ["sh", "-c", "alembic -c alembic.ini upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+
+# Start FastAPI app with or without --reload based on LIVE_MODE
+CMD ["sh", "-c", "\
+  alembic -c alembic.ini upgrade head && \
+  if [ \"$LIVE_MODE\" = \"1\" ]; then \
+    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000; \
+  else \
+    uvicorn app.main:app --host 0.0.0.0 --port 8000; \
+  fi"]

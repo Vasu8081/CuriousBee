@@ -1,22 +1,65 @@
+version: "3.8"
+
 services:
-  curiousbytes-frontend:
+  # ---------------------- Stable Frontend ----------------------
+  curiousbytes-frontend-stable:
     build:
       context: ./client
-    container_name: curiousbytes-frontend
+    container_name: curiousbytes-frontend-stable
     restart: always
+    environment:
+      - LIVE_MODE=0
+    volumes:
+      - ./client:/app:cached
+    working_dir: /app
     ports:
-      - "5173:5173"
+      - "5174:5173"  # Runs separately from live
+    networks:
+      - curiousbeenet
+
+  # ---------------------- Live Frontend ----------------------
+  curiousbytes-frontend-live:
+    build:
+      context: ./client
+    container_name: curiousbytes-frontend-live
+    restart: always
+    environment:
+      - LIVE_MODE=1
     volumes:
       - ./client:/app:cached
       - /app/node_modules
     working_dir: /app
+    ports:
+      - "5173:5173"
     networks:
       - curiousbeenet
 
-  curiousbytes-backend:
+  # ---------------------- Stable Backend ----------------------
+  curiousbytes-backend-stable:
     build:
       context: ./server
-    container_name: curiousbytes-backend
+    container_name: curiousbytes-backend-stable
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - YOUTUBE_CHANNEL_ID=${YOUTUBE_CHANNEL_ID}
+      - YOUTUBE_CACHE_REFRESH_INTERVAL=${YOUTUBE_CACHE_REFRESH_INTERVAL}
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001  # No --reload
+    ports:
+      - "8001:8001"
+    networks:
+      - curiousbeenet
+      - internal
+
+  # ---------------------- Live Backend ----------------------
+  curiousbytes-backend-live:
+    build:
+      context: ./server
+    container_name: curiousbytes-backend-live
     restart: always
     environment:
       - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
@@ -33,6 +76,7 @@ services:
       - curiousbeenet
       - internal
 
+  # ---------------------- Postgres ----------------------
   curiousbytes-postgres:
     image: postgres:15
     container_name: curiousbytes-postgres

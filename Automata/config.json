@@ -5,7 +5,7 @@
       "name": "bee",
       "type": "server",
       "aliases": ["server", "bee", "www"],
-      "allow": ["vasumac"]
+      "allow": ["vasumac", "vasuwindows"]
     },
     {
       "name": "Vasudhans-MacBook-Air.local",

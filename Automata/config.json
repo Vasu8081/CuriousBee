@@ -2,7 +2,7 @@
   "domain": "curiousbytes.in",
   "hosts": [
     {
-      "name": "server",
+      "name": "bee",
       "type": "server",
       "aliases": ["server", "bee"],
       "allow": ["vasumac"]

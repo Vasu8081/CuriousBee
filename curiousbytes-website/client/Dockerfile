@@ -2,17 +2,15 @@ FROM node:18
 
 WORKDIR /app
 
-# Copy and install all dependencies including dev
+# Copy only package files first and install dependencies
 COPY package.json package-lock.json* ./
 RUN npm install
 
-# Copy the rest of the source
+# Now copy all source files, but .dockerignore prevents overwriting node_modules
 COPY . .
 
-# Default to development
 ENV NODE_ENV=development
 
-# LIVE_MODE=1 → hot reload (live), otherwise → stable mode
 CMD ["sh", "-c", "\
   if [ \"$LIVE_MODE\" = \"1\" ]; then \
     echo '[INFO] Running in LIVE mode (dev server with hot reload)'; \

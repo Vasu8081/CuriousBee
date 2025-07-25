@@ -74,6 +74,7 @@ apply_firewall_rules() {
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw allow 443/tcp
+    sudo ufw allow 80/tcp comment "Allow HTTP for certbot + redirect"
 
     for ip in "${allowed_ips[@]}"; do
         sudo ufw allow from "$ip" to any port 22 proto tcp

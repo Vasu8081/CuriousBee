@@ -9,8 +9,6 @@ services:
     restart: always
     environment:
       - LIVE_MODE=0
-    volumes:
-      - ./client:/app:cached
     working_dir: /app
     ports:
       - "5174:5173"  # Runs separately from live

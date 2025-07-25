@@ -4,7 +4,7 @@
     {
       "name": "bee",
       "type": "server",
-      "aliases": ["server", "bee"],
+      "aliases": ["server", "bee", "www"],
       "allow": ["vasumac"]
     },
     {

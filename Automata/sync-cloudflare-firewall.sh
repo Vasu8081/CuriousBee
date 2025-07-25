@@ -14,10 +14,6 @@ get_current_ipv6() {
     curl -6 -s --max-time 10 https://ifconfig.co
 }
 
-get_current_ipv4() {
-    curl -4 -s --max-time 10 https://ifconfig.co
-}
-
 get_zone_id() {
     domain=$(jq -r '.domain' "$CONFIG_FILE")
     curl -s -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
@@ -28,9 +24,8 @@ get_zone_id() {
 get_record_id() {
     local zone_id=$1
     local full_name=$2
-    local type=$3
     curl -s -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
-        "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records?type=$type&name=$full_name" |
+        "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records?type=AAAA&name=$full_name" |
         jq -r '.result[0].id'
 }
 
@@ -38,23 +33,28 @@ update_or_create_record() {
     local zone_id=$1
     local name=$2
     local ip=$3
-    local type=$4
-    local full="$name.$(jq -r '.domain' "$CONFIG_FILE")"
+
+    if [[ "$name" == "$(jq -r '.domain' "$CONFIG_FILE")" ]]; then
+        full="$name"
+    else
+        full="$name.$(jq -r '.domain' "$CONFIG_FILE")"
+    fi
+
     local id
-    id=$(get_record_id "$zone_id" "$full" "$type")
+    id=$(get_record_id "$zone_id" "$full")
 
     if [[ "$id" == "null" || -z "$id" ]]; then
-        log "Creating new $type record for $full"
+        log "Creating new AAAA record for $full"
         curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            --data "{\"type\":\"$type\",\"name\":\"$full\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" > /dev/null
+            --data "{\"type\":\"AAAA\",\"name\":\"$full\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" > /dev/null
     else
-        log "Updating $type record for $full"
+        log "Updating AAAA record for $full"
         curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$id" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            --data "{\"type\":\"$type\",\"name\":\"$full\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" > /dev/null
+            --data "{\"type\":\"AAAA\",\"name\":\"$full\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" > /dev/null
     fi
 }
 
@@ -86,15 +86,14 @@ apply_firewall_rules() {
 main() {
     current_host=$(hostname)
     zone_id=$(get_zone_id)
-    current_ipv6=$(get_current_ipv6)
-    current_ipv4=$(get_current_ipv4)
+    current_ip=$(get_current_ipv6)
 
-    if [[ -z "$current_ipv6" && -z "$current_ipv4" ]]; then
-        log "Could not fetch any IP address"
+    if [[ -z "$current_ip" ]]; then
+        log "Could not fetch IPv6"
         exit 1
     fi
 
-    log "IPv4: $current_ipv4 | IPv6: $current_ipv6"
+    log "Current IPv6: $current_ip"
     host_entry=$(jq -c --arg name "$current_host" '.hosts[] | select(.name == $name)' "$CONFIG_FILE")
 
     if [[ -z "$host_entry" ]]; then
@@ -105,20 +104,25 @@ main() {
     type=$(echo "$host_entry" | jq -r '.type')
     aliases=($(echo "$host_entry" | jq -r '.aliases[]'))
 
-    # Always add curiousbytes.in and www.curiousbytes.in
-    aliases+=("@" "www")
+    domain_name=$(jq -r '.domain' "$CONFIG_FILE")
 
+    # Update records for aliases
     for alias in "${aliases[@]}"; do
-        [[ -n "$current_ipv4" ]] && update_or_create_record "$zone_id" "$alias" "$current_ipv4" "A"
-        [[ -n "$current_ipv6" ]] && update_or_create_record "$zone_id" "$alias" "$current_ipv6" "AAAA"
+        update_or_create_record "$zone_id" "$alias" "$current_ip"
     done
+
+    # Special case: if alias contains "www", also update domain root
+    if [[ " ${aliases[*]} " == *" www "* ]]; then
+        log "WWW alias detected – also updating $domain_name"
+        update_or_create_record "$zone_id" "$domain_name" "$current_ip"
+    fi
 
     if [[ "$type" == "server" ]]; then
         allowed_aliases=($(echo "$host_entry" | jq -r '.allow[]'))
         allowed_ips=()
 
         for alias in "${allowed_aliases[@]}"; do
-            full="$alias.$(jq -r '.domain' "$CONFIG_FILE")"
+            full="$alias.$domain_name"
             ip=$(get_ipv6_from_cloudflare "$zone_id" "$full")
             if [[ -n "$ip" && "$ip" != "null" ]]; then
                 allowed_ips+=("$ip")

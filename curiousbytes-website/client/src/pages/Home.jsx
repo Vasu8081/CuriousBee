@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import InstructorIntro from "../components/InstructorIntro";
 import HeroText from "../components/HomeText";
 import { FaYoutube, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 
@@ -25,6 +26,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Sections */}
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6 py-12 text-center bg-white dark:bg-gray-900">
+        <Link to="/gate" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+          <h2 className="text-2xl font-bold mb-2">GATE Prep</h2>
+          <p>Master core subjects with structured notes and practice.</p>
+        </Link>
+        <Link to="/interviews" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+          <h2 className="text-2xl font-bold mb-2">Interview Prep</h2>
+          <p>Crack top companies with coding & system design guidance.</p>
+        </Link>
+        <Link to="/videos" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+          <h2 className="text-2xl font-bold mb-2">YouTube Content</h2>
+          <p>Explore engaging videos on all things tech and IIT life.</p>
+        </Link>
+      </section>
+
+      {/* Meet Your Instructor */}
+      <InstructorIntro />
+
       {/* Connect With Us Section */}
       <section className="text-center py-16 px-6 bg-gray-100 dark:bg-gray-800">
         <h2 className="text-3xl sm:text-4xl font-bold mb-10">Connect With Us</h2>
@@ -40,7 +60,7 @@ export default function Home() {
               boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
             }}
           >
-            <p className="text-3xl font-extrabold mb-2">8.6K+</p>
+            <p className="text-3xl font-extrabold mb-2">10K+</p>
             <p className="text-lg">YouTube</p>
             <FaYoutube className="text-red-600 text-2xl mt-2 transition duration-300 group-hover:scale-125" />
           </a>
@@ -56,7 +76,7 @@ export default function Home() {
               boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
             }}
           >
-            <p className="text-3xl font-extrabold mb-2">15K+</p>
+            <p className="text-3xl font-extrabold mb-2">16K+</p>
             <p className="text-lg">LinkedIn</p>
             <FaLinkedinIn className="text-blue-500 text-2xl mt-2 transition duration-300 group-hover:scale-125" />
           </a>
@@ -77,22 +97,6 @@ export default function Home() {
             <FaInstagram className="text-pink-500 text-2xl mt-2 transition duration-300 group-hover:scale-125" />
           </a>  
         </div>
-      </section>
-
-      {/* Sections */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6 py-12 text-center bg-white dark:bg-gray-900">
-        <Link to="/gate" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-          <h2 className="text-2xl font-bold mb-2">GATE Prep</h2>
-          <p>Master core subjects with structured notes and practice.</p>
-        </Link>
-        <Link to="/interviews" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-          <h2 className="text-2xl font-bold mb-2">Interview Prep</h2>
-          <p>Crack top companies with coding & system design guidance.</p>
-        </Link>
-        <Link to="/videos" className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-          <h2 className="text-2xl font-bold mb-2">YouTube Content</h2>
-          <p>Explore engaging videos on all things tech and IIT life.</p>
-        </Link>
       </section>
     </div>
   );

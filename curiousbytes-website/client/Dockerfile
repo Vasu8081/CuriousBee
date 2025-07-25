@@ -2,18 +2,30 @@ FROM node:18
 
 WORKDIR /app
 
-# Install all dependencies directly via npm
-RUN npm install react react-dom react-router-dom \
-    vite @vitejs/plugin-react @tailwindcss/aspect-ratio \
-    lucide-react react-icons tailwindcss postcss autoprefixer \
+# Copy package files (even if unused, needed for lockfile format)
+COPY package.json package-lock.json* ./
+
+# Install all required dependencies directly here (dev + prod)
+RUN npm install \
+    react \
+    react-dom \
+    react-router-dom \
+    vite \
+    @vitejs/plugin-react \
+    @tailwindcss/aspect-ratio \
+    lucide-react \
+    react-icons \
+    tailwindcss \
+    postcss \
+    autoprefixer \
     serve
 
-# Copy the entire app (excluding node_modules via .dockerignore)
+# Copy full source code (after npm install to avoid overwrite issues)
 COPY . .
 
 ENV NODE_ENV=development
 
-# Use LIVE_MODE to toggle behavior
+# Default: LIVE_MODE=1 means hot reload; otherwise production
 CMD ["sh", "-c", "\
   if [ \"$LIVE_MODE\" = \"1\" ]; then \
     echo '[INFO] Running in LIVE mode (dev server with hot reload)'; \

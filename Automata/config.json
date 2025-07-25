@@ -11,6 +11,11 @@
       "name": "Vasudhans-MacBook-Air.local",
       "type": "client",
       "aliases": ["vasumac"]
+    },
+    {
+      "name": "Vasu-Qube",
+      "type": "client",
+      "aliases": ["vasuwindows"]
     }
   ]
 }

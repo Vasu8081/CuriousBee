@@ -33,7 +33,7 @@ if "%HOST_JSON%"=="" (
 
 REM Extract aliases
 set i=0
-for /f "delims=" %%A in ('echo %HOST_JSON% ^| jq -r ".aliases[]"') do (
+for /f "delims=" %%A in ('echo(!HOST_JSON! ^| jq -r ".aliases[]"') do (
     set "ALIAS[!i!]=%%A"
     echo [DEBUG] Found alias: %%A
     set /a i+=1

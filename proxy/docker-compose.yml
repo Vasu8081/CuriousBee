@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   nginx:
     image: nginx:latest
@@ -7,23 +8,12 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/nginx/certs:ro
+      - ./nginx/logs:/var/log/nginx
     networks:
       - curiousbeenet
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    restart: always
-    depends_on:
-      - nginx
-    command: tunnel run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-      - TUNNEL_METRICS=0.0.0.0:2000
-    networks:
-      - curiousbeenet
+    depends_on: []  # optional, list dependent services if any (e.g., frontend/backend)
 
 networks:
   curiousbeenet:

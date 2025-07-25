@@ -1,0 +1,16 @@
+{
+  "domain": "curiousbytes.in",
+  "hosts": [
+    {
+      "name": "server",
+      "type": "server",
+      "aliases": ["server", "bee"],
+      "allow": ["vasumac"]
+    },
+    {
+      "name": "Vasudhans-MacBook-Air.local",
+      "type": "client",
+      "aliases": ["vasumac"]
+    }
+  ]
+}

@@ -2,24 +2,17 @@ FROM node:18
 
 WORKDIR /app
 
-# Copy package files and install all dependencies
+# Copy and install all dependencies including dev
 COPY package.json package-lock.json* ./
 RUN npm install
 
-# Install dev dependencies that might not be in package.json
-RUN npm install \
-    @vitejs/plugin-react \
-    @tailwindcss/aspect-ratio \
-    lucide-react \
-    react-icons
-
-# Copy rest of the client code
+# Copy the rest of the source
 COPY . .
 
-# Default to development (live mode) unless overridden
+# Default to development
 ENV NODE_ENV=development
 
-# Entry point with conditional mode
+# LIVE_MODE=1 → hot reload (live), otherwise → stable mode
 CMD ["sh", "-c", "\
   if [ \"$LIVE_MODE\" = \"1\" ]; then \
     echo '[INFO] Running in LIVE mode (dev server with hot reload)'; \

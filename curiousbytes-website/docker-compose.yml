@@ -10,8 +10,6 @@ services:
     environment:
       - LIVE_MODE=0
     working_dir: /app
-    ports:
-      - "5174:5173"  # Runs separately from live
     networks:
       - curiousbeenet
 
@@ -27,8 +25,6 @@ services:
       - ./client:/app:cached
       - /app/node_modules
     working_dir: /app
-    ports:
-      - "5173:5173"
     networks:
       - curiousbeenet
 
@@ -47,8 +43,6 @@ services:
       - ./server:/app
     working_dir: /app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8001  # No --reload
-    ports:
-      - "8001:8001"
     networks:
       - curiousbeenet
       - internal
@@ -68,8 +62,6 @@ services:
       - ./server:/app
     working_dir: /app
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-    ports:
-      - "8000:8000"
     networks:
       - curiousbeenet
       - internal
@@ -83,8 +75,6 @@ services:
       POSTGRES_USER: curioususer
       POSTGRES_PASSWORD: curiouspass
       POSTGRES_DB: curiousbytes
-    ports:
-      - "5433:5432"
     volumes:
       - pgdata-curiousbytes:/var/lib/postgresql/data
     networks:

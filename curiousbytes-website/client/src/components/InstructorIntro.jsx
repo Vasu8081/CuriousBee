@@ -1,31 +1,28 @@
 import React from "react";
-import { FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function InstructorIntro() {
   return (
-    <section className="py-20 bg-white text-center px-4">
-      {/* Title */}
-      <p className="text-orange-500 font-semibold mb-2">Meet your Mentor</p>
-      <h2 className="text-3xl md:text-4xl font-bold mb-10">
-        The Architects of Your Success
-      </h2>
-
-      {/* Main content */}
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        {/* Left: Bio + Social */}
-        <div className="md:w-1/2 text-left space-y-6">
-          <p className="text-gray-700 text-base md:text-lg relative pl-6">
-            <span className="absolute left-0 text-3xl text-orange-500 top-[-4px]">“</span>
-            Bhawna is a passionate GATE Educator, Full Stack Developer, and YouTuber. She holds an MTech from IIT Bombay. She's mentored thousands of students with practical, concise teaching. Currently working at Google, she brings real-world experience to her teaching.
+    <section className="bg-white dark:bg-gray-900 px-6 py-20 font-sans">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+        
+        {/* Left: Text Content */}
+        <div className="md:w-1/2 text-left">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            Meet Your Mentor
+          </h2>
+          <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6 relative pl-6">
+            <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400">“</span>
+            Bhawna is a passionate GATE educator and YouTuber. She holds an MTech from IIT Bombay. Having mentored thousands with her concise teaching style, and currently working at Google, she blends real-world experience with academics.
           </p>
 
-          {/* Social Links */}
-          <div className="flex gap-5 pt-2">
+          {/* Socials */}
+          <div className="flex gap-6 text-2xl">
             <a
-              href="https://instagram.com/bhawna"
+              href="https://instagram.com/_bhawwna"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-orange-500 text-xl"
+              className="text-pink-500 hover:scale-110 transform transition"
               aria-label="Instagram"
             >
               <FaInstagram />
@@ -34,42 +31,29 @@ export default function InstructorIntro() {
               href="https://www.linkedin.com/in/bhawnachelani"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-orange-500 text-xl"
+              className="text-sky-600 hover:scale-110 transform transition"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
             </a>
-            <a
-              href="https://x.com/bhawna"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-orange-500 text-xl"
-              aria-label="Twitter"
-            >
-              <FaXTwitter />
-            </a>
           </div>
         </div>
 
-        {/* Right: Profile photo */}
-        <div className="md:w-1/2 flex justify-center relative">
-          <div className="relative z-10">
-            <img
-              src="/bhawna.png"
-              alt="Bhawna Chelani"
-              className="rounded-full w-64 h-64 object-cover border-4 border-white shadow-lg"
-            />
+        {/* Right: Image & Info */}
+        <div className="md:w-1/2 flex flex-col items-center">
+          <img
+            src="/bhawna.png"
+            alt="Bhawna Chelani"
+            className="w-[160px] sm:w-[200px] md:w-[220px] h-auto object-cover rounded-full mb-3 shadow-md"
+          />
+          <div className="text-center text-sm sm:text-base text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg shadow-sm">
+            Bhawna Chelani, AIR 2 GATE 2022
           </div>
-          <div className="absolute z-0 w-72 h-72 bg-orange-300 rounded-full -bottom-6 -left-6"></div>
-        </div>
-      </div>
-
-      {/* Work Experience Logos */}
-      <div className="mt-16 bg-white p-4 shadow-sm rounded-lg max-w-xl mx-auto">
-        <p className="text-sm text-gray-500 mb-3">Bringing work experience from</p>
-        <div className="flex justify-center items-center gap-6 flex-wrap">
-          <img src="/google.png" alt="Google" className="h-6" />
-          <img src="/iitb.png" alt="IITBombay" className="h-6" />
+          <div className="mt-3 flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
+            <span>Bringing work experience from</span>
+            <img src="/google.png" alt="Google" className="h-5" />
+            <img src="/iitb.png" alt="IIT Bombay" className="h-5 dark:invert dark:brightness-0" />
+          </div>
         </div>
       </div>
     </section>

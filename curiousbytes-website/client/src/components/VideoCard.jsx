@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { FaPlay } from "react-icons/fa";
 
 const VideoCard = ({ title, videoId, thumbnail }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
   return (
-    <div className="rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800">
+    <div
+      className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 
+                 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 group"
+      title={title}
+    >
       <div
-        className="w-full aspect-video cursor-pointer"
+        className="relative w-full aspect-video cursor-pointer"
         onClick={() => setIsPlaying(true)}
       >
         {isPlaying ? (
@@ -20,17 +25,19 @@ const VideoCard = ({ title, videoId, thumbnail }) => {
             className="w-full h-full"
           ></iframe>
         ) : (
-          <img
-            src={thumbnail}
-            alt={title}
-            className="w-full h-full object-cover"
-          />
+          <>
+            <img
+              src={thumbnail}
+              alt="YouTube video thumbnail"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 brightness-110"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-black/50 dark:bg-white/20 rounded-full p-3 transition-all group-hover:scale-110">
+                <FaPlay className="text-white text-xl opacity-90" />
+              </div>
+            </div>
+          </>
         )}
-      </div>
-      <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-          {title}
-        </h2>
       </div>
     </div>
   );

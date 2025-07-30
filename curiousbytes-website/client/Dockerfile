@@ -6,19 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install all required dependencies directly here (dev + prod)
-RUN npm install \
-    react \
-    react-dom \
-    react-router-dom \
-    vite \
-    @vitejs/plugin-react \
-    @tailwindcss/aspect-ratio \
-    lucide-react \
-    react-icons \
-    tailwindcss \
-    postcss \
-    autoprefixer \
-    serve
+RUN npm install 
 
 # Copy full source code (after npm install to avoid overwrite issues)
 COPY . .

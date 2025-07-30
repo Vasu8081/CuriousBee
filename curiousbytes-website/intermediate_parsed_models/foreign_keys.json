@@ -1,1 +1,58 @@
-{}
+{
+  "blog_videos": [
+    {
+      "src_table": "blog_videos",
+      "src_col": "blog_id",
+      "tgt_table": "blogs",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "blog",
+      "right_field": "blogVideos"
+    },
+    {
+      "src_table": "blog_videos",
+      "src_col": "video_id",
+      "tgt_table": "youtube",
+      "tgt_col": "video_id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "video",
+      "right_field": "blogVideos"
+    }
+  ],
+  "resource_videos": [
+    {
+      "src_table": "resource_videos",
+      "src_col": "resource_id",
+      "tgt_table": "resources",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "resource",
+      "right_field": "resourceVideos"
+    },
+    {
+      "src_table": "resource_videos",
+      "src_col": "video_id",
+      "tgt_table": "youtube",
+      "tgt_col": "video_id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "video",
+      "right_field": "resourceVideos"
+    }
+  ],
+  "tag_links": [
+    {
+      "src_table": "tag_links",
+      "src_col": "tag_id",
+      "tgt_table": "tags",
+      "tgt_col": "id",
+      "type": "many_to_one",
+      "pydantic_refer": "refer_right",
+      "left_field": "tag",
+      "right_field": "tagLinks"
+    }
+  ]
+}

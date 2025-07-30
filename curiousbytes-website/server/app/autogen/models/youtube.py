@@ -23,6 +23,8 @@ class Youtube(Base):
     raw_snippet = Column(JSON)
     is_video = Column(Boolean)
     video_type = Column(SQLEnum(VideoTypes, name='video_types'), nullable=False, default=VideoTypes.Gate)
+    blogVideos = relationship('BlogVideos', uselist=True, back_populates='video', foreign_keys='BlogVideos.video_id')
+    resourceVideos = relationship('ResourceVideos', uselist=True, back_populates='video', foreign_keys='ResourceVideos.video_id')
 
     @property
     def VideoId(self) -> str:

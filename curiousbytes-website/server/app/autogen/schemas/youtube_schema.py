@@ -4,6 +4,8 @@ from pydantic import BaseModel, Field, ConfigDict
 from app.autogen.models.enums import *
 from typing import Optional, List, ForwardRef
 
+BlogVideosSchema = ForwardRef('BlogVideosSchema')
+ResourceVideosSchema = ForwardRef('ResourceVideosSchema')
 
 class YoutubeSchema(BaseModel):
     video_id: Optional[str] = Field(default=None, alias='video_id')
@@ -17,6 +19,8 @@ class YoutubeSchema(BaseModel):
     raw_snippet: Optional[dict] = Field(default=None, alias='raw_snippet')
     is_video: Optional[bool] = Field(default=None, alias='is_video')
     video_type: Optional[VideoTypes] = Field(default=None, alias='video_type')
+    blogVideos: List['BlogVideosSchema'] = []
+    resourceVideos: List['ResourceVideosSchema'] = []
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
@@ -35,4 +39,10 @@ class YoutubeSchema(BaseModel):
             is_video = self.is_video,
             video_type = self.video_type
         )
+        from app.autogen.models.blog_videos import BlogVideos
+        if self.blogVideos is not None:
+            model.blogVideos = [obj.to_model() for obj in self.blogVideos]
+        from app.autogen.models.resource_videos import ResourceVideos
+        if self.resourceVideos is not None:
+            model.resourceVideos = [obj.to_model() for obj in self.resourceVideos]
         return model

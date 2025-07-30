@@ -10,5 +10,17 @@
     [
       "INTERVIEW"
     ]
+  ],
+  "tag_ref_type": [
+    [
+      "VIDEO",
+      "DEFAULT"
+    ],
+    [
+      "BLOG"
+    ],
+    [
+      "RESOURCE"
+    ]
   ]
 }

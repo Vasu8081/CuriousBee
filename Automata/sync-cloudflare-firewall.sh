@@ -68,6 +68,7 @@ get_ipv6_from_cloudflare() {
 
 apply_firewall_rules() {
     local allowed_ips=("$@")
+    log "Applying firewall rules for allowed IPs: ${allowed_ips[*]}"
 
     log "Resetting UFW rules..."
     sudo ufw --force reset

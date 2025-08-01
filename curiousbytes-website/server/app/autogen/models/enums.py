@@ -5,3 +5,8 @@ class VideoTypes(str, Enum):
     ToppersTalk = 'TOPPERS_TALK'
     Interview = 'INTERVIEW'
 
+class TagRefType(str, Enum):
+    Video = 'VIDEO'
+    Blog = 'BLOG'
+    Resource = 'RESOURCE'
+

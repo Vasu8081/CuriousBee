@@ -59,9 +59,9 @@
       []
     ]
   ],
-  "resources": [
+  "blogs": [
     [
-      "resource_id",
+      "id",
       "UUID",
       [
         "[primary",
@@ -69,8 +69,183 @@
       ]
     ],
     [
+      "title",
+      "TEXT",
+      []
+    ],
+    [
+      "slug",
+      "TEXT",
+      []
+    ],
+    [
+      "author_name",
+      "TEXT",
+      []
+    ],
+    [
+      "content",
+      "TEXT",
+      []
+    ],
+    [
+      "cover_image",
+      "TEXT",
+      []
+    ],
+    [
+      "is_published",
+      "BOOLEAN",
+      []
+    ],
+    [
+      "is_featured",
+      "BOOLEAN",
+      []
+    ],
+    [
+      "published_at",
+      "TIMESTAMP",
+      []
+    ],
+    [
+      "created_at",
+      "TIMESTAMP",
+      []
+    ],
+    [
+      "updated_at",
+      "TIMESTAMP",
+      []
+    ],
+    [
+      "scheduled_at",
+      "TIMESTAMP",
+      []
+    ]
+  ],
+  "resources": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "title",
+      "TEXT",
+      []
+    ],
+    [
       "url",
       "TEXT",
+      []
+    ],
+    [
+      "description",
+      "TEXT",
+      []
+    ],
+    [
+      "type",
+      "TEXT",
+      []
+    ],
+    [
+      "is_featured",
+      "BOOLEAN",
+      []
+    ],
+    [
+      "created_at",
+      "TIMESTAMP",
+      []
+    ],
+    [
+      "scheduled_at",
+      "TIMESTAMP",
+      []
+    ]
+  ],
+  "blog_videos": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "blog_id",
+      "UUID",
+      []
+    ],
+    [
+      "video_id",
+      "TEXT",
+      []
+    ]
+  ],
+  "resource_videos": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "resource_id",
+      "UUID",
+      []
+    ],
+    [
+      "video_id",
+      "TEXT",
+      []
+    ]
+  ],
+  "tags": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "name",
+      "TEXT",
+      []
+    ]
+  ],
+  "tag_links": [
+    [
+      "id",
+      "UUID",
+      [
+        "[primary",
+        "key]"
+      ]
+    ],
+    [
+      "tag_id",
+      "UUID",
+      []
+    ],
+    [
+      "ref_id",
+      "TEXT",
+      []
+    ],
+    [
+      "ref_type",
+      "tag_ref_type",
       []
     ]
   ]

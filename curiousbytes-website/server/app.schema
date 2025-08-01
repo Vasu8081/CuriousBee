@@ -4,6 +4,12 @@ Enum video_types {
     INTERVIEW
 }
 
+Enum tag_ref_type {
+  VIDEO DEFAULT
+  BLOG
+  RESOURCE
+}
+
 Table youtube {
     video_id TEXT [primary key]
     title TEXT
@@ -18,7 +24,60 @@ Table youtube {
     video_type video_types
 }
 
-Table resources {
-    resource_id UUID [primary key]
-    url TEXT
+Table blogs {
+  id UUID [primary key]
+  title TEXT
+  slug TEXT
+  author_name TEXT
+  content TEXT
+  cover_image TEXT
+  is_published BOOLEAN
+  is_featured BOOLEAN
+  published_at TIMESTAMP
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  scheduled_at TIMESTAMP
 }
+
+Table resources {
+  id UUID [primary key]
+  title TEXT
+  url TEXT
+  description TEXT
+  type TEXT
+  is_featured BOOLEAN
+  created_at TIMESTAMP
+  scheduled_at TIMESTAMP
+}
+
+Table blog_videos {
+  id UUID [primary key]
+  blog_id UUID
+  video_id TEXT
+}
+
+Table resource_videos {
+  id UUID [primary key]
+  resource_id UUID
+  video_id TEXT
+}
+
+Table tags {
+  id UUID [primary key]
+  name TEXT
+}
+
+Table tag_links {
+  id UUID [primary key]
+  tag_id UUID
+  ref_id TEXT
+  ref_type tag_ref_type
+}
+
+FK blog_videos.blog_id as blog -> blogs.id as blogVideos [many_to_one] [refer_right]
+FK blog_videos.video_id as video -> youtube.video_id as blogVideos [many_to_one] [refer_right]
+
+FK resource_videos.resource_id as resource -> resources.id as resourceVideos [many_to_one] [refer_right]
+FK resource_videos.video_id as video -> youtube.video_id as resourceVideos [many_to_one] [refer_right]
+
+FK tag_links.tag_id as tag -> tags.id as tagLinks [many_to_one] [refer_right]

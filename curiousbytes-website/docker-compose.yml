@@ -1,11 +1,26 @@
+version: "3.8"
+
 services:
-  curiousbytes-frontend:
+  # ---------------------- Stable Frontend ----------------------
+  curiousbytes-frontend-stable:
     build:
       context: ./client
-    container_name: curiousbytes-frontend
+    container_name: curiousbytes-frontend-stable
     restart: always
-    ports:
-      - "5173:5173"
+    environment:
+      - LIVE_MODE=0
+    working_dir: /app
+    networks:
+      - curiousbeenet
+
+  # ---------------------- Live Frontend ----------------------
+  curiousbytes-frontend-live:
+    build:
+      context: ./client
+    container_name: curiousbytes-frontend-live
+    restart: always
+    environment:
+      - LIVE_MODE=1
     volumes:
       - ./client:/app:cached
       - /app/node_modules
@@ -13,10 +28,30 @@ services:
     networks:
       - curiousbeenet
 
-  curiousbytes-backend:
+  # ---------------------- Stable Backend ----------------------
+  curiousbytes-backend-stable:
     build:
       context: ./server
-    container_name: curiousbytes-backend
+    container_name: curiousbytes-backend-stable
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - YOUTUBE_CHANNEL_ID=${YOUTUBE_CHANNEL_ID}
+      - YOUTUBE_CACHE_REFRESH_INTERVAL=${YOUTUBE_CACHE_REFRESH_INTERVAL}
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001  # No --reload
+    networks:
+      - curiousbeenet
+      - internal
+
+  # ---------------------- Live Backend ----------------------
+  curiousbytes-backend-live:
+    build:
+      context: ./server
+    container_name: curiousbytes-backend-live
     restart: always
     environment:
       - DATABASE_URL=postgresql://curioususer:curiouspass@curiousbytes-postgres:5432/curiousbytes
@@ -27,12 +62,11 @@ services:
       - ./server:/app
     working_dir: /app
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-    ports:
-      - "8000:8000"
     networks:
       - curiousbeenet
       - internal
 
+  # ---------------------- Postgres ----------------------
   curiousbytes-postgres:
     image: postgres:15
     container_name: curiousbytes-postgres
@@ -41,8 +75,6 @@ services:
       POSTGRES_USER: curioususer
       POSTGRES_PASSWORD: curiouspass
       POSTGRES_DB: curiousbytes
-    ports:
-      - "5433:5432"
     volumes:
       - pgdata-curiousbytes:/var/lib/postgresql/data
     networks:

@@ -31,6 +31,10 @@ venv/
 # Alembic migrations cache
 alembic/versions/__pycache__/
 
+# Node.js artifacts
+node_modules
+dist
+
 # Docker junk
 Dockerfile
 docker-compose.yml

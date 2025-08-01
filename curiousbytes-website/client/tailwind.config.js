@@ -16,6 +16,12 @@ export default {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
+      ringColor: {
+        DEFAULT: '#6366f1', // indigo-500
+      },
+      ringOffsetWidth: {
+        DEFAULT: '2px',
+      },
     },
   },
   plugins: [],

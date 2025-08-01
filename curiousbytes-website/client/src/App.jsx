@@ -6,6 +6,9 @@ import Home from "./pages/Home";
 import Videos from "./pages/Videos";
 import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import ContactPage from "./pages/Contact";
 
 if (!localStorage.getItem("theme")) {
   localStorage.setItem("theme", "dark");
@@ -22,6 +25,9 @@ export default function App() {
             <Route path="/videos" element={<Videos />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
         <Footer />

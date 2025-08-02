@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import VideoCard from "../components/VideoCard";
+import VideoCard from "../components/VideoCard.tsx";
 import { PiVideoDuotone } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
 

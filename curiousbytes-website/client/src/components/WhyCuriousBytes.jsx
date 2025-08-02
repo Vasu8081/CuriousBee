@@ -4,6 +4,7 @@ import {
   PiStudentDuotone,
   PiBrainDuotone,
 } from "react-icons/pi";
+import { semanticColors } from "../constants/theme";
 
 const features = [
   {
@@ -36,12 +37,14 @@ export default function WhyCuriousBytes() {
           return (
             <div
               key={index}
-              className="group p-6 rounded-xl border bg-white dark:bg-gray-800 
-                         border-gray-200 dark:border-gray-700 shadow-md 
-                         transition-all duration-300 text-left transform 
-                         hover:scale-[1.03] cursor-pointer"
+              className={`group p-6 rounded-xl shadow-md transform transition-all duration-300 
+                          hover:scale-[1.03] cursor-pointer text-left 
+                          ${semanticColors.cards.social} border`}
             >
-              <Icon className="text-indigo-600 dark:text-indigo-400 text-4xl mb-4 transition-transform group-hover:scale-110" />
+              <Icon
+                className="text-indigo-600 dark:text-indigo-400 text-4xl mb-4 transition-transform group-hover:scale-110"
+                aria-hidden
+              />
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {feature.title}
               </h3>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import InstructorIntro from "../components/InstructorIntro";
-import ConnectWithUs from "../components/ConnectWithUs";
+import ConnectWithUs from "../components/ConnectWithUs.tsx";
 import WhyCuriousBytes from "../components/WhyCuriousBytes";
 import HeroSection from "../components/HeroSection";
 

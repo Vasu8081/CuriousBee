@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
+import { semanticColors } from "../constants/theme";
 
-const VideoCard = ({ title, videoId, thumbnail }) => {
+interface VideoCardProps {
+  title: string;
+  videoId: string;
+  thumbnail: string;
+}
+
+const VideoCard: React.FC<VideoCardProps> = ({ title, videoId, thumbnail }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
   return (
     <div
-      className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 
-                 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 group"
+      className={`rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 
+                  ${semanticColors.cards.social} border group`}
       title={title}
     >
       <div
@@ -23,7 +30,7 @@ const VideoCard = ({ title, videoId, thumbnail }) => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="w-full h-full"
-          ></iframe>
+          />
         ) : (
           <>
             <img

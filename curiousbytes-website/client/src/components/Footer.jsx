@@ -1,5 +1,6 @@
 import React from "react";
 import { FaInstagram, FaYoutube, FaLinkedin } from "react-icons/fa";
+import { brandColors } from "../constants/theme";
 
 export default function Footer({
   brand = "Curious Bytes",
@@ -18,22 +19,24 @@ export default function Footer({
     <footer className="bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 pt-16 pb-10 mt-24 border-t border-gray-200 dark:border-gray-700 font-sans">
       {/* Top: Brand + Contact */}
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-8">
-        {/* Brand */}
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
+          <h2
+            className="text-xl font-bold tracking-tight"
+            style={{ color: brandColors.primary.light }}
+          >
             {brand}
           </h2>
           <p className="text-sm mt-1 opacity-90">{tagline}</p>
         </div>
 
-        {/* Contact Info */}
         <div className="text-left md:text-right space-y-3">
           <div className="text-sm opacity-90">
             <span className="font-semibold">{contactLabel}</span>
             <br />
             <a
               href={`mailto:${contactEmail}`}
-              className="underline underline-offset-2 hover:no-underline break-words text-indigo-600 dark:text-indigo-400"
+              className="underline underline-offset-2 hover:no-underline break-words"
+              style={{ color: brandColors.primary.light }}
             >
               {contactEmail}
             </a>
@@ -46,10 +49,10 @@ export default function Footer({
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 text-sm">
-        {/* Copyright */}
-        <p className="opacity-80">&copy; {year} {brand}. All rights reserved.</p>
+        <p className="opacity-80">
+          &copy; {year} {brand}. All rights reserved.
+        </p>
 
-        {/* Links */}
         <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-start sm:justify-center">
           <a
             href={privacyHref}
@@ -73,7 +76,6 @@ export default function Footer({
           </a>
         </nav>
 
-        {/* Social Icons */}
         <div className="flex items-center gap-5 text-xl">
           <a
             href="https://instagram.com/_bhawwna"
@@ -82,7 +84,7 @@ export default function Footer({
             className="hover:scale-110 transition"
             aria-label="Instagram"
           >
-            <FaInstagram className="text-pink-500" />
+            <FaInstagram style={{ color: brandColors.instagram }} />
           </a>
           <a
             href="https://www.youtube.com/@curiousbytes67"
@@ -91,7 +93,7 @@ export default function Footer({
             className="hover:scale-110 transition"
             aria-label="YouTube"
           >
-            <FaYoutube className="text-red-500" />
+            <FaYoutube style={{ color: brandColors.youtube }} />
           </a>
           <a
             href="https://in.linkedin.com/in/bhawnachelani"
@@ -100,7 +102,7 @@ export default function Footer({
             className="hover:scale-110 transition"
             aria-label="LinkedIn"
           >
-            <FaLinkedin className="text-sky-600" />
+            <FaLinkedin style={{ color: brandColors.linkedin }} />
           </a>
         </div>
       </div>

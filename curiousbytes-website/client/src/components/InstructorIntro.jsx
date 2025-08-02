@@ -1,18 +1,19 @@
 import React from "react";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { semanticColors, brandColors } from "../constants/theme";
 
 export default function InstructorIntro() {
   return (
     <section className="bg-white dark:bg-gray-900 px-6 py-20 font-sans">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-        
+
         {/* Left: Text Content */}
         <div className="md:w-1/2 text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Meet Your Mentor
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6 relative pl-6">
-            <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400">“</span>
+            <span className="absolute left-0 top-0 text-3xl text-[${brandColors.primary.light}] dark:text-[${brandColors.primary.dark}]">“</span>
             Bhawna is a passionate GATE educator and YouTuber. She holds an MTech from IIT Bombay. Having mentored thousands with her concise teaching style, and currently working at Google, she blends real-world experience with academics.
           </p>
 
@@ -22,7 +23,7 @@ export default function InstructorIntro() {
               href="https://instagram.com/_bhawwna"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-pink-500 hover:scale-110 transform transition"
+              className={`hover:scale-110 transition ${semanticColors.brand.instagram}`}
               aria-label="Instagram"
             >
               <FaInstagram />
@@ -31,7 +32,7 @@ export default function InstructorIntro() {
               href="https://www.linkedin.com/in/bhawnachelani"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sky-600 hover:scale-110 transform transition"
+              className={`hover:scale-110 transition ${semanticColors.brand.linkedin}`}
               aria-label="LinkedIn"
             >
               <FaLinkedin />

@@ -8,7 +8,8 @@ import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
-import ContactPage from "./pages/Contact";
+import ContactPage from "./pages/Contact.tsx";
+import BlogDetailsPage from "./pages/BlogDetailsPage";
 
 if (!localStorage.getItem("theme")) {
   localStorage.setItem("theme", "dark");
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailsPage />} />
           </Routes>
         </main>
         <Footer />

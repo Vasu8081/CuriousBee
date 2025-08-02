@@ -37,7 +37,7 @@ export default function WhyCuriousBytes() {
           return (
             <div
               key={index}
-              className={`group p-6 rounded-xl shadow-md transform transition-all duration-300 
+              className={`relative group p-6 rounded-xl shadow-md transform transition-all duration-300 
                           hover:scale-[1.03] cursor-pointer text-left 
                           ${semanticColors.cards.social} border`}
             >
@@ -48,13 +48,13 @@ export default function WhyCuriousBytes() {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p
-                className="text-sm text-gray-700 dark:text-gray-300 
-                           opacity-0 max-h-0 group-hover:max-h-40 group-hover:opacity-100 
-                           overflow-hidden transition-all duration-300"
-              >
-                {feature.description}
-              </p>
+
+              {/* Hidden Description Overlay */}
+              <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/90 p-6 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  {feature.description}
+                </p>
+              </div>
             </div>
           );
         })}

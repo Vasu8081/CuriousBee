@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { brandColors } from "../constants/theme";
@@ -13,6 +13,8 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur bg-white/80 dark:bg-gray-900/80 shadow-sm transition-all">
@@ -32,7 +34,11 @@ export default function Navbar() {
             <Link
               key={item.name}
               to={item.path}
-              className="text-gray-700 dark:text-gray-100 font-medium transition hover:underline underline-offset-4 hover:text-indigo-600 dark:hover:text-indigo-400"
+              className={`font-medium transition hover:underline underline-offset-4 ${
+                currentPath === item.path
+                  ? "text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-700 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400"
+              }`}
             >
               {item.name}
             </Link>
@@ -40,7 +46,7 @@ export default function Navbar() {
 
           <Link
             to="/videos"
-            className="ml-4 px-4 py-2 rounded-full font-semibold transition text-white"
+            className="ml-4 px-4 py-2 rounded-full font-semibold text-white transition"
             style={{
               backgroundColor: brandColors.primary.light,
             }}
@@ -77,12 +83,17 @@ export default function Navbar() {
             <Link
               key={item.name}
               to={item.path}
-              className="block text-gray-700 dark:text-gray-100 font-medium hover:underline underline-offset-4 hover:text-indigo-600 dark:hover:text-indigo-400"
+              className={`block font-medium hover:underline underline-offset-4 ${
+                currentPath === item.path
+                  ? "text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-700 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {item.name}
             </Link>
           ))}
+
           <Link
             to="/videos"
             className="block mt-2 text-center px-4 py-2 rounded-full font-semibold text-white transition"

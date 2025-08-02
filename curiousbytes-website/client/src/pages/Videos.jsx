@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import VideoCard from "../components/VideoCard.tsx";
 import { PiVideoDuotone } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
+import { brandColors } from "../constants/theme";
 
 const TABS = {
   GATE: "GATE",
@@ -56,22 +57,31 @@ export default function Videos() {
         {Object.values(TABS).map((tab) => {
           const isActive = selectedTab === tab;
           const isGate = tab === "GATE";
+          const primaryColor = brandColors.primary[isGate ? "gate" : "interview"];
+          const hoverColor = brandColors.hover[isGate ? "gate" : "interview"];
 
           return (
             <button
               key={tab}
               onClick={() => setSelectedTab(tab)}
-              className={`px-6 py-2 rounded-full font-semibold text-base border transition-all duration-300 ease-in-out
-                ${
-                  isActive
-                    ? isGate
-                      ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-purple-600 text-white border-purple-600"
-                    : isGate
-                    ? "text-blue-600 border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900"
-                    : "text-purple-600 border-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900"
+              className={`px-6 py-2 rounded-full font-semibold text-base border transition-all duration-300 ease-in-out hover:scale-105`}
+              style={{
+                backgroundColor: isActive ? primaryColor : "transparent",
+                color: isActive ? "#ffffff" : primaryColor,
+                borderColor: primaryColor,
+              }}
+              onMouseOver={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = hoverColor;
+                  e.currentTarget.style.color = "#ffffff";
                 }
-                hover:scale-105`}
+              }}
+              onMouseOut={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = primaryColor;
+                }
+              }}
             >
               {tab}
             </button>

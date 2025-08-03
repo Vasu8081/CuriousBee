@@ -15,5 +15,5 @@ include_directories(${CMAKE_BINARY_DIR}/)
 add_subdirectory(messages)
 add_subdirectory(network)
 add_subdirectory(server)
-
+add_subdirectory(parser)
 add_subdirectory(youtube)

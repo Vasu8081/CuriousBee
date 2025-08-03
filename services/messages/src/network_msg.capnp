@@ -14,6 +14,14 @@ enum MessageType {
   youtubeVideoSnapshotResponse @7;
 }
 
+struct Map(Key, Value) {
+  entries @0 :List(Entry);
+  struct Entry {
+    key @0 :Key;
+    value @1 :Value;
+  }
+}
+
 struct NetworkMessage {
   msgType @0 : MessageType;
   topic @1 : Text;

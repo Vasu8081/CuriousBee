@@ -41,4 +41,5 @@ message YoutubeVideo(8) extends NetworkMessage {
 
 message YoutubeVideoSnapshotResponse(7) extends Reply {
     list<YoutubeVideo> videos;
+    map<string,YoutubeVideo> mapVideos;
 }

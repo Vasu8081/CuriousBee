@@ -8,6 +8,7 @@ struct Field {
     std::string type;
     std::string name;
 
+    Field() = default;
     Field(const std::string &t, const std::string &n)
         : type(t), name(n) {}
 };

@@ -21,15 +21,15 @@ public:
     using server::server;
 
     void run_loop() override {
-        std::cout << "[SubscriberServer] Starting subscriber server...\n";
+        LOG_INFO << "[SubscriberServer] Starting subscriber server..." << go;
         
         // Subscribe to multiple topics
         subscribe("TOPIC_A");
         subscribe("TOPIC_B");
         subscribe("NEWS_TOPIC");
         
-        std::cout << "[SubscriberServer] Subscribed to topics: TOPIC_A, TOPIC_B, NEWS_TOPIC\n";
-        std::cout << "[SubscriberServer] Listening for messages...\n";
+        LOG_INFO << "[SubscriberServer] Subscribed to topics: TOPIC_A, TOPIC_B, NEWS_TOPIC" << go;
+        LOG_INFO << "[SubscriberServer] Listening for messages..." << go;
         
         // Keep the server running and periodically show stats
         while (is_running()) {
@@ -40,7 +40,7 @@ public:
 
     void on_message(std::shared_ptr<network_message> msg) override {
         if (!msg) {
-            std::cerr << "[SubscriberServer] Received null message\n";
+            LOG_ERR << "[SubscriberServer] Received null message" << go;
             return;
         }
         
@@ -52,43 +52,43 @@ public:
                 std::string topic = determine_topic_from_content(reqMsg->getMessage());
                 messageCounters[topic]++;
                 
-                std::cout << "[SubscriberServer] [" << topic << "] Request received:\n";
-                std::cout << "  ID: " << reqMsg->getId() << "\n";
-                std::cout << "  Message: " << reqMsg->getMessage() << "\n";
-                std::cout << "  User: " << reqMsg->getUser() << "\n";
-                std::cout << "  Age: " << reqMsg->getAge() << "\n";
-                std::cout << "  Total messages from " << topic << ": " << messageCounters[topic] << "\n\n";
+                LOG_INFO << "[SubscriberServer] [" << topic << "] Request received:" << go;
+                LOG_INFO << "  ID: " << reqMsg->getId() << go;
+                LOG_INFO << "  Message: " << reqMsg->getMessage() << go;
+                LOG_INFO << "  User: " << reqMsg->getUser() << go;
+                LOG_INFO << "  Age: " << reqMsg->getAge() << go;
+                LOG_INFO << "  Total messages from " << topic << ": " << messageCounters[topic] << go;
                 
             } else if (msg->is_response()) {
                 auto respMsg = std::static_pointer_cast<test_reply>(msg);
                 std::string topic = determine_topic_from_content(respMsg->getResponse());
                 messageCounters[topic]++;
                 
-                std::cout << "[SubscriberServer] [" << topic << "] Response received:\n";
-                std::cout << "  ID: " << respMsg->getId() << "\n";
-                std::cout << "  Response: " << respMsg->getResponse() << "\n";
-                std::cout << "  ResponseTest: " << respMsg->getResponseTest() << "\n";
-                std::cout << "  Total messages from " << topic << ": " << messageCounters[topic] << "\n\n";
+                LOG_INFO << "[SubscriberServer] [" << topic << "] Response received:" << go;
+                LOG_INFO << "  ID: " << respMsg->getId() << go;
+                LOG_INFO << "  Response: " << respMsg->getResponse() << go;
+                LOG_INFO << "  ResponseTest: " << respMsg->getResponseTest() << go;
+                LOG_INFO << "  Total messages from " << topic << ": " << messageCounters[topic] << go;
                 
             } else {
-                std::cout << "[SubscriberServer] [UNKNOWN] Generic message received\n";
+                LOG_INFO << "[SubscriberServer] [UNKNOWN] Generic message received" << go;
                 messageCounters["UNKNOWN"]++;
             }
             
         } catch (const std::exception& e) {
-            std::cerr << "[SubscriberServer] Error processing message: " << e.what() << "\n";
+            LOG_ERR << "[SubscriberServer] Error processing message: " << e.what() << go;
         }
     }
     
     void on_request(std::shared_ptr<network_message> req) override {
         // This will be called for request-type messages in pub/sub
-        std::cout << "[SubscriberServer] Received request via pub/sub\n";
+        LOG_INFO << "[SubscriberServer] Received request via pub/sub" << go;
         on_message(req);
     }
     
     void on_reply(std::shared_ptr<network_message> resp) override {
         // This will be called for response-type messages in pub/sub
-        std::cout << "[SubscriberServer] Received reply via pub/sub\n";
+        LOG_INFO << "[SubscriberServer] Received reply via pub/sub" << go;
         on_message(resp);
     }
     
@@ -108,11 +108,11 @@ private:
     void print_statistics() {
         std::lock_guard<std::mutex> lock(counterMutex);
         
-        std::cout << "\n=== MESSAGE STATISTICS ===\n";
+        LOG_INFO << "\n=== MESSAGE STATISTICS ===" << go;
         for (const auto& [topic, count] : messageCounters) {
-            std::cout << topic << ": " << count << " messages\n";
+            LOG_INFO << topic << ": " << count << " messages" << go;
         }
-        std::cout << "==========================\n\n";
+        LOG_INFO << "==========================\n" << go;
     }
     
 public:
@@ -124,16 +124,16 @@ public:
 int main() {
     try {
         server_config config("/home/curious_bytes/Documents/CuriousBee/services/config.json");
-        SubscriberServer s(config);
+        SubscriberServer s(config, "SubscriberServer");
         
-        std::cout << "[SubscriberServer] Starting subscriber server...\n";
-        std::cout << "[SubscriberServer] Will subscribe to topics: TOPIC_A, TOPIC_B, NEWS_TOPIC\n";
-        std::cout << "[SubscriberServer] Press Ctrl+C to stop\n";
+        LOG_INFO << "[SubscriberServer] Starting subscriber server..." << go;
+        LOG_INFO << "[SubscriberServer] Will subscribe to topics: TOPIC_A, TOPIC_B, NEWS_TOPIC" << go;
+        LOG_INFO << "[SubscriberServer] Press Ctrl+C to stop" << go;
         
         s.start();
         
     } catch (const std::exception& e) {
-        std::cerr << "[SubscriberServer] Error: " << e.what() << "\n";
+        LOG_ERR << "[SubscriberServer] Error: " << e.what() << go;
         return 1;
     }
     

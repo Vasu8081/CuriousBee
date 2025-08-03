@@ -13,6 +13,7 @@
 #include <network/network_message.h>
 #include <server/server_config.h>
 #include <server/listener.h>
+#include <server/logger.h>
 
 namespace curious::core {
 
@@ -23,7 +24,7 @@ enum class ActionType {
 
 class server {
 public:
-    explicit server(const server_config& config);
+    explicit server(const server_config& config, const std::string& serverName);
     virtual ~server();
 
     // Core server control
@@ -85,6 +86,7 @@ protected:
         std::chrono::steady_clock::time_point timestamp;
     };
     std::unordered_map<int, PendingRequestInfo> _pendingRequests;
+    std::string _serverName;
 
 private:
     // Core messaging implementations

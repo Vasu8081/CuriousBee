@@ -32,7 +32,7 @@ public:
         
         // Keep running for a bit to ensure all replies are processed
         std::this_thread::sleep_for(std::chrono::seconds(5));
-        std::cout << "[RequesterServer] Finished sending test requests\n";
+        LOG_INFO << "[RequesterServer] Finished sending test requests" << go;
     }
     
     void send_test_request(int requestNum) {
@@ -45,32 +45,32 @@ public:
         msg->setMessage("Hello, World request #" + std::to_string(requestNum));
         msg->setUser("test_user_" + std::to_string(requestNum));
 
-        std::cout << "[RequesterServer] Sending request #" << requestNum << ": " << msg->getMessage() << "\n";
+        LOG_INFO << "[RequesterServer] Sending request #" << requestNum << ": " << msg->getMessage() << go;
         
         // Send synchronous request (waitForReply = true)
         request(msg, "TEST_TOPIC", nullptr, nullptr, true);
         
-        std::cout << "[RequesterServer] Request #" << requestNum << " completed\n";
+        LOG_INFO << "[RequesterServer] Request #" << requestNum << " completed" << go;
     }
 
     void on_reply(std::shared_ptr<curious::net::network_message> response) override {
         std::lock_guard<std::mutex> lock(replyMutex);
         
         if (!response) {
-            std::cerr << "[RequesterServer] Received null response (timeout or error)\n";
+            LOG_ERR << "[RequesterServer] Received null response (timeout or error)" << go;
             replyReceived = true;
             return;
         }
         
         if (!response->is_response()) {
-            std::cerr << "[RequesterServer] Invalid response received\n";
+            LOG_ERR << "[RequesterServer] Invalid response received" << go;
             replyReceived = true;
             return;
         }
 
         auto respCast = std::dynamic_pointer_cast<curious::net::test_reply>(response);
         if (!respCast) {
-            std::cerr << "[RequesterServer] Failed to cast to test_reply\n";
+            LOG_ERR << "[RequesterServer] Failed to cast to test_reply" << go;
             replyReceived = true;
             return;
         }
@@ -78,23 +78,23 @@ public:
         lastReply = respCast;
         replyReceived = true;
         
-        std::cout << "[RequesterServer] Reply received!\n";
-        std::cout << "  ID: " << respCast->getId() << "\n";
-        std::cout << "  Response: " << respCast->getResponse() << "\n";
-        std::cout << "  ResponseTest: " << respCast->getResponseTest() << "\n";
+        LOG_INFO << "[RequesterServer] Reply received!" << go;
+        LOG_INFO << "  ID: " << respCast->getId() << go;
+        LOG_INFO << "  Response: " << respCast->getResponse() << go;
+        LOG_INFO << "  ResponseTest: " << respCast->getResponseTest() << go;
     }
 };
 
 int main() {
     try {
         server_config config("/home/curious_bytes/Documents/CuriousBee/services/config.json");
-        RequesterServer s(config);
+        RequesterServer s(config, "RequesterServer");
         
-        std::cout << "[RequesterServer] Starting requester server...\n";
+        LOG_INFO << "[RequesterServer] Starting requester server..." << go;
         s.start();
         
     } catch (const std::exception& e) {
-        std::cerr << "[RequesterServer] Error: " << e.what() << "\n";
+        LOG_ERR << "[RequesterServer] Error: " << e.what() << go;
         return 1;
     }
     

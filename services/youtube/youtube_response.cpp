@@ -18,7 +18,7 @@ public:
     void run_loop() override {
         listen("TEST_TOPIC");
         
-        std::cout << "[ResponderServer] Server is listening on TEST_TOPIC\n";
+        LOG_INFO << "[ResponderServer] Server is listening on TEST_TOPIC" << go;
         
         // Keep the server running
         while (is_running()) {
@@ -28,13 +28,13 @@ public:
 
     void on_request(std::shared_ptr<network_message> req) override {
         if (!req || !req->is_request()) {
-            std::cerr << "[ResponderServer] Invalid request received\n";
+            LOG_ERR << "[ResponderServer] Invalid request received" << go;
             return;
         }
 
         try {
             auto testReq = std::static_pointer_cast<test_request>(req);
-            std::cout << "[ResponderServer] Received request ID: " << testReq->getId() << " Message: " << testReq->getMessage() << "\n";
+            LOG_INFO << "[ResponderServer] Received request ID: " << testReq->getId() << " Message: " << testReq->getMessage() << go;
 
             // Create response
             auto replyMsg = std::make_shared<test_reply>();
@@ -45,10 +45,10 @@ public:
 
             // Send reply immediately
             reply(req, replyMsg, "TEST_TOPIC", nullptr);
-            std::cout << "[ResponderServer] Reply sent for request ID: " << testReq->getId() << "\n";
+            LOG_INFO << "[ResponderServer] Reply sent for request ID: " << testReq->getId() << go;
             
         } catch (const std::exception& e) {
-            std::cerr << "[ResponderServer] Error processing request: " << e.what() << "\n";
+            LOG_ERR << "[ResponderServer] Error processing request: " << e.what() << go;
             
             // Send error response to maintain REQ/REP state
             auto errorReply = std::make_shared<test_reply>();
@@ -72,13 +72,13 @@ public:
 int main() {
     try {
         server_config config("/home/curious_bytes/Documents/CuriousBee/services/config.json");
-        ResponderServer s(config);
+        ResponderServer s(config, "ResponderServer");
         
-        std::cout << "[ResponderServer] Starting responder server...\n";
+        LOG_INFO << "[ResponderServer] Starting responder server..." << go;
         s.start();
         
     } catch (const std::exception& e) {
-        std::cerr << "[ResponderServer] Error: " << e.what() << "\n";
+        LOG_ERR << "[ResponderServer] Error: " << e.what() << go;
         return 1;
     }
     

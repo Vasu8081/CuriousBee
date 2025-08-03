@@ -11,6 +11,7 @@
 #include <capnp/message.h>
 #include <capnp/serialize.h>
 #include <kj/io.h>
+#include <filesystem>
 
 namespace curious::core {
 
@@ -41,13 +42,13 @@ public:
     }
 };
 
-server::server(const server_config& config)
-    : _config(config), _running(false), _requestCounter(0) {
+server::server(const server_config& config, const std::string& serverName)
+    : _config(config), _running(false), _requestCounter(0), _serverName(serverName) {
     const auto& log_type = _config.get_log_type();
-    if (log_type == "console") {
-        _setup_console_logger();
-    } else if (log_type == "file") {
+    if (log_type == "file") {
         _setup_file_logger(_config.get_log_file_path(), _config.get_timestamp_format());
+    } else {
+        _setup_console_logger();
     }
     _zmqContext = std::make_unique<zmq::context_t>(1);
 }
@@ -58,13 +59,13 @@ server::~server() {
 
 void server::start() {
     if (_running) {
-        std::cout << "[server] Server is already running\n";
+        LOG_INFO << "[server] Server is already running" << go;
         return;
     }
     
     _running = true;
     _listenerThread = std::thread(&server::_listener_loop, this);
-    std::cout << "[server] Server started\n";
+    LOG_INFO << "[server] Server started" << go;
     run_loop();
 }
 
@@ -88,12 +89,12 @@ void server::stop() {
     _requestReplySocketMap.clear();
     _pendingRequests.clear();
     
-    std::cout << "[server] Server stopped\n";
+    LOG_INFO << "[server] Server stopped" << go;
 }
 
 void server::publish(std::shared_ptr<curious::net::network_message> msg, const std::string& topic) {
     if (!_running) {
-        std::cerr << "[server] Cannot publish: server not running\n";
+        LOG_ERR << "[server] Cannot publish: server not running" << go;
         return;
     }
     _doPublish(std::move(msg), topic);
@@ -102,7 +103,7 @@ void server::publish(std::shared_ptr<curious::net::network_message> msg, const s
 void server::request(std::shared_ptr<curious::net::network_message> req, const std::string& topic, 
                     std::shared_ptr<listener> callbackListener, void* closure, bool waitForReply) {
     if (!_running) {
-        std::cerr << "[server] Cannot send request: server not running\n";
+        LOG_ERR << "[server] Cannot send request: server not running" << go;
         return;
     }
     
@@ -133,7 +134,7 @@ void server::request(std::shared_ptr<curious::net::network_message> req, const s
                 on_reply(response);
             }
         } else {
-            std::cerr << "[server] Request timed out waiting for reply\n";
+            LOG_ERR << "[server] Request timed out waiting for reply" << go;
             if (callbackListener) {
                 callbackListener->on_reply(nullptr);
             }
@@ -166,7 +167,7 @@ server::request_async(std::shared_ptr<curious::net::network_message> req, const 
 void server::request_async(std::shared_ptr<curious::net::network_message> req, const std::string& topic,
                           std::function<void(std::shared_ptr<curious::net::network_message>)> callback) {
     if (!_running) {
-        std::cerr << "[server] Cannot send async request: server not running\n";
+        LOG_ERR << "[server] Cannot send async request: server not running" << go;
         if (callback) {
             callback(nullptr);
         }
@@ -181,29 +182,29 @@ void server::reply(std::shared_ptr<curious::net::network_message> req,
                   std::shared_ptr<curious::net::network_message> resp, 
                   const std::string& topic, void* closure) {
     if (!_running) {
-        std::cerr << "[server] Cannot reply: server not running\n";
+        LOG_ERR << "[server] Cannot reply: server not running " << go;
         return;
     }
     _doReply(req, resp, topic, closure);
 }
 
 void server::on_request(std::shared_ptr<curious::net::network_message> req) {
-    std::cout << "[server] [default] Request received\n";
+    LOG_INFO << "[server] [default] Request received" << go;
 }
 
 void server::on_reply(std::shared_ptr<curious::net::network_message> resp) {
-    std::cout << "[server] [default] Response received\n";
+    LOG_INFO << "[server] [default] Response received" << go;
 }
 
 void server::on_message(std::shared_ptr<curious::net::network_message> msg) {
-    std::cout << "[server] [default] Pub/Sub message received\n";
+    LOG_INFO << "[server] [default] Pub/Sub message received" << go;
 }
 
 void server::_doPublish(std::shared_ptr<curious::net::network_message> msg, const std::string& topic) {
     std::lock_guard<std::mutex> lock(_socketMutex);
     
     if (!msg) {
-        std::cerr << "[server] Invalid message object\n";
+        LOG_ERR << "[server] Invalid message object" << go;
         return;
     }
 
@@ -214,9 +215,9 @@ void server::_doPublish(std::shared_ptr<curious::net::network_message> msg, cons
             std::string endpoint = _config.get_endpoint_for_topic(topic).endpoint;
             pub.bind(endpoint);
             _pubSockets[topic] = std::move(pub);
-            std::cout << "[server] Created PUB socket for topic: " << topic << " at " << endpoint << "\n";
+            LOG_INFO << "[server] Created PUB socket for topic: " << topic << " at " << endpoint << go;
         } catch (const zmq::error_t& e) {
-            std::cerr << "[server] Failed to create PUB socket for topic " << topic << ": " << e.what() << "\n";
+            LOG_ERR << "[server] Failed to create PUB socket for topic " << topic << ": " << e.what() << go;
             return;
         }
     }
@@ -235,24 +236,22 @@ void server::_doPublish(std::shared_ptr<curious::net::network_message> msg, cons
         socket.send(topicFrame, zmq::send_flags::sndmore);
         socket.send(dataFrame, zmq::send_flags::none);
         
-        std::cout << "[server] Published message on topic: " << topic << "\n";
+        LOG_INFO << "[server] Published message on topic: " << topic << go;
     } catch (const std::exception& e) {
-        std::cerr << "[server] Failed to publish message: " << e.what() << "\n";
+        LOG_ERR << "[server] Failed to publish message: " << e.what() << go;
     }
 }
 
-void server::_doReply(std::shared_ptr<curious::net::network_message> req, 
-                     std::shared_ptr<curious::net::network_message> resp, 
-                     const std::string& topic, void* /*closure*/) {
+void server::_doReply(std::shared_ptr<curious::net::network_message> req, std::shared_ptr<curious::net::network_message> resp, const std::string& topic, void* /*closure*/) {
     if (!req || !resp || !resp->is_response() || !req->is_request()) {
-        std::cerr << "[server] Invalid request or response objects\n";
+        LOG_ERR << "[server] Invalid request or response objects" << go;
         return;
     }
 
     auto reqCast = std::dynamic_pointer_cast<curious::net::request>(req);
     auto respCast = std::dynamic_pointer_cast<curious::net::reply>(resp);
     if (!reqCast || !respCast) {
-        std::cerr << "[server] Failed to cast request/response objects\n";
+        LOG_ERR << "[server] Failed to cast request/response objects" << go;
         return;
     }
     
@@ -263,7 +262,7 @@ void server::_doReply(std::shared_ptr<curious::net::network_message> req,
     // Look up the socket from the request pointer
     auto it = _requestReplySocketMap.find(reqCast.get());
     if (it == _requestReplySocketMap.end() || it->second == nullptr) {
-        std::cerr << "[server] No socket found for the given request\n";
+        LOG_ERR << "[server] No socket found for the given request" << go;
         return;
     }
 
@@ -278,9 +277,9 @@ void server::_doReply(std::shared_ptr<curious::net::network_message> req,
         zmq::message_t dataFrame(vecStream.getArray().asChars().begin(), vecStream.getArray().size());
         it->second->send(dataFrame, zmq::send_flags::none);
         
-        std::cout << "[server] Sent reply on topic: " << topic << " for request ID: " << reqCast->getId() << "\n";
+        LOG_INFO << "[server] Sent reply on topic: " << topic << " for request ID: " << reqCast->getId() << go;
     } catch (const zmq::error_t& err) {
-        std::cerr << "[server] ZMQ send failed: " << err.what() << "\n";
+        LOG_ERR << "[server] ZMQ send failed: " << err.what() << go;
     }
 
     // Clean up the mapping
@@ -290,13 +289,13 @@ void server::_doReply(std::shared_ptr<curious::net::network_message> req,
 void server::_doRequest(std::shared_ptr<curious::net::network_message> req, const std::string& topic, 
                        std::shared_ptr<listener> callbackListener, void* closure, bool waitForReply) {
     if (!req || !req->is_request()) {
-        std::cerr << "[server] Invalid request object\n";
+        LOG_ERR << "[server] Invalid request object" << go;
         return;
     }
 
     auto reqPtr = std::dynamic_pointer_cast<curious::net::request>(req);
     if (!reqPtr) {
-        std::cerr << "[server] Request is not of type request\n";
+        LOG_ERR << "[server] Request is not of type request" << go;
         return;
     }
 
@@ -320,9 +319,9 @@ void server::_doRequest(std::shared_ptr<curious::net::network_message> req, cons
         _reqSockets[topic] = std::move(sock);
         _reqSocketReady[topic] = true;
         
-        std::cout << "[server] Created/Reset REQ socket for topic: " << topic << " at " << endpoint << "\n";
+        LOG_INFO << "[server] Created/Reset REQ socket for topic: " << topic << " at " << endpoint << go;
     } catch (const zmq::error_t& e) {
-        std::cerr << "[server] Failed to create REQ socket for topic " << topic << ": " << e.what() << "\n";
+        LOG_ERR << "[server] Failed to create REQ socket for topic " << topic << ": " << e.what() << go;
         return;
     }
 
@@ -340,19 +339,19 @@ void server::_doRequest(std::shared_ptr<curious::net::network_message> req, cons
         socket.send(dataFrame, zmq::send_flags::none);
         _reqSocketReady[topic] = false; // Mark as waiting for reply
         
-        std::cout << "[server] Sent request ID: " << id << " to topic: " << topic << "\n";
+        LOG_INFO << "[server] Sent request ID: " << id << " to topic: " << topic << go;
         
         // Store pending request info
         _pendingRequests[id] = {callbackListener, closure, topic, std::chrono::steady_clock::now()};
         
     } catch (const std::exception& e) {
-        std::cerr << "[server] Failed to send request: " << e.what() << "\n";
+        LOG_ERR << "[server] Failed to send request: " << e.what() << go;
         _reqSocketReady[topic] = true; // Reset socket state on error
     }
 }
 
 void server::_listener_loop() {
-    std::cout << "[server] Listener thread started\n";
+    LOG_INFO << "[server] Listener thread started" << go;
     
     while (_running) {
         try {
@@ -363,11 +362,11 @@ void server::_listener_loop() {
             
             std::this_thread::sleep_for(std::chrono::milliseconds(1)); // Reduced sleep for better responsiveness
         } catch (const std::exception& e) {
-            std::cerr << "[server] Error in listener loop: " << e.what() << "\n";
+            LOG_ERR << "[server] Error in listener loop: " << e.what() << go;
         }
     }
     
-    std::cout << "[server] Listener thread stopped\n";
+    LOG_INFO << "[server] Listener thread stopped"<< go;
 }
 
 void server::_handle_subscriber_messages() {
@@ -390,7 +389,7 @@ void server::_handle_subscriber_messages() {
                 on_message(obj);
             }
         } catch (const std::exception& e) {
-            std::cerr << "[server] Error handling subscriber message: " << e.what() << "\n";
+            LOG_ERR << "[server] Error handling subscriber message: " << e.what() << go;
         }
     }
 }
@@ -429,13 +428,13 @@ void server::_handle_incoming_requests() {
                 requestsToHandle.emplace_back(reqPtr, &socket);
 
             } catch (const std::exception& e) {
-                std::cerr << "[server] Error handling incoming request: " << e.what() << "\n";
+                LOG_ERR << "[server] Error handling incoming request: " << e.what() << go;
                 try {
                     std::string errorMsg = "Server error";
                     zmq::message_t errorFrame(errorMsg.begin(), errorMsg.end());
                     socket.send(errorFrame, zmq::send_flags::none);
                 } catch (...) {
-                    std::cerr << "[server] Failed to send error response, socket may be corrupted\n";
+                    LOG_ERR << "[server] Failed to send error response, socket may be corrupted"<< go;
                 }
             }
         }
@@ -468,7 +467,7 @@ void server::_handle_request_replies() {
             if (!respPtr) continue;
 
             int id = respPtr->getId();
-            std::cout << "[server] Received reply for request ID: " << id << " on topic: " << topic << "\n";
+            LOG_INFO << "[server] Received reply for request ID: " << id << " on topic: " << topic << go;
             
             auto it = _pendingRequests.find(id);
             if (it != _pendingRequests.end()) {
@@ -484,7 +483,7 @@ void server::_handle_request_replies() {
                 on_reply(respPtr);
             }
         } catch (const std::exception& e) {
-            std::cerr << "[server] Error handling request reply: " << e.what() << "\n";
+            LOG_ERR << "[server] Error handling request reply: " << e.what() << go;
             _reqSocketReady[topic] = true; // Reset on error
         }
     }
@@ -499,7 +498,7 @@ void server::_cleanup_expired_requests() {
     for (auto it = _pendingRequests.begin(); it != _pendingRequests.end();) {
         auto [callback, closure, topic, timestamp] = it->second;
         if (now - timestamp > timeout) {
-            std::cerr << "[server] Request ID " << it->first << " timed out\n";
+            LOG_ERR << "[server] Request ID " << it->first << " timed out"<< go;
             
             // Reset socket state for timed out requests
             _reqSocketReady[topic] = true;
@@ -525,7 +524,7 @@ std::shared_ptr<curious::net::network_message> server::_deserialize_message(cons
         capnp::FlatArrayMessageReader reader(wordArray);
         return curious::net::FactoryBuilder::fromCapnp(reader);
     } catch (const std::exception& e) {
-        std::cerr << "[server] Failed to deserialize message: " << e.what() << "\n";
+        LOG_ERR << "[server] Failed to deserialize message: " << e.what() << go;
         return nullptr;
     }
 }
@@ -535,34 +534,34 @@ void server::listen(const std::string& topic) {
     const auto& endpoint = endpointInfo.endpoint;
 
     if (endpoint.empty()) {
-        std::cerr << "[server] No endpoint configured for topic: " << topic << "\n";
+        LOG_ERR << "[server] No endpoint configured for topic: " << topic << go;
         return;
     }
     
     std::lock_guard<std::mutex> lock(_socketMutex);
     if (_repSockets.find(topic) != _repSockets.end()) {
-        std::cout << "[server] Already listening on topic: " << topic << "\n";
+        LOG_INFO << "[server] Already listening on topic: " << topic << go;
         return;
     }
     
-    std::cout << "[server] Listening on topic: " << topic << " at endpoint: " << endpoint << "\n";
+    LOG_INFO << "[server] Listening on topic: " << topic << " at endpoint: " << endpoint << go;
     _activate_endpoint(endpointInfo, ActionType::Listen);
 }
 
 void server::subscribe(const std::string& topic) {
     const auto& endpointInfo = _config.get_endpoint_for_topic(topic);
     if (endpointInfo.endpoint.empty()) {
-        std::cerr << "[server] No endpoint configured for topic: " << topic << "\n";
+        LOG_ERR << "[server] No endpoint configured for topic: " << topic << go;
         return;
     }
     
     std::lock_guard<std::mutex> lock(_socketMutex);
     if (_subSockets.find(topic) != _subSockets.end()) {
-        std::cout << "[server] Already subscribed to topic: " << topic << "\n";
+        LOG_INFO << "[server] Already subscribed to topic: " << topic << go;
         return;
     }
     
-    std::cout << "[server] Subscribing to topic: " << topic << " at endpoint: " << endpointInfo.endpoint << "\n";
+    LOG_INFO << "[server] Subscribing to topic: " << topic << " at endpoint: " << endpointInfo.endpoint << go;
     _activate_endpoint(endpointInfo, ActionType::Subscribe);
 }
 
@@ -579,7 +578,7 @@ void server::_activate_endpoint(messaging_endpoint endpointInfo, ActionType acti
                     
                     rep.bind(endpointInfo.endpoint);
                     _repSockets[endpointInfo.topic] = std::move(rep);
-                    std::cout << "[server] Listening (TCP) on: " << endpointInfo.topic << " at " << endpointInfo.endpoint << "\n";
+                    LOG_INFO << "[server] Listening (TCP) on: " << endpointInfo.topic << " at " << endpointInfo.endpoint << go;
                 } else if (actionType == ActionType::Subscribe) {
                     zmq::socket_t sub(*_zmqContext, zmq::socket_type::sub);
                     std::string connectEndpoint = endpointInfo.endpoint;
@@ -590,7 +589,7 @@ void server::_activate_endpoint(messaging_endpoint endpointInfo, ActionType acti
                     sub.set(zmq::sockopt::subscribe, endpointInfo.topic);
                     _subSockets[endpointInfo.topic] = std::move(sub);
 
-                    std::cout << "[server] Subscribed (TCP) to: " << endpointInfo.topic << " at " << connectEndpoint << "\n";
+                    LOG_INFO << "[server] Subscribed (TCP) to: " << endpointInfo.topic << " at " << connectEndpoint << go;
                 }
                 break;
             }
@@ -601,46 +600,77 @@ void server::_activate_endpoint(messaging_endpoint endpointInfo, ActionType acti
                     rep.set(zmq::sockopt::linger, 0);
                     rep.bind(endpointInfo.endpoint);
                     _repSockets[endpointInfo.topic] = std::move(rep);
-                    std::cout << "[server] Listening (IPC) on: " << endpointInfo.topic << " at " << endpointInfo.endpoint << "\n";
+                    LOG_INFO << "[server] Listening (IPC) on: " << endpointInfo.topic << " at " << endpointInfo.endpoint << go;
                 } else if (actionType == ActionType::Subscribe) {
                     zmq::socket_t sub(*_zmqContext, zmq::socket_type::sub);
                     sub.connect(endpointInfo.endpoint);
                     sub.set(zmq::sockopt::subscribe, endpointInfo.topic);
                     _subSockets[endpointInfo.topic] = std::move(sub);
-                    std::cout << "[server] Subscribed (IPC) to: " << endpointInfo.topic << " at " << endpointInfo.endpoint << "\n";
+                    LOG_INFO << "[server] Subscribed (IPC) to: " << endpointInfo.topic << " at " << endpointInfo.endpoint << go;
                 }
                 break;
             }
 
             default: {
-                std::cerr << "[server] Unknown or unsupported endpoint type for topic: " << endpointInfo.topic << "\n";
+                LOG_ERR << "[server] Unknown or unsupported endpoint type for topic: " << endpointInfo.topic << go;
                 break;
             }
         }
     } catch (const zmq::error_t& e) {
-        std::cerr << "[server] ZMQ error activating endpoint: " << e.what() << "\n";
+        LOG_ERR << "[server] ZMQ error activating endpoint: " << e.what() << go;
     }
 }
 
 void server::_setup_console_logger() {
-    std::cout << "[server] Logger: console\n";
+    try {
+        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+
+        console_sink->set_level(spdlog::level::debug);
+        console_sink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");  // Color on level
+
+        auto logger = std::make_shared<spdlog::logger>("console_logger", console_sink);
+        spdlog::set_default_logger(logger);
+        spdlog::set_level(spdlog::level::debug);
+        spdlog::flush_on(spdlog::level::info);
+
+        LOG_INFO << "Console logger initialized with color output" << go;
+    } catch (const spdlog::spdlog_ex& e) {
+        std::cerr << "[server] Failed to setup console logger: " << e.what() << "\n";
+    }
 }
 
-void server::_setup_file_logger(const std::string& path, const std::string& timeFormat) {
+void server::_setup_file_logger(const std::string& path, const std::string&) {
     try {
-        std::ofstream out(path, std::ios::app);
-        if (!out) {
-            std::cerr << "[server] Failed to open log file: " << path << "\n";
-            return;
+        namespace fs = std::filesystem;
+
+        std::string logFile = path + "/app_" + _serverName + ".log";
+        if (!fs::exists(path)) {
+            fs::create_directories(path);
         }
 
-        auto now = std::chrono::system_clock::now();
-        std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-        out << "[" << std::put_time(std::localtime(&now_time), timeFormat.c_str()) << "] Log started\n";
-        out.close();
-        std::cout << "[server] File logger initialized: " << path << "\n";
-    } catch (const std::exception& e) {
-        std::cerr << "[server] Error setting up file logger: " << e.what() << "\n";
+        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFile, true);
+
+        console_sink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
+        file_sink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] %v");
+
+        // Unique logger per server
+        std::string logger_name = "multi_" + _serverName;
+
+        // Remove existing logger with same name if present
+        spdlog::drop(logger_name);
+
+        auto multi_logger = std::make_shared<spdlog::logger>(logger_name, spdlog::sinks_init_list{console_sink, file_sink});
+        spdlog::register_logger(multi_logger);
+        spdlog::set_default_logger(multi_logger);
+
+        spdlog::set_level(spdlog::level::debug);
+        spdlog::flush_on(spdlog::level::info);
+
+        LOG_INFO << "Logger initialized: " << logFile << go;
+    } catch (const spdlog::spdlog_ex& e) {
+        std::cerr << "[server] Failed to setup multi-sink logger: " << e.what() << "\n";
+        _setup_console_logger();
     }
 }
 

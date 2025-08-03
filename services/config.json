@@ -1,7 +1,7 @@
 {
   "logging": {
     "type": "file",
-    "file_path": "server.log",
+    "file_path": "/home/curious_bytes/Documents/CuriousBee/logs/",
     "timestamp_format": "%Y-%m-%d %H:%M:%S"
   },
   "messaging": {

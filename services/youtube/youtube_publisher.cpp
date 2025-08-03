@@ -21,7 +21,7 @@ public:
     using server::server;
 
     void run_loop() override {
-        std::cout << "[PublisherServer] Starting publisher server...\n";
+        LOG_INFO << "[PublisherServer] Starting publisher server..." << go;
         
         // Start publishing on multiple topics
         std::thread publishThread1(&PublisherServer::publish_loop, this, "TOPIC_A", 2000); // 2 seconds
@@ -41,8 +41,8 @@ public:
     }
     
     void publish_loop(const std::string& topic, int intervalMs) {
-        std::cout << "[PublisherServer] Starting publish loop for topic: " << topic 
-                  << " (interval: " << intervalMs << "ms)\n";
+        LOG_INFO << "[PublisherServer] Starting publish loop for topic: " << topic 
+                  << " (interval: " << intervalMs << "ms)" << go;
         
         int topicCounter = 0;
         
@@ -61,7 +61,7 @@ public:
                     newsMsg->setAge(topicCounter);
                     
                     publish(newsMsg, topic);
-                    std::cout << "[PublisherServer] Published NEWS: " << newsMsg->getMessage() << "\n";
+                    LOG_INFO << "[PublisherServer] Published NEWS: " << newsMsg->getMessage() << go;
                     
                 } else {
                     // Publish regular messages
@@ -72,17 +72,17 @@ public:
                     msg->setResponseTest(topicCounter * 10);
                     
                     publish(msg, topic);
-                    std::cout << "[PublisherServer] Published on " << topic << ": " << msg->getResponse() << "\n";
+                    LOG_INFO << "[PublisherServer] Published on " << topic << ": " << msg->getResponse() << go;
                 }
                 
             } catch (const std::exception& e) {
-                std::cerr << "[PublisherServer] Error publishing on " << topic << ": " << e.what() << "\n";
+                LOG_ERR << "[PublisherServer] Error publishing on " << topic << ": " << e.what() << go;
             }
             
             std::this_thread::sleep_for(std::chrono::milliseconds(intervalMs));
         }
         
-        std::cout << "[PublisherServer] Stopped publishing on topic: " << topic << "\n";
+        LOG_INFO << "[PublisherServer] Stopped publishing on topic: " << topic << go;
     }
     
     std::string get_current_time() {
@@ -108,16 +108,16 @@ public:
 int main() {
     try {
         server_config config("/home/curious_bytes/Documents/CuriousBee/services/config.json");
-        PublisherServer s(config);
+        PublisherServer s(config, "PublisherServer");
         
-        std::cout << "[PublisherServer] Starting publisher server...\n";
-        std::cout << "[PublisherServer] Will publish on topics: TOPIC_A, TOPIC_B, NEWS_TOPIC\n";
-        std::cout << "[PublisherServer] Press Ctrl+C to stop\n";
+        LOG_INFO << "[PublisherServer] Starting publisher server..." << go;
+        LOG_INFO << "[PublisherServer] Will publish on topics: TOPIC_A, TOPIC_B, NEWS_TOPIC" << go;
+        LOG_INFO << "[PublisherServer] Press Ctrl+C to stop" << go;
         
         s.start();
         
     } catch (const std::exception& e) {
-        std::cerr << "[PublisherServer] Error: " << e.what() << "\n";
+        LOG_ERR << "[PublisherServer] Error: " << e.what() << go;
         return 1;
     }
     

@@ -1,0 +1,26 @@
+message NetworkMessage(1) {
+    MessageType msgType;
+    string topic;
+}
+
+message Request(2) extends NetworkMessage {
+    int id;
+    string reqGeneratedIp;
+    string reqGeneratedPort;
+}
+
+message Reply(3) extends NetworkMessage {
+    int id;
+    Request request;
+}
+
+message TestRequest(4) extends Request {
+    string message;
+    string user;
+    int age;
+}
+
+message TestReply(5) extends Reply {
+    string response;
+    int responseTest;
+}

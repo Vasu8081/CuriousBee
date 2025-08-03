@@ -30,13 +30,13 @@ export const semanticColors = {
 
 export const brandColors = {
   primary: {
-    light: "#6366f1", // indigo-500
+    light: "#ecdd0bff", // indigo-500
     dark: "#818cf8",  // indigo-400
-    gate: "#0ea5e9",  // sky-500
+    gate: "#096ba3ff",  // sky-500
     interview: "#8b5cf6", // violet-500
   },
   hover: {
-    gate: "#38bdf8",     // sky-400
+    gate: "#11aecaff",     // sky-400
     interview: "#a78bfa", // violet-400
   },
   text: {

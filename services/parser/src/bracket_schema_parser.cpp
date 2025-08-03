@@ -4,7 +4,8 @@
 #include <server/logger.h>
 #include <parser/capnp_generator.h>
 #include <parser/cpp_header_generator.h>
-// #include <parser/cpp_impl_generator.h>
+#include <parser/cpp_impl_generator.h>
+#include <parser/cpp_generator.h>
 
 #include <sstream>
 #include <iostream>
@@ -102,8 +103,10 @@ void BracketSchemaParser::generateAllFiles(const std::string &outputDir) {
     CppHeaderGenerator headers(messages);
     headers.generate(outputDir);
 
-    // CppImplGenerator impls(messages);
-    // impls.generate(outputDir);
+    CppImplGenerator impls(messages);
+    impls.generate(outputDir);
 
+    parser::CppGenerator generator(messages);
+    generator.generateAll(outputDir);
     // other generators will follow here (headers, C++ impl, factory builder)
 }

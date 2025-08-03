@@ -1,52 +1,45 @@
 #pragma once
 #include <messages/network_msg.capnp.h>
-#include <string>
-#include <cstdint>
 #include <capnp/message.h>
 #include <capnp/serialize.h>
-
+#include <string>
+#include <cstdint>
+#include <cstdint>
 #include <network/reply.h>
+#include <string>
+//#editable_headers_start_dont_remove_this_line_only_write_below
 
-#include <network/request.h>
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
 class test_reply : public reply {
-  // #generated start
 protected:
+  // Properties
   std::string _response;
   int _responseTest;
-
 public:
+  // Constructor
   test_reply() {
-    // Initialize default values if needed
     _id = 0;
-    // Initialize custom type request if needed
+    _msgType = message_type::testReply;
     _response = "";
     _responseTest = 0;
-     _msgType = message_type::testReply;
+    _topic = "";
   }
 
-  int getId() const { return _id; }
-  void setId(int value) { _id = value; }
-
-  request getRequest() const { return _request; }
-  void setRequest(request value) { _request = value; }
-
-  const std::string& getResponse() const { return _response; }
-  void setResponse(const std::string& value) { _response = value; }
+  std::string getResponse() const { return _response; }
+  void setResponse(std::string value) { _response = value; }
 
   int getResponseTest() const { return _responseTest; }
   void setResponseTest(int value) { _responseTest = value; }
 
-  // Cap'n Proto conversion functions
   void toCapnp(curious::message::TestReply::Builder& builder) const;
   static test_reply fromCapnp(const curious::message::TestReply::Reader& reader);
-
-  // Serialization helpers
   std::string serialize() const;
   static test_reply deserialize(const std::string& data);
-  // #generated end
-};
+//#editable_class_start_dont_remove_this_line_only_write_above
 
+//#editable_class_end_dont_remove_this_line_only_write_below
+};
 }  // namespace curious::net

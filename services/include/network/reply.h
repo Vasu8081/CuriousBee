@@ -1,38 +1,30 @@
 #pragma once
 #include <messages/network_msg.capnp.h>
-#include <string>
-#include <cstdint>
 #include <capnp/message.h>
 #include <capnp/serialize.h>
-
+#include <string>
+#include <cstdint>
+#include <cstdint>
 #include <network/network_message.h>
-
-#include <network/message_type.h>
 #include <network/request.h>
+//#editable_headers_start_dont_remove_this_line_only_write_below
+
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
 class reply : public network_message {
-  // #generated start
 protected:
+  // Properties
   int _id;
   request _request;
-
 public:
+  // Constructor
   reply() {
-    // Initialize default values if needed
-    // Initialize custom type message_type if needed
-    _topic = "";
     _id = 0;
-    // Initialize custom type request if needed
-     _msgType = message_type::reply;
+    _msgType = message_type::reply;
+    _topic = "";
   }
-
-  message_type getMsgType() const { return _msgType; }
-  void setMsgType(message_type value) { _msgType = value; }
-
-  const std::string& getTopic() const { return _topic; }
-  void setTopic(const std::string& value) { _topic = value; }
 
   int getId() const { return _id; }
   void setId(int value) { _id = value; }
@@ -40,14 +32,12 @@ public:
   request getRequest() const { return _request; }
   void setRequest(request value) { _request = value; }
 
-  // Cap'n Proto conversion functions
   void toCapnp(curious::message::Reply::Builder& builder) const;
   static reply fromCapnp(const curious::message::Reply::Reader& reader);
-
-  // Serialization helpers
   std::string serialize() const;
   static reply deserialize(const std::string& data);
-  // #generated end
-};
+//#editable_class_start_dont_remove_this_line_only_write_above
 
+//#editable_class_end_dont_remove_this_line_only_write_below
+};
 }  // namespace curious::net

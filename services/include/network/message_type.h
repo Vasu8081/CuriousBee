@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cstdint>
+#include <messages/network_msg.capnp.h>
 
 namespace curious::net {
 

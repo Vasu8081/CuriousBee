@@ -1,19 +1,20 @@
 #pragma once
 #include <messages/network_msg.capnp.h>
-#include <string>
-#include <cstdint>
 #include <capnp/message.h>
 #include <capnp/serialize.h>
-
+#include <string>
+#include <cstdint>
 #include <network/network_message.h>
+#include <string>
+//#editable_headers_start_dont_remove_this_line_only_write_below
 
-#include <network/message_type.h>
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
 class youtube_video : public network_message {
-  // #generated start
 protected:
+  // Properties
   std::string _videoId;
   std::string _title;
   std::string _thumbnail;
@@ -21,57 +22,47 @@ protected:
   std::string _thumbnailHigh;
   std::string _thumbnailStandard;
   std::string _thumbnailMaxres;
-
 public:
+  // Constructor
   youtube_video() {
-    // Initialize default values if needed
-    // Initialize custom type message_type if needed
+    _msgType = message_type::youtubeVideo;
+    _thumbnail = "";
+    _thumbnailHigh = "";
+    _thumbnailMaxres = "";
+    _thumbnailMedium = "";
+    _thumbnailStandard = "";
+    _title = "";
     _topic = "";
     _videoId = "";
-    _title = "";
-    _thumbnail = "";
-    _thumbnailMedium = "";
-    _thumbnailHigh = "";
-    _thumbnailStandard = "";
-    _thumbnailMaxres = "";
-     _msgType = message_type::youtubeVideo;
   }
 
-  message_type getMsgType() const { return _msgType; }
-  void setMsgType(message_type value) { _msgType = value; }
+  std::string getVideoId() const { return _videoId; }
+  void setVideoId(std::string value) { _videoId = value; }
 
-  const std::string& getTopic() const { return _topic; }
-  void setTopic(const std::string& value) { _topic = value; }
+  std::string getTitle() const { return _title; }
+  void setTitle(std::string value) { _title = value; }
 
-  const std::string& getVideoId() const { return _videoId; }
-  void setVideoId(const std::string& value) { _videoId = value; }
+  std::string getThumbnail() const { return _thumbnail; }
+  void setThumbnail(std::string value) { _thumbnail = value; }
 
-  const std::string& getTitle() const { return _title; }
-  void setTitle(const std::string& value) { _title = value; }
+  std::string getThumbnailMedium() const { return _thumbnailMedium; }
+  void setThumbnailMedium(std::string value) { _thumbnailMedium = value; }
 
-  const std::string& getThumbnail() const { return _thumbnail; }
-  void setThumbnail(const std::string& value) { _thumbnail = value; }
+  std::string getThumbnailHigh() const { return _thumbnailHigh; }
+  void setThumbnailHigh(std::string value) { _thumbnailHigh = value; }
 
-  const std::string& getThumbnailMedium() const { return _thumbnailMedium; }
-  void setThumbnailMedium(const std::string& value) { _thumbnailMedium = value; }
+  std::string getThumbnailStandard() const { return _thumbnailStandard; }
+  void setThumbnailStandard(std::string value) { _thumbnailStandard = value; }
 
-  const std::string& getThumbnailHigh() const { return _thumbnailHigh; }
-  void setThumbnailHigh(const std::string& value) { _thumbnailHigh = value; }
+  std::string getThumbnailMaxres() const { return _thumbnailMaxres; }
+  void setThumbnailMaxres(std::string value) { _thumbnailMaxres = value; }
 
-  const std::string& getThumbnailStandard() const { return _thumbnailStandard; }
-  void setThumbnailStandard(const std::string& value) { _thumbnailStandard = value; }
-
-  const std::string& getThumbnailMaxres() const { return _thumbnailMaxres; }
-  void setThumbnailMaxres(const std::string& value) { _thumbnailMaxres = value; }
-
-  // Cap'n Proto conversion functions
   void toCapnp(curious::message::YoutubeVideo::Builder& builder) const;
   static youtube_video fromCapnp(const curious::message::YoutubeVideo::Reader& reader);
-
-  // Serialization helpers
   std::string serialize() const;
   static youtube_video deserialize(const std::string& data);
-  // #generated end
-};
+//#editable_class_start_dont_remove_this_line_only_write_above
 
+//#editable_class_end_dont_remove_this_line_only_write_below
+};
 }  // namespace curious::net

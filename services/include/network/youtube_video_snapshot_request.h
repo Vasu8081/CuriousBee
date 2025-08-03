@@ -1,45 +1,35 @@
 #pragma once
 #include <messages/network_msg.capnp.h>
-#include <string>
-#include <cstdint>
 #include <capnp/message.h>
 #include <capnp/serialize.h>
-
+#include <string>
+#include <cstdint>
 #include <network/request.h>
+//#editable_headers_start_dont_remove_this_line_only_write_below
 
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
 class youtube_video_snapshot_request : public request {
-  // #generated start
 protected:
-
+  // Properties
 public:
+  // Constructor
   youtube_video_snapshot_request() {
-    // Initialize default values if needed
     _id = 0;
+    _msgType = message_type::youtubeVideoSnapshotRequest;
     _reqGeneratedIp = "";
     _reqGeneratedPort = "";
-     _msgType = message_type::youtubeVideoSnapshotRequest;
+    _topic = "";
   }
 
-  int getId() const { return _id; }
-  void setId(int value) { _id = value; }
-
-  const std::string& getReqGeneratedIp() const { return _reqGeneratedIp; }
-  void setReqGeneratedIp(const std::string& value) { _reqGeneratedIp = value; }
-
-  const std::string& getReqGeneratedPort() const { return _reqGeneratedPort; }
-  void setReqGeneratedPort(const std::string& value) { _reqGeneratedPort = value; }
-
-  // Cap'n Proto conversion functions
   void toCapnp(curious::message::YoutubeVideoSnapshotRequest::Builder& builder) const;
   static youtube_video_snapshot_request fromCapnp(const curious::message::YoutubeVideoSnapshotRequest::Reader& reader);
-
-  // Serialization helpers
   std::string serialize() const;
   static youtube_video_snapshot_request deserialize(const std::string& data);
-  // #generated end
-};
+//#editable_class_start_dont_remove_this_line_only_write_above
 
+//#editable_class_end_dont_remove_this_line_only_write_below
+};
 }  // namespace curious::net

@@ -88,6 +88,5 @@ struct YoutubeVideoSnapshotResponse {
   id @2 : Int32;
   request @3 : Request;
   videos @4 : List(YoutubeVideo);
-  mapVideos @5 : Map(Text, YoutubeVideo);
 }
 

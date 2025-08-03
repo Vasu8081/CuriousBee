@@ -2,6 +2,8 @@
 #include <network/message_type.h>
 #include <memory>
 #include <string>
+#include <stdexcept>
+#include <capnp/message.h>
 
 #include <network/network_message.h>
 #include <network/reply.h>
@@ -11,6 +13,7 @@
 #include <network/youtube_video.h>
 #include <network/youtube_video_snapshot_request.h>
 #include <network/youtube_video_snapshot_response.h>
+
 namespace curious::net {
 
 class FactoryBuilder {
@@ -29,7 +32,7 @@ public:
     }
   }
 
-  static std::shared_ptr<network_message> createMessage(const std::string &typeName) {
+  static std::shared_ptr<network_message> createMessage(const std::string& typeName) {
     message_type type = fromString(typeName);
     return createMessage(type);
   }
@@ -39,7 +42,7 @@ public:
     return createMessage(type);
   }
 
-  static std::shared_ptr<network_message> fromCapnp(capnp::MessageReader &reader) {
+  static std::shared_ptr<network_message> fromCapnp(capnp::MessageReader& reader) {
     auto msgType = curious::net::fromCapnp(reader.getRoot<curious::message::NetworkMessage>());
     switch (msgType) {
       case message_type::networkMessage: {
@@ -79,6 +82,10 @@ public:
   }
 
   static void toCapnp(capnp::MallocMessageBuilder& builder, const std::shared_ptr<network_message>& msg) {
+    if (!msg) {
+      throw std::runtime_error("Cannot serialize null message");
+    }
+
     switch (msg->getMsgType()) {
       case message_type::networkMessage: {
         auto root = builder.initRoot<curious::message::NetworkMessage>();
@@ -161,6 +168,34 @@ public:
         break;
       }
       default: throw std::runtime_error("Unknown message type");
+    }
+  }
+
+  static std::string serialize(const std::shared_ptr<network_message>& msg) {
+    if (!msg) {
+      throw std::runtime_error("Cannot serialize null message");
+    }
+
+    capnp::MallocMessageBuilder builder;
+    toCapnp(builder, msg);
+
+    kj::VectorOutputStream output;
+    capnp::writeMessage(output, builder);
+    auto data = output.getArray();
+    return std::string(reinterpret_cast<const char*>(data.begin()), data.size());
+  }
+
+  static std::shared_ptr<network_message> deserialize(const std::string& data) {
+    if (data.empty()) {
+      throw std::runtime_error("Cannot deserialize empty data");
+    }
+
+    try {
+      kj::ArrayInputStream input(kj::arrayPtr(reinterpret_cast<const capnp::byte*>(data.data()), data.size()));
+      capnp::InputStreamMessageReader reader(input);
+      return fromCapnp(reader);
+    } catch (const std::exception& e) {
+      throw std::runtime_error(std::string("Failed to deserialize message: ") + e.what());
     }
   }
 

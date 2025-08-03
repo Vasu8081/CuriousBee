@@ -330,7 +330,6 @@ void CppHeaderGenerator::generateConstructor(std::ostringstream& out, const Mess
     std::string className = getClassName(msg);
     out << "public:\n";
     out << "  // Constructor\n";
-    out << "  " << "~" << className << "() = default;\n\n";
     out << "  " << className << "() {\n";
     auto allFields = std::map<std::string, Field>();
     collectAllFieldsRecursively(msg, allFields);

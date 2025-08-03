@@ -1,60 +1,52 @@
 #pragma once
 #include <messages/network_msg.capnp.h>
-#include <string>
-#include <cstdint>
 #include <capnp/message.h>
 #include <capnp/serialize.h>
-
+#include <string>
+#include <cstdint>
+#include <cstdint>
 #include <network/request.h>
+#include <string>
+//#editable_headers_start_dont_remove_this_line_only_write_below
 
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
 class test_request : public request {
-  // #generated start
 protected:
+  // Properties
   std::string _message;
   std::string _user;
   int _age;
-
 public:
+  // Constructor
   test_request() {
-    // Initialize default values if needed
+    _age = 0;
     _id = 0;
+    _message = "";
+    _msgType = message_type::testRequest;
     _reqGeneratedIp = "";
     _reqGeneratedPort = "";
-    _message = "";
+    _topic = "";
     _user = "";
-    _age = 0;
-     _msgType = message_type::testRequest;
   }
 
-  int getId() const { return _id; }
-  void setId(int value) { _id = value; }
+  std::string getMessage() const { return _message; }
+  void setMessage(std::string value) { _message = value; }
 
-  const std::string& getReqGeneratedIp() const { return _reqGeneratedIp; }
-  void setReqGeneratedIp(const std::string& value) { _reqGeneratedIp = value; }
-
-  const std::string& getReqGeneratedPort() const { return _reqGeneratedPort; }
-  void setReqGeneratedPort(const std::string& value) { _reqGeneratedPort = value; }
-
-  const std::string& getMessage() const { return _message; }
-  void setMessage(const std::string& value) { _message = value; }
-
-  const std::string& getUser() const { return _user; }
-  void setUser(const std::string& value) { _user = value; }
+  std::string getUser() const { return _user; }
+  void setUser(std::string value) { _user = value; }
 
   int getAge() const { return _age; }
   void setAge(int value) { _age = value; }
 
-  // Cap'n Proto conversion functions
   void toCapnp(curious::message::TestRequest::Builder& builder) const;
   static test_request fromCapnp(const curious::message::TestRequest::Reader& reader);
-
-  // Serialization helpers
   std::string serialize() const;
   static test_request deserialize(const std::string& data);
-  // #generated end
-};
+//#editable_class_start_dont_remove_this_line_only_write_above
 
+//#editable_class_end_dont_remove_this_line_only_write_below
+};
 }  // namespace curious::net

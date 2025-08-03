@@ -177,7 +177,7 @@ private:
         {
             // Handle templated List types like List<MyType>
             std::string innerType = type.substr(5, type.length() - 6);
-            return "List<" + mapTypeToCapnp(innerType) + ">";
+            return "List(" + mapTypeToCapnp(innerType) + ")";
         }
         
         if (type.starts_with("Map<") && type.ends_with(">"))
@@ -250,7 +250,7 @@ private:
             return "std::string"; // Assuming Text is always a string
         }
 
-        if (type.starts_with("List<") && type.ends_with(">"))
+        if (type.starts_with("list<") && type.ends_with(">"))
         {
             // Handle templated List types like List<MyType>
             std::string innerType = type.substr(5, type.length() - 6);
@@ -282,6 +282,12 @@ private:
         else if (dataType.starts_with("Map<") && dataType.ends_with(">"))
         {
             return "map";
+        }
+        else if (dataType.starts_with("list<") && dataType.ends_with(">"))
+        {
+            // Handle templated List types like List<MyType>
+            std::string innerType = dataType.substr(5, dataType.length() - 6);
+            return getHeaderFile(innerType);
         }
 
         // For custom types, assume they are in the network namespace
@@ -900,8 +906,19 @@ public:
             else
             {
                 // Custom type - assume it has its own toCapnp method
-                file << "  auto " << baseName << "Builder = builder.init" << baseName << "();\n";
-                file << "  " << memberName << ".toCapnp(" << baseName << "Builder);\n";
+                std::cout << "Processing field: " << field.name << " of type: " << field.type << std::endl;
+                if (field.type.starts_with("list<") && field.type.ends_with(">"))
+                {
+                    file << "  auto " << baseName << "Builder = builder.init" << baseName << "("+memberName+".size());\n";
+                    file << "  for (auto i=0; i<"+memberName+".size(); i++) {\n";
+                    file << "    auto itemBuilder = " << baseName << "Builder[i];\n";
+                    file << "    "+memberName+"[i].toCapnp(itemBuilder);\n";
+                    file << "  }\n";
+                }
+                else {
+                    file << "  auto " << baseName << "Builder = builder.init" << baseName << "();\n";
+                    file << "  " << memberName << ".toCapnp(" << baseName << "Builder);\n";
+                }
             }
         }
         file << "}\n\n";
@@ -925,8 +942,33 @@ public:
             }
             else
             {
-                std::string cppType = mapTypeToCpp(field.type);
-                file << "  obj." << memberName << " = " << cppType << "::fromCapnp(reader.get" << baseName << "());\n";
+                if (field.type.starts_with("list<") && field.type.ends_with(">"))
+                {
+                    // Handle list types
+                    file << "  auto " << baseName << "Reader = reader.get" << baseName << "();\n";
+                    file << "  obj." << memberName << ".clear();\n";
+                    file << "  obj." << memberName << ".reserve(" << baseName << "Reader.size());\n";
+                    file << "  for (auto i=0; i<" << baseName << "Reader.size(); i++) {\n";
+                    file << "    obj." << memberName << "[i] =";
+                    std::string cppType = mapTypeToCpp(field.type.substr(5, field.type.length() - 6));
+                    file << cppType << "::fromCapnp(" << baseName << "Reader[i]);\n";
+                    file << "  }\n";
+                }
+                else if (field.type == "Map<Key, Value>")
+                {
+                    // Handle Map types
+                    file << "  auto " << baseName << "Reader = reader.get" << baseName << "();\n";
+                    file << "  for (auto& entry : " << baseName << "Reader) {\n";
+                    file << "    obj." << memberName << ".emplace(entry.getKey(), ";
+                    std::string valueType = field.type.substr(4, field.type.length() - 5);
+                    file << mapTypeToCpp(valueType) << "::fromCapnp(entry.getValue()));\n";
+                    file << "  }\n";
+                }
+                else
+                {
+                    std::string cppType = mapTypeToCpp(field.type);
+                    file << "  obj." << memberName << " = " << cppType << "::fromCapnp(reader.get" << baseName << "());\n";
+                }
             }
         }
         file << "  return obj;\n";

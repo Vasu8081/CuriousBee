@@ -8,6 +8,9 @@
 #include <network/request.h>
 #include <network/test_reply.h>
 #include <network/test_request.h>
+#include <network/youtube_video.h>
+#include <network/youtube_video_snapshot_request.h>
+#include <network/youtube_video_snapshot_response.h>
 namespace curious::net {
 
 class FactoryBuilder {
@@ -19,6 +22,9 @@ public:
       case message_type::request: return std::make_shared<request>();
       case message_type::testReply: return std::make_shared<test_reply>();
       case message_type::testRequest: return std::make_shared<test_request>();
+      case message_type::youtubeVideo: return std::make_shared<youtube_video>();
+      case message_type::youtubeVideoSnapshotRequest: return std::make_shared<youtube_video_snapshot_request>();
+      case message_type::youtubeVideoSnapshotResponse: return std::make_shared<youtube_video_snapshot_response>();
       default: return nullptr; // Unknown message type
     }
   }
@@ -54,6 +60,18 @@ public:
       }
       case message_type::testRequest: {
         auto typedMsg = std::make_shared<test_request>(test_request::fromCapnp(reader.getRoot<curious::message::TestRequest>()));
+        return typedMsg;
+      }
+      case message_type::youtubeVideo: {
+        auto typedMsg = std::make_shared<youtube_video>(youtube_video::fromCapnp(reader.getRoot<curious::message::YoutubeVideo>()));
+        return typedMsg;
+      }
+      case message_type::youtubeVideoSnapshotRequest: {
+        auto typedMsg = std::make_shared<youtube_video_snapshot_request>(youtube_video_snapshot_request::fromCapnp(reader.getRoot<curious::message::YoutubeVideoSnapshotRequest>()));
+        return typedMsg;
+      }
+      case message_type::youtubeVideoSnapshotResponse: {
+        auto typedMsg = std::make_shared<youtube_video_snapshot_response>(youtube_video_snapshot_response::fromCapnp(reader.getRoot<curious::message::YoutubeVideoSnapshotResponse>()));
         return typedMsg;
       }
       default: return nullptr; // Unknown message type
@@ -109,6 +127,36 @@ public:
           typedMsg->toCapnp(root);
         } else {
           throw std::runtime_error("Failed to cast message to type test_request");
+        }
+        break;
+      }
+      case message_type::youtubeVideo: {
+        auto root = builder.initRoot<curious::message::YoutubeVideo>();
+        auto typedMsg = std::dynamic_pointer_cast<youtube_video>(msg);
+        if (typedMsg) {
+          typedMsg->toCapnp(root);
+        } else {
+          throw std::runtime_error("Failed to cast message to type youtube_video");
+        }
+        break;
+      }
+      case message_type::youtubeVideoSnapshotRequest: {
+        auto root = builder.initRoot<curious::message::YoutubeVideoSnapshotRequest>();
+        auto typedMsg = std::dynamic_pointer_cast<youtube_video_snapshot_request>(msg);
+        if (typedMsg) {
+          typedMsg->toCapnp(root);
+        } else {
+          throw std::runtime_error("Failed to cast message to type youtube_video_snapshot_request");
+        }
+        break;
+      }
+      case message_type::youtubeVideoSnapshotResponse: {
+        auto root = builder.initRoot<curious::message::YoutubeVideoSnapshotResponse>();
+        auto typedMsg = std::dynamic_pointer_cast<youtube_video_snapshot_response>(msg);
+        if (typedMsg) {
+          typedMsg->toCapnp(root);
+        } else {
+          throw std::runtime_error("Failed to cast message to type youtube_video_snapshot_response");
         }
         break;
       }

@@ -24,3 +24,21 @@ message TestReply(5) extends Reply {
     string response;
     int responseTest;
 }
+
+message YoutubeVideoSnapshotRequest(6) extends Request {
+
+}
+
+message YoutubeVideo(8) extends NetworkMessage {
+    string videoId;
+    string title;
+    string thumbnail;
+    string thumbnailMedium;
+    string thumbnailHigh;
+    string thumbnailStandard;
+    string thumbnailMaxres;
+}
+
+message YoutubeVideoSnapshotResponse(7) extends Reply {
+    list<YoutubeVideo> videos;
+}

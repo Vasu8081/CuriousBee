@@ -1,16 +1,27 @@
+# === Step 0: Configurable option to skip DSL/gen ===
+option(SKIP_SCHEMA_GENERATION "Skip generating .capnp from DSL schema" ON)
+
+if(SKIP_SCHEMA_GENERATION)
+    message(STATUS "Cap'n Proto schema generation is disabled (SKIP_SCHEMA_GENERATION=ON)")
+else()
+    message(STATUS "Cap'n Proto schema will be generated from DSL")
+endif()
+
 # === Step 1: Build the DSL Generator ===
 add_executable(dslgen dslgen/dslgen.cpp)
 target_include_directories(dslgen PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dslgen)
 
-# === Step 2: Run DSL Generator to produce .capnp ===
+# === Step 2: Define schema generation target ===
 set(GENERATED_CAPNP ${CMAKE_CURRENT_SOURCE_DIR}/src/network_msg.capnp)
 
-add_custom_command(
-    OUTPUT ${GENERATED_CAPNP}
-    COMMAND dslgen ${CMAKE_SOURCE_DIR}/network/schema/application.schema ${CMAKE_SOURCE_DIR}
-    DEPENDS dslgen ${CMAKE_SOURCE_DIR}/network/schema/application.schema
-    COMMENT "Generating Cap'n Proto schema file from DSL"
-)
+if(NOT SKIP_SCHEMA_GENERATION)
+    add_custom_command(
+        OUTPUT ${GENERATED_CAPNP}
+        COMMAND dslgen ${CMAKE_SOURCE_DIR}/network/schema/application.schema ${CMAKE_SOURCE_DIR}
+        DEPENDS dslgen ${CMAKE_SOURCE_DIR}/network/schema/application.schema
+        COMMENT "Generating Cap'n Proto schema file from DSL"
+    )
+endif()
 
 add_custom_target(generate_schema DEPENDS ${GENERATED_CAPNP})
 

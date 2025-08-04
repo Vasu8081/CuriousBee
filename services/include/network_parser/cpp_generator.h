@@ -1,6 +1,6 @@
 #pragma once
-#include <parser/types.h>
-#include <parser/utils.h>
+#include <network_parser/types.h>
+#include <network_parser/utils.h>
 #include <string>
 #include <map>
 #include <fstream>

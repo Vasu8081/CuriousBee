@@ -4,7 +4,7 @@
 #include <map>
 #include <set>
 #include <sstream>
-#include <parser/types.h>
+#include <network_parser/types.h>
 
 namespace parser {
 

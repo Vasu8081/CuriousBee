@@ -1,7 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <parser/bracket_schema_parser.h>
+#include <network_parser/bracket_schema_parser.h>
 #include <server/logger.h>
 
 int main(int argc, char* argv[]) {
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
 
     // const std::string schemaFile = argv[1];
     // const std::string outputDir = argv[2];
-    const std::string schemaFile = "/home/curious_bytes/Documents/CuriousBee/services/network/schema/application.schema";
+    const std::string schemaFile = "/home/curious_bytes/Documents/CuriousBee/services/network/schema/network.dsl";
     const std::string outputDir = "/home/curious_bytes/Documents/CuriousBee/services/";
 
     std::ifstream file(schemaFile);

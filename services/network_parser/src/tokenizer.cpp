@@ -1,5 +1,5 @@
-#include <parser/tokenizer.h>
-#include <parser/utils.h>
+#include <network_parser/tokenizer.h>
+#include <network_parser/utils.h>
 #include <server/logger.h>
 
 #include <cctype>

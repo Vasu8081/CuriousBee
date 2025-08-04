@@ -1,4 +1,4 @@
-#include <parser/utils.h>
+#include <network_parser/utils.h>
 #include <cctype>
 
 namespace parser::utils {

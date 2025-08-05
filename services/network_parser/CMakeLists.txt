@@ -1,8 +1,8 @@
 # Collect all source files in parser/src/
 file(GLOB PARSER_SOURCES src/*.cpp)
 
-add_executable(parser src/parser.cpp ${PARSER_SOURCES})
-target_link_libraries(parser PRIVATE server)
+add_executable(networkparser src/parser.cpp ${PARSER_SOURCES})
+target_link_libraries(networkparser PRIVATE server)
 
 # === Step 0: Configurable option to skip DSL/gen ===
 option(SKIP_SCHEMA_GENERATION "Skip generating .capnp from DSL schema" OFF)
@@ -53,7 +53,7 @@ if(NOT SKIP_SCHEMA_GENERATION)
         COMMAND 
             ${CMAKE_COMMAND} -E echo "Generating schema files from ${SCHEMA_INPUT_FILE}"
         COMMAND 
-            parser ${SCHEMA_INPUT_FILE} ${CMAKE_SOURCE_DIR}
+            networkparser ${SCHEMA_INPUT_FILE} ${CMAKE_SOURCE_DIR}
         COMMAND
             ${CMAKE_COMMAND} -E touch ${GENERATED_CAPNP}
         COMMAND
@@ -61,7 +61,7 @@ if(NOT SKIP_SCHEMA_GENERATION)
         COMMAND
             ${CMAKE_COMMAND} -E touch ${GENERATED_FACTORY_BUILDER}
         DEPENDS 
-            parser
+            networkparser
             ${SCHEMA_INPUT_FILE}
             ${PARSER_HEADER_FILES}
             ${PARSER_SOURCE_FILES}
@@ -83,7 +83,7 @@ if(NOT SKIP_SCHEMA_GENERATION)
         COMMAND 
             ${CMAKE_COMMAND} -E echo "Checking and regenerating implementation files if needed"
         COMMAND 
-            parser ${SCHEMA_INPUT_FILE} ${CMAKE_SOURCE_DIR}
+            networkparser ${SCHEMA_INPUT_FILE} ${CMAKE_SOURCE_DIR}
         COMMAND
             ${CMAKE_COMMAND} -E touch regenerate_implementations_stamp
         DEPENDS 
@@ -169,8 +169,8 @@ if(NOT SKIP_SCHEMA_GENERATION)
             endforeach()
             
             # Check parser executable timestamp
-            if(TARGET parser AND NOT NEEDS_REGEN)
-                get_target_property(PARSER_LOCATION parser LOCATION)
+            if(TARGET networkparser AND NOT NEEDS_REGEN)
+                get_target_property(PARSER_LOCATION networkparser LOCATION)
                 if(EXISTS ${PARSER_LOCATION})
                     file(TIMESTAMP ${PARSER_LOCATION} PARSER_TIME)
                     if(${PARSER_TIME} GREATER ${GENERATED_TIME})

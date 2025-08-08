@@ -1,30 +1,30 @@
 #pragma once
+
 // Generated ODB header file
 // Table: User
+// DO NOT MODIFY - This file is auto-generated
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <optional>
 #include <chrono>
-#include <database/db_object.h>
 
 #include <odb/core.hxx>
-#include <odb/database.hxx>
-
+#include <database/db_object.h>
 
 namespace model {
-
+// Forward declarations
 class Entitlement;
 class Group;
 
-
 #pragma db object table("user")
-
 /**
  * User entity class
  */
 class User : public db_object {
+    friend class odb::access;
+
 public:
     // Constructors
     User();
@@ -63,30 +63,26 @@ public:
     bool operator!=(const User& other) const;
 
 private:
-    #pragma db member id auto
+    #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member not_null unique
+    #pragma db member column("username") type("TEXT") not_null unique
     std::string username_;
 
-    #pragma db member not_null unique
+    #pragma db member column("email") type("TEXT") not_null unique
     std::string email_;
 
-    #pragma db member not_null
+    #pragma db member column("password_hash") type("TEXT") not_null
     std::string password_hash_;
 
-    #pragma db member not_null default(true)
+    #pragma db member column("is_active") type("BOOLEAN") not_null default(true)
     bool is_active_ = true;
 
-    #pragma db member
-    #pragma db value_type("std::vector<std::shared_ptr<Group>>") table("user_groups") id_column("user_id") value_column("group_id")
+    #pragma db member table("user_groups") id_column("user_id") value_column("group_id") value_type("BIGINT")
     std::vector<std::shared_ptr<Group>> groups_;
 
-    #pragma db member
-    #pragma db value_type("std::vector<std::shared_ptr<Entitlement>>") table("user_entitlements") id_column("user_id") value_column("entitlement_id")
+    #pragma db member table("user_entitlements") id_column("user_id") value_column("entitlement_id") value_type("BIGINT")
     std::vector<std::shared_ptr<Entitlement>> entitlements_;
 
 };
-
 } // namespace model
-

@@ -1,30 +1,30 @@
 #pragma once
+
 // Generated ODB header file
 // Table: Group
+// DO NOT MODIFY - This file is auto-generated
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <optional>
 #include <chrono>
-#include <database/db_object.h>
 
 #include <odb/core.hxx>
-#include <odb/database.hxx>
-
+#include <database/db_object.h>
 
 namespace model {
-
+// Forward declarations
 class Entitlement;
 class User;
 
-
 #pragma db object table("group")
-
 /**
  * Group entity class
  */
 class Group : public db_object {
+    friend class odb::access;
+
 public:
     // Constructors
     Group();
@@ -57,24 +57,20 @@ public:
     bool operator!=(const Group& other) const;
 
 private:
-    #pragma db member id auto
+    #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member not_null unique
+    #pragma db member column("name") type("TEXT") not_null unique
     std::string name_;
 
-    #pragma db member
+    #pragma db member column("description") type("TEXT") null
     std::optional<std::string> description_;
 
-    #pragma db member
-    #pragma db value_type("std::vector<std::shared_ptr<User>>") table("user_groups")
+    #pragma db member table("user_groups") id_column("group_id") value_column("user_id") value_type("BIGINT")
     std::vector<std::shared_ptr<User>> users_;
 
-    #pragma db member
-    #pragma db value_type("std::vector<std::shared_ptr<Entitlement>>") table("group_entitlements") id_column("group_id") value_column("entitlement_id")
+    #pragma db member table("group_entitlements") id_column("group_id") value_column("entitlement_id") value_type("BIGINT")
     std::vector<std::shared_ptr<Entitlement>> entitlements_;
 
 };
-
 } // namespace model
-

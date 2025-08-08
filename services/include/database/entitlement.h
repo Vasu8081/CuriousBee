@@ -1,27 +1,26 @@
 #pragma once
+
 // Generated ODB header file
 // Table: Entitlement
+// DO NOT MODIFY - This file is auto-generated
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <optional>
 #include <chrono>
-#include <database/db_object.h>
 
 #include <odb/core.hxx>
-#include <odb/database.hxx>
-
+#include <database/db_object.h>
 
 namespace model {
-
-
 #pragma db object table("entitlement")
-
 /**
  * Entitlement entity class
  */
 class Entitlement : public db_object {
+    friend class odb::access;
+
 public:
     // Constructors
     Entitlement();
@@ -48,16 +47,14 @@ public:
     bool operator!=(const Entitlement& other) const;
 
 private:
-    #pragma db member id auto
+    #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member not_null unique
+    #pragma db member column("code") type("TEXT") not_null unique
     std::string code_;
 
-    #pragma db member
+    #pragma db member column("description") type("TEXT") null
     std::optional<std::string> description_;
 
 };
-
 } // namespace model
-

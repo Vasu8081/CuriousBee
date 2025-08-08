@@ -56,9 +56,11 @@ private:
     std::string generateCallbackPragmas(const Table& table);
     std::string generateCachePragmas(const Table& table);
     std::string generateSessionPragmas(const Table& table);
+    std::string generateSchemaValidation(const Schema& schema);
     
     // Type conversion and validation
     std::string convertToCppType(const std::string& db_type, const Column& column);
+    std::string mapCppTypeToDbType(const std::string& cpp_type, const Column& column);
     std::string generateIncludeGuard(const std::string& filename);
     std::string generateNamespaceBegin();
     std::string generateNamespaceEnd();
@@ -83,8 +85,10 @@ private:
     bool validateColumn(const Column& column, const Table& table);
     bool validateRelationships(const Table& table);
     bool validateConstraints(const Table& table);
+    bool generateCompleteSchema(const Schema& schema);
 
     template<typename T>
     std::string safeOptionalAccess(const std::optional<T>& opt, const std::string& default_val = "");
+    bool isOptionalType(const std::string& cpp_type);
 };
 }

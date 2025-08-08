@@ -8,7 +8,5 @@ add_library(server STATIC ${SERVER_SOURCES})
 target_include_directories(server
     PUBLIC ${CMAKE_SOURCE_DIR}/include
 )
-target_include_directories(server PUBLIC /usr/local/include)
 
-# Link external libraries if needed (e.g., nlohmann_json)
-target_link_libraries(server PRIVATE network nlohmann_json::nlohmann_json zmq spdlog::spdlog)
+target_link_libraries(server PRIVATE network)

@@ -9,6 +9,10 @@ find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
+# Find the installed ODB headers and libraries (default locations)
+include_directories(/usr/include)
+include_directories(/usr/include/odb)          # ODB core
+include_directories(/usr/include/odb/pgsql)    # ODB PGSQL (if using Postgres)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(src)

@@ -15,10 +15,10 @@ CppImplGenerator::CppImplGenerator(const std::map<std::string, Message>& message
     : messages(messages) {}
 
 void CppImplGenerator::generate(const std::string& outputDir) {
-    std::filesystem::create_directories(outputDir + "/network/src/readonly");
+    std::filesystem::create_directories(outputDir + "/src/network/src/readonly");
 
     for (const auto& [name, msg] : messages) {
-        std::string path = outputDir + "/network/src/readonly/__" + toLowerSnakeCase(name) + "__.cpp";
+        std::string path = outputDir + "/src/network/src/readonly/__" + toLowerSnakeCase(name) + "__.cpp";
 
         std::ostringstream includes;
         generateIncludes(includes, msg);

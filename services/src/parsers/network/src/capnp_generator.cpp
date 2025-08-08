@@ -14,8 +14,8 @@ CapnpGenerator::CapnpGenerator(const std::map<std::string, Message>& messages)
     : messages(messages) {}
 
 void CapnpGenerator::generate(const std::string& outputDir) {
-    std::filesystem::create_directories(outputDir + "/messages/src");
-    std::ofstream file(outputDir + "/messages/src/network_msg.capnp");
+    std::filesystem::create_directories(outputDir + "/src/messages/src");
+    std::ofstream file(outputDir + "/src/messages/src/network_msg.capnp");
     if (!file.is_open()) {
         LOG_ERR << "Failed to open output file for Cap'n Proto: " << outputDir << go;
         return;
@@ -30,7 +30,7 @@ void CapnpGenerator::generate(const std::string& outputDir) {
     writeStructs(file);
 
     file.close();
-    LOG_INFO << "Generated: " << outputDir << "/messages/src/network_msg.capnp" << go;
+    LOG_INFO << "Generated: " << outputDir << "/src/messages/src/network_msg.capnp" << go;
 }
 
 void CapnpGenerator::writeEnum(std::ostream& out) {

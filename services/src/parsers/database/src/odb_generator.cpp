@@ -71,8 +71,8 @@ bool ODBGenerator::generateTable(const Table& table, const DatabaseOptions& db_o
         std::string header_content = generateHeaderFile(table, db_options);
         std::string source_content = generateSourceFile(table, db_options);
         
-        std::string header_filename = joinPath(output_dir_, toLowerCase(table.name) + ".h");
-        std::string source_filename = joinPath(output_dir_, toLowerCase(table.name) + ".cpp");
+        std::string header_filename = joinPath(output_dir_+"/include/database/", toLowerCase(table.name) + ".h");
+        std::string source_filename = joinPath(output_dir_+"/src/database/src/", toLowerCase(table.name) + ".cpp");
         
         bool header_success = writeToFile(header_filename, header_content);
         bool source_success = writeToFile(source_filename, source_content);
@@ -140,7 +140,7 @@ std::string ODBGenerator::generateSourceFile(const Table& table, const DatabaseO
     std::ostringstream oss;
     
     // Include header
-    oss << "#include \"" << toLowerCase(table.name) << ".h\"\n\n";
+    oss << "#include <database/" << toLowerCase(table.name) << ".h>\n\n";
     
     // Additional includes for implementation
     oss << "#include <odb/database.hxx>\n";
@@ -231,7 +231,7 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
     
     // Parent class include
     if (table.parent.has_value()) {
-        oss << "#include \"" << toLowerCase(*table.parent) << ".h\"\n";
+        oss << "#include <database/" << toLowerCase(*table.parent) << ".h>\n";
     }
     
     oss << "\n";

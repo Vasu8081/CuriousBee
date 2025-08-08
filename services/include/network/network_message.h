@@ -35,19 +35,6 @@ public:
   std::string serialize() const;
   static network_message deserialize(const std::string& data);
 //#editable_class_start_dont_remove_this_line_only_write_above
-public:
-  bool is_request() const {
-    return _msgType == message_type::request || _msgType == message_type::testRequest;
-  }
-
-  virtual ~network_message() = default;
-  bool is_response() const {
-    return _msgType == message_type::reply || _msgType == message_type::testReply;
-  }
-
-  bool is_network_message() const {
-    return _msgType == message_type::networkMessage;
-  }
 
 //#editable_class_end_dont_remove_this_line_only_write_below
 };

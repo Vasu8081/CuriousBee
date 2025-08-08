@@ -2,20 +2,20 @@
 #include <sstream>
 #include <iostream>
 #include <network_parser/bracket_schema_parser.h>
-#include <server/logger.h>
+#include <base/logger.h>
 
 int main(int argc, char* argv[]) {
     using namespace curious::log;
 
-    // if (argc != 3) {
-    //     LOG_ERR << "Usage: " << argv[0] << " <schema_file> <output_directory>" << go;
-    //     return 1;
-    // }
+    if (argc != 3) {
+        LOG_ERR << "Usage: " << argv[0] << " <schema_file> <output_directory>" << go;
+        return 1;
+    }
 
-    // const std::string schemaFile = argv[1];
-    // const std::string outputDir = argv[2];
-    const std::string schemaFile = "/home/curious_bytes/Documents/CuriousBee/services/network/schema/network.dsl";
-    const std::string outputDir = "/home/curious_bytes/Documents/CuriousBee/services/";
+    const std::string schemaFile = argv[1];
+    const std::string outputDir = argv[2];
+    // const std::string schemaFile = "/home/curious_bytes/Documents/CuriousBee/services/messages/schema/network.dsl";
+    // const std::string outputDir = "/home/curious_bytes/Documents/CuriousBee/services/";
 
     std::ifstream file(schemaFile);
     if (!file) {

@@ -1,7 +1,7 @@
 #include <server/server_config.h>
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
+#include <base/json.h>
 
 server_config::server_config(const std::string& configPath) {
     _loadFromFile(configPath);

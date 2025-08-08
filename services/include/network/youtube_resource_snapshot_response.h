@@ -7,6 +7,9 @@
 #include <network/reply.h>
 #include <network/youtube_resource.h>
 #include <vector>
+//#editable_headers_start_dont_remove_this_line_only_write_below
+
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
@@ -30,5 +33,8 @@ public:
   static youtube_resource_snapshot_response fromCapnp(const curious::message::YoutubeResourceSnapshotResponse::Reader& reader);
   std::string serialize() const;
   static youtube_resource_snapshot_response deserialize(const std::string& data);
+//#editable_class_start_dont_remove_this_line_only_write_above
+
+//#editable_class_end_dont_remove_this_line_only_write_below
 };
 }  // namespace curious::net

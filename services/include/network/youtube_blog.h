@@ -6,6 +6,9 @@
 #include <cstdint>
 #include <network/network_message.h>
 #include <string>
+//#editable_headers_start_dont_remove_this_line_only_write_below
+
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
@@ -53,5 +56,8 @@ public:
   static youtube_blog fromCapnp(const curious::message::YoutubeBlog::Reader& reader);
   std::string serialize() const;
   static youtube_blog deserialize(const std::string& data);
+//#editable_class_start_dont_remove_this_line_only_write_above
+
+//#editable_class_end_dont_remove_this_line_only_write_below
 };
 }  // namespace curious::net

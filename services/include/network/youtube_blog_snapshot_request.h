@@ -5,6 +5,9 @@
 #include <string>
 #include <cstdint>
 #include <network/request.h>
+//#editable_headers_start_dont_remove_this_line_only_write_below
+
+//#editable_headers_end_dont_remove_this_line_only_write_above
 
 namespace curious::net {
 
@@ -25,5 +28,8 @@ public:
   static youtube_blog_snapshot_request fromCapnp(const curious::message::YoutubeBlogSnapshotRequest::Reader& reader);
   std::string serialize() const;
   static youtube_blog_snapshot_request deserialize(const std::string& data);
+//#editable_class_start_dont_remove_this_line_only_write_above
+
+//#editable_class_end_dont_remove_this_line_only_write_below
 };
 }  // namespace curious::net

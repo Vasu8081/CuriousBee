@@ -5,15 +5,47 @@
     "timestamp_format": "%Y-%m-%d %H:%M:%S"
   },
   "messaging": {
-  "endpoints": [
-    {"topic": "TOPIC_A", "endpoint": "tcp://*:5555", "type": "TCP"},
-    {"topic": "TOPIC_B", "endpoint": "tcp://*:5556", "type": "TCP"},
-    {"topic": "NEWS_TOPIC", "endpoint": "tcp://*:5557", "type": "TCP"},
-    {"topic": "MY_TOPIC", "endpoint": "tcp://*:5558", "type": "TCP"},
-    {"topic": "EXTERNAL_TOPIC", "endpoint": "tcp://*:5559", "type": "TCP"},
-    {"topic": "BROADCAST_TOPIC", "endpoint": "tcp://*:5560", "type": "TCP"},
-    {"topic": "REACTION_TOPIC", "endpoint": "tcp://*:5561", "type": "TCP"},
-    {"topic": "TEST_TOPIC", "endpoint": "tcp://localhost:5562", "type": "TCP"}
-  ]
+    "endpoints": [
+      {
+        "topic": "TOPIC_A",
+        "endpoint": "tcp://*:5555",
+        "type": "TCP"
+      },
+      {
+        "topic": "TOPIC_B",
+        "endpoint": "tcp://*:5556",
+        "type": "TCP"
+      },
+      {
+        "topic": "NEWS_TOPIC",
+        "endpoint": "tcp://*:5557",
+        "type": "TCP"
+      },
+      {
+        "topic": "MY_TOPIC",
+        "endpoint": "tcp://*:5558",
+        "type": "TCP"
+      },
+      {
+        "topic": "EXTERNAL_TOPIC",
+        "endpoint": "tcp://*:5559",
+        "type": "TCP"
+      },
+      {
+        "topic": "BROADCAST_TOPIC",
+        "endpoint": "tcp://*:5560",
+        "type": "TCP"
+      },
+      {
+        "topic": "REACTION_TOPIC",
+        "endpoint": "tcp://*:5561",
+        "type": "TCP"
+      },
+      {
+        "topic": "TEST_TOPIC",
+        "endpoint": "tcp://localhost:5562",
+        "type": "TCP"
+      }
+    ]
   }
 }

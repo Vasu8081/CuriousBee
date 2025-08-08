@@ -1,7 +1,7 @@
 #include <network_parser/bracket_schema_parser.h>
 #include <network_parser/tokenizer.h>
 #include <network_parser/utils.h>
-#include <server/logger.h>
+#include <base/logger.h>
 #include <network_parser/capnp_generator.h>
 #include <network_parser/cpp_header_generator.h>
 #include <network_parser/cpp_impl_generator.h>

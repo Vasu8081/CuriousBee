@@ -1,6 +1,6 @@
 #include <network_parser/cpp_impl_generator.h>
 #include <network_parser/utils.h>
-#include <server/logger.h>
+#include <base/logger.h>
 
 #include <fstream>
 #include <filesystem>

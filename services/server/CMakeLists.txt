@@ -11,6 +11,4 @@ target_include_directories(server
 target_include_directories(server PUBLIC /usr/local/include)
 
 # Link external libraries if needed (e.g., nlohmann_json)
-find_package(nlohmann_json REQUIRED)
-find_package(spdlog REQUIRED)
 target_link_libraries(server PRIVATE network nlohmann_json::nlohmann_json zmq spdlog::spdlog)

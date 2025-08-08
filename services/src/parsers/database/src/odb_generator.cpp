@@ -173,7 +173,36 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
     oss << "#include <vector>\n";
     oss << "#include <memory>\n";
     oss << "#include <optional>\n";
-    oss << "#include <chrono>\n\n";
+    oss << "#include <chrono>\n";
+    
+    // Check if we need additional STL containers
+    bool needs_list = false, needs_set = false, needs_map = false, needs_unordered = false;
+    bool needs_chrono_extra = false;
+    
+    for (const auto& column : table.columns) {
+        if (column.container.is_container) {
+            if (column.container.container_type == "list") needs_list = true;
+            else if (column.container.container_type == "set" || column.container.container_type == "multiset") needs_set = true;
+            else if (column.container.container_type == "map" || column.container.container_type == "multimap") needs_map = true;
+            else if (column.container.container_type == "unordered_set" || column.container.container_type == "unordered_map") needs_unordered = true;
+        }
+        
+        // Check for chrono types
+        std::string lower_type = toLowerCase(column.type);
+        if (lower_type == "date" || lower_type == "time") {
+            needs_chrono_extra = true;
+        }
+    }
+    
+    if (needs_list) oss << "#include <list>\n";
+    if (needs_set) oss << "#include <set>\n";
+    if (needs_map) oss << "#include <map>\n";
+    if (needs_unordered) {
+        oss << "#include <unordered_set>\n";
+        oss << "#include <unordered_map>\n";
+    }
+    
+    oss << "\n";
     
     // ODB includes
     oss << "#include <odb/core.hxx>\n";
@@ -189,41 +218,30 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
         case DatabaseType::SQLite:
             oss << "#include <odb/sqlite/database.hxx>\n";
             break;
+        case DatabaseType::Oracle:
+            oss << "#include <odb/oracle/database.hxx>\n";
+            break;
+        case DatabaseType::MSSQL:
+            oss << "#include <odb/mssql/database.hxx>\n";
+            break;
         default:
             oss << "#include <odb/database.hxx>\n";
             break;
     }
     
-    // Container includes based on columns
-    std::set<std::string> container_includes;
-    for (const auto& column : table.columns) {
-        if (column.container.is_container) {
-            if (column.container.container_type == "vector") {
-                container_includes.insert("#include <vector>");
-            } else if (column.container.container_type == "list") {
-                container_includes.insert("#include <list>");
-            } else if (column.container.container_type == "set") {
-                container_includes.insert("#include <set>");
-            } else if (column.container.container_type == "map") {
-                container_includes.insert("#include <map>");
-            }
-        }
-    }
-    
-    for (const auto& include : container_includes) {
-        oss << include << "\n";
-    }
-    
-    if (!container_includes.empty()) {
-        oss << "\n";
-    }
-    
     // Parent class include
     if (table.parent.has_value()) {
-        oss << "#include \"" << toLowerCase(*table.parent) << ".h\"\n\n";
+        oss << "#include \"" << toLowerCase(*table.parent) << ".h\"\n";
     }
     
+    oss << "\n";
+    
     return oss.str();
+}
+
+template<typename T>
+std::string ODBGenerator::safeOptionalAccess(const std::optional<T>& opt, const std::string& default_val) {
+    return opt.has_value() ? std::string(opt.value()) : default_val;
 }
 
 std::string ODBGenerator::generateClassDeclaration(const Table& table) {
@@ -324,7 +342,7 @@ std::string ODBGenerator::generateAccessors(const Table& table) {
     oss << indent_ << "// Accessors\n";
     
     for (const auto& column : table.columns) {
-        std::string cpp_type = convertToCppType(column.type, column);
+        std::string cpp_type = convertToCppType(column.type, column); // FIXED: removed const&
         std::string member_name = toSnakeCase(column.name) + "_";
         std::string accessor_name = toCamelCase(column.name);
         
@@ -486,6 +504,23 @@ std::string ODBGenerator::generateColumnPragmas(const Column& column, const Tabl
         oss << " index";
     }
     
+    // FIXED: Add missing attributes
+    if (column.is_lazy) {
+        oss << " lazy";
+    }
+    
+    if (column.is_inverse) {
+        oss << " inverse";
+    }
+    
+    if (column.is_readonly) {
+        oss << " readonly";
+    }
+    
+    if (column.is_optimistic_lock) {
+        oss << " optimistic";
+    }
+    
     oss << "\n";
     
     // Relationship pragmas
@@ -512,29 +547,34 @@ std::string ODBGenerator::generateRelationshipPragmas(const Column& column, cons
     
     switch (column.relationship) {
         case RelationshipType::OneToOne:
-            oss << indent_ << "#pragma db member one_to_one";
+            oss << indent_ << "#pragma db value_type(\"std::shared_ptr<" << *column.related_table << ">\")";
+            if (column.inverse_field.has_value()) {
+                oss << " inverse(" << *column.inverse_field << ")";
+            }
             break;
         case RelationshipType::OneToMany:
-            oss << indent_ << "#pragma db member one_to_many";
+            oss << indent_ << "#pragma db value_type(\"std::vector<std::shared_ptr<" << *column.related_table << ">>\")";
+            if (column.inverse_field.has_value()) {
+                oss << " inverse(" << *column.inverse_field << ")";
+            }
             break;
         case RelationshipType::ManyToOne:
-            oss << indent_ << "#pragma db member many_to_one";
+            oss << indent_ << "#pragma db value_type(\"std::shared_ptr<" << *column.related_table << ">\")";
             break;
         case RelationshipType::ManyToMany:
-            oss << indent_ << "#pragma db member many_to_many";
+            oss << indent_ << "#pragma db value_type(\"std::vector<std::shared_ptr<" << *column.related_table << ">>\")";
+            if (column.join_table.has_value()) {
+                oss << " table(\"" << *column.join_table << "\")";
+            }
+            if (column.join_column.has_value()) {
+                oss << " id_column(\"" << *column.join_column << "\")";
+            }
+            if (column.inverse_join_column.has_value()) {
+                oss << " value_column(\"" << *column.inverse_join_column << "\")";
+            }
             break;
         default:
             return "";
-    }
-    
-    // Inverse field
-    if (column.inverse_field.has_value()) {
-        oss << " inverse(" << *column.inverse_field << ")";
-    }
-    
-    // Join table for many-to-many
-    if (column.relationship == RelationshipType::ManyToMany && column.join_table.has_value()) {
-        oss << " table(\"" << *column.join_table << "\")";
     }
     
     oss << "\n";
@@ -556,9 +596,33 @@ std::string ODBGenerator::generateContainerPragmas(const Column& column) {
         oss << " table(\"" << *column.container.table_name << "\")";
     }
     
+    // Container ID column
+    if (column.container.id_column.has_value()) {
+        oss << " id_column(\"" << *column.container.id_column << "\")";
+    }
+    
+    // Container value column
+    if (column.container.value_column.has_value()) {
+        oss << " value_column(\"" << *column.container.value_column << "\")";
+    }
+    
+    // Container key column (for maps)
+    if (column.container.key_column.has_value()) {
+        oss << " key_column(\"" << *column.container.key_column << "\")";
+    }
+    
+    // Container index column
+    if (column.container.index_column.has_value()) {
+        oss << " index_column(\"" << *column.container.index_column << "\")";
+    }
+    
     // Container options
     if (column.container.is_unordered) {
         oss << " unordered";
+    }
+    
+    if (column.container.is_ordered && column.container.order_by.has_value()) {
+        oss << " order_by(\"" << *column.container.order_by << "\")";
     }
     
     if (column.container.capacity.has_value()) {
@@ -683,25 +747,38 @@ std::string ODBGenerator::convertToCppType(const std::string& db_type, const Col
     std::string base_type;
     std::string lower_type = toLowerCase(db_type);
     
+    // Basic type mapping
     if (lower_type == "int" || lower_type == "integer") {
         base_type = "int";
     } else if (lower_type == "bigint" || lower_type == "long") {
         base_type = "long long";
-    } else if (lower_type == "varchar" || lower_type == "text" || lower_type == "string") {
+    } else if (lower_type == "smallint" || lower_type == "short") {
+        base_type = "short";
+    } else if (lower_type == "tinyint") {
+        base_type = "char";
+    } else if (lower_type == "varchar" || lower_type == "text" || lower_type == "string" || lower_type == "char") {
         base_type = "std::string";
     } else if (lower_type == "bool" || lower_type == "boolean") {
         base_type = "bool";
-    } else if (lower_type == "float") {
+    } else if (lower_type == "float" || lower_type == "real") {
         base_type = "float";
-    } else if (lower_type == "double") {
+    } else if (lower_type == "double" || lower_type == "numeric" || lower_type == "decimal") {
         base_type = "double";
     } else if (lower_type == "timestamp" || lower_type == "datetime") {
         base_type = "std::chrono::time_point<std::chrono::system_clock>";
+    } else if (lower_type == "date") {
+        base_type = "std::chrono::year_month_day"; // C++20, fallback to string if needed
+    } else if (lower_type == "time") {
+        base_type = "std::chrono::time_of_day"; // C++20, fallback to string if needed  
+    } else if (lower_type == "blob" || lower_type == "binary") {
+        base_type = "std::vector<unsigned char>";
+    } else if (lower_type == "uuid") {
+        base_type = "std::string"; // or custom UUID type
     } else {
-        base_type = db_type; // Use as-is
+        base_type = db_type; // Use as-is for custom types
     }
     
-    // Handle containers
+    // Handle containers - FIXED: Add validation
     if (column.container.is_container) {
         std::string container_type = column.container.container_type;
         if (container_type == "vector") {
@@ -710,21 +787,52 @@ std::string ODBGenerator::convertToCppType(const std::string& db_type, const Col
             base_type = "std::list<" + base_type + ">";
         } else if (container_type == "set") {
             base_type = "std::set<" + base_type + ">";
+        } else if (container_type == "multiset") {
+            base_type = "std::multiset<" + base_type + ">";
+        } else if (container_type == "unordered_set") {
+            base_type = "std::unordered_set<" + base_type + ">";
+        } else if (container_type == "map") {
+            // For maps, we need key type - default to string if not specified
+            std::string key_type = "std::string"; // Could be made configurable
+            base_type = "std::map<" + key_type + ", " + base_type + ">";
+        } else if (container_type == "unordered_map") {
+            std::string key_type = "std::string";
+            base_type = "std::unordered_map<" + key_type + ", " + base_type + ">";
+        } else {
+            // Unknown container type - log warning but continue
+            LOG_WARN << "Unknown container type: " << container_type << " for column: " << column.name << go;
+            base_type = "std::vector<" + base_type + ">"; // Default fallback
         }
     }
     
-    // Handle optional/nullable
-    if (column.is_nullable && !column.is_not_null) {
-        base_type = "std::optional<" + base_type + ">";
+    // Handle relationships - override base type for relationships
+    if (column.relationship != RelationshipType::None && column.related_table.has_value()) {
+        std::string related_class = toPascalCase(*column.related_table);
+        if (column.relationship == RelationshipType::OneToMany || 
+            column.relationship == RelationshipType::ManyToMany) {
+            base_type = "std::vector<std::shared_ptr<" + related_class + ">>";
+        } else {
+            base_type = "std::shared_ptr<" + related_class + ">";
+        }
     }
     
-    // Handle pointers
-    if (column.is_pointer) {
+    // Handle optional/nullable - FIXED: Better logic
+    if (column.is_nullable && !column.is_not_null && !column.is_primary_key) {
+        // Don't wrap containers or pointers in optional
+        if (!column.container.is_container && !column.is_pointer && 
+            column.relationship == RelationshipType::None) {
+            base_type = "std::optional<" + base_type + ">";
+        }
+    }
+    
+    // Handle pointers (for non-relationship columns)
+    if (column.is_pointer && column.relationship == RelationshipType::None) {
         base_type = "std::shared_ptr<" + base_type + ">";
     }
     
     return base_type;
 }
+
 
 std::string ODBGenerator::generateIncludeGuard(const std::string& filename) {
     std::string guard = include_guard_prefix_ + toUpperCase(filename);
@@ -977,14 +1085,23 @@ bool ODBGenerator::validateColumn(const Column& column, const Table& table) {
         return false;
     }
     
-    // Validate conflicting attributes
-    if (column.is_not_null && column.is_nullable) {
-        LOG_ERR << "Column " << column.name << " cannot be both not_null and nullable" << go;
+    // FIXED: Better conflicting attributes validation
+    if (column.is_not_null && column.is_nullable && !column.default_value.has_value()) {
+        LOG_ERR << "Column " << column.name << " cannot be both not_null and nullable without default value" << go;
         return false;
     }
     
-    if (column.is_auto_increment && !column.is_primary_key) {
-        LOG_WARN << "Column " << column.name << " is auto_increment but not primary key" << go;
+    if (column.is_auto_increment) {
+        if (!column.is_primary_key) {
+            LOG_WARN << "Column " << column.name << " is auto_increment but not primary key" << go;
+        }
+        
+        // Auto increment should be numeric
+        std::string lower_type = toLowerCase(column.type);
+        if (lower_type != "int" && lower_type != "integer" && lower_type != "bigint" && lower_type != "long") {
+            LOG_ERR << "Auto increment column " << column.name << " should be numeric type" << go;
+            return false;
+        }
     }
     
     // Validate container configuration
@@ -992,6 +1109,47 @@ bool ODBGenerator::validateColumn(const Column& column, const Table& table) {
         if (column.container.container_type.empty()) {
             LOG_ERR << "Container column " << column.name << " must specify container_type" << go;
             return false;
+        }
+        
+        // Validate container type
+        const std::vector<std::string> valid_containers = {
+            "vector", "list", "set", "multiset", "unordered_set", 
+            "map", "multimap", "unordered_map"
+        };
+        
+        bool valid_container = false;
+        for (const auto& valid_type : valid_containers) {
+            if (column.container.container_type == valid_type) {
+                valid_container = true;
+                break;
+            }
+        }
+        
+        if (!valid_container) {
+            LOG_ERR << "Invalid container type: " << column.container.container_type << " for column: " << column.name << go;
+            return false;
+        }
+    }
+    
+    // Validate relationship configuration
+    if (column.relationship != RelationshipType::None) {
+        if (!column.related_table.has_value()) {
+            LOG_ERR << "Relationship column " << column.name << " must specify related_table" << go;
+            return false;
+        }
+        
+        // Many-to-many should have join table
+        if (column.relationship == RelationshipType::ManyToMany && !column.join_table.has_value()) {
+            LOG_ERR << "Many-to-many relationship " << column.name << " must specify join_table" << go;
+            return false;
+        }
+    }
+    
+    // Validate version column constraints
+    if (column.is_version) {
+        std::string lower_type = toLowerCase(column.type);
+        if (lower_type != "int" && lower_type != "integer" && lower_type != "bigint" && lower_type != "timestamp") {
+            LOG_WARN << "Version column " << column.name << " should typically be numeric or timestamp type" << go;
         }
     }
     

@@ -22,6 +22,15 @@ public:
         return *this;
     }
 
+    template<typename T>
+    logger_stream& operator<<(const std::optional<T>& opt) {
+        if (opt.has_value())
+            _stream << *opt;
+        else
+            _stream << "(nullopt)";
+        return *this;
+    }
+
     void operator<<(Go);
 
 private:

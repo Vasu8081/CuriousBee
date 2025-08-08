@@ -82,5 +82,8 @@ private:
     bool validateColumn(const Column& column, const Table& table);
     bool validateRelationships(const Table& table);
     bool validateConstraints(const Table& table);
+
+    template<typename T>
+    std::string safeOptionalAccess(const std::optional<T>& opt, const std::string& default_val = "");
 };
 }

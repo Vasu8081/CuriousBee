@@ -45,6 +45,7 @@ private:
     std::string generateCallbackDeclarations(const Table& table);
     
     // ODB pragma generation
+    std::string generateForwardDeclarations(const Table& table);
     std::string generateTablePragmas(const Table& table, const DatabaseOptions& db_options);
     std::string generateColumnPragmas(const Column& column, const Table& table);
     std::string generateRelationshipPragmas(const Column& column, const Table& table);

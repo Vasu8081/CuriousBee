@@ -1,6 +1,4 @@
-#ifndef GENERATED_USER_H
-#define GENERATED_USER_H
-
+#pragma once
 // Generated ODB header file
 // Table: User
 
@@ -9,6 +7,7 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <database/db_object.h>
 
 #include <odb/core.hxx>
 #include <odb/database.hxx>
@@ -16,15 +15,16 @@
 
 namespace model {
 
-class Group;
 class Entitlement;
+class Group;
+
 
 #pragma db object table("user")
 
 /**
  * User entity class
  */
-class User {
+class User : public db_object {
 public:
     // Constructors
     User();
@@ -90,4 +90,3 @@ private:
 
 } // namespace model
 
-#endif // GENERATED_USER_H

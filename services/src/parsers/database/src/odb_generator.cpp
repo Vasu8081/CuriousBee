@@ -108,16 +108,16 @@ std::string ODBGenerator::generateHeaderFile(const Table& table, const DatabaseO
     
     std::ostringstream oss;
     
-    // Include guard
-    std::string guard_name = generateIncludeGuard(toLowerCase(table.name) + "_h");
-    oss << "#ifndef " << guard_name << "\n";
-    oss << "#define " << guard_name << "\n\n";
-    
+    oss << "#pragma once" << "\n";
+   
     // Includes
     oss << generateIncludes(table, db_options) << "\n";
     
     // Namespace begin
     oss << generateNamespaceBegin() << "\n";
+
+    // Add Forward Declarations
+    oss << generateForwardDeclarations(table) << "\n";
     
     // ODB pragmas (before class declaration)
     oss << generateTablePragmas(table, db_options) << "\n";
@@ -127,9 +127,6 @@ std::string ODBGenerator::generateHeaderFile(const Table& table, const DatabaseO
     
     // Namespace end
     oss << generateNamespaceEnd() << "\n";
-    
-    // Include guard end
-    oss << "#endif // " << guard_name << "\n";
     
     return oss.str();
 }
@@ -174,6 +171,7 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
     oss << "#include <memory>\n";
     oss << "#include <optional>\n";
     oss << "#include <chrono>\n";
+    oss << "#include <database/db_object.h>\n";
     
     // Check if we need additional STL containers
     bool needs_list = false, needs_set = false, needs_map = false, needs_unordered = false;
@@ -239,6 +237,34 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
     return oss.str();
 }
 
+std::string ODBGenerator::generateForwardDeclarations(const Table& table)
+{
+    std::set<std::string> fwd_decls;
+
+    // Parent class
+    if (table.parent.has_value()) {
+        fwd_decls.insert(toPascalCase(*table.parent));
+    }
+
+    // Referenced types in columns
+    for (const auto& column : table.columns) {
+        if (column.relationship != RelationshipType::None && column.related_table.has_value()) {
+            fwd_decls.insert(toPascalCase(*column.related_table));
+        }
+    }
+
+    // Remove self forward declaration (just in case)
+    fwd_decls.erase(toPascalCase(table.name));
+
+    // Compose
+    std::ostringstream oss;
+    for (const auto& type : fwd_decls) {
+        oss << "class " << type << ";\n";
+    }
+    if (!fwd_decls.empty()) oss << "\n";
+    return oss.str();
+}
+
 template<typename T>
 std::string ODBGenerator::safeOptionalAccess(const std::optional<T>& opt, const std::string& default_val) {
     return opt.has_value() ? std::string(opt.value()) : default_val;
@@ -263,7 +289,12 @@ std::string ODBGenerator::generateClassDeclaration(const Table& table) {
     
     // Inheritance
     if (table.parent.has_value()) {
-        oss << " : public " << toPascalCase(*table.parent);
+        oss << " : public " << toPascalCase(*table.parent) << ", public db_object";
+    }
+    else if (table.is_abstract) {
+        oss << " : public db_object"; // Abstract class inherits from db_object
+    } else {
+        oss << " : public db_object"; // Regular class inherits from db_object
     }
     
     oss << " {\n";

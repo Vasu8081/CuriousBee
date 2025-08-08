@@ -1,6 +1,4 @@
-#ifndef GENERATED_ENTITLEMENT_H
-#define GENERATED_ENTITLEMENT_H
-
+#pragma once
 // Generated ODB header file
 // Table: Entitlement
 
@@ -9,6 +7,7 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <database/db_object.h>
 
 #include <odb/core.hxx>
 #include <odb/database.hxx>
@@ -16,13 +15,13 @@
 
 namespace model {
 
-#pragma db object table("entitlement")
 
+#pragma db object table("entitlement")
 
 /**
  * Entitlement entity class
  */
-class Entitlement {
+class Entitlement : public db_object {
 public:
     // Constructors
     Entitlement();
@@ -62,4 +61,3 @@ private:
 
 } // namespace model
 
-#endif // GENERATED_ENTITLEMENT_H

@@ -1,6 +1,4 @@
-#ifndef GENERATED_GROUP_H
-#define GENERATED_GROUP_H
-
+#pragma once
 // Generated ODB header file
 // Table: Group
 
@@ -9,21 +7,24 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <database/db_object.h>
 
 #include <odb/core.hxx>
 #include <odb/database.hxx>
 
+
 namespace model {
 
-class User;
 class Entitlement;
+class User;
+
 
 #pragma db object table("group")
 
 /**
  * Group entity class
  */
-class Group {
+class Group : public db_object {
 public:
     // Constructors
     Group();
@@ -77,4 +78,3 @@ private:
 
 } // namespace model
 
-#endif // GENERATED_GROUP_H

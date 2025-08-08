@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <network_parser/types.h>
+#include <parsers/network/types.h>
 
 namespace parser {
 

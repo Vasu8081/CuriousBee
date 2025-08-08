@@ -1,5 +1,5 @@
-#include <network_parser/capnp_generator.h>
-#include <network_parser/utils.h>
+#include <parsers/network/capnp_generator.h>
+#include <parsers/network/utils.h>
 #include <base/logger.h>
 
 #include <fstream>

@@ -12,7 +12,7 @@ find_package(nlohmann_json REQUIRED)
 
 
 add_subdirectory(base)
-add_subdirectory(network_parser)
+add_subdirectory(parsers)
 
 # add_subdirectory(messages)
 # add_subdirectory(network)

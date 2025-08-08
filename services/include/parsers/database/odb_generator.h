@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
-#include <server/logger.h>
-#include <database_parser/types.h>
+#include <base/logger.h>
+#include <parsers/database/types.h>
 
 namespace parser {
 
@@ -83,3 +83,4 @@ private:
     bool validateRelationships(const Table& table);
     bool validateConstraints(const Table& table);
 };
+}

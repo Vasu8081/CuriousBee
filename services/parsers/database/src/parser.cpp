@@ -1,4 +1,4 @@
-#include <database_parser/odb_generator.h>
+#include <parsers/database/odb_generator.h>
 #include <iostream>
 
 using namespace parser;

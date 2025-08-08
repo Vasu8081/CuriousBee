@@ -1,7 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <network_parser/bracket_schema_parser.h>
+#include <parsers/network/bracket_schema_parser.h>
 #include <base/logger.h>
 
 int main(int argc, char* argv[]) {

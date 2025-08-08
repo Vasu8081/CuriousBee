@@ -1,5 +1,5 @@
-#include <network_parser/cpp_header_generator.h>
-#include <network_parser/utils.h>
+#include <parsers/network/cpp_header_generator.h>
+#include <parsers/network/utils.h>
 #include <base/logger.h>
 
 #include <fstream>

@@ -1,7 +1,9 @@
-#include <database_parser/odb_generator.h>
+#include <parsers/database/odb_generator.h>
 //----------------------------------------------
 // Implementation
 //----------------------------------------------
+
+using namespace parser;
 
 ODBGenerator::ODBGenerator(const std::string& output_directory)
     : output_dir_(output_directory)
@@ -603,7 +605,7 @@ std::string ODBGenerator::generateConstraintPragmas(const Table& table) {
             oss << " name(\"" << constraint.name << "\")";
         }
         
-        if (!constraint.condition.empty()) {
+        if (constraint.condition.has_value() && !constraint.condition.value().empty()) {
             oss << " condition(\"" << *constraint.condition << "\")";
         }
         

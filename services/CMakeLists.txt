@@ -9,4 +9,6 @@ find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(src)

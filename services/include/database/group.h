@@ -34,7 +34,7 @@ public:
 
     // Assignment operators
     Group& operator=(const Group& other);
-    Group& operator=(Group&& other) noexcept;
+    Group& operator=(Group&& other) noexcept = default;
 
     // Accessors
     const long long& getId() const { return id_; }
@@ -60,16 +60,16 @@ private:
     #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member column("name") type("TEXT") not_null unique
+    #pragma db member column("name") type("VARCHAR(50)") not_null unique
     std::string name_;
 
     #pragma db member column("description") type("TEXT") null
     std::optional<std::string> description_;
 
-    #pragma db member table("user_groups") id_column("group_id") value_column("user_id") value_type("BIGINT")
+    #pragma db member inverse(groups_)
     std::vector<std::shared_ptr<User>> users_;
 
-    #pragma db member table("group_entitlements") id_column("group_id") value_column("entitlement_id") value_type("BIGINT")
+    #pragma db member table("group_entitlements") id_column("group_id") value_column("entitlement_id")
     std::vector<std::shared_ptr<Entitlement>> entitlements_;
 
 };

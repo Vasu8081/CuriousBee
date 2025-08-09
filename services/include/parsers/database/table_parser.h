@@ -636,7 +636,7 @@ private:
 
                 std::string lv = lower(value);
                 if (lv == "true" || lv == "false") {
-                    column.default_kind = DefaultKind::Bool;
+                    column.default_kind = Column::DefaultKind::Bool;
                     column.default_bool = (lv == "true");
                 } else {
                     // int?
@@ -644,7 +644,7 @@ private:
                     errno = 0;
                     long long ival = std::strtoll(value.c_str(), &endptr, 10);
                     if (errno == 0 && endptr && *endptr == '\0') {
-                        column.default_kind = DefaultKind::Int;
+                        column.default_kind = Column::DefaultKind::Int;
                         column.default_int = ival;
                     } else {
                         // float?
@@ -652,13 +652,13 @@ private:
                         char* fend = nullptr;
                         double fval = std::strtod(value.c_str(), &fend);
                         if (errno == 0 && fend && *fend == '\0' && value.find('.') != std::string::npos) {
-                            column.default_kind = DefaultKind::Float;
+                            column.default_kind = Column::DefaultKind::Float;
                             column.default_float = fval;
                         } else if (value.rfind("sql(", 0) == 0 && value.size() >= 5 && value.back() == ')') {
                             // sql(expr) wrapper to allow raw expressions (e.g., sql(now()))
-                            column.default_kind = DefaultKind::Expression;
+                            column.default_kind = Column::DefaultKind::Expression;
                         } else {
-                            column.default_kind = DefaultKind::String;
+                            column.default_kind = Column::DefaultKind::String;
                         }
                     }
                 }

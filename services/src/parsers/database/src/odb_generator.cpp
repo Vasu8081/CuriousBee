@@ -40,6 +40,13 @@ bool ODBGenerator::generateSchema(const Schema& schema) {
         LOG_ERR << "Failed to create output directory: " << output_dir_ << go;
         return false;
     }
+
+    const std::string inc_dir = joinPath(output_dir_, "include/database");
+    const std::string src_dir = joinPath(output_dir_, "src/database/src");
+    if (!createDirectoryIfNotExists(inc_dir) || !createDirectoryIfNotExists(src_dir)) {
+        LOG_ERR << "Failed to create include/src subdirectories under: " << output_dir_ << go;
+        return false;
+    }
     
     bool success = true;
     for (const auto& table : schema.tables) {
@@ -286,59 +293,38 @@ std::string ODBGenerator::generateForwardDeclarations(const Table& table) {
     return oss.str();
 }
 
-std::string ODBGenerator::mapCppTypeToDbType(const std::string& cpp_type, const Column& column) {
-    std::string lower_type = toLowerCase(cpp_type);
-    
-    // Remove template wrappers for base type detection
-    std::string base_type = lower_type;
-    if (base_type.find("std::optional<") == 0) {
-        size_t start = base_type.find('<') + 1;
-        size_t end = base_type.find_last_of('>');
-        if (end != std::string::npos && start < end) {
-            base_type = base_type.substr(start, end - start);
-        }
-    }
-    if (base_type.find("std::shared_ptr<") == 0) {
-        return ""; // Relationships don't need database types
-    }
-    if (base_type.find("std::vector<") == 0) {
-        return ""; // Collections don't need database types
-    }
-    
-    // Clean std:: prefix
-    if (base_type.find("std::") == 0) {
-        base_type = base_type.substr(5);
-    }
-    
-    // Map to database types
-    if (base_type == "int" || base_type == "integer") {
-        return "INTEGER";
-    } else if (base_type == "long long" || base_type == "bigint") {
-        return "BIGINT";
-    } else if (base_type == "short" || base_type == "smallint") {
-        return "SMALLINT";
-    } else if (base_type == "char" || base_type == "tinyint") {
-        return "SMALLINT";
-    } else if (base_type == "string") {
-        if (column.max_length.has_value() && *column.max_length > 0) {
+std::string ODBGenerator::mapCppTypeToDbType(const std::string& /*ignored*/, const Column& column) {
+    std::string t = toLowerCase(column.type);
+
+    // Treat DB/DSL type names first
+    if (t == "varchar" || t == "string" || t == "char") {
+        if (column.max_length && *column.max_length > 0) {
             return "VARCHAR(" + std::to_string(*column.max_length) + ")";
-        } else {
-            return "TEXT";
         }
-    } else if (base_type == "bool" || base_type == "boolean") {
-        return "BOOLEAN";
-    } else if (base_type == "float") {
-        return "REAL";
-    } else if (base_type == "double") {
-        return "DOUBLE PRECISION";
-    } else if (base_type.find("chrono") != std::string::npos || 
-               base_type.find("time_point") != std::string::npos) {
-        return "TIMESTAMP";
-    } else if (base_type.find("vector<unsigned char>") != std::string::npos) {
-        return "BYTEA";
+        return "TEXT";
     }
-    
-    return "TEXT"; // Safe fallback
+    if (t == "text") return "TEXT";
+    if (t == "bool" || t == "boolean") return "BOOLEAN";
+    if (t == "bigint" || t == "long" || t == "long long") return "BIGINT";
+    if (t == "int" || t == "integer") return "INTEGER";
+    if (t == "smallint" || t == "short") return "SMALLINT";
+    if (t == "float" || t == "real") return "REAL";
+    if (t == "double" || t == "numeric" || t == "decimal") {
+        if (column.precision && column.scale)
+            return "DECIMAL(" + std::to_string(*column.precision) + "," + std::to_string(*column.scale) + ")";
+        return "DOUBLE PRECISION";
+    }
+    if (t == "timestamp" || t == "datetime") return "TIMESTAMP";
+    if (t == "date") return "DATE";
+    if (t == "time") return "TIME";
+    if (t == "blob" || t == "binary") return "BYTEA";
+
+    // Fallback: if the C++ type is string and max_length known, use VARCHAR(n)
+    // Otherwise TEXT to be safe.
+    if (column.max_length && *column.max_length > 0) {
+        return "VARCHAR(" + std::to_string(*column.max_length) + ")";
+    }
+    return "TEXT";
 }
 
 bool ODBGenerator::isOptionalType(const std::string& cpp_type) {
@@ -399,7 +385,7 @@ std::string ODBGenerator::generateClassDeclaration(const Table& table) {
     if (table.generate_assignment_operator) {
         oss << indent_ << "// Assignment operators\n";
         oss << indent_ << class_name << "& operator=(const " << class_name << "& other);\n";
-        oss << indent_ << class_name << "& operator=(" << class_name << "&& other) noexcept;\n\n";
+        oss << indent_ << class_name << "& operator=(" << class_name << "&& other) noexcept = default;\n\n";
     }
     
     // Accessors
@@ -439,14 +425,50 @@ std::string ODBGenerator::generateMemberVariables(const Table& table) {
         oss << indent_ << cpp_type << " " << member_name;
         
         // Default value
-        if (column.default_value.has_value()) {
-            oss << " = " << *column.default_value;
-        }
+        // if (column.default_value.has_value()) {
+        //     oss << " = " << *column.default_value;
+        // }
         
         oss << ";\n\n";
     }
     
     return oss.str();
+}
+
+static std::string renderDefaultLiteral(DatabaseType dbt, const Column& column) {
+    // Falls back to string literal if default_kind wasn't set by parser upgrades
+    if (!column.default_value.has_value()) return "";
+
+    auto q = [](const std::string& s){
+        std::string out = "\"";
+        for (char c: s) { if (c=='\"') out += "\\\""; else out += c; }
+        out += "\"";
+        return out;
+    };
+
+    switch (column.default_kind) {
+        case Column::DefaultKind::Bool:
+            return std::string(" default(") + (*column.default_bool ? "true" : "false") + ")";
+        case Column::DefaultKind::Int:
+            return " default(" + std::to_string(*column.default_int) + ")";
+        case Column::DefaultKind::Float: {
+            std::ostringstream oss; oss << " default(" << *column.default_float << ")";
+            return oss.str();
+        }
+        case Column::DefaultKind::Expression: {
+            // Expect sql(expr) convention from parser
+            const std::string& v = *column.default_value;
+            // strip sql( ... )
+            if (v.rfind("sql(", 0) == 0 && v.size() >= 5 && v.back() == ')') {
+                return " default(" + v.substr(4, v.size()-5) + ")";
+            }
+            return " default(" + v + ")";
+        }
+        case Column::DefaultKind::String:
+        default:
+            // Quote as SQL string
+            return " default(" + q(*column.default_value) + ")";
+    }
 }
 
 std::string ODBGenerator::generateAccessors(const Table& table) {
@@ -619,8 +641,9 @@ std::string ODBGenerator::generateColumnPragmas(const Column& column, const Tabl
     }
     
     // Default value
-    if (column.default_value.has_value()) {
-        oss << " default(" << *column.default_value << ")";
+    {
+        std::string d = renderDefaultLiteral(table.database_options.database_type, column);
+        if (!d.empty()) oss << d;
     }
     
     // Other attributes
@@ -658,14 +681,20 @@ std::string ODBGenerator::generateRelationshipPragmas(const Column& column, cons
     
     switch (column.relationship) {
         case RelationshipType::OneToOne:
-        case RelationshipType::ManyToOne:
-            // Single object relationship
+        case RelationshipType::ManyToOne: {
             oss << indent_ << "#pragma db member";
-            if (column.inverse_field.has_value()) {
+            if (column.inverse_field) {
                 oss << " inverse(" << *column.inverse_field << ")";
+            }
+            if (column.is_not_null) {
+                oss << " not_null";
+            }
+            if (column.related_column) {
+                oss << " column(\"" << *column.related_column << "\")";
             }
             oss << "\n";
             break;
+        }
             
         case RelationshipType::OneToMany:
             // One-to-many relationship
@@ -677,38 +706,29 @@ std::string ODBGenerator::generateRelationshipPragmas(const Column& column, cons
             break;
             
         case RelationshipType::ManyToMany:
-            // FIXED: Many-to-many relationship with proper value_type
+        {
             oss << indent_ << "#pragma db member";
-            
-            if (column.join_table.has_value()) {
-                oss << " table(\"" << *column.join_table << "\")";
+
+            if (column.inverse_field.has_value() && !column.inverse_field->empty()) {
+                // INVERSE SIDE: only inverse(), no table/id/value here.
+                // Use the C++ member name on the other class (your convention: snake + underscore).
+                oss << " inverse(" << toSnakeCase(*column.inverse_field) << "_)";
             } else {
-                // Generate default join table name
-                std::string table1 = toSnakeCase(table.name);
-                std::string table2 = toSnakeCase(*column.related_table);
-                // Use consistent ordering for join table names
-                std::string join_table_name = (table1 < table2) ? 
-                    table1 + "_" + table2 + "s" : table2 + "_" + table1 + "s";
-                oss << " table(\"" << join_table_name << "\")";
+                // OWNING SIDE: specify association table/columns.
+                const std::string jt = column.join_table.value_or(
+                    toSnakeCase(table.name) + "_" + toSnakeCase(*column.related_table) + "s"
+                );
+                const std::string idc = column.join_column.value_or(toSnakeCase(table.name) + "_id");
+                const std::string vc  = column.inverse_join_column.value_or(toSnakeCase(*column.related_table) + "_id");
+
+                oss << " table(\"" << jt << "\")";
+                oss << " id_column(\"" << idc << "\")";
+                oss << " value_column(\"" << vc << "\")";
             }
-            
-            if (column.join_column.has_value()) {
-                oss << " id_column(\"" << *column.join_column << "\")";
-            } else {
-                oss << " id_column(\"" << toSnakeCase(table.name) << "_id\")";
-            }
-            
-            if (column.inverse_join_column.has_value()) {
-                oss << " value_column(\"" << *column.inverse_join_column << "\")";
-            } else {
-                oss << " value_column(\"" << toSnakeCase(*column.related_table) << "_id\")";
-            }
-            
-            // FIXED: Add value_type for foreign key columns
-            oss << " value_type(\"BIGINT\")";
-            
+
             oss << "\n";
             break;
+        }
             
         default:
             return "";
@@ -949,9 +969,9 @@ std::string ODBGenerator::convertToCppType(const std::string& db_type, const Col
     }
     
     // FIXED: Better optional handling - only for simple types that are truly nullable
-    if ((column.is_nullable || !column.is_not_null) && 
+    if (column.is_nullable &&
         !column.is_primary_key &&
-        column.relationship == RelationshipType::None && 
+        column.relationship == RelationshipType::None &&
         !column.container.is_container &&
         !column.is_auto_increment) {
         base_type = "std::optional<" + base_type + ">";
@@ -1125,11 +1145,12 @@ std::string ODBGenerator::toCamelCase(const std::string& str) {
 }
 
 std::string ODBGenerator::toPascalCase(const std::string& str) {
-    std::string camelCase = toCamelCase(str);
-    if (!camelCase.empty()) {
-        camelCase[0] = std::toupper(camelCase[0]);
+    bool has_sep = (str.find_first_of("_- ") != std::string::npos);
+    std::string s = has_sep ? toCamelCase(str) : str;
+    if (!s.empty()) {
+        s[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
     }
-    return camelCase;
+    return s;
 }
 
 std::string ODBGenerator::toSnakeCase(const std::string& str) {
@@ -1266,8 +1287,7 @@ bool ODBGenerator::validateColumn(const Column& column, const Table& table) {
         
         // Many-to-many should have join table
         if (column.relationship == RelationshipType::ManyToMany && !column.join_table.has_value()) {
-            LOG_ERR << "Many-to-many relationship " << column.name << " must specify join_table" << go;
-            return false;
+            LOG_WARN << "Many-to-many " << column.name << " has no join_table at generator stage; expecting parser inference to have filled this." << go;
         }
     }
     
@@ -1292,8 +1312,10 @@ bool ODBGenerator::validateRelationships(const Table& table) {
             
             // Validate many-to-many specific requirements
             if (column.relationship == RelationshipType::ManyToMany) {
-                if (!column.join_table.has_value()) {
-                    LOG_WARN << "Many-to-many relationship " << column.name << " should specify join_table" << go;
+                if (column.inverse_field && column.join_table) {
+                    LOG_WARN << "Many-to-many '" << column.name
+                            << "' has both inverse_field and join_table; "
+                                "treating this member as inverse and ignoring table mapping." << go;
                 }
             }
         }

@@ -34,7 +34,7 @@ public:
 
     // Assignment operators
     User& operator=(const User& other);
-    User& operator=(User&& other) noexcept;
+    User& operator=(User&& other) noexcept = default;
 
     // Accessors
     const long long& getId() const { return id_; }
@@ -46,11 +46,11 @@ public:
     const std::string& getEmail() const { return email_; }
     void setEmail(const std::string& value) { email_ = value; }
 
-    const std::string& getPasswordhash() const { return password_hash_; }
-    void setPasswordhash(const std::string& value) { password_hash_ = value; }
+    const std::string& getPasswordHash() const { return password_hash_; }
+    void setPasswordHash(const std::string& value) { password_hash_ = value; }
 
-    const bool& getIsactive() const { return is_active_; }
-    void setIsactive(const bool& value) { is_active_ = value; }
+    const bool& getIsActive() const { return is_active_; }
+    void setIsActive(const bool& value) { is_active_ = value; }
 
     const std::vector<std::shared_ptr<Group>>& getGroups() const { return groups_; }
     void setGroups(const std::vector<std::shared_ptr<Group>>& value) { groups_ = value; }
@@ -66,22 +66,22 @@ private:
     #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member column("username") type("TEXT") not_null unique
+    #pragma db member column("username") type("VARCHAR(50)") not_null unique
     std::string username_;
 
-    #pragma db member column("email") type("TEXT") not_null unique
+    #pragma db member column("email") type("VARCHAR(100)") not_null unique
     std::string email_;
 
-    #pragma db member column("password_hash") type("TEXT") not_null
+    #pragma db member column("password_hash") type("VARCHAR(255)") not_null
     std::string password_hash_;
 
     #pragma db member column("is_active") type("BOOLEAN") not_null default(true)
-    bool is_active_ = true;
+    bool is_active_;
 
-    #pragma db member table("user_groups") id_column("user_id") value_column("group_id") value_type("BIGINT")
+    #pragma db member table("user_groups") id_column("user_id") value_column("group_id")
     std::vector<std::shared_ptr<Group>> groups_;
 
-    #pragma db member table("user_entitlements") id_column("user_id") value_column("entitlement_id") value_type("BIGINT")
+    #pragma db member table("user_entitlements") id_column("user_id") value_column("entitlement_id")
     std::vector<std::shared_ptr<Entitlement>> entitlements_;
 
 };

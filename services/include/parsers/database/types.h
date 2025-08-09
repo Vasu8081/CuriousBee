@@ -184,8 +184,6 @@ struct DatabaseOptions {
 //----------------------------------------------
 // Column definition (enhanced)
 //----------------------------------------------
-enum class DefaultKind { None, Bool, Int, Float, String, Expression };
-
 struct Column {
     std::string name;
     std::string type;
@@ -219,7 +217,7 @@ struct Column {
 
     // Overrides and metadata
     std::optional<std::string> default_value;
-
+    enum class DefaultKind { None, Bool, Int, Float, String, Expression };
     DefaultKind default_kind = DefaultKind::None;
     std::optional<long long> default_int;
     std::optional<double> default_float;

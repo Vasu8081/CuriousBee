@@ -30,7 +30,7 @@ public:
 
     // Assignment operators
     Entitlement& operator=(const Entitlement& other);
-    Entitlement& operator=(Entitlement&& other) noexcept;
+    Entitlement& operator=(Entitlement&& other) noexcept = default;
 
     // Accessors
     const long long& getId() const { return id_; }
@@ -50,7 +50,7 @@ private:
     #pragma db member id auto column("id") type("BIGINT")
     long long id_;
 
-    #pragma db member column("code") type("TEXT") not_null unique
+    #pragma db member column("code") type("VARCHAR(50)") not_null unique
     std::string code_;
 
     #pragma db member column("description") type("TEXT") null

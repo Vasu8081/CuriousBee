@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS "group" CASCADE;
 
 CREATE TABLE "group" (
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
-  "name" TEXT NOT NULL,
+  "name" VARCHAR(50) NOT NULL,
   "description" TEXT NULL);
 
 CREATE UNIQUE INDEX "group_name_i"
@@ -39,7 +39,7 @@ CREATE INDEX "group_entitlements_index_i"
 
 CREATE TABLE "entitlement" (
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
-  "code" TEXT NOT NULL,
+  "code" VARCHAR(50) NOT NULL,
   "description" TEXT NULL);
 
 CREATE UNIQUE INDEX "entitlement_code_i"
@@ -47,9 +47,9 @@ CREATE UNIQUE INDEX "entitlement_code_i"
 
 CREATE TABLE "user" (
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
-  "username" TEXT NOT NULL,
-  "email" TEXT NOT NULL,
-  "password_hash" TEXT NOT NULL,
+  "username" VARCHAR(50) NOT NULL,
+  "email" VARCHAR(100) NOT NULL,
+  "password_hash" VARCHAR(255) NOT NULL,
   "is_active" BOOLEAN NOT NULL DEFAULT TRUE);
 
 CREATE UNIQUE INDEX "user_username_i"

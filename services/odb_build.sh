@@ -6,7 +6,7 @@ set -euo pipefail
 SRC_DIR="/home/curious_bytes/Documents/CuriousBee/services/include/database"
 OUT_INCLUDE="/home/curious_bytes/Documents/CuriousBee/services/include/odb"
 OUT_SRC="/home/curious_bytes/Documents/CuriousBee/services/src/odb"
-OUT_SCHEMA="/home/curious_bytes/Documents/CuriousBee/services/db/schema"
+OUT_SCHEMA="/home/curious_bytes/Documents/CuriousBee/services/schemas"
 ODB_INCLUDE_PATH="/home/curious_bytes/Documents/CuriousBee/services/include"
 
 # Exclude basenames (without extension)

@@ -36,6 +36,17 @@ public:
   static network_message deserialize(const std::string& data);
 //#editable_class_start_dont_remove_this_line_only_write_above
 
+public: 
+  virtual ~network_message() = default;
+
+  bool is_request() const {
+    return _msgType == message_type::request || _msgType == message_type::testRequest;
+  }
+
+  bool is_response() const {
+    return _msgType == message_type::reply || _msgType == message_type::testReply;
+  }
+
 //#editable_class_end_dont_remove_this_line_only_write_below
 };
 }  // namespace curious::net

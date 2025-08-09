@@ -2,7 +2,7 @@
 #include <capnp/message.h>
 #include <capnp/serialize.h>
 #include <kj/std/iostream.h>
-#include <server/logger.h>
+#include <base/logger.h>
 
 using namespace curious::net;
 using namespace curious::log;

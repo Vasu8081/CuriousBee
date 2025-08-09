@@ -9,4 +9,4 @@ target_include_directories(network
     PUBLIC ${CMAKE_SOURCE_DIR}/include
 )
 
-target_link_libraries(network PRIVATE messages)
+target_link_libraries(network PRIVATE messages base)

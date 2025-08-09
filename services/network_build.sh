@@ -2,23 +2,31 @@
 # Compile Cap'n Proto schema(s) via a temp dir, then place:
 #   *.capnp.c++  -> OUT_SRC
 #   *.capnp.h    -> OUT_INCLUDE
+# And rewrite generated .c++ includes from "X.capnp.h" -> <messages/X.capnp.h>
 #
 # Usage:
 #   ./capnp_build.sh [--src DIR] [--schema FILE] [--out-src DIR] [--out-include DIR] [-v] [--clean]
+#
+# Defaults:
+#   --src          $PWD/
+#   --schema       <src>/schemas/network_msg.capnp
+#   --out-src      $PWD/src/messages/src
+#   --out-include  $PWD/include/messages
 
 set -euo pipefail
 
+# ---------- defaults ----------
 SRC_DIR="$PWD/"
-SCHEMA=""
+SCHEMA=""  # resolved below
 OUT_SRC="$PWD/src/messages/src"
-OUT_INCLUDE="$PWD/src/include/messages"
+OUT_INCLUDE="$PWD/include/messages"
 VERBOSE=false
 CLEAN=false
 
-log() {
-    echo "[capnp_build] $1"
-}
+log() { echo "[capnp_build] $*"; }
+vrun() { $VERBOSE && { echo "+ $*"; "$@"; } || "$@"; }
 
+# ---------- args ----------
 while (($#)); do
   case "$1" in
     --src)           SRC_DIR="$2"; shift 2 ;;
@@ -30,86 +38,126 @@ while (($#)); do
     -h|--help)
       cat <<EOF
 Usage: $0 [--src DIR] [--schema FILE] [--out-src DIR] [--out-include DIR] [-v] [--clean]
+Defaults:
+  --src          $SRC_DIR
+  --schema       <src>/schemas/network_msg.capnp
+  --out-src      $OUT_SRC
+  --out-include  $OUT_INCLUDE
 EOF
       exit 0 ;;
-    *) echo "Unknown arg: $1" >&2; exit 1 ;;
+    *)
+      echo "Unknown arg: $1" >&2
+      exit 1 ;;
   esac
 done
 
-log "Source dir: $SRC_DIR"
-log "Output src dir: $OUT_SRC"
-log "Output include dir: $OUT_INCLUDE"
-
-# Resolve default schema
+# ---------- resolve schema default ----------
 if [[ -z "$SCHEMA" ]]; then
   SCHEMA="${SRC_DIR%/}/schemas/network_msg.capnp"
 fi
-log "Schema file: $SCHEMA"
 
-# Check tool
+# ---------- banner ----------
+log "Source dir:      $SRC_DIR"
+log "Output src dir:  $OUT_SRC"
+log "Output include:  $OUT_INCLUDE"
+log "Schema file:     $SCHEMA"
+
+# ---------- tool checks ----------
 if ! command -v capnp >/dev/null 2>&1; then
-  log "ERROR: 'capnp' compiler not found in PATH."
+  echo "ERROR: 'capnp' compiler not found in PATH." >&2
   exit 1
 fi
 log "Found capnp compiler."
 
-# Check schema exists
+# ---------- sanity ----------
 if [[ ! -f "$SCHEMA" ]]; then
-  log "Schema not found, skipping build."
+  log "Schema not found, skipping: $SCHEMA"
   exit 0
 fi
 
-# Prepare output dirs
+# ---------- prepare outputs ----------
 log "Creating output directories..."
-mkdir -p "$OUT_SRC" "$OUT_INCLUDE"
+vrun mkdir -p "$OUT_SRC" "$OUT_INCLUDE"
 log "Output directories ready."
 
-# Clean old files if requested
+# ---------- optional clean ----------
 if $CLEAN; then
-  log "Cleaning previous generated files..."
-  find "$OUT_SRC" -maxdepth 1 -type f -name '*.capnp.c++' -delete || true
-  find "$OUT_INCLUDE" -maxdepth 1 -type f -name '*.capnp.h' -delete || true
-  log "Clean completed."
+  log "Cleaning previous generated artifacts..."
+  vrun find "$OUT_SRC" -maxdepth 1 -type f -name '*.capnp.c++' -print -delete || true
+  vrun find "$OUT_INCLUDE" -maxdepth 1 -type f -name '*.capnp.h'   -print -delete || true
 fi
 
-# Temp build dir
+# ---------- temp build dir ----------
 TMPDIR="$(mktemp -d /tmp/capnp_build.XXXXXX)"
 trap 'rm -rf "$TMPDIR"' EXIT
-log "Temporary directory created: $TMPDIR"
+log "Temporary directory: $TMPDIR"
 
-# Compile schema
+# ---------- compile ----------
 log "Compiling schema..."
-$VERBOSE && set -x
-capnp compile \
+vrun capnp compile \
   -oc++:"$TMPDIR" \
   --src-prefix="$SRC_DIR" \
   -I "$SRC_DIR" \
   "$SCHEMA"
-$VERBOSE && set +x
 log "Compilation completed."
 
-# Move generated files
-log "Moving generated .capnp.c++ files to $OUT_SRC..."
-moved_any=false
-shopt -s nullglob
-for f in "$TMPDIR"/*.capnp.c++; do
-  mv -f "$f" "$OUT_SRC/"
-  log "Moved source: $(basename "$f")"
-  moved_any=true
-done
+# ---------- collect & move ----------
+log "Scanning generated files under $TMPDIR..."
+mapfile -t GEN_CPP < <(find "$TMPDIR" -type f -name '*.capnp.c++' | sort)
+mapfile -t GEN_H   < <(find "$TMPDIR" -type f -name '*.capnp.h'   | sort)
+log "Found ${#GEN_CPP[@]} .c++ and ${#GEN_H[@]} .h file(s)."
 
-log "Moving generated .capnp.h files to $OUT_INCLUDE..."
-for f in "$TMPDIR"/*.capnp.h; do
-  mv -f "$f" "$OUT_INCLUDE/"
-  log "Moved header: $(basename "$f")"
-  moved_any=true
-done
-shopt -u nullglob
-
-if ! $moved_any; then
-  log "WARNING: No generated files found. Check if schema produced outputs."
-else
-  log "All files moved successfully."
+if (( ${#GEN_CPP[@]} == 0 && ${#GEN_H[@]} == 0 )); then
+  log "WARNING: No generated files found. Check schema / options."
+  exit 0
 fi
 
+if (( ${#GEN_CPP[@]} > 0 )); then
+  log "Moving source file(s) to $OUT_SRC ..."
+  for f in "${GEN_CPP[@]}"; do
+    rel="${f#$TMPDIR/}"; log "  src: $rel -> $OUT_SRC/"
+    vrun mv -f "$f" "$OUT_SRC/"
+  done
+else
+  log "No .capnp.c++ files found."
+fi
+
+if (( ${#GEN_H[@]} > 0 )); then
+  log "Moving header file(s) to $OUT_INCLUDE ..."
+  for f in "${GEN_H[@]}"; do
+    rel="${f#$TMPDIR/}"; log "  hdr: $rel -> $OUT_INCLUDE/"
+    vrun mv -f "$f" "$OUT_INCLUDE/"
+  done
+else
+  log "No .capnp.h files found."
+fi
+
+# ---------- retarget includes in generated .c++ ----------
+# Rewrite:  #include "whatever.capnp.h"  ->  #include <messages/whatever.capnp.h>
+if (( ${#GEN_CPP[@]} > 0 )); then
+  log "Retargeting includes inside generated .c++ files to <messages/...> ..."
+  changed=0
+  shopt -s nullglob
+  for f in "$OUT_SRC"/*.capnp.c++; do
+    before_sum="$(md5sum "$f" | awk '{print $1}')"
+    # Only replace simple quoted includes; keep system/other includes intact.
+    # Takes the basename of the header if a path slipped in.
+    vrun perl -0777 -pi -e '
+      s{(^\s*#\s*include\s*)"(?:.*/)?([^"/]+\.capnp\.h)"}
+       {$1<messages/$2>}mg;
+    ' "$f"
+    after_sum="$(md5sum "$f" | awk '{print $1}')"
+    if [[ "$before_sum" != "$after_sum" ]]; then
+      log "  updated: $(basename "$f")"
+      ((changed++))
+    fi
+  done
+  shopt -u nullglob
+  log "Include retargeting done (${changed} file(s) updated)."
+fi
+
+# ---------- summary ----------
 log "Cap'n Proto build done."
+log "Headers in: $OUT_INCLUDE"
+log "Sources in: $OUT_SRC"
+echo "[capnp_build] Tip: add '${OUT_INCLUDE%/}/..' to your compiler include paths so '#include <messages/xxx.capnp.h>' works."

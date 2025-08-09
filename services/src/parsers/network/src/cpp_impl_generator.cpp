@@ -47,7 +47,7 @@ void CppImplGenerator::generateIncludes(std::ostringstream& out, const Message& 
     out << "#include <capnp/message.h>\n";
     out << "#include <capnp/serialize.h>\n";
     out << "#include <kj/std/iostream.h>\n";
-    out << "#include <server/logger.h>\n\n";
+    out << "#include <base/logger.h>\n\n";
     out << "using namespace curious::net;\n";
     out << "using namespace curious::log;\n\n";
     

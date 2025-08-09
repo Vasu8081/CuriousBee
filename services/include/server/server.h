@@ -13,7 +13,7 @@
 #include <network/network_message.h>
 #include <server/server_config.h>
 #include <server/listener.h>
-#include <server/logger.h>
+#include <base/logger.h>
 
 namespace curious::core {
 

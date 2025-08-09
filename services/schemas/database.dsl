@@ -11,7 +11,7 @@ Table User {
     entitlements: Entitlement [many_to_many, related_table="Entitlement", join_table="user_entitlements", join_column="user_id", inverse_join_column="entitlement_id"];
 }
 
-// Group table
+// Group table 
 Table Group {
     id: bigint [primary_key, auto_increment];
     name: varchar [unique, not_null, max_length=50];

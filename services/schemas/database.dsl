@@ -28,3 +28,27 @@ Table Entitlement {
     code: varchar [unique, not_null, max_length=50]; // e.g., "CAN_ACCESS_DASHBOARD"
     description: text [nullable];
 }
+
+// Search tags for videos blogs and all
+Table SearchTag {
+    id: bigint [primary_key, auto_increment];
+    name: varchar [unique, not_null, max_length=50];
+    description: text [nullable];
+}
+
+// Videos table
+Table Video {
+    id: bigint [primary_key, auto_increment];
+    title: varchar [not_null, max_length=255];
+    youtube_id: varchar [not_null, unique, max_length=100];
+    description: text [nullable];
+    thumbnail: varchar [nullable, max_length=255];
+    thumbnail_medium_url: varchar [nullable, max_length=255];
+    thumbnail_high_url: varchar [nullable, max_length=255];
+    thumbnail_standard_url: varchar [nullable, max_length=255];
+    thumbnail_maxres_url: varchar [nullable, max_length=255];
+    published_at: datetime [not_null];
+
+    // Relationships
+    tags: SearchTag [many_to_many, related_table="SearchTag", join_table="video_tags", join_column="video_id", inverse_join_column="tag_id"];
+}

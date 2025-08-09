@@ -6,3 +6,6 @@ add_subdirectory(messages)
 add_subdirectory(network)
 add_subdirectory(server)
 add_subdirectory(tests)
+
+
+add_subdirectory(videosd)

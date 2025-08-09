@@ -1,0 +1,16 @@
+{
+  "logging": {
+    "type": "file",
+    "file_path": "/home/curious_bytes/Documents/CuriousBee/logs/",
+    "timestamp_format": "%Y-%m-%d %H:%M:%S"
+  },
+  "messaging": {
+    "endpoints": [
+      {
+        "topic": "YOUTUBE_VIDEO_UPDATE",
+        "endpoint": "ipc:///tmp/youtube_video_update",
+        "type": "IPC"
+      }
+    ]
+  }
+}

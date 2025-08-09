@@ -105,9 +105,15 @@ public:
     }
 };
 
-int main() {
+int main(int argc, char* argv[]) {
     try {
-        server_config config("/home/curious_bytes/Documents/CuriousBee/services/config.json");
+        if (argc < 2) {
+            std::cerr << "Usage: " << argv[0] << " <config_path>\n";
+            return 1;
+        }
+
+        std::string config_path = argv[1];
+        server_config config(config_path);
         PublisherServer s(config, "PublisherServer");
         
         LOG_INFO << "[PublisherServer] Starting publisher server..." << go;

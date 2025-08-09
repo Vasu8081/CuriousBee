@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <boost/optional.hpp>
 #include <chrono>
 
 #include <odb/core.hxx>
@@ -23,13 +24,13 @@ class Entitlement : public db_object {
 
 public:
     // Constructors
-    Entitlement();
-    Entitlement(const Entitlement& other);
-    Entitlement(Entitlement&& other) noexcept;
-    ~Entitlement();
+    Entitlement() = default;
+    Entitlement(const Entitlement& other) = default;
+    Entitlement(Entitlement&& other) noexcept = default;
+    ~Entitlement() = default;
 
     // Assignment operators
-    Entitlement& operator=(const Entitlement& other);
+    Entitlement& operator=(const Entitlement& other) = default;
     Entitlement& operator=(Entitlement&& other) noexcept = default;
 
     // Accessors
@@ -39,12 +40,14 @@ public:
     const std::string& getCode() const { return code_; }
     void setCode(const std::string& value) { code_ = value; }
 
-    const std::optional<std::string>& getDescription() const { return description_; }
-    void setDescription(const std::optional<std::string>& value) { description_ = value; }
+    const boost::optional<std::string>& getDescription() const { return description_; }
+    void setDescription(const boost::optional<std::string>& value) { description_ = value; }
 
-    // Equality operators
-    bool operator==(const Entitlement& other) const;
-    bool operator!=(const Entitlement& other) const;
+    // Equality operators (inline)
+    bool operator==(const Entitlement& other) const {
+        return (id_ == other.id_) && (code_ == other.code_) && (description_ == other.description_);
+    }
+    bool operator!=(const Entitlement& other) const { return !(*this == other); }
 
 private:
     #pragma db member id auto column("id") type("BIGINT")
@@ -54,7 +57,7 @@ private:
     std::string code_;
 
     #pragma db member column("description") type("TEXT") null
-    std::optional<std::string> description_;
+    boost::optional<std::string> description_;
 
 };
 } // namespace model

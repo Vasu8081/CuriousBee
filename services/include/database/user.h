@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <boost/optional.hpp>
 #include <chrono>
 
 #include <odb/core.hxx>
@@ -27,13 +28,13 @@ class User : public db_object {
 
 public:
     // Constructors
-    User();
-    User(const User& other);
-    User(User&& other) noexcept;
-    ~User();
+    User() = default;
+    User(const User& other) = default;
+    User(User&& other) noexcept = default;
+    ~User() = default;
 
     // Assignment operators
-    User& operator=(const User& other);
+    User& operator=(const User& other) = default;
     User& operator=(User&& other) noexcept = default;
 
     // Accessors
@@ -58,9 +59,11 @@ public:
     const std::vector<std::shared_ptr<Entitlement>>& getEntitlements() const { return entitlements_; }
     void setEntitlements(const std::vector<std::shared_ptr<Entitlement>>& value) { entitlements_ = value; }
 
-    // Equality operators
-    bool operator==(const User& other) const;
-    bool operator!=(const User& other) const;
+    // Equality operators (inline)
+    bool operator==(const User& other) const {
+        return (id_ == other.id_) && (username_ == other.username_) && (email_ == other.email_) && (password_hash_ == other.password_hash_) && (is_active_ == other.is_active_);
+    }
+    bool operator!=(const User& other) const { return !(*this == other); }
 
 private:
     #pragma db member id auto column("id") type("BIGINT")

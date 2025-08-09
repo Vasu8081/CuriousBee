@@ -90,5 +90,11 @@ private:
     template<typename T>
     std::string safeOptionalAccess(const std::optional<T>& opt, const std::string& default_val = "");
     bool isOptionalType(const std::string& cpp_type);
+
+    // In class ODBGenerator public section:
+    bool generateUmbrellaIncludes(const Schema& schema);
+
+    // Optional (if you want a CMake helper file listing -odb.cxx)
+    bool generateOdbCMakeList(const Schema& schema);
 };
 }

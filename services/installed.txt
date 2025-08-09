@@ -13,3 +13,6 @@ sudo apt install libzmq3-dev
 git clone https://github.com/zeromq/cppzmq.git
 cd cppzmq
 sudo cp zmq.hpp /usr/local/include/
+
+
+sudo apt-get install -y libboost-all-dev

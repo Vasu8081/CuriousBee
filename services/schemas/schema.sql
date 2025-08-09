@@ -8,11 +8,19 @@ DROP TABLE IF EXISTS "user_groups" CASCADE;
 
 DROP TABLE IF EXISTS "user" CASCADE;
 
-DROP TABLE IF EXISTS "entitlement" CASCADE;
-
 DROP TABLE IF EXISTS "group_entitlements" CASCADE;
 
 DROP TABLE IF EXISTS "group" CASCADE;
+
+DROP TABLE IF EXISTS "entitlement" CASCADE;
+
+CREATE TABLE "entitlement" (
+  "id" BIGSERIAL NOT NULL PRIMARY KEY,
+  "code" VARCHAR(50) NOT NULL,
+  "description" TEXT NULL);
+
+CREATE UNIQUE INDEX "entitlement_code_i"
+  ON "entitlement" ("code");
 
 CREATE TABLE "group" (
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
@@ -29,21 +37,17 @@ CREATE TABLE "group_entitlements" (
   CONSTRAINT "group_id_fk"
     FOREIGN KEY ("group_id")
     REFERENCES "group" ("id")
-    ON DELETE CASCADE);
+    ON DELETE CASCADE,
+  CONSTRAINT "entitlement_id_fk"
+    FOREIGN KEY ("entitlement_id")
+    REFERENCES "entitlement" ("id")
+    INITIALLY DEFERRED);
 
 CREATE INDEX "group_entitlements_group_id_i"
   ON "group_entitlements" ("group_id");
 
 CREATE INDEX "group_entitlements_index_i"
   ON "group_entitlements" ("index");
-
-CREATE TABLE "entitlement" (
-  "id" BIGSERIAL NOT NULL PRIMARY KEY,
-  "code" VARCHAR(50) NOT NULL,
-  "description" TEXT NULL);
-
-CREATE UNIQUE INDEX "entitlement_code_i"
-  ON "entitlement" ("code");
 
 CREATE TABLE "user" (
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
@@ -95,10 +99,4 @@ CREATE INDEX "user_entitlements_user_id_i"
 
 CREATE INDEX "user_entitlements_index_i"
   ON "user_entitlements" ("index");
-
-ALTER TABLE "group_entitlements"
-  ADD CONSTRAINT "entitlement_id_fk"
-    FOREIGN KEY ("entitlement_id")
-    REFERENCES "entitlement" ("id")
-    INITIALLY DEFERRED;
 

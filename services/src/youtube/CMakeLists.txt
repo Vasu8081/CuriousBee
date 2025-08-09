@@ -14,4 +14,4 @@
 # target_link_libraries(hyrid_server PRIVATE server)
 
 add_executable(db_test db_test.cpp)
-target_link_libraries(db_test PRIVATE database)
+target_link_libraries(db_test PUBLIC database newodb)

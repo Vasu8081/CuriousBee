@@ -9,7 +9,7 @@ ARCH="${3:-x86_64}"             # Pass as third argument, default x86_64
 
 # Choose which adapters to install: (mysql, pgsql, sqlite, qt, boost)
 # Use "all" for everything, or a space-separated list (e.g., "pgsql sqlite")
-ADAPTERS="${4:-pgsql}"            # Pass as fourth argument
+ADAPTERS="${4:-boost}"            # Pass as fourth argument
 
 BASE_URL="https://www.codesynthesis.com/download/odb/${ODB_VER}/ubuntu/ubuntu${UBUNTU_VER}/${ARCH}"
 

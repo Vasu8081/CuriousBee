@@ -56,6 +56,12 @@ bool ODBGenerator::generateSchema(const Schema& schema) {
         }
     }
     
+    if (success) {
+        if (!generateUmbrellaIncludes(schema)) {
+            LOG_WARN << "Failed to generate umbrella include headers." << go;
+        }
+    }
+
     // Generate schema-level files (views, queries, etc.)
     if (!schema.global_views.empty() || !schema.global_queries.empty()) {
         // TODO: Implement global views and queries generation
@@ -66,29 +72,63 @@ bool ODBGenerator::generateSchema(const Schema& schema) {
     return success;
 }
 
+bool ODBGenerator::generateUmbrellaIncludes(const Schema& schema)
+{
+    const std::string inc_dir = joinPath(output_dir_, "include/database");
+    if (!createDirectoryIfNotExists(inc_dir)) {
+        LOG_ERR << "Cannot create umbrella include dir: " << inc_dir << go;
+        return false;
+    }
+    
+    // 3b) schema_odb.hxx — entities + their -odb.hxx (order matters: class headers first)
+    {
+        std::ostringstream oss;
+        oss << "#pragma once\n\n";
+        oss << "// Auto-generated umbrella header (entities + ODB mapping)\n";
+        oss << "// Schema: " << schema.name << "  Version: " << schema.version << "\n\n";
+
+        // First: entity class headers
+        for (const auto& t : schema.tables) {
+            std::string base = toLowerCase(t.name);
+            oss << "#include <database/" << base << ".h>\n";
+        }
+        oss << "\n";
+
+        oss << "#include <database/all_models-odb.hxx>\n";
+        oss << "\n";
+
+        const std::string file = joinPath(inc_dir, "models.h");
+        if (!writeToFile(file, oss.str())) {
+            LOG_ERR << "Failed writing " << file << go;
+            return false;
+        }
+        LOG_INFO << "Generated " << file << go;
+    }
+
+    return true;
+}
+
 bool ODBGenerator::generateTable(const Table& table, const DatabaseOptions& db_options) {
     LOG_INFO << "Generating table: " << table.name << go;
-    
+
     if (!validateTable(table)) {
         LOG_ERR << "Table validation failed for: " << table.name << go;
         return false;
     }
-    
+
     try {
         std::string header_content = generateHeaderFile(table, db_options);
-        std::string source_content = generateSourceFile(table, db_options);
-        
-        std::string header_filename = joinPath(output_dir_+"/include/database/", toLowerCase(table.name) + ".h");
-        std::string source_filename = joinPath(output_dir_+"/src/database/src/", toLowerCase(table.name) + ".cpp");
-        
-        bool header_success = writeToFile(header_filename, header_content);
-        bool source_success = writeToFile(source_filename, source_content);
-        
-        if (header_success && source_success) {
-            LOG_INFO << "Successfully generated files for table: " << table.name << go;
+        const std::string header_filename =
+            joinPath(output_dir_ + "/include/database/", toLowerCase(table.name) + ".h");
+
+        // Stop generating .cpp – put everything inline.
+        const bool header_success = writeToFile(header_filename, header_content);
+
+        if (header_success) {
+            LOG_INFO << "Successfully generated header for table: " << table.name << go;
             return true;
         } else {
-            LOG_ERR << "Failed to write files for table: " << table.name << go;
+            LOG_ERR << "Failed to write header for table: " << table.name << go;
             return false;
         }
     } catch (const std::exception& e) {
@@ -228,6 +268,7 @@ std::string ODBGenerator::generateIncludes(const Table& table, const DatabaseOpt
     oss << "#include <vector>\n";
     oss << "#include <memory>\n";
     oss << "#include <optional>\n";
+    oss << "#include <boost/optional.hpp>\n";
     oss << "#include <chrono>\n";
     
     // Check what additional containers we need
@@ -372,19 +413,19 @@ std::string ODBGenerator::generateClassDeclaration(const Table& table) {
     
     // Constructors and destructor
     oss << indent_ << "// Constructors\n";
-    oss << indent_ << class_name << "();\n";
+    oss << indent_ << class_name << "() = default;\n";
     if (table.generate_copy_constructor) {
-        oss << indent_ << class_name << "(const " << class_name << "& other);\n";
+        oss << indent_ << class_name << "(const " << class_name << "& other) = default;\n";
     }
     if (table.generate_move_constructor) {
-        oss << indent_ << class_name << "(" << class_name << "&& other) noexcept;\n";
+        oss << indent_ << class_name << "(" << class_name << "&& other) noexcept = default;\n";
     }
-    oss << indent_ << "~" << class_name << "();\n\n";
+    oss << indent_ << "~" << class_name << "() = default;\n\n";
     
     // Assignment operators
     if (table.generate_assignment_operator) {
         oss << indent_ << "// Assignment operators\n";
-        oss << indent_ << class_name << "& operator=(const " << class_name << "& other);\n";
+        oss << indent_ << class_name << "& operator=(const " << class_name << "& other) = default;\n";
         oss << indent_ << class_name << "& operator=(" << class_name << "&& other) noexcept = default;\n\n";
     }
     
@@ -499,14 +540,28 @@ std::string ODBGenerator::generateAccessors(const Table& table) {
 
 std::string ODBGenerator::generateOperators(const Table& table) {
     std::ostringstream oss;
-    
-    if (table.generate_equals) {
-        oss << indent_ << "// Equality operators\n";
-        std::string class_name = table.custom_class_name.value_or(toPascalCase(table.name));
-        oss << indent_ << "bool operator==(const " << class_name << "& other) const;\n";
-        oss << indent_ << "bool operator!=(const " << class_name << "& other) const;\n\n";
+    const std::string class_name = table.custom_class_name.value_or(toPascalCase(table.name));
+
+    oss << indent_ << "// Equality operators (inline)\n";
+    oss << indent_ << "bool operator==(const " << class_name << "& other) const {\n";
+    oss << indent_ << indent_ << "return ";
+
+    bool first = true;
+    for (const auto& col : table.columns) {
+        // Skip relationship containers and pointers from comparison
+        if (col.relationship != RelationshipType::None) continue;
+
+        const std::string member = toSnakeCase(col.name) + "_";
+        if (!first) oss << " && ";
+        oss << "(" << member << " == other." << member << ")";
+        first = false;
     }
-    
+    if (first) { // no comparable fields
+        oss << "true";
+    }
+    oss << ";\n" << indent_ << "}\n";
+
+    oss << indent_ << "bool operator!=(const " << class_name << "& other) const { return !(*this == other); }\n\n";
     return oss.str();
 }
 
@@ -616,7 +671,7 @@ std::string ODBGenerator::generateColumnPragmas(const Column& column, const Tabl
     
     // FIXED: Better type specification handling
     std::string cpp_type = convertToCppType(column.type, column);
-    bool is_optional = cpp_type.find("std::optional<") != std::string::npos;
+    bool is_optional = cpp_type.find("boost::optional<") != std::string::npos;
     
     // Type specification
     if (column.db_type_override.has_value()) {
@@ -969,12 +1024,10 @@ std::string ODBGenerator::convertToCppType(const std::string& db_type, const Col
     }
     
     // FIXED: Better optional handling - only for simple types that are truly nullable
-    if (column.is_nullable &&
-        !column.is_primary_key &&
-        column.relationship == RelationshipType::None &&
-        !column.container.is_container &&
-        !column.is_auto_increment) {
-        base_type = "std::optional<" + base_type + ">";
+    if ((column.is_nullable || !column.is_not_null) && !column.is_primary_key
+        && column.relationship == RelationshipType::None && !column.container.is_container
+        && !column.is_auto_increment) {
+        base_type = "boost::optional<" + base_type + ">";
     }
     
     return base_type;

@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <database/models.h>
+
 #include <odb/database.hxx>
 #include <odb/pgsql/database.hxx>
 #include <odb/transaction.hxx>
@@ -21,33 +23,6 @@ public:
         const std::string& host = "localhost",
         unsigned int port = 5432
     );
-
-    // // Generic upsert (insert if id not set, else update)
-    // template<typename T>
-    // void add_update(std::shared_ptr<T>& obj);
-
-    // template<typename T>
-    // void delete_by_id(long long id);
-
-    // // Generic get by id
-    // template<typename T>
-    // std::shared_ptr<T> find_by_id(long long id);
-
-    // // Find by a column, e.g. username/email; returns ALL matches
-    // template<typename T, typename V>
-    // std::vector<std::shared_ptr<T>> find_by_column(const std::string& column, const V& value);
-
-    // // Find one by a column; returns the first match or nullptr
-    // template<typename T, typename V>
-    // std::shared_ptr<T> find_one_by_column(const std::string& column, const V& value);
-
-    // // List all rows
-    // template<typename T>
-    // std::vector<std::shared_ptr<T>> get_all();
-
-    // // Transaction utility (optional, for bulk ops)
-    // template<typename Func>
-    // void transaction(Func&& func);
 
     template<typename T>
     void add_update(std::shared_ptr<T>& obj) {
@@ -69,38 +44,54 @@ public:
         t.commit();
     }
 
+    // returns std::shared_ptr<T>, copying from ODB’s pointer (usually T*)
     template<typename T>
     std::shared_ptr<T> find_by_id(long long id) {
         static_assert(std::is_base_of<db_object, T>::value, "T must inherit from db_object");
         odb::transaction t(db_->begin());
-        std::shared_ptr<T> obj = db_->find<T>(id);
+        auto p = db_->find<T>(id);                 // ODB pointer (T* by default)
         t.commit();
-        return obj;
+        if (!p) return nullptr;
+        return std::make_shared<T>(*p);            // copy into shared_ptr for uniform API
     }
 
-    // Column query
-    template<typename T, typename V>
-    std::vector<std::shared_ptr<T>> find_by_column(const std::string& column, const V& value) {
+    // Preferred, type-safe “find by”
+    template<typename T, typename Expr>
+    std::vector<std::shared_ptr<T>> query_where(const Expr& e) {
         static_assert(std::is_base_of<db_object, T>::value, "T must inherit from db_object");
-        using query = odb::query<T>;
-        using result = odb::result<T>;
-
-        std::vector<std::shared_ptr<T>> results;
+        std::vector<std::shared_ptr<T>> out;
         odb::transaction t(db_->begin());
-        std::string qstr = column + " = :value";
-        result r(db_->query<T>(query(qstr, value)));
-        for (auto it = r.begin(); it != r.end(); ++it)
-            results.push_back(std::make_shared<T>(*it));
+        odb::result<T> r = db_->query<T>(e);       // e.g., (Q::email == "a@b.com")
+        for (const T& v : r) out.emplace_back(std::make_shared<T>(v));
         t.commit();
-        return results;
+        return out;
     }
 
-    template<typename T, typename V>
-    std::shared_ptr<T> find_one_by_column(const std::string& column, const V& value) {
-        auto vec = find_by_column<T, V>(column, value);
-        if (!vec.empty())
-            return vec.front();
-        return nullptr;
+    template<typename T, typename Expr>
+    std::shared_ptr<T> find_one_where(const Expr& e) {
+        auto v = query_where<T>(e);
+        return v.empty() ? nullptr : v.front();
+    }
+
+    // Convenience: “find_by(column == value)”
+    template<typename T, typename Col, typename V>
+    std::vector<std::shared_ptr<T>> find_by(const Col& col, const V& value) {
+        return query_where<T>(col == value);
+    }
+
+    template<typename T, typename Col, typename V>
+    std::shared_ptr<T> find_one_by(const Col& col, const V& value) {
+        return find_one_where<T>(col == value);
+    }
+
+    template<typename T>
+    std::vector<std::shared_ptr<T>> find_where_sql(const std::string& where_sql) {
+        std::vector<std::shared_ptr<T>> out;
+        odb::transaction t(db_->begin());
+        odb::result<T> r = db_->query<T>(odb::query<T>(where_sql)); // single string
+        for (const T& v : r) out.emplace_back(std::make_shared<T>(v));
+        t.commit();
+        return out;
     }
 
     template<typename T>

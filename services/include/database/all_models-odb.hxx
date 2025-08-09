@@ -4,8 +4,16 @@
 // compiler for C++.
 //
 
-#ifndef ALL_MODELS_ODB_ODB_HXX
-#define ALL_MODELS_ODB_ODB_HXX
+#ifndef ALL_MODELS_ODB_HXX
+#define ALL_MODELS_ODB_HXX
+
+// Begin prologue.
+//
+#include <boost/optional.hpp>
+#include <odb/boost/optional/wrapper-traits.hxx>
+
+//
+// End prologue.
 
 #include <odb/version.hxx>
 
@@ -15,8 +23,8 @@
 
 #include <odb/pre.hxx>
 
-#include "group.h"
 #include "entitlement.h"
+#include "group.h"
 #include "user.h"
 
 #include <memory>
@@ -30,25 +38,28 @@
 #include <odb/pointer-traits.hxx>
 #include <odb/container-traits.hxx>
 #include <odb/no-op-cache-traits.hxx>
+#include <odb/result.hxx>
+#include <odb/simple-object-result.hxx>
 
 #include <odb/details/unused.hxx>
+#include <odb/details/shared-ptr.hxx>
 
 namespace odb
 {
-  // Group
+  // Entitlement
   //
   template <>
-  struct class_traits< ::model::Group >
+  struct class_traits< ::model::Entitlement >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::model::Group >
+  class access::object_traits< ::model::Entitlement >
   {
     public:
-    typedef ::model::Group object_type;
-    typedef ::model::Group* pointer_type;
+    typedef ::model::Entitlement object_type;
+    typedef ::std::shared_ptr< ::model::Entitlement > pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
@@ -77,20 +88,20 @@ namespace odb
     callback (database&, const object_type&, callback_event);
   };
 
-  // Entitlement
+  // Group
   //
   template <>
-  struct class_traits< ::model::Entitlement >
+  struct class_traits< ::model::Group >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::model::Entitlement >
+  class access::object_traits< ::model::Group >
   {
     public:
-    typedef ::model::Entitlement object_type;
-    typedef ::model::Entitlement* pointer_type;
+    typedef ::model::Group object_type;
+    typedef ::std::shared_ptr< ::model::Group > pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
@@ -132,7 +143,7 @@ namespace odb
   {
     public:
     typedef ::model::User object_type;
-    typedef ::model::User* pointer_type;
+    typedef ::std::shared_ptr< ::model::User > pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
@@ -168,11 +179,287 @@ namespace odb
 #include <odb/pgsql/forward.hxx>
 #include <odb/pgsql/binding.hxx>
 #include <odb/pgsql/pgsql-types.hxx>
+#include <odb/pgsql/query.hxx>
 
 namespace odb
 {
+  // Entitlement
+  //
+  template <typename A>
+  struct query_columns< ::model::Entitlement, id_pgsql, A >
+  {
+    // id
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        long long int,
+        pgsql::id_bigint >::query_type,
+      pgsql::id_bigint >
+    id_type_;
+
+    static const id_type_ id;
+
+    // code
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::string,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    code_type_;
+
+    static const code_type_ code;
+
+    // description
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::basic_string< char >,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    description_type_;
+
+    static const description_type_ description;
+  };
+
+  template <typename A>
+  const typename query_columns< ::model::Entitlement, id_pgsql, A >::id_type_
+  query_columns< ::model::Entitlement, id_pgsql, A >::
+  id (A::table_name, "\"id\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::Entitlement, id_pgsql, A >::code_type_
+  query_columns< ::model::Entitlement, id_pgsql, A >::
+  code (A::table_name, "\"code\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::Entitlement, id_pgsql, A >::description_type_
+  query_columns< ::model::Entitlement, id_pgsql, A >::
+  description (A::table_name, "\"description\"", 0);
+
+  template <typename A>
+  struct pointer_query_columns< ::model::Entitlement, id_pgsql, A >:
+    query_columns< ::model::Entitlement, id_pgsql, A >
+  {
+  };
+
+  template <>
+  class access::object_traits_impl< ::model::Entitlement, id_pgsql >:
+    public access::object_traits< ::model::Entitlement >
+  {
+    public:
+    struct id_image_type
+    {
+      long long id_value;
+      bool id_null;
+
+      std::size_t version;
+    };
+
+    struct image_type
+    {
+      // id_
+      //
+      long long id_value;
+      bool id_null;
+
+      // code_
+      //
+      details::buffer code_value;
+      std::size_t code_size;
+      bool code_null;
+
+      // description_
+      //
+      details::buffer description_value;
+      std::size_t description_size;
+      bool description_null;
+
+      std::size_t version;
+    };
+
+    struct extra_statement_cache_type;
+
+    using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
+
+    static id_type
+    id (const image_type&);
+
+    static bool
+    grow (image_type&,
+          bool*);
+
+    static void
+    bind (pgsql::bind*,
+          image_type&,
+          pgsql::statement_kind);
+
+    static void
+    bind (pgsql::bind*, id_image_type&);
+
+    static bool
+    init (image_type&,
+          const object_type&,
+          pgsql::statement_kind);
+
+    static void
+    init (object_type&,
+          const image_type&,
+          database*);
+
+    static void
+    init (id_image_type&, const id_type&);
+
+    typedef pgsql::object_statements<object_type> statements_type;
+
+    typedef pgsql::query_base query_base_type;
+
+    static const std::size_t column_count = 3UL;
+    static const std::size_t id_column_count = 1UL;
+    static const std::size_t inverse_column_count = 0UL;
+    static const std::size_t readonly_column_count = 0UL;
+    static const std::size_t managed_optimistic_column_count = 0UL;
+
+    static const std::size_t separate_load_column_count = 0UL;
+    static const std::size_t separate_update_column_count = 0UL;
+
+    static const bool versioned = false;
+
+    static const char persist_statement[];
+    static const char find_statement[];
+    static const char update_statement[];
+    static const char erase_statement[];
+    static const char query_statement[];
+    static const char erase_query_statement[];
+
+    static const char table_name[];
+
+    static void
+    persist (database&, object_type&);
+
+    static pointer_type
+    find (database&, const id_type&);
+
+    static bool
+    find (database&, const id_type&, object_type&);
+
+    static bool
+    reload (database&, object_type&);
+
+    static void
+    update (database&, const object_type&);
+
+    static void
+    erase (database&, const id_type&);
+
+    static void
+    erase (database&, const object_type&);
+
+    static result<object_type>
+    query (database&, const query_base_type&);
+
+    static unsigned long long
+    erase_query (database&, const query_base_type&);
+
+    static const char persist_statement_name[];
+    static const char find_statement_name[];
+    static const char update_statement_name[];
+    static const char erase_statement_name[];
+    static const char query_statement_name[];
+    static const char erase_query_statement_name[];
+
+    static const unsigned int persist_statement_types[];
+    static const unsigned int find_statement_types[];
+    static const unsigned int update_statement_types[];
+
+    static const std::size_t batch = 1UL;
+
+    public:
+    static bool
+    find_ (statements_type&,
+           const id_type*);
+
+    static void
+    load_ (statements_type&,
+           object_type&,
+           bool reload);
+  };
+
+  template <>
+  class access::object_traits_impl< ::model::Entitlement, id_common >:
+    public access::object_traits_impl< ::model::Entitlement, id_pgsql >
+  {
+  };
+
   // Group
   //
+  template <typename A>
+  struct query_columns< ::model::Group, id_pgsql, A >
+  {
+    // id
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        long long int,
+        pgsql::id_bigint >::query_type,
+      pgsql::id_bigint >
+    id_type_;
+
+    static const id_type_ id;
+
+    // name
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::string,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    name_type_;
+
+    static const name_type_ name;
+
+    // description
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::basic_string< char >,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    description_type_;
+
+    static const description_type_ description;
+  };
+
+  template <typename A>
+  const typename query_columns< ::model::Group, id_pgsql, A >::id_type_
+  query_columns< ::model::Group, id_pgsql, A >::
+  id (A::table_name, "\"id\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::Group, id_pgsql, A >::name_type_
+  query_columns< ::model::Group, id_pgsql, A >::
+  name (A::table_name, "\"name\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::Group, id_pgsql, A >::description_type_
+  query_columns< ::model::Group, id_pgsql, A >::
+  description (A::table_name, "\"description\"", 0);
+
+  template <typename A>
+  struct pointer_query_columns< ::model::Group, id_pgsql, A >:
+    query_columns< ::model::Group, id_pgsql, A >
+  {
+  };
+
   template <>
   class access::object_traits_impl< ::model::Group, id_pgsql >:
     public access::object_traits< ::model::Group >
@@ -373,6 +660,9 @@ namespace odb
     static id_type
     id (const id_image_type&);
 
+    static id_type
+    id (const image_type&);
+
     static bool
     grow (image_type&,
           bool*);
@@ -400,6 +690,8 @@ namespace odb
 
     typedef pgsql::object_statements<object_type> statements_type;
 
+    typedef pgsql::query_base query_base_type;
+
     static const std::size_t column_count = 3UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
@@ -415,6 +707,10 @@ namespace odb
     static const char find_statement[];
     static const char update_statement[];
     static const char erase_statement[];
+    static const char query_statement[];
+    static const char erase_query_statement[];
+
+    static const char table_name[];
 
     static void
     persist (database&, object_type&);
@@ -437,10 +733,18 @@ namespace odb
     static void
     erase (database&, const object_type&);
 
+    static result<object_type>
+    query (database&, const query_base_type&);
+
+    static unsigned long long
+    erase_query (database&, const query_base_type&);
+
     static const char persist_statement_name[];
     static const char find_statement_name[];
     static const char update_statement_name[];
     static const char erase_statement_name[];
+    static const char query_statement_name[];
+    static const char erase_query_statement_name[];
 
     static const unsigned int persist_statement_types[];
     static const unsigned int find_statement_types[];
@@ -465,144 +769,103 @@ namespace odb
   {
   };
 
-  // Entitlement
-  //
-  template <>
-  class access::object_traits_impl< ::model::Entitlement, id_pgsql >:
-    public access::object_traits< ::model::Entitlement >
-  {
-    public:
-    struct id_image_type
-    {
-      long long id_value;
-      bool id_null;
-
-      std::size_t version;
-    };
-
-    struct image_type
-    {
-      // id_
-      //
-      long long id_value;
-      bool id_null;
-
-      // code_
-      //
-      details::buffer code_value;
-      std::size_t code_size;
-      bool code_null;
-
-      // description_
-      //
-      details::buffer description_value;
-      std::size_t description_size;
-      bool description_null;
-
-      std::size_t version;
-    };
-
-    struct extra_statement_cache_type;
-
-    using object_traits<object_type>::id;
-
-    static id_type
-    id (const id_image_type&);
-
-    static bool
-    grow (image_type&,
-          bool*);
-
-    static void
-    bind (pgsql::bind*,
-          image_type&,
-          pgsql::statement_kind);
-
-    static void
-    bind (pgsql::bind*, id_image_type&);
-
-    static bool
-    init (image_type&,
-          const object_type&,
-          pgsql::statement_kind);
-
-    static void
-    init (object_type&,
-          const image_type&,
-          database*);
-
-    static void
-    init (id_image_type&, const id_type&);
-
-    typedef pgsql::object_statements<object_type> statements_type;
-
-    static const std::size_t column_count = 3UL;
-    static const std::size_t id_column_count = 1UL;
-    static const std::size_t inverse_column_count = 0UL;
-    static const std::size_t readonly_column_count = 0UL;
-    static const std::size_t managed_optimistic_column_count = 0UL;
-
-    static const std::size_t separate_load_column_count = 0UL;
-    static const std::size_t separate_update_column_count = 0UL;
-
-    static const bool versioned = false;
-
-    static const char persist_statement[];
-    static const char find_statement[];
-    static const char update_statement[];
-    static const char erase_statement[];
-
-    static void
-    persist (database&, object_type&);
-
-    static pointer_type
-    find (database&, const id_type&);
-
-    static bool
-    find (database&, const id_type&, object_type&);
-
-    static bool
-    reload (database&, object_type&);
-
-    static void
-    update (database&, const object_type&);
-
-    static void
-    erase (database&, const id_type&);
-
-    static void
-    erase (database&, const object_type&);
-
-    static const char persist_statement_name[];
-    static const char find_statement_name[];
-    static const char update_statement_name[];
-    static const char erase_statement_name[];
-
-    static const unsigned int persist_statement_types[];
-    static const unsigned int find_statement_types[];
-    static const unsigned int update_statement_types[];
-
-    static const std::size_t batch = 1UL;
-
-    public:
-    static bool
-    find_ (statements_type&,
-           const id_type*);
-
-    static void
-    load_ (statements_type&,
-           object_type&,
-           bool reload);
-  };
-
-  template <>
-  class access::object_traits_impl< ::model::Entitlement, id_common >:
-    public access::object_traits_impl< ::model::Entitlement, id_pgsql >
-  {
-  };
-
   // User
   //
+  template <typename A>
+  struct query_columns< ::model::User, id_pgsql, A >
+  {
+    // id
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        long long int,
+        pgsql::id_bigint >::query_type,
+      pgsql::id_bigint >
+    id_type_;
+
+    static const id_type_ id;
+
+    // username
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::string,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    username_type_;
+
+    static const username_type_ username;
+
+    // email
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::string,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    email_type_;
+
+    static const email_type_ email;
+
+    // password_hash
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        ::std::string,
+        pgsql::id_string >::query_type,
+      pgsql::id_string >
+    password_hash_type_;
+
+    static const password_hash_type_ password_hash;
+
+    // is_active
+    //
+    typedef
+    pgsql::query_column<
+      pgsql::value_traits<
+        bool,
+        pgsql::id_boolean >::query_type,
+      pgsql::id_boolean >
+    is_active_type_;
+
+    static const is_active_type_ is_active;
+  };
+
+  template <typename A>
+  const typename query_columns< ::model::User, id_pgsql, A >::id_type_
+  query_columns< ::model::User, id_pgsql, A >::
+  id (A::table_name, "\"id\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::User, id_pgsql, A >::username_type_
+  query_columns< ::model::User, id_pgsql, A >::
+  username (A::table_name, "\"username\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::User, id_pgsql, A >::email_type_
+  query_columns< ::model::User, id_pgsql, A >::
+  email (A::table_name, "\"email\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::User, id_pgsql, A >::password_hash_type_
+  query_columns< ::model::User, id_pgsql, A >::
+  password_hash (A::table_name, "\"password_hash\"", 0);
+
+  template <typename A>
+  const typename query_columns< ::model::User, id_pgsql, A >::is_active_type_
+  query_columns< ::model::User, id_pgsql, A >::
+  is_active (A::table_name, "\"is_active\"", 0);
+
+  template <typename A>
+  struct pointer_query_columns< ::model::User, id_pgsql, A >:
+    query_columns< ::model::User, id_pgsql, A >
+  {
+  };
+
   template <>
   class access::object_traits_impl< ::model::User, id_pgsql >:
     public access::object_traits< ::model::User >
@@ -836,6 +1099,9 @@ namespace odb
     static id_type
     id (const id_image_type&);
 
+    static id_type
+    id (const image_type&);
+
     static bool
     grow (image_type&,
           bool*);
@@ -863,6 +1129,8 @@ namespace odb
 
     typedef pgsql::object_statements<object_type> statements_type;
 
+    typedef pgsql::query_base query_base_type;
+
     static const std::size_t column_count = 5UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
@@ -878,6 +1146,10 @@ namespace odb
     static const char find_statement[];
     static const char update_statement[];
     static const char erase_statement[];
+    static const char query_statement[];
+    static const char erase_query_statement[];
+
+    static const char table_name[];
 
     static void
     persist (database&, object_type&);
@@ -900,10 +1172,18 @@ namespace odb
     static void
     erase (database&, const object_type&);
 
+    static result<object_type>
+    query (database&, const query_base_type&);
+
+    static unsigned long long
+    erase_query (database&, const query_base_type&);
+
     static const char persist_statement_name[];
     static const char find_statement_name[];
     static const char update_statement_name[];
     static const char erase_statement_name[];
+    static const char query_statement_name[];
+    static const char erase_query_statement_name[];
 
     static const unsigned int persist_statement_types[];
     static const unsigned int find_statement_types[];
@@ -927,10 +1207,17 @@ namespace odb
     public access::object_traits_impl< ::model::User, id_pgsql >
   {
   };
+
+  // Entitlement
+  //
+  // Group
+  //
+  // User
+  //
 }
 
-#include "all_models-odb-odb.ixx"
+#include "all_models-odb.ixx"
 
 #include <odb/post.hxx>
 
-#endif // ALL_MODELS_ODB_ODB_HXX
+#endif // ALL_MODELS_ODB_HXX

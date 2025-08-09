@@ -8,6 +8,4 @@ target_include_directories(database
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(database
-    PRIVATE odb odb-pgsql pq
-)
+target_link_libraries(database PUBLIC newodb)

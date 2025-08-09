@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <boost/optional.hpp>
 #include <chrono>
 
 #include <odb/core.hxx>
@@ -27,13 +28,13 @@ class Group : public db_object {
 
 public:
     // Constructors
-    Group();
-    Group(const Group& other);
-    Group(Group&& other) noexcept;
-    ~Group();
+    Group() = default;
+    Group(const Group& other) = default;
+    Group(Group&& other) noexcept = default;
+    ~Group() = default;
 
     // Assignment operators
-    Group& operator=(const Group& other);
+    Group& operator=(const Group& other) = default;
     Group& operator=(Group&& other) noexcept = default;
 
     // Accessors
@@ -43,8 +44,8 @@ public:
     const std::string& getName() const { return name_; }
     void setName(const std::string& value) { name_ = value; }
 
-    const std::optional<std::string>& getDescription() const { return description_; }
-    void setDescription(const std::optional<std::string>& value) { description_ = value; }
+    const boost::optional<std::string>& getDescription() const { return description_; }
+    void setDescription(const boost::optional<std::string>& value) { description_ = value; }
 
     const std::vector<std::shared_ptr<User>>& getUsers() const { return users_; }
     void setUsers(const std::vector<std::shared_ptr<User>>& value) { users_ = value; }
@@ -52,9 +53,11 @@ public:
     const std::vector<std::shared_ptr<Entitlement>>& getEntitlements() const { return entitlements_; }
     void setEntitlements(const std::vector<std::shared_ptr<Entitlement>>& value) { entitlements_ = value; }
 
-    // Equality operators
-    bool operator==(const Group& other) const;
-    bool operator!=(const Group& other) const;
+    // Equality operators (inline)
+    bool operator==(const Group& other) const {
+        return (id_ == other.id_) && (name_ == other.name_) && (description_ == other.description_);
+    }
+    bool operator!=(const Group& other) const { return !(*this == other); }
 
 private:
     #pragma db member id auto column("id") type("BIGINT")
@@ -64,7 +67,7 @@ private:
     std::string name_;
 
     #pragma db member column("description") type("TEXT") null
-    std::optional<std::string> description_;
+    boost::optional<std::string> description_;
 
     #pragma db member inverse(groups_)
     std::vector<std::shared_ptr<User>> users_;

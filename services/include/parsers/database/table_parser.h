@@ -39,6 +39,33 @@ private:
     std::vector<ParsedTable> parsed_tables_;
     std::map<std::string, std::string> global_options_;
 
+    static std::string snake(const std::string& in) {
+        std::string out;
+        out.reserve(in.size() * 2);
+        for (size_t i = 0; i < in.size(); ++i) {
+            char c = in[i];
+            if (std::isupper(static_cast<unsigned char>(c))) {
+                if (i > 0 && (std::islower(static_cast<unsigned char>(in[i-1])) || std::isdigit(static_cast<unsigned char>(in[i-1]))))
+                    out.push_back('_');
+                out.push_back(static_cast<char>(std::tolower(c)));
+            } else if (c == ' ') {
+                out.push_back('_');
+            } else {
+                out.push_back(c);
+            }
+        }
+        return out;
+    }
+
+    static std::string default_join_table(const std::string& a, const std::string& b) {
+        // Keep deterministic order: this_table first (so User->Group => user_group*s*)
+        return snake(a) + "_" + snake(b) + "s"; // optional plural 's' to match your style; drop if you prefer exact a_b
+    }
+
+    static std::string id_col(const std::string& tableName) {
+        return snake(tableName) + "_id";
+    }
+
 public:
     explicit TableDefinitionParser(const std::string& content) 
         : content_(content), position_(0), line_number_(1) {}
@@ -99,9 +126,121 @@ public:
             Table table = convertToTable(parsed_table, table_id++);
             schema.tables.push_back(table);
         }
-        
+        inferAndValidate(schema);
+
         LOG_INFO << "Schema generation complete. Total tables: " << schema.tables.size() << go;
         return schema;
+    }
+
+    void inferAndValidate(Schema& schema) {
+        // Build table map
+        std::map<std::string, Table*> tmap;
+        for (auto& t : schema.tables) tmap[t.name] = &t;
+
+        // 1) Infer M2M defaults and validate relationships
+        for (auto& t : schema.tables) {
+            for (auto& c : t.columns) {
+                if (c.relationship == RelationshipType::ManyToMany) {
+                    // related_table may be omitted; fall back to type
+                    if (!c.related_table.has_value() || c.related_table->empty()) {
+                        c.related_table = c.type; // DSL uses the type token for the target
+                    }
+                    if (!c.related_table.has_value() || !tmap.count(*c.related_table)) {
+                        LOG_INFO << "Error: ManyToMany column " << t.name << "." << c.name
+                                << " references unknown table '" << (c.related_table ? *c.related_table : std::string("<none>")) 
+                                << "'" << go;
+                        throw std::runtime_error("Unknown related_table in many_to_many");
+                    }
+
+                    // join_table default
+                    if (!c.join_table.has_value() || c.join_table->empty()) {
+                        c.join_table = default_join_table(t.name, *c.related_table);
+                        LOG_INFO << "Inferred join_table for " << t.name << "." << c.name
+                                << " = " << *c.join_table << go;
+                    }
+                    // join_column default
+                    if (!c.join_column.has_value() || c.join_column->empty()) {
+                        c.join_column = id_col(t.name);
+                        LOG_INFO << "Inferred join_column for " << t.name << "." << c.name
+                                << " = " << *c.join_column << go;
+                    }
+                    // inverse_join_column default
+                    if (!c.inverse_join_column.has_value() || c.inverse_join_column->empty()) {
+                        c.inverse_join_column = id_col(*c.related_table);
+                        LOG_INFO << "Inferred inverse_join_column for " << t.name << "." << c.name
+                                << " = " << *c.inverse_join_column << go;
+                    }
+                    // inverse_field sanity check
+                    if (c.inverse_field.has_value()) {
+                        Table* other = tmap[*c.related_table];
+                        bool found_inverse = false;
+                        for (auto& oc : other->columns) {
+                            if (oc.name == *c.inverse_field) {
+                                found_inverse = true;
+                                if (oc.relationship != RelationshipType::ManyToMany) {
+                                    LOG_INFO << "Error: inverse_field " << other->name << "." << oc.name
+                                            << " is not many_to_many" << go;
+                                    throw std::runtime_error("inverse_field kind mismatch");
+                                }
+                                break;
+                            }
+                        }
+                        if (!found_inverse) {
+                            LOG_INFO << "Error: inverse_field " << *c.inverse_field << " not found on table "
+                                    << other->name << go;
+                            throw std::runtime_error("inverse_field missing");
+                        }
+                    }
+                } else if (c.relationship == RelationshipType::ManyToOne ||
+                        c.relationship == RelationshipType::OneToOne ||
+                        c.relationship == RelationshipType::OneToMany) {
+                    // Basic related table check
+                    if (!c.related_table.has_value() || c.related_table->empty()) {
+                        // Common shorthand: type token is the target
+                        c.related_table = c.type;
+                    }
+                    if (!c.related_table.has_value() || !tmap.count(*c.related_table)) {
+                        LOG_INFO << "Error: Relationship column " << t.name << "." << c.name
+                                << " references unknown table '" << (c.related_table ? *c.related_table : std::string("<none>")) 
+                                << "'" << go;
+                        throw std::runtime_error("Unknown related_table");
+                    }
+                }
+            }
+        }
+
+        // 2) Populate referenced_by for FK-like relations (not m2m; those live on a join table)
+        for (auto& t : schema.tables) {
+            for (auto& c : t.columns) {
+                if (c.relationship == RelationshipType::ManyToOne ||
+                    c.relationship == RelationshipType::OneToOne) {
+                    // Owning side is typically ManyToOne / the side with the FK.
+                    const std::string& target = *c.related_table;
+                    auto it = tmap.find(target);
+                    if (it != tmap.end()) {
+                        ForeignKeyRef ref;
+                        ref.referring_table = t.name;
+                        ref.referring_column = c.name; // logical field; physical FK column might be inferred later
+                        ref.relationship = c.relationship;
+                        ref.inverse_field_name = c.inverse_field;
+                        ref.cascade_on_delete = c.cascade_type; // reuse
+                        it->second->referenced_by.push_back(std::move(ref));
+                    }
+                }
+            }
+        }
+
+        // 3) Final sanity: not_null/nullable already normalized; ensure m2m join bits exist
+        for (auto& t : schema.tables) {
+            for (auto& c : t.columns) {
+                if (c.relationship == RelationshipType::ManyToMany) {
+                    if (!c.join_table || !c.join_column || !c.inverse_join_column) {
+                        LOG_INFO << "Error: Incomplete many_to_many at " << t.name << "." << c.name << go;
+                        throw std::runtime_error("Incomplete many_to_many");
+                    }
+                }
+            }
+        }
     }
 
     const std::vector<ParsedTable>& getParsedTables() const {
@@ -243,10 +382,12 @@ private:
         }
         
         skipWhitespace();
-        
-        // Expect semicolon
         if (position_ < content_.length() && content_[position_] == ';') {
             position_++; // Skip ';'
+        } else {
+            LOG_INFO << "Error: Expected ';' after column " << column.name
+                    << " (line " << line_number_ << ")" << go;
+            throw std::runtime_error("Expected ';' after column");
         }
         
         return true;
@@ -484,7 +625,44 @@ private:
             if (key == "column_name") column.column_name_override = value;
             else if (key == "db_type") column.db_type_override = value;
             else if (key == "cpp_type") column.cpp_type_override = value;
-            else if (key == "default") column.default_value = value;
+            else if (key == "default") {
+                column.default_value = value;
+
+                // Infer default kind
+                auto lower = [](std::string s){ 
+                    std::transform(s.begin(), s.end(), s.begin(), ::tolower); 
+                    return s;
+                };
+
+                std::string lv = lower(value);
+                if (lv == "true" || lv == "false") {
+                    column.default_kind = DefaultKind::Bool;
+                    column.default_bool = (lv == "true");
+                } else {
+                    // int?
+                    char* endptr = nullptr;
+                    errno = 0;
+                    long long ival = std::strtoll(value.c_str(), &endptr, 10);
+                    if (errno == 0 && endptr && *endptr == '\0') {
+                        column.default_kind = DefaultKind::Int;
+                        column.default_int = ival;
+                    } else {
+                        // float?
+                        errno = 0;
+                        char* fend = nullptr;
+                        double fval = std::strtod(value.c_str(), &fend);
+                        if (errno == 0 && fend && *fend == '\0' && value.find('.') != std::string::npos) {
+                            column.default_kind = DefaultKind::Float;
+                            column.default_float = fval;
+                        } else if (value.rfind("sql(", 0) == 0 && value.size() >= 5 && value.back() == ')') {
+                            // sql(expr) wrapper to allow raw expressions (e.g., sql(now()))
+                            column.default_kind = DefaultKind::Expression;
+                        } else {
+                            column.default_kind = DefaultKind::String;
+                        }
+                    }
+                }
+            }
             else if (key == "max_length") column.max_length = std::stoul(value);
             else if (key == "precision") column.precision = std::stoi(value);
             else if (key == "scale") column.scale = std::stoi(value);
